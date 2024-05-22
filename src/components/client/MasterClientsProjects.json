@@ -1,0 +1,921 @@
+[
+    {
+        "clientid": 11,
+        "clientname": "John Doe",
+        "businessname": "JD Corporation",
+        "phone": "123-456-7890",
+        "email": "john.doe@example.com",
+        "gstn": "GSTN123456",
+        "status": 1,
+        "projects": [
+            {
+                "projectid": 101,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "Figma",
+                                    "Adobe XD"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js",
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            },
+            {
+                "projectid": 102,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "Figma",
+                                    "Adobe XD"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            },
+            {
+                "projectid": 103,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "Figma",
+                                    "Adobe XD"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 12,
+        "clientname": "Alice Smith",
+        "businessname": "AS Enterprises",
+        "phone": "987-654-3210",
+        "email": "alice.smith@example.com",
+        "gstn": "GSTN654321",
+        "status": 0,
+        "projects": [
+            {
+                "projectid": 104,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 13,
+        "clientname": "Emily Johnson",
+        "businessname": "EJ Enterprises",
+        "phone": "555-123-4567",
+        "email": "emily.johnson@example.com",
+        "gstn": "GSTN987654",
+        "status": 1,
+        "projects": [
+            {
+                "projectid": 105,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 14,
+        "clientname": "Michael Brown",
+        "businessname": "MB Holdings",
+        "phone": "777-888-9999",
+        "email": "michael.brown@example.com",
+        "gstn": "GSTN543210",
+        "status": 0,
+        "projects": [
+            {
+                "projectid": 106,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 15,
+        "clientname": "Sophia Wilson",
+        "businessname": "SW Corporation",
+        "phone": "111-222-3333",
+        "email": "sophia.wilson@example.com",
+        "gstn": "GSTN678901",
+        "status": 0,
+        "projects": [
+            {
+                "projectid": 107,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 16,
+        "clientname": "James Taylor",
+        "businessname": "JT Enterprises",
+        "phone": "444-555-6666",
+        "email": "james.taylor@example.com",
+        "gstn": "GSTN234567",
+        "status": 0,
+        "projects": [
+            {
+                "projectid": 108,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 17,
+        "clientname": "Emma Martinez",
+        "businessname": "EM Consulting",
+        "phone": "999-888-7777",
+        "email": "emma.martinez@example.com",
+        "gstn": "GSTN345678",
+        "status": 0,
+        "projects": [
+            {
+                "projectid": 109,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 18,
+        "clientname": "Liam Anderson",
+        "businessname": "LA Enterprises",
+        "phone": "333-222-1111",
+        "email": "liam.anderson@example.com",
+        "gstn": "GSTN456789",
+        "status": 0,
+        "projects": [
+            {
+                "projectid": 110,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 19,
+        "clientname": "Olivia White",
+        "businessname": "OW Corporation",
+        "phone": "777-666-5555",
+        "email": "olivia.white@example.com",
+        "gstn": "GSTN567890",
+        "status": 0,
+        "projects": [
+            {
+                "projectid": 111,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 20,
+        "clientname": "William Lee",
+        "businessname": "WL Enterprises",
+        "phone": "222-333-4444",
+        "email": "william.lee@example.com",
+        "gstn": "GSTN678901",
+        "status": 0,
+        "projects": [
+            {
+                "projectid": 112,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 21,
+        "clientname": "Smit Lee",
+        "businessname": "SL Enterprises",
+        "phone": "222-333-4444",
+        "email": "smit.lee@example.com",
+        "gstn": "GSTN678901",
+        "status": 0,
+        "projects": [
+            {
+                "projectid": 113,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 22,
+        "clientname": "John Smith",
+        "businessname": "Smith Enterprises",
+        "phone": "222-333-4444",
+        "email": "john.smith@example.com",
+        "gstn": "GSTN678901",
+        "status": 0,
+        "projects": [
+            {
+                "projectid": 114,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 23,
+        "clientname": "Emma Johnson",
+        "businessname": "Johnson Co.",
+        "phone": "222-333-4444",
+        "email": "emma.johnson@example.com",
+        "gstn": "GSTN678901",
+        "status": 0,
+        "projects": [
+            {
+                "projectid": 115,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 24,
+        "clientname": "Michael Davis",
+        "businessname": "Davis Corp.",
+        "phone": "222-333-4444",
+        "email": "michael.davis@example.com",
+        "gstn": "GSTN678901",
+        "status": 0,
+        "projects": [
+            {
+                "projectid": 116,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    },
+    {
+        "clientid": 25,
+        "clientname": "Sophia Brown",
+        "businessname": "Brown Industries",
+        "phone": "222-333-4444",
+        "email": "sophia.brown@example.com",
+        "gstn": "GSTN678901",
+        "status": 0,
+        "projects": [
+            {
+                "projectid": 117,
+                "projectname": "Website Redesignsss",
+                "receiveddate": "2024-03-22",
+                "deadline": "2024-06-30",
+                "details": {
+                    "teamui": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "UI Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js",
+                                    "Node js"
+                                ]
+                            }
+                        ]
+                    },
+                    "teamfrontend": {
+                        "associates": [
+                            {
+                                "associatename": "Shubham Shinde",
+                                "role": "Back end Developer",
+                                "technologies": [
+                                    "Node js"
+                                ]
+                            },
+                            {
+                                "associatename": "Ram Shinde",
+                                "role": "Front end Developer",
+                                "technologies": [
+                                    "React js",
+                                    "Angular js"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "remark": "High priority project",
+                "status": 3,
+                "clientid": 11,
+                "businessname": "JD Corporation"
+            }
+        ]
+    }
+]

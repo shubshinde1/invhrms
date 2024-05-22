@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*::selection {
+    background-color: #00CBFF;
+    /* color: white; */
+}
+
+@font-face {
+    font-family: Euclid;
+    src: url(./assets/font/EuclidRegular.ttf);
+}
+
+@font-face {
+    font-family: Euclid-bold;
+    src: url(./assets/font/EuclidBold.ttf);
+}
+
+@font-face {
+    font-family: Euclid-medium;
+    src: url(./assets/font/EuclidMedium.ttf);
+}
+
+
+.clor {
+    background-color: #DAF4FF;
+}
+
+
+
+.euclid {
+    font-family: Euclid;
+}
+
+.euclid-bold {
+    font-family: Euclid-bold;
+}
+
+.euclid-medium {
+    font-family: Euclid-medium;
+}
+
+
+input[type="file"]::file-selector-button {
+    border-radius: 4px;
+    padding: 0 5px;
+    font-size: 0.7rem;
+    /* height: 40px; */
+    cursor: pointer;
+    background-color: white;
+    border: 1.5px solid rgba(15, 79, 253, 0.968);
+    box-shadow: 0px 1px 0px rgba(15, 79, 253, 0.05);
+    margin-right: 7px;
+    transition: background-color 200ms;
+    display: none;
+}
+
+/* file upload button hover state */
+input[type="file"]::file-selector-button:hover {
+    background-color: #f3f4f6;
+}
+
+/* file upload button active state */
+input[type="file"]::file-selector-button:active {
+    background-color: #e5e7eb;
+}
+
+
+body {
+    /* background-color: #D9D9D9; */
+    font-family: euclid;
+    font-size: 14px;
+    /* background-image: url('./assets/images/bg.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100vw; */
+    scroll-behavior: smooth;
+
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('/src/assets/images/caret.png');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+    font-size: 16px;
+    border: none;
+
+}
+
+MenuItem,
+input,
+select,
+option:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+input:placeholder-shown {
+    font-size: 50rem;
+}
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('/src/assets/images/calender.png');
+    background-repeat: no-repeat;
+    background-position: right center;
+    font-size: 16px;
+}
+
+
+
+
+/* Hide scrollbar for Chrome, Safari, IE, Edge and Firefox and Opera */
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.custom-toolbar {
+    background-color: #7e0f0f;
+    position: absolute;
+    /* Your desired background color */
+    /* Add any other styling properties */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+}
+
+/* Handle on hover */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+/* .day-calendar-weekday-label {
+    @apply font-bold text-lg rounded cursor-pointer bg-red-600;
+} */
+
+.MuiDayCalendar-weekDayLabel,
+.MuiPickersDay-root,
+.MuiPickersCalendarHeader-label,
+.MuiSvgIcon-root {
+    @apply dark:text-white;
+}
+
+.searchInput {
+    @apply dark:text-white;
+}
+
+.card {
+    @apply dark:bg-neutral-950;
+}
+
+.MuiTableCell-root {
+    @apply dark:text-white dark:bg-neutral-800;
+}
+
+.MuiTableHead-root {
+    @apply dark:bg-neutral-950;
+}
+
+.MuiInputLabel-root {
+    @apply dark:text-white;
+}
+
+.MuiInputLabel-root.Mui-focused {
+    @apply dark:text-white;
+}
+
+.MuiTableCell-root {
+    @apply dark:bg-neutral-900;
+}
+
+.MuiInputBase-root {
+    @apply dark:bg-neutral-900 dark:text-white bg-[#f0f9ff] rounded-md;
+}
+
+.MuiPaper-root {
+    @apply dark:bg-neutral-950 dark:text-white;
+}
+
+.MuiMenuItem-root:hover {
+    @apply dark:bg-neutral-900;
+}
+
+.MuiButtonBase-root {
+    @apply dark:bg-neutral-950;
+}
+
+.searchInput {
+    @apply dark:bg-neutral-900;
+}
+
+.tablehead {
+    @apply dark:bg-neutral-900;
+}
+
+.MuiPickersSlideTransition-root,
+.MuiDayCalendar-header,
+.MuiPickersCalendarHeader-root {
+    @apply xl:w-[90%];
+}
+
+.MuiPickersSlideTransition-root,
+.MuiDayCalendar-header,
+.MuiPickersCalendarHeader-root {
+    @apply 2xl:w-[100%];
+}
+
+.MuiOutlinedInput-input {
+    @apply dark:bg-neutral-900;
+}
+
+.MuiDateCalendar-root {
+    @apply rounded-md;
+}
+
+.MuiInputLabel-root.Mui-disabled {
+    @apply dark:text-white;
+}
+
+.Mui-disabled {
+    @apply dark:text-white;
+}
