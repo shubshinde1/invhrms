@@ -21,7 +21,7 @@ export default function dashboard() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className=" col-span-12 xl:col-span-3 pb-4 md:pb-4 mb-16 sm:mt-0 md:-mt-9 lg:-mt-9 xl:mt-0 2xl:-mt-4 md:row-span-2 xl:row-span-12 bg-white dark:bg-neutral-950 dark:text-white rounded-md 2xl:fixed 2xl:right-2 2xl:top-24"
+            className=" col-span-12 xl:col-span-3 pb-4 md:pb-4 mb-16 sm:mt-0 md:-mt-9 lg:-mt-9 xl:mt-0 2xl:-mt-7 md:row-span-2 xl:row-span-12 bg-white dark:bg-neutral-950 dark:text-white rounded-md 2xl:fixed 2xl:right-2 2xl:top-24"
           >
             <Calendar />
           </motion.div>
