@@ -7,11 +7,14 @@ import classNames from "classnames";
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { motion } from "framer-motion";
+import { TbMoonFilled } from "react-icons/tb";
+import { MdLightMode } from "react-icons/md";
+import Tooltip from "@mui/material/Tooltip";
 
 const LinkClasses =
   "flex hover:bg-sky-50 dark:hover:bg-neutral-800 hover:duration-500 p-3 mt-1.5 rounded-md euclid";
 
-export default function Sidebar({ theme }) {
+export default function Sidebar({ handleThemeSwitch, theme }) {
   const { pathname } = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
@@ -79,8 +82,8 @@ export default function Sidebar({ theme }) {
       </button>
       <div
         ref={sidebarRef}
-        className={`md:flex md:flex-col w-52 h-[98vh] md:h-screen ml-2 mt-2 md:m-0 md:rounded-none rounded-md absolute md:relative p-4 bg-white dark:bg-neutral-950 z-50 shadow-2xl md:shadow-none ${
-          isSidebarOpen ? "" : "hidden"
+        className={`md:flex md:flex-col  w-52 h-[98vh] md:h-screen ml-2 mt-2 md:m-0 md:rounded-none rounded-md absolute md:relative p-4 bg-white dark:bg-neutral-950 z-50 shadow-2xl md:shadow-none ${
+          isSidebarOpen ? "" : "hidden "
         }`}
       >
         <div className=" flex flex-row justify-between items-center">
@@ -161,6 +164,56 @@ export default function Sidebar({ theme }) {
               </div>
             </React.Fragment>
           ))}
+        </div>
+
+        {/* dark/light mode toggle
+        <h3 className="bg-red-400">Add darkmode btn here</h3> */}
+        <div className="md:flex hidden">
+          {/* <div className=""> */}
+          <button
+            className={classNames(
+              "bg-slate-200 dark:bg-neutral-900 rounded-full p-1 text-sm flex items-center gap-1",
+              rotate && ""
+            )}
+            onClick={() => {
+              handleThemeSwitch();
+            }}
+          >
+            <Tooltip title="Light Mode" placement="top">
+              <div
+                className={classNames(
+                  "p-1",
+                  theme !== "dark" && "bg-white rounded-full text-green-400"
+                )}
+              >
+                <MdLightMode
+                  size={17}
+                  className={classNames(
+                    "",
+                    theme === "dark" && " text-neutral-500 text-xs"
+                  )}
+                />
+              </div>
+            </Tooltip>
+            <Tooltip title="Dark Mode" placement="top">
+              <div
+                className={classNames(
+                  "p-1",
+                  theme === "dark" &&
+                    "bg-neutral-600 rounded-full text-green-400"
+                )}
+              >
+                <TbMoonFilled
+                  size={17}
+                  className={classNames(
+                    "",
+
+                    theme !== "dark" && "opacity-50"
+                  )}
+                />
+              </div>
+            </Tooltip>
+          </button>
         </div>
       </div>
     </div>
