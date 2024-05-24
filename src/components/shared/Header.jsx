@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoNotifications, IoPerson } from "react-icons/io5";
 import { RiSettingsFill } from "react-icons/ri";
 import { Popover, Transition, Menu } from "@headlessui/react";
@@ -16,6 +16,7 @@ export default function Header({ handleThemeSwitch, theme }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [rotate, setRotate] = React.useState(false);
+  const [visible, setVisible] = useState(false);
 
   const getTitle = () => {
     const currentPath = location.pathname;
@@ -94,29 +95,59 @@ export default function Header({ handleThemeSwitch, theme }) {
               <div
                 className={classNames(
                   "p-1",
-                  theme !== "dark" && "bg-white rounded-md text-green-400"
+                  theme !== "dark" && "z-10 rounded-md text-green-400"
                 )}
+                onClick={() => setVisible(!visible)}
               >
-                <MdLightMode
-                  size={20}
-                  className={classNames("", theme === "dark" && "opacity-50")}
-                />
+                <div>
+                  <MdLightMode
+                    size={20}
+                    className={classNames("", theme === "dark" && "opacity-50")}
+                  />
+                </div>
               </div>
               <div
                 className={classNames(
                   "p-1",
-                  theme === "dark" && "bg-neutral-600 rounded-md text-green-400"
+                  theme === "dark" && "z-10 rounded-md text-green-400"
                 )}
+                onClick={() => setVisible(!visible)}
               >
-                <TbMoonFilled
-                  size={20}
-                  className={classNames(
-                    "",
+                <div>
+                  <TbMoonFilled
+                    size={20}
+                    className={classNames(
+                      "",
 
-                    theme !== "dark" && "opacity-50"
-                  )}
-                />
+                      theme !== "dark" && "opacity-50"
+                    )}
+                  />
+                </div>
               </div>
+              {visible && (
+                <motion.div
+                  initial={{ x: 20 }}
+                  animate={{ x: 0 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 30,
+                  }}
+                  className="bg-white dark:hidden w-7 h-7 rounded-md -z-0 inline-block absolute"
+                ></motion.div>
+              )}
+              {!visible && (
+                <motion.div
+                  initial={{ x: -20 }}
+                  animate={{ x: 0 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 30,
+                  }}
+                  className="hidden dark:bg-neutral-600 dark:ml-8 w-7 h-7 rounded-md -z-0 dark:inline-block absolute"
+                ></motion.div>
+              )}
             </button>
           </div>
 
