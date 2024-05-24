@@ -5,13 +5,11 @@ import { Popover, Transition, Menu } from "@headlessui/react";
 import { Fragment } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DASHBOARD_SIDEBAR_LINKS } from "../../lib/consts/navigation";
-// import { FaPowerOff } from "react-icons/fa";
 import classNames from "classnames";
 import LogoutMenuItem from "./LogoutMenuItem"; // Import the LogoutMenuItem component
 import { TbMoonFilled } from "react-icons/tb";
 import { MdLightMode } from "react-icons/md";
 import { motion } from "framer-motion";
-
 import userprofile from "../../assets/images/profilepic.png";
 
 export default function Header({ handleThemeSwitch, theme }) {
@@ -46,25 +44,8 @@ export default function Header({ handleThemeSwitch, theme }) {
     return "View Employee"; // Return default title if no match is found
   };
 
-  const buttonIcon =
-    theme === "dark" ? (
-      <motion.div
-        animate={{ rotate: rotate ? 90 : 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <MdLightMode size={20} className="text-yellow-400" />
-      </motion.div>
-    ) : (
-      <motion.div
-        animate={{ rotate: rotate ? 20 : 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <TbMoonFilled size={20} className="text-blue-950" />
-      </motion.div>
-    );
-
   return (
-    <div className=" my-2 mr-2  ml-16 md:m-2 py-2 pl-2 dark:bg-neutral-950 bg-white dark:text-white h-12 md:h-auto rounded-md flex justify-between items-center">
+    <div className="my-2 mr-2 ml-16 md:m-2 py-2 pl-2 dark:bg-neutral-950 bg-white dark:text-white h-12 md:h-auto rounded-md flex justify-between items-center">
       <div className="font-bold">{getTitle()}</div>
       <div className="">
         <div className="flex items-center gap-2 text-sm">
@@ -73,7 +54,7 @@ export default function Header({ handleThemeSwitch, theme }) {
               <>
                 <Popover.Button
                   className={classNames(
-                    open && "bg-sky-50 ",
+                    open && "bg-sky-50",
                     "bg-sky-50 hover:dark:bg-neutral-900 dark:bg-neutral-900 duration-500 p-2 rounded-md cursor-pointer focus:outline-none"
                   )}
                 >
@@ -89,7 +70,7 @@ export default function Header({ handleThemeSwitch, theme }) {
                   leaveTo="opacity-0 translate-y-1"
                 >
                   <Popover.Panel className="absolute md:-right-2 right-0 z-10 md:m-2.5 md:w-52 w-[50vw] md:mt-5 mt-4">
-                    <div className="bg-white  dark:bg-neutral-950 dark:border rounded-md shadow-lg p-3">
+                    <div className="bg-white dark:bg-neutral-950 dark:border rounded-md shadow-lg p-3">
                       this is the panel
                     </div>
                   </Popover.Panel>
@@ -97,15 +78,45 @@ export default function Header({ handleThemeSwitch, theme }) {
               </>
             )}
           </Popover>
+
+          {/* dark/light mode toggle */}
+          {/* <div className="flex md:hidden"> */}
           <div>
             <button
-              className="bg-sky-50 dark:bg-neutral-900 rounded-md p-2 text-sm"
+              className={classNames(
+                "bg-sky-50 dark:bg-neutral-900 rounded-md p-1 text-sm flex items-center gap-1",
+                rotate && ""
+              )}
               onClick={() => {
                 handleThemeSwitch();
-                setRotate(!rotate);
               }}
             >
-              {buttonIcon}
+              <div
+                className={classNames(
+                  "p-1",
+                  theme !== "dark" && "bg-white rounded-md text-green-400"
+                )}
+              >
+                <MdLightMode
+                  size={20}
+                  className={classNames("", theme === "dark" && "opacity-50")}
+                />
+              </div>
+              <div
+                className={classNames(
+                  "p-1",
+                  theme === "dark" && "bg-neutral-600 rounded-md text-green-400"
+                )}
+              >
+                <TbMoonFilled
+                  size={20}
+                  className={classNames(
+                    "",
+
+                    theme !== "dark" && "opacity-50"
+                  )}
+                />
+              </div>
             </button>
           </div>
 
@@ -139,7 +150,7 @@ export default function Header({ handleThemeSwitch, theme }) {
                       className={classNames(
                         active &&
                           "bg-sky-50 dark:bg-neutral-900 cursor-pointer rounded-md flex items-center",
-                        "px-3 py-2 flex "
+                        "px-3 py-2 flex"
                       )}
                       onClick={() => navigate("/myprofile")}
                     >
@@ -154,7 +165,7 @@ export default function Header({ handleThemeSwitch, theme }) {
                       className={classNames(
                         active &&
                           "bg-sky-50 dark:bg-neutral-900 cursor-pointer rounded-md flex items-center",
-                        "px-3 py-2 flex "
+                        "px-3 py-2 flex"
                       )}
                       onClick={() => navigate("/myprofile")}
                     >
@@ -163,9 +174,7 @@ export default function Header({ handleThemeSwitch, theme }) {
                     </div>
                   )}
                 </Menu.Item>
-                {/* <Menu.Item> */}
                 <LogoutMenuItem />
-                {/* </Menu.Item> */}
               </Menu.Items>
             </Transition>
           </Menu>
