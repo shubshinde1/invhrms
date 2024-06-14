@@ -12,7 +12,7 @@ import { IoMdSave } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { BsPersonFillCheck, BsPersonFillAdd } from "react-icons/bs";
 import { motion } from "framer-motion";
-import clientsData from "../client/MasterClientsProjects.json";
+import clientsData from "../../dummydata/MasterClientsProjects.json";
 
 import {
   TextField,

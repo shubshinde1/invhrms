@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import empdata from "./leaveData.json";
+import empdata from "../../dummydata/leaveData.json";
 import classNames from "classnames";
 import { useParams } from "react-router-dom";
 import {

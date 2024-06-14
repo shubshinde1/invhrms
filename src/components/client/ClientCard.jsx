@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import clientsData from "./MasterClientsProjects.json";
+import clientsData from "../../dummydata/MasterClientsProjects.json";
 import { makeStyles } from "@mui/styles";
 import {
   Table,

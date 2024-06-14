@@ -24,8 +24,7 @@ import { makeStyles } from "@mui/styles";
 import { createGlobalStyle } from "styled-components";
 import classNames from "classnames";
 import { motion } from "framer-motion";
-import leaveData from "./leaveData.json";
-
+import leaveData from "../../dummydata/leaveData.json";
 import Tooltip from "@mui/material/Tooltip";
 
 const useStyles = makeStyles({
@@ -47,7 +46,6 @@ const useStyles = makeStyles({
       fontSize: 15,
     },
     "& .MuiInputBase-root": {
-      // backgroundColor: "#f0f9ff",
       border: "0 none",
       borderRadius: 7,
       height: 50,
@@ -125,8 +123,6 @@ function createData(empid, ename, designation, mark, jdate, status) {
 
 const rows = leaveData;
 const edata = leaveData[0].empid;
-
-
 
 export default function StickyHeadTable({
   empid,
@@ -272,7 +268,6 @@ export default function StickyHeadTable({
                       {...props}
                       sx={{
                         fontSize: 40,
-                        // backgroundColor: "#CBCBCB",
                         borderRadius: 2,
                       }}
                     />
@@ -280,9 +275,18 @@ export default function StickyHeadTable({
                 )}
               >
                 <GlobalStyles />
-                <MenuItem value="">All</MenuItem>
+                <MenuItem value="">
+                  <span className="w-4 h-2 mr-2 rounded-full bg-gray-400"></span>
+                  All
+                </MenuItem>
                 {statuses.map((statuse) => (
                   <MenuItem key={statuse} value={statuse.toLowerCase()}>
+                    <span
+                      className={classNames("w-4 h-2 mr-2 rounded-full", {
+                        "bg-green-500 ": statuse.toLowerCase() === "active",
+                        "bg-red-500 ": statuse.toLowerCase() === "inactive",
+                      })}
+                    ></span>
                     {statuse}
                   </MenuItem>
                 ))}
@@ -312,7 +316,6 @@ export default function StickyHeadTable({
                       {...props}
                       sx={{
                         fontSize: 40,
-                        // backgroundColor: "#CBCBCB",
                         borderRadius: 2,
                       }}
                     />
@@ -383,15 +386,16 @@ export default function StickyHeadTable({
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <TableRow
+                      key={row.empid}
                       hover
                       role="checkbox"
                       tabIndex={-1}
-                      key={row.empid}
                     >
                       {columns.map((column) => (
                         <TableCell
                           key={column.id}
                           align="left"
+                          className="px-4 py-2"
                           style={{
                             fontFamily: "Euclid",
                           }}
@@ -430,13 +434,28 @@ export default function StickyHeadTable({
                                   <span>{row[column.id]}</span>
                                 </Link>
                               </Tooltip>
+                            ) : column.id === "status" ? (
+                              <div className="flex items-center">
+                                <span
+                                  className={classNames(
+                                    "w-2.5 h-2.5 rounded-full mr-2",
+                                    {
+                                      "bg-green-500":
+                                        row.status.toLowerCase() === "active",
+                                      "bg-red-500":
+                                        row.status.toLowerCase() === "inactive",
+                                    }
+                                  )}
+                                ></span>
+                                {row.status}
+                              </div>
                             ) : (
                               row[column.id]
                             )
                           ) : (
                             <div className="flex items-center gap-2">
                               <Tooltip
-                                title={"Edit " + row.ename}
+                                title={`Edit ${row.ename}`}
                                 placement="top"
                                 arrow
                               >
@@ -459,7 +478,7 @@ export default function StickyHeadTable({
                               </Tooltip>
                               {" | "}
                               <Tooltip
-                                title={"View " + row.ename}
+                                title={`View ${row.ename}`}
                                 placement="top"
                                 arrow
                               >

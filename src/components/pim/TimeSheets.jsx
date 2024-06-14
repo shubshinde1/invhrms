@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import empdata from "./leaveData.json";
+import empdata from "../../dummydata/leaveData.json";
 import { useParams } from "react-router-dom";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 import Tooltip from "@mui/material/Tooltip";

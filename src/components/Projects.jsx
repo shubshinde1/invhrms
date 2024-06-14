@@ -11,7 +11,7 @@ import {
   InputBase,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import data from "./client/MasterClientsProjects.json";
+import data from "../dummydata/MasterClientsProjects.json";
 import { motion } from "framer-motion";
 import { makeStyles } from "@mui/styles";
 import classNames from "classnames";
