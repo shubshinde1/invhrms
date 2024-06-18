@@ -202,6 +202,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     @apply dark:bg-neutral-950 dark:text-white;
 }
 
+.MuiList-root {
+    @apply  max-h-60
+}
+
 .MuiMenuItem-root:hover {
     @apply dark:bg-neutral-900;
 }

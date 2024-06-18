@@ -12,6 +12,7 @@ import { IoMdSave } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { BsPersonFillCheck, BsPersonFillAdd } from "react-icons/bs";
 import { motion } from "framer-motion";
+import timezones from "../../dummydata/timezone.json";
 
 import {
   TextField,
@@ -26,7 +27,7 @@ const GlobalStyles = createGlobalStyle`
   // border-radius:10px;
 } 
 .MuiList-root {
-  height: full;
+  
 } 
   .MuiMenuItem-root {
     font-family: Euclid;
@@ -105,6 +106,12 @@ export default function Addclient() {
   const [isInputLabelShrunk, setIsInputLabelShrunk] = useState(false);
   const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
   const [remainingTime, setRemainingTime] = useState(2); // Initial remaining time in seconds
+
+  const [timezoneList, setTimezoneList] = useState([]);
+
+  useEffect(() => {
+    setTimezoneList(timezones);
+  }, []);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -266,9 +273,9 @@ export default function Addclient() {
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
                 classes.root
               )}
-              id="website"
-              name="website"
-              label="Website Url"
+              id="linkedin"
+              name="linkedin"
+              label="Linkedin Url"
               variant="outlined"
               margin="dense"
             />
@@ -339,6 +346,196 @@ export default function Addclient() {
               </Select>
             </FormControl>
           </div>
+          <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
+            <FormControl
+              variant="outlined"
+              margin="dense"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            >
+              <InputLabel id="prefix-label" className="w-52">
+                Payment Cycle
+              </InputLabel>
+              <Select
+                labelId="paymentcycle-label"
+                id="paymentcycle"
+                name="paymentcycle"
+                label="Payment Cycle"
+                IconComponent={(props) => (
+                  // <div className="bg-red-500 z-50">
+                  <ArrowDropDownRoundedIcon
+                    {...props}
+                    sx={{
+                      fontSize: 40,
+                      // marginLeft: "0.375rem",
+                      // backgroundColor: "#bfdbfe",
+                      borderRadius: 1,
+                    }}
+                    // className="bg-sky-200 mr-1.5 rounded-md cursor-pointer"
+                  />
+                  // </div>
+                )}
+              >
+                <GlobalStyles />
+                <MenuItem value="weekly">Weekly</MenuItem>
+                <MenuItem value="monthly">Monthly </MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
+            <FormControl
+              variant="outlined"
+              margin="dense"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            >
+              <InputLabel id="prefix-label" className="w-52">
+                Domain
+              </InputLabel>
+              <Select
+                labelId="domain-label"
+                id="domain"
+                name="domain"
+                label="Domain"
+                IconComponent={(props) => (
+                  // <div className="bg-red-500 z-50">
+                  <ArrowDropDownRoundedIcon
+                    {...props}
+                    sx={{
+                      fontSize: 40,
+                      // marginLeft: "0.375rem",
+                      // backgroundColor: "#bfdbfe",
+                      borderRadius: 1,
+                    }}
+                    // className="bg-sky-200 mr-1.5 rounded-md cursor-pointer"
+                  />
+                  // </div>
+                )}
+              >
+                <GlobalStyles />
+                <MenuItem value="information technology">
+                  Technology and IT
+                </MenuItem>
+                <MenuItem value="healthcare">
+                  Healthcare and Life Sciences
+                </MenuItem>
+                <MenuItem value="finance and insurance">
+                  Finance and Insurance
+                </MenuItem>
+                <MenuItem value="manufacturing">
+                  Manufacturing and Industrial
+                </MenuItem>
+                <MenuItem value="retail">Retail and Consumer Goods</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row">
+            <FormControl
+              variant="outlined"
+              margin="dense"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs ",
+                classes.root
+              )}
+            >
+              <InputLabel id="timezone-label">Select Timezone</InputLabel>
+              <Select
+                labelId="timezone-label"
+                id="timezone"
+                label="Select Timezone"
+                IconComponent={(props) => (
+                  <ArrowDropDownRoundedIcon
+                    {...props}
+                    sx={{
+                      fontSize: 40,
+                      borderRadius: 1,
+                    }}
+                  />
+                )}
+              >
+                <GlobalStyles />
+                {timezoneList.map((timezone) => (
+                  <MenuItem key={timezone.value} value={timezone.value}>
+                    {timezone.text.replace("_", " ")}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+
+          <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
+            <TextField
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+              id="primarytech"
+              name="primarytech"
+              label="Primary Technologies"
+              variant="outlined"
+              margin="dense"
+            />
+          </div>
+          <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
+            <TextField
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+              id="futurepotential"
+              name="futurepotential"
+              label="Future Potential"
+              variant="outlined"
+              margin="dense"
+            />
+          </div>
+
+          <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
+            <FormControl
+              variant="outlined"
+              margin="dense"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            >
+              <InputLabel id="prefix-label" className="w-52">
+                Agreement Duration
+              </InputLabel>
+              <Select
+                labelId="agreementduration-label"
+                id="agreementduration"
+                name="agreementduration"
+                label="Agreement Duration"
+                IconComponent={(props) => (
+                  // <div className="bg-red-500 z-50">
+                  <ArrowDropDownRoundedIcon
+                    {...props}
+                    sx={{
+                      fontSize: 40,
+                      // marginLeft: "0.375rem",
+                      // backgroundColor: "#bfdbfe",
+                      borderRadius: 1,
+                    }}
+                    // className="bg-sky-200 mr-1.5 rounded-md cursor-pointer"
+                  />
+                  // </div>
+                )}
+              >
+                <GlobalStyles />
+                <MenuItem value="lessthanthree">Less than 3 Months</MenuItem>
+                <MenuItem value="threetosix">3 to 6 Months</MenuItem>
+                <MenuItem value="sixtotwelve">6 to 12 Months</MenuItem>
+                <MenuItem value="morethantwelve">More than 12 Months</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-col">
             <LocalizationProvider dateAdapter={AdapterDayjs} className="w-full">
               <DemoContainer components={["DatePicker"]}>
