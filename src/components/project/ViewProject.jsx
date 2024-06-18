@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import projectData from "../../dummydata/leaveData.json";
+import projectData from "../../dummydata/MasterClientsProjects.json";
 import { FaFolderOpen } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import Projectimg from "../../assets/images/clientAvatar.png";

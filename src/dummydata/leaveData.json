@@ -881,5 +881,179 @@
                 }
             }
         }
+    },
+    {
+        "empid": "EMP010",
+        "ename": "Bob Brown",
+        "designation": "HR Specialist",
+        "jdate": "07-12-2020",
+        "status": "Active",
+        "mark": 0,
+        "attendance": {
+            "leave0": {
+                "from": "2023-09-15",
+                "to": "2023-09-19",
+                "reason": "Vacation",
+                "noofleaves": 4,
+                "leavetype": "Casual Leave",
+                "status": 0,
+                "approvedby": "Swapnil Patli"
+            },
+            "leave1": {
+                "from": "2024-05-15",
+                "to": "2024-05-19",
+                "reason": "Vacation",
+                "noofleaves": 5,
+                "leavetype": "Casual Leave",
+                "status": 0,
+                "approvedby": "Swapnil Patli"
+            }
+        },
+        "leavedata": {
+            "sickleave": {
+                "total": 4,
+                "remaining": 1,
+                "elapsed": 3
+            },
+            "privilegeleave": {
+                "total": 7,
+                "remaining": 2,
+                "elapsed": 5
+            },
+            "casualleave": {
+                "total": 7,
+                "remaining": 2,
+                "elapsed": 5
+            },
+            "holiday": {
+                "total": 10,
+                "remaining": 2,
+                "elapsed": 8
+            }
+        },
+        "timesheet": {
+            "2024-04-03": [
+                {
+                    "task": 1,
+                    "taskname": "Header Component",
+                    "projectname": "Website Redesignsss",
+                    "subtask": "-",
+                    "description": "Add Header data in Header component",
+                    "duration": "3.00",
+                    "assigneddate": "2024-04-01",
+                    "remark": 1
+                },
+                {
+                    "task": 2,
+                    "taskname": "Header Component",
+                    "projectname": "Website Redesignsss",
+                    "subtask": "-",
+                    "description": "Add Header data in Header component",
+                    "duration": "3.00",
+                    "assigneddate": "2024-04-01",
+                    "remark": 1
+                }
+            ],
+            "2024-04-05": [
+                {
+                    "task": 1,
+                    "taskname": "Header Component",
+                    "projectname": "Website Redesignsss",
+                    "subtask": "-",
+                    "description": "Add Header data in Header component",
+                    "duration": "3.00",
+                    "assigneddate": "2024-04-01",
+                    "remark": 1
+                }
+            ]
+        }
+    },
+    {
+        "empid": "EMP011",
+        "ename": "Charlie Green",
+        "designation": "Marketing Coordinator",
+        "jdate": "09-10-2022",
+        "status": "Active",
+        "mark": 0,
+        "attendance": {
+            "leave0": {
+                "from": "2023-10-15",
+                "to": "2023-10-19",
+                "reason": "Vacation",
+                "noofleaves": 4,
+                "leavetype": "Casual Leave",
+                "status": 0,
+                "approvedby": "Swapnil Patli"
+            },
+            "leave1": {
+                "from": "2024-03-15",
+                "to": "2024-03-19",
+                "reason": "Vacation",
+                "noofleaves": 5,
+                "leavetype": "Casual Leave",
+                "status": 0,
+                "approvedby": "Swapnil Patli"
+            }
+        },
+        "leavedata": {
+            "sickleave": {
+                "total": 4,
+                "remaining": 3,
+                "elapsed": 1
+            },
+            "privilegeleave": {
+                "total": 7,
+                "remaining": 4,
+                "elapsed": 3
+            },
+            "casualleave": {
+                "total": 7,
+                "remaining": 5,
+                "elapsed": 2
+            },
+            "holiday": {
+                "total": 10,
+                "remaining": 6,
+                "elapsed": 4
+            }
+        },
+        "timesheet": {
+            "2024-04-02": [
+                {
+                    "task": 1,
+                    "taskname": "Header Component",
+                    "projectname": "Website Redesignsss",
+                    "subtask": "-",
+                    "description": "Add Header data in Header component",
+                    "duration": "3.00",
+                    "assigneddate": "2024-04-01",
+                    "remark": 1
+                }
+            ],
+            "2024-04-03": [
+                {
+                    "task": 1,
+                    "taskname": "Header Component",
+                    "projectname": "Website Redesignsss",
+                    "subtask": "-",
+                    "description": "Add Header data in Header component",
+                    "duration": "3.00",
+                    "assigneddate": "2024-04-01",
+                    "remark": 1
+                }
+            ],
+            "2024-04-04": [
+                {
+                    "task": 1,
+                    "taskname": "Shuabhm",
+                    "projectname": "Website Redesignsss",
+                    "subtask": "-",
+                    "description": "Add Header data in Header component",
+                    "duration": "3.00",
+                    "assigneddate": "2024-04-01",
+                    "remark": 1
+                }
+            ]
+        }
     }
 ]

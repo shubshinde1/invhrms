@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Menutabs from "./Menutabs";
 import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
 import { IoEye } from "react-icons/io5";
 import { FaUserEdit } from "react-icons/fa";
 import {
@@ -26,6 +20,7 @@ import classNames from "classnames";
 import { motion } from "framer-motion";
 import leaveData from "../../dummydata/leaveData.json";
 import Tooltip from "@mui/material/Tooltip";
+import { red } from "@mui/material/colors";
 
 const useStyles = makeStyles({
   root: {
@@ -108,34 +103,15 @@ const GlobalStyles = createGlobalStyle`
 }
 `;
 
-const columns = [
-  { id: "empid", label: "Employee ID", minWidth: 120 },
-  { id: "ename", label: "Employee Name", minWidth: 120 },
-  { id: "designation", label: "Designation", minWidth: 120 },
-  { id: "jdate", label: "Joining Date", minWidth: 120 },
-  { id: "status", label: "Status", minWidth: 120 },
-  { id: "actions", label: "Actions", minWidth: 80 },
-];
-
-function createData(empid, ename, designation, mark, jdate, status) {
-  return { empid, ename, designation, mark, jdate, status };
-}
-
 const rows = leaveData;
 const edata = leaveData[0].empid;
 
-export default function StickyHeadTable({
-  empid,
-  ename,
-  designation,
-  jdate,
-  status,
-}) {
+export default function StickyHeadTable() {
   const classes = useStyles();
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(edata);
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [filters, setFilters] = React.useState({
     empid: "",
     ename: "",
@@ -202,7 +178,6 @@ export default function StickyHeadTable({
     jdate: rows.jdate,
     status: rows.status,
   };
-
   return (
     <div>
       <Menutabs className="" />
@@ -212,14 +187,11 @@ export default function StickyHeadTable({
         transition={{ duration: 0.5 }}
         className=""
       >
-        <Paper
-          sx={{ overflow: "" }}
-          className="md:w-[100%] w-[calc(100vw-0.8rem)] h-[100vh] md:h-[90%] top-24 mb-4 "
-        >
-          <div className="m-2 gap-2 flex-col items-center grid grid-cols-12 ">
+        <Paper className="md:w-[100%] w-[calc(100vw-0.8rem)] h-[100vh] md:h-[90%] top-22 p-2 flex flex-col gap-1">
+          <div className=" gap-2 flex-col items-center grid grid-cols-12 -mt-2">
             <TextField
               className={classNames(
-                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs ",
                 classes.root
               )}
               id="empid"
@@ -233,7 +205,7 @@ export default function StickyHeadTable({
 
             <TextField
               className={classNames(
-                "col-span-12 sm:col-span-6 xl:col-span-2 py-1",
+                "col-span-12 sm:col-span-6 xl:col-span-2 py-0",
                 classes.root
               )}
               id="ename"
@@ -336,9 +308,9 @@ export default function StickyHeadTable({
               </Select>
             </FormControl>
 
-            <div className="col-span-12 md:col-span-4 flex items-center justify-between ">
+            <div className="col-span-12 md:col-span-4 flex items-center justify-start ">
               <button
-                className="bg-sky-50 dark:bg-neutral-800 md:mt-1 px-4 rounded-md w-fit"
+                className="bg-sky-50 dark:bg-neutral-900 mt-1 h-12 px-4 rounded-md w-fit"
                 onClick={handleClearFilters}
               >
                 <FaFilterCircleXmark
@@ -347,168 +319,147 @@ export default function StickyHeadTable({
                 />
               </button>
               <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
+                rowsPerPageOptions={[5, 10, 25, 100]}
                 component="div"
                 count={filteredRows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-                style={{ paddingRight: "5px" }}
-                className="scrollbar-hide dark:text-white"
+                style={{ paddingRight: "0px" }}
+                className="scrollbar-hide dark:text-white bg-sky-50 dark:bg-neutral-900 h-12 mt-1 ml-2 rounded-md flex items-center"
               />
             </div>
           </div>
-          <TableContainer
-            sx={{ maxHeight: 530 }}
-            className="m-2 pr-4 pb-2 scrollbar-hide rounded-md"
-          >
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead className="tablehead">
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      align="left"
-                      style={{
-                        minWidth: column.minWidth,
-                        fontWeight: "Bold",
-                        fontFamily: "Euclid",
-                      }}
+          <div className="overflow-auto rounded-md">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ul className="grid grid-cols-12 gap-2 px-2 py-3 bg-sky-100 dark:bg-neutral-800 rounded-md font-bold">
+                <li className="col-span-2 ">Employee ID</li>
+                <li className="col-span-2 ">Employee Name</li>
+                <li className="col-span-3 ">Designation</li>
+                <li className="col-span-2 ">Joining Date</li>
+                <li className="col-span-2 ">Status</li>
+                <li className="col-span-1 ">Actions</li>
+              </ul>
+            </motion.div>
+
+            <div className="flex flex-col overflow-auto scrollbar-hide mt-2">
+              {filteredRows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, rowIndex) => (
+                  <motion.div
+                    key={row.empid}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
+                    className={`bg-sky-50 dark:bg-neutral-900 p-2 rounded-md grid grid-cols-12 gap-2 items-center ${
+                      rowIndex !== 0 ? "mt-2" : ""
+                    }`}
+                  >
+                    <div className="col-span-2 py-2 ">{row.empid}</div>
+                    <Tooltip
+                      title={row.mark ? "Present" : "Absent"}
+                      placement="left"
+                      arrow
+                      className="col-span-2 py-2 flex flex-row gap-2 cursor-pointer"
                     >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {filteredRows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
-                    <TableRow
-                      key={row.empid}
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                    >
-                      {columns.map((column) => (
-                        <TableCell
-                          key={column.id}
-                          align="left"
-                          className="px-4 py-2"
-                          style={{
-                            fontFamily: "Euclid",
-                          }}
+                      <Link
+                        className=""
+                        to={{
+                          pathname: `/pim/view/${
+                            row.empid
+                          }/${encodeURIComponent(
+                            row.ename
+                          )}/${encodeURIComponent(
+                            row.designation
+                          )}/${encodeURIComponent(
+                            row.jdate
+                          )}/${encodeURIComponent(row.status)}`,
+                          state: { ...employeeParams.empid },
+                        }}
+                      >
+                        {row.mark === 0 ? (
+                          <span className="bg-red-300 text-xs items-center flex font-bold text-red-700 px-1.5 rounded-md">
+                            A
+                          </span>
+                        ) : row.mark === 1 ? (
+                          <span className="bg-green-300 text-xs items-center flex font-bold text-green-700 px-1.5 rounded-md">
+                            P
+                          </span>
+                        ) : null}
+                        {row.ename}
+                      </Link>
+                    </Tooltip>
+                    <div className="col-span-3 py-2 ">{row.designation}</div>
+                    <div className="col-span-2 py-2 ">{row.jdate}</div>
+                    <div className="col-span-2 py-2 ">
+                      <div className="flex items-center gap-2">
+                        <div
+                          className={`rounded-full w-2 h-2 ${
+                            row.mark ? "bg-green-600" : "bg-red-600"
+                          }`}
+                        ></div>
+                        <span className="ml-2">{row.status}</span>
+                      </div>
+                    </div>
+                    <div className="col-span-1 py- text-gray-800 dark:text-gray-300">
+                      <div className="flex gap-2 items-center">
+                        <Tooltip
+                          title={`View ${row.ename}`}
+                          placement="top"
+                          arrow
                         >
-                          {column.id !== "actions" ? (
-                            column.id === "ename" ? (
-                              <Tooltip
-                                title={row.mark ? "Present" : "Absent"}
-                                placement="left"
-                                arrow
-                              >
-                                <Link
-                                  className="flex items-center  cursor-pointer"
-                                  to={{
-                                    pathname: `/pim/view/${
-                                      row.empid
-                                    }/${encodeURIComponent(
-                                      row.ename
-                                    )}/${encodeURIComponent(
-                                      row.designation
-                                    )}/${encodeURIComponent(
-                                      row.jdate
-                                    )}/${encodeURIComponent(row.status)}`,
-                                    state: { ...employeeParams.empid },
-                                  }}
-                                >
-                                  <div
-                                    className={`mr-3 rounded-md px-1.5 py-0.5 w-fit flex justify-center text-[.7rem] euclid-bold font-bold ${
-                                      row.mark
-                                        ? "bg-green-200 text-green-600"
-                                        : "bg-red-200 text-red-600"
-                                    }`}
-                                  >
-                                    {row.mark ? "P" : "A"}
-                                  </div>
-                                  <span>{row[column.id]}</span>
-                                </Link>
-                              </Tooltip>
-                            ) : column.id === "status" ? (
-                              <div className="flex items-center">
-                                <span
-                                  className={classNames(
-                                    "w-2.5 h-2.5 rounded-full mr-2",
-                                    {
-                                      "bg-green-500":
-                                        row.status.toLowerCase() === "active",
-                                      "bg-red-500":
-                                        row.status.toLowerCase() === "inactive",
-                                    }
-                                  )}
-                                ></span>
-                                {row.status}
-                              </div>
-                            ) : (
-                              row[column.id]
-                            )
-                          ) : (
-                            <div className="flex items-center gap-2">
-                              <Tooltip
-                                title={`Edit ${row.ename}`}
-                                placement="top"
-                                arrow
-                              >
-                                <Link
-                                  className="hover:bg-[#dbd6fc] hover:dark:bg-neutral-950 rounded-md p-2"
-                                  to={{
-                                    pathname: `/pim/edit/${
-                                      row.empid
-                                    }/${encodeURIComponent(
-                                      row.ename
-                                    )}/${encodeURIComponent(
-                                      row.designation
-                                    )}/${encodeURIComponent(
-                                      row.jdate
-                                    )}/${encodeURIComponent(row.status)}`,
-                                  }}
-                                >
-                                  <FaUserEdit className="text-xl" />
-                                </Link>
-                              </Tooltip>
-                              {" | "}
-                              <Tooltip
-                                title={`View ${row.ename}`}
-                                placement="top"
-                                arrow
-                              >
-                                <Link
-                                  className="hover:bg-[#dbd6fc] hover:dark:bg-neutral-950 rounded-md p-2"
-                                  to={{
-                                    pathname: `/pim/view/${
-                                      row.empid
-                                    }/${encodeURIComponent(
-                                      row.ename
-                                    )}/${encodeURIComponent(
-                                      row.designation
-                                    )}/${encodeURIComponent(
-                                      row.jdate
-                                    )}/${encodeURIComponent(row.status)}`,
-                                    state: { ...employeeParams.empid },
-                                  }}
-                                >
-                                  <IoEye className="text-xl" />
-                                </Link>
-                              </Tooltip>
-                            </div>
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                          <Link
+                            className="hover:bg-[#dbd6fc] hover:dark:bg-neutral-950 rounded-md p-2"
+                            to={{
+                              pathname: `/pim/view/${
+                                row.empid
+                              }/${encodeURIComponent(
+                                row.ename
+                              )}/${encodeURIComponent(
+                                row.designation
+                              )}/${encodeURIComponent(
+                                row.jdate
+                              )}/${encodeURIComponent(row.status)}`,
+                              state: { ...employeeParams.empid },
+                            }}
+                          >
+                            <IoEye className="text-lg text-gray-800 dark:text-gray-300" />
+                          </Link>
+                        </Tooltip>
+                        |
+                        <Tooltip
+                          title={`Edit ${row.ename}`}
+                          placement="top"
+                          arrow
+                        >
+                          <Link
+                            className="hover:bg-[#dbd6fc] hover:dark:bg-neutral-950 rounded-md p-2"
+                            to={{
+                              pathname: `/pim/edit/${
+                                row.empid
+                              }/${encodeURIComponent(
+                                row.ename
+                              )}/${encodeURIComponent(
+                                row.designation
+                              )}/${encodeURIComponent(
+                                row.jdate
+                              )}/${encodeURIComponent(row.status)}`,
+                            }}
+                          >
+                            <FaUserEdit className="text-lg text-gray-800 dark:text-gray-300" />
+                          </Link>
+                        </Tooltip>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+            </div>
+          </div>
         </Paper>
       </motion.div>
     </div>

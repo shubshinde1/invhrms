@@ -1,16 +1,6 @@
 import React, { useState } from "react";
 import clientsData from "../../dummydata/MasterClientsProjects.json";
-import { makeStyles } from "@mui/styles";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  InputBase,
-} from "@mui/material";
+import { InputBase } from "@mui/material";
 import { Card, CardContent, Grid, Box } from "@mui/material";
 import clientAvatar from "../../assets/images/clientAvatar.png";
 import { motion } from "framer-motion";
@@ -29,46 +19,6 @@ import { HiMiniRocketLaunch } from "react-icons/hi2";
 import Avatar from "@mui/joy/Avatar";
 import AvatarGroup from "@mui/joy/AvatarGroup";
 import { TbTimelineEventFilled } from "react-icons/tb";
-
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-    "& .MuiTypography-root": {
-      fontFamily: "euclid",
-      fontSize: 14,
-    },
-    "& .MuiTableCell-root": {
-      fontFamily: "euclid",
-      fontSize: 14,
-    },
-    "& .MuiInputBase-input": {
-      fontFamily: "euclid",
-      fontSize: ".9rem",
-    },
-  },
-  columnHeader: {
-    fontWeight: "bold",
-  },
-  listViewContainer: {
-    textAlign: "right",
-  },
-  searchContainer: {
-    borderRadius: 7,
-    display: "flex",
-    alignItems: "center",
-  },
-  searchInput: {
-    fontFamily: "euclid",
-    marginLeft: 7,
-    padding: 2,
-  },
-  title: {
-    fontWeight: "bold",
-  },
-  fullScreenGrid: {
-    marginBottom: 80,
-  },
-});
 
 function GenerateLink({ client, navigate }) {
   const handleClick = () => {
@@ -108,7 +58,6 @@ function GenerateLinkForList({ client, navigate }) {
 }
 
 export default function ClientCard({ clients }) {
-  const classes = useStyles();
   const [viewMode, setViewMode] = useState("grid");
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState(clientsData);
@@ -180,7 +129,7 @@ export default function ClientCard({ clients }) {
   };
 
   return (
-    <div className={classes.root}>
+    <div className="">
       <div className="bg-white dark:bg-neutral-950 dark:text-white rounded-md">
         <div className="p-2">
           <div className="grid grid-cols-12 lg:grid-cols-11 gap-2 ">
@@ -321,12 +270,10 @@ export default function ClientCard({ clients }) {
           className=" pl-2 pb-2 flex justify-between items-center "
         >
           <div className="flex items-center">
-            <div
-              className={`${classes.searchContainer} bg-sky-50 dark:bg-neutral-900 mr-2  flex  h-full py-1 `}
-            >
+            <div className="bg-sky-50 dark:bg-neutral-900 mr-2  flex  h-full py-1 rounded-md ">
               <InputBase
                 placeholder="Search by Client Name, Id "
-                className={`${classes.searchInput} md:w-96 searchInput`}
+                className="md:w-96 searchInput euclid ml-2 p-0.5"
                 value={searchTerm}
                 onChange={handleInputChange}
                 inputProps={{ style: { fontSize: 14 } }}
@@ -336,7 +283,7 @@ export default function ClientCard({ clients }) {
               to="/clients/addclient"
               className="bg-sky-50 dark:bg-neutral-900 rounded-md p-2.5 flex items-center gap-2"
             >
-              <Tooltip title="Add Client" placement="top" arrow>
+              <Tooltip title="Add New Client" placement="top" arrow>
                 <div>
                   <MdOutlineAddCircle fontSize={20} />
                 </div>
@@ -349,16 +296,24 @@ export default function ClientCard({ clients }) {
               className="mr-2 bg-sky-100 dark:bg-neutral-900 dark:text-white p-3 rounded-md cursor-pointer"
             >
               {viewMode === "grid" ? (
-                <FaThList fontSize={16} />
+                <Tooltip title="Table View" placement="top" arrow>
+                  <div>
+                    <FaThList fontSize={16} />
+                  </div>
+                </Tooltip>
               ) : (
-                <BsFillGrid3X3GapFill fontSize={17} />
+                <Tooltip title="Grid View" placement="top" arrow>
+                  <div>
+                    <BsFillGrid3X3GapFill fontSize={17} />
+                  </div>
+                </Tooltip>
               )}
             </div>
           </div>
         </div>
       </div>
       {viewMode === "grid" ? (
-        <Grid container spacing={1.5} className={`${classes.fullScreenGrid} `}>
+        <Grid container spacing={1.5} className="mb-20">
           {filteredData.map((client, index) => (
             <Grid
               item
@@ -373,17 +328,25 @@ export default function ClientCard({ clients }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <Card className={`${classes.card} `}>
+                <Card className="">
                   <CardContent className="flex flex-col gap-4 hover:shadow-xl group dark:bg-neutral-950 dark:shadow-none dark:text-white">
                     <div className="flex  justify-between  group-hover:bg-sky-50 group-hover:dark:bg-neutral-900  py-2 group-hover:px-2 duration-300 group-hover:rounded-md">
                       <div className="flex items-center gap-4">
                         <img src={clientAvatar} width={50} alt="Clientlogo" />
-                        <div className={classes.pos}>
+                        <div className="">
                           <h4 className="font-bold">{client.businessname}</h4>
                           <h4 className="text-xs">{client.clientname}</h4>
                         </div>
                       </div>
-                      <GenerateLink client={client} navigate={navigate} />
+                      <Tooltip
+                        title={`View ${client.clientname}`}
+                        placement="top"
+                        arrow
+                      >
+                        <div>
+                          <GenerateLink client={client} navigate={navigate} />
+                        </div>
+                      </Tooltip>
                     </div>
                     <hr className="w-full h-[1px] bg-gray-300 dark:bg-neutral-950" />
                     <div className="flex flex-col gap-2 text-[.85rem]">
@@ -457,56 +420,63 @@ export default function ClientCard({ clients }) {
           ))}
         </Grid>
       ) : (
-        <Box
-          className={`${classes.listViewContainer} w-[96vw] md:w-auto bg-white dark:bg-neutral-950 p-2 rounded-md`}
-        >
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead className="bg-sky-50 ">
-                <TableRow>
-                  <TableCell className={classes.columnHeader}>
-                    Client Name
-                  </TableCell>
-                  <TableCell className={classes.columnHeader}>
-                    Client ID
-                  </TableCell>
-                  <TableCell className={classes.columnHeader}>
-                    Business Name
-                  </TableCell>
-                  <TableCell className={classes.columnHeader}>Phone</TableCell>
-                  <TableCell className={classes.columnHeader}>Email</TableCell>
-                  <TableCell className={classes.columnHeader}>GSTN</TableCell>
-                  <TableCell className={classes.columnHeader}>
-                    Projects
-                  </TableCell>
-                  <TableCell className={classes.columnHeader}>Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {filteredData.map((client, index) => (
-                  <TableRow key={client.clientid} className="group">
-                    <TableCell>{client.clientname}</TableCell>
-                    <TableCell>{client.clientid}</TableCell>
-                    <TableCell>{client.businessname}</TableCell>
-                    <TableCell>{client.phone}</TableCell>
-                    <TableCell>{client.email}</TableCell>
-                    <TableCell>{client.gstn}</TableCell>
-                    <TableCell>{client.projects.length}</TableCell>
-                    <Tooltip title="View Details" placement="top" arrow>
-                      <TableCell>
-                        <GenerateLinkForList
-                          client={client}
-                          navigate={navigate}
-                          className="flex"
-                        />
-                      </TableCell>
-                    </Tooltip>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
+        <div className="flex flex-col gap-2  bg-white dark:bg-neutral-950 p-2 rounded-md dark:text-white text-black ">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ul className="grid grid-cols-12 gap-2 px-2 py-3 bg-sky-100 dark:bg-neutral-800 rounded-md font-bold">
+                <li className="col-span-2">Client Name</li>
+                <li className="col-span-1">Client ID </li>
+                <li className="col-span-3">Business Name </li>
+                <li className="col-span-2">Phone</li>
+                <li className="col-span-2">Email</li>
+                <li className="col-span-1">Projects</li>
+                <li className="col-span-1 items-center flex flex-col ">
+                  Action
+                </li>
+              </ul>
+            </motion.div>
+          </div>
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col gap-2"
+            >
+              {filteredData.map((client, index) => (
+                <div
+                  key={client.clientid}
+                  className="group grid grid-cols-12 gap-2 px-2 py-1 bg-sky-50 dark:bg-neutral-900 rounded-md items-center"
+                >
+                  <div className="col-span-2 ">{client.clientname}</div>
+                  <div className="col-span-1 ">{client.clientid}</div>
+                  <div className="col-span-3 ">{client.businessname}</div>
+                  <div className="col-span-2 ">{client.phone}</div>
+                  <div className="col-span-2 ">{client.email}</div>
+                  <div className="col-span-1 ">{client.projects.length}</div>
+                  <Tooltip
+                    title={`View ${client.clientname}`}
+                    placement="top"
+                    arrow
+                    className="col-span-1 items-center flex flex-col "
+                  >
+                    <div>
+                      <GenerateLinkForList
+                        client={client}
+                        navigate={navigate}
+                        className="flex items-center flex-col"
+                      />
+                    </div>
+                  </Tooltip>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
       )}
     </div>
   );

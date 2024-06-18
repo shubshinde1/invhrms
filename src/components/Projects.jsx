@@ -108,7 +108,7 @@ export default function Projects() {
         </div>
         <div className="">
           <TablePagination
-            rowsPerPageOptions={[10, 25, { label: "All", value: -1 }]}
+            rowsPerPageOptions={[5, 25, { label: "All", value: -1 }]}
             component="div"
             count={filteredData.length}
             rowsPerPage={rowsPerPage}
