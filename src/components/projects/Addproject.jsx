@@ -217,7 +217,7 @@ export default function Addproject() {
             <div className="w-[100px] flex flex-col ">
               <TextField
                 className={classNames(
-                  "col-span-12 sm:col-span-6 xl:col-span-2 text-xs w-[120px] flex flex-col",
+                  "col-span-12 sm:col-span-6 xl:col-span-2 text-xs w-[120px] flex flex-col ",
                   classes.root
                 )}
                 id="clientid"
@@ -226,7 +226,7 @@ export default function Addproject() {
                 variant="outlined"
                 margin="dense"
                 value={selectedClientId}
-                disabled
+                // disabled
               />
             </div>
           </div>

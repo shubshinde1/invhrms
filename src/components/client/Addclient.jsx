@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { BsPersonFillCheck, BsPersonFillAdd } from "react-icons/bs";
 import { motion } from "framer-motion";
 import timezones from "../../dummydata/timezone.json";
+import { format } from "date-fns";
 
 import {
   TextField,
@@ -102,12 +103,35 @@ const useStyles = makeStyles({
 export default function Addclient() {
   const classes = useStyles();
   const navigate = useNavigate();
+
   const [selectedFileName, setSelectedFileName] = useState("");
   const [isInputLabelShrunk, setIsInputLabelShrunk] = useState(false);
   const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
-  const [remainingTime, setRemainingTime] = useState(2); // Initial remaining time in seconds
-
+  const [remainingTime, setRemainingTime] = useState(2);
+  const [selectedTimezone, setSelectedTimezone] = useState("");
   const [timezoneList, setTimezoneList] = useState([]);
+  const [formData, setFormData] = useState({
+    prefix: "",
+    clientName: "",
+    clientId: "",
+    phone: "",
+    email: "",
+    linkedinurl: "",
+    address: "",
+    projectName: "",
+    conpmanyName: "",
+    clienttype: "",
+    paymentcycle: "",
+    domain: "",
+    timeZone: "",
+    primarytech: "",
+    futurepotential: "",
+    agreementduration: "",
+    contractdate: null, // Adjust if needed based on your DatePicker setup
+    contractfile: "",
+    gstn: "",
+    description: "",
+  });
 
   useEffect(() => {
     setTimezoneList(timezones);
@@ -122,10 +146,15 @@ export default function Addclient() {
       setSelectedFileName("");
       setIsInputLabelShrunk(false);
     }
+    setFormData({
+      ...formData,
+      contractfile: event.target.value,
+    });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log("Form Data:", formData);
     setIsSuccessPopupOpen(true);
     const timer = setInterval(() => {
       setRemainingTime((prevTime) => prevTime - 1);
@@ -134,9 +163,8 @@ export default function Addclient() {
     setTimeout(() => {
       clearInterval(timer);
       setIsSuccessPopupOpen(false);
-      // Redirect to "/clients"
       navigate("/clients");
-    }, 2000); // Popup will disappear after 2 seconds
+    }, 2000);
   };
 
   useEffect(() => {
@@ -153,6 +181,47 @@ export default function Addclient() {
       document.removeEventListener("keydown", handleEscKey);
     };
   }, [navigate]);
+
+  const handleTimezoneChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedTimezone(selectedValue);
+
+    const currentUTC = new Date();
+
+    const timeZone = selectedValue;
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone,
+      hour12: true,
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    });
+
+    const formattedTime = formatter.format(currentUTC);
+
+    console.log("Current local time in", timeZone, ":", formattedTime);
+  };
+
+  const handleSelectChange = (e) => {
+    // First action: handleTimezoneChange
+    handleTimezoneChange(e);
+
+    setFormData({ ...formData, timeZone: e.target.value });
+  };
+
+  const handleDateChange = (date) => {
+    if (date && date.$d) {
+      const formattedDate = `${date.$d.getFullYear()}-${(date.$d.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${date.$d.getDate().toString().padStart(2, "0")}`;
+      setFormData({ ...formData, contractdate: formattedDate });
+    } else {
+      setFormData({ ...formData, contractdate: "" }); // Handle case when date is cleared
+    }
+  };
 
   return (
     <div className="bg-white dark:bg-neutral-950 p-4 rounded-md mb-20">
@@ -181,19 +250,18 @@ export default function Addclient() {
                   id="prefix"
                   name="prefix"
                   label="Prefix"
+                  value={formData.prefix}
+                  onChange={(e) =>
+                    setFormData({ ...formData, prefix: e.target.value })
+                  }
                   IconComponent={(props) => (
-                    // <div className="bg-red-500 z-50">
                     <ArrowDropDownRoundedIcon
                       {...props}
                       sx={{
                         fontSize: 40,
-                        // marginLeft: "0.375rem",
-                        // backgroundColor: "#bfdbfe",
                         borderRadius: 1,
                       }}
-                      // className="bg-sky-200 mr-1.5 rounded-md cursor-pointer"
                     />
-                    // </div>
                   )}
                 >
                   <GlobalStyles />
@@ -213,8 +281,13 @@ export default function Addclient() {
               label="Client Name"
               variant="outlined"
               margin="dense"
+              value={formData.clientName}
+              onChange={(e) =>
+                setFormData({ ...formData, clientName: e.target.value })
+              }
             />
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
             <TextField
               className={classNames(
@@ -226,21 +299,31 @@ export default function Addclient() {
               label="Client Id"
               variant="outlined"
               margin="dense"
+              value={formData.clientId}
+              onChange={(e) =>
+                setFormData({ ...formData, clientId: e.target.value })
+              }
             />
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
             <TextField
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
                 classes.root
               )}
-              id="businessname"
-              name="businessname"
+              id="conpmanyname"
+              name="conpmanyname"
               label="Conpmany Name"
               variant="outlined"
               margin="dense"
+              value={formData.conpmanyName}
+              onChange={(e) =>
+                setFormData({ ...formData, conpmanyName: e.target.value })
+              }
             />
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
             <TextField
               className={classNames(
@@ -252,8 +335,13 @@ export default function Addclient() {
               label="Phone No"
               variant="outlined"
               margin="dense"
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
             />
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
             <TextField
               className={classNames(
@@ -265,8 +353,13 @@ export default function Addclient() {
               label="Email Id"
               variant="outlined"
               margin="dense"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
             />
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
             <TextField
               className={classNames(
@@ -278,8 +371,13 @@ export default function Addclient() {
               label="Linkedin Url"
               variant="outlined"
               margin="dense"
+              value={formData.linkedinurl}
+              onChange={(e) =>
+                setFormData({ ...formData, linkedinurl: e.target.value })
+              }
             />
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
             <TextField
               className={classNames(
@@ -291,8 +389,13 @@ export default function Addclient() {
               label="Office Address"
               variant="outlined"
               margin="dense"
+              value={formData.address}
+              onChange={(e) =>
+                setFormData({ ...formData, address: e.target.value })
+              }
             />
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
             <TextField
               className={classNames(
@@ -304,8 +407,13 @@ export default function Addclient() {
               label="Project Name"
               variant="outlined"
               margin="dense"
+              value={formData.projectName}
+              onChange={(e) =>
+                setFormData({ ...formData, projectName: e.target.value })
+              }
             />
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
             <FormControl
               variant="outlined"
@@ -323,6 +431,10 @@ export default function Addclient() {
                 id="clienttype"
                 name="clienttype"
                 label="Client Type"
+                value={formData.clienttype}
+                onChange={(e) =>
+                  setFormData({ ...formData, clienttype: e.target.value })
+                }
                 IconComponent={(props) => (
                   // <div className="bg-red-500 z-50">
                   <ArrowDropDownRoundedIcon
@@ -346,6 +458,7 @@ export default function Addclient() {
               </Select>
             </FormControl>
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
             <FormControl
               variant="outlined"
@@ -363,6 +476,10 @@ export default function Addclient() {
                 id="paymentcycle"
                 name="paymentcycle"
                 label="Payment Cycle"
+                value={formData.paymentcycle}
+                onChange={(e) =>
+                  setFormData({ ...formData, paymentcycle: e.target.value })
+                }
                 IconComponent={(props) => (
                   // <div className="bg-red-500 z-50">
                   <ArrowDropDownRoundedIcon
@@ -384,6 +501,7 @@ export default function Addclient() {
               </Select>
             </FormControl>
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
             <FormControl
               variant="outlined"
@@ -401,6 +519,10 @@ export default function Addclient() {
                 id="domain"
                 name="domain"
                 label="Domain"
+                value={formData.domain}
+                onChange={(e) =>
+                  setFormData({ ...formData, domain: e.target.value })
+                }
                 IconComponent={(props) => (
                   // <div className="bg-red-500 z-50">
                   <ArrowDropDownRoundedIcon
@@ -434,12 +556,13 @@ export default function Addclient() {
               </Select>
             </FormControl>
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row">
             <FormControl
               variant="outlined"
               margin="dense"
               className={classNames(
-                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs ",
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
                 classes.root
               )}
             >
@@ -448,6 +571,8 @@ export default function Addclient() {
                 labelId="timezone-label"
                 id="timezone"
                 label="Select Timezone"
+                value={selectedTimezone && formData.timeZone}
+                onChange={handleSelectChange}
                 IconComponent={(props) => (
                   <ArrowDropDownRoundedIcon
                     {...props}
@@ -461,7 +586,9 @@ export default function Addclient() {
                 <GlobalStyles />
                 {timezoneList.map((timezone) => (
                   <MenuItem key={timezone.value} value={timezone.value}>
-                    {timezone.text.replace("_", " ")}
+                    {timezone.location.replace("_", " ")}
+                    {timezone.currentTime}
+                    {/* {current time} */}
                   </MenuItem>
                 ))}
               </Select>
@@ -479,6 +606,10 @@ export default function Addclient() {
               label="Primary Technologies"
               variant="outlined"
               margin="dense"
+              value={formData.primarytech}
+              onChange={(e) =>
+                setFormData({ ...formData, primarytech: e.target.value })
+              }
             />
           </div>
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
@@ -492,6 +623,10 @@ export default function Addclient() {
               label="Future Potential"
               variant="outlined"
               margin="dense"
+              value={formData.futurepotential}
+              onChange={(e) =>
+                setFormData({ ...formData, futurepotential: e.target.value })
+              }
             />
           </div>
 
@@ -512,6 +647,13 @@ export default function Addclient() {
                 id="agreementduration"
                 name="agreementduration"
                 label="Agreement Duration"
+                value={formData.agreementduration}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    agreementduration: e.target.value,
+                  })
+                }
                 IconComponent={(props) => (
                   // <div className="bg-red-500 z-50">
                   <ArrowDropDownRoundedIcon
@@ -541,6 +683,8 @@ export default function Addclient() {
               <DemoContainer components={["DatePicker"]}>
                 <DatePicker
                   label="Contract Date"
+                  value={formData.contractdate} // Ensure formData.contractdate is of the expected type for DatePicker
+                  onChange={handleDateChange}
                   className={classNames(
                     "col-span-12 sm:col-span-6 xl:col-span-2",
                     classes.root
@@ -549,6 +693,7 @@ export default function Addclient() {
               </DemoContainer>
             </LocalizationProvider>
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-col">
             <div>
               <input
@@ -556,8 +701,9 @@ export default function Addclient() {
                 id="contractfile"
                 name="contractfile"
                 accept=".pdf,.doc,.docx,.png,.jpeg,.jpg"
-                onChange={handleFileChange}
+                value={formData.contractfile}
                 style={{ display: "none" }} // Hide the file input
+                onChange={handleFileChange}
               />
               <TextField
                 id="contractfile"
@@ -588,6 +734,7 @@ export default function Addclient() {
               />
             </div>
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-row ">
             <TextField
               className={classNames(
@@ -599,14 +746,30 @@ export default function Addclient() {
               label="GST No"
               variant="outlined"
               margin="dense"
+              value={formData.gstn}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  gstn: e.target.value,
+                })
+              }
             />
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-8 flex flex-col">
             <textarea
               className="bg-[#f0f9ff] dark:bg-neutral-900 dark:text-white rounded-md focus:border-[1px] p-3 pb-0 h-20 "
               placeholder="Description"
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  description: e.target.value,
+                })
+              }
             ></textarea>
           </div>
+
           <div className="col-span-12 sm:col-span-6 md:col-span-4 flex items-end justify-end">
             <button
               type="submit"

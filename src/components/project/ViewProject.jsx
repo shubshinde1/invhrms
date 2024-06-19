@@ -324,7 +324,7 @@ export default function ViewProject() {
               </div>
             </div> */}
             <div className="flex flex-col gap-2">
-              <div className="grid grid-cols-12 gap-4 bg-neutral-800 px-2 py-3 rounded-md">
+              <div className="grid grid-cols-12 gap-4 bg-sky-100 dark:bg-neutral-800 px-2 py-3 rounded-md font-bold">
                 <div className="col-span-1 ">
                   <h2>Sr.No</h2>
                 </div>
@@ -346,10 +346,10 @@ export default function ViewProject() {
                 {Object.keys(project.details).map((teamKey, index) => (
                   <div
                     key={index}
-                    className="grid grid-cols-12 gap-4 bg-neutral-950 px-2 py-3 rounded-md"
+                    className="grid grid-cols-12 gap-4 bg-sky-100 dark:bg-neutral-950 px-2 py-3 rounded-md"
                   >
                     <div className="col-span-1">
-                      <h2 className="bg-neutral-900 px-2.5 py-1 rounded-md w-fit">
+                      <h2 className="bg-sky-200 dark:bg-neutral-900 px-2.5 py-1 rounded-md w-fit">
                         {index + 1}
                       </h2>
                     </div>
@@ -398,7 +398,7 @@ export default function ViewProject() {
                                     >
                                       <li
                                         key={technologyIndex}
-                                        className="bg-neutral-900 p-2 rounded-md w-fit cursor-pointer hover:text-blue-600"
+                                        className="bg-sky-200 dark:bg-neutral-900 p-2 rounded-md w-fit cursor-pointer hover:text-blue-600"
                                       >
                                         {IconComponent && <IconComponent />}
                                       </li>

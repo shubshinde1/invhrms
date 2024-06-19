@@ -203,7 +203,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .MuiList-root {
-    @apply  max-h-60
+    @apply max-h-60
 }
 
 .MuiMenuItem-root:hover {
