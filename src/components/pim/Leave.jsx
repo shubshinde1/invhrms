@@ -2,19 +2,8 @@ import React, { useState, useEffect } from "react";
 import empdata from "../../dummydata/leaveData.json";
 import classNames from "classnames";
 import { useParams } from "react-router-dom";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Select,
-  MenuItem,
-  FormControl,
-} from "@mui/material";
-import { TextField, InputLabel } from "@mui/material";
+import { Select, MenuItem, FormControl } from "@mui/material";
+import { InputLabel } from "@mui/material";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import { motion } from "framer-motion";
 import { FaCalculator } from "react-icons/fa6";
@@ -126,15 +115,9 @@ export default function Leave() {
 
   const [leaveData, setLeaveData] = useState(null);
 
-  const employeeData = data.filter((emp) => emp.empid === empid);
+  const [filteredLeavesCount, setFilteredLeavesCount] = useState(0);
 
-  const totalLeavesOfMonth = employeeData.reduce((total, row) => {
-    const leaveKeys = Object.keys(row.attendance);
-    const totalLeavesForEmployee = leaveKeys.reduce((acc, key) => {
-      return acc + row.attendance[key].noofleaves;
-    }, 0);
-    return total + totalLeavesForEmployee;
-  }, 0);
+  const employeeData = data.filter((emp) => emp.empid === empid);
 
   useEffect(() => {
     let sickLeave = 0;
@@ -190,7 +173,18 @@ export default function Leave() {
     setTotalAllLeavesElapsed(
       elapsedSick + elapsedPrivilege + elapsedCasual + elapsedHoliday
     );
-  }, [employeeData]);
+
+    // Calculate filtered leaves count based on filterValue
+    const filteredLeaves = employeeData.reduce((total, emp) => {
+      return (
+        total +
+        Object.values(emp.attendance)
+          .filter((leave) => filterData(leave))
+          .reduce((acc, leave) => acc + leave.noofleaves, 0)
+      );
+    }, 0);
+    setFilteredLeavesCount(filteredLeaves);
+  }, [employeeData, filterValue]);
 
   const handleChangeFilter = (event) => {
     setFilterValue(event.target.value);
@@ -200,16 +194,16 @@ export default function Leave() {
     const leaveDate = new Date(leave.from);
     const currentDate = new Date();
     switch (filterValue) {
-      case "currentmonth":
+      case "current month":
         return (
           leaveDate.getMonth() === currentDate.getMonth() &&
           leaveDate.getFullYear() === currentDate.getFullYear()
         );
-      case "last3months":
+      case "last 3 months":
         return leaveDate >= new Date().setMonth(currentDate.getMonth() - 3);
-      case "last6months":
+      case "last 6 months":
         return leaveDate >= new Date().setMonth(currentDate.getMonth() - 6);
-      case "last1year":
+      case "last 1 year":
         return (
           leaveDate >= new Date().setFullYear(currentDate.getFullYear() - 1)
         );
@@ -220,9 +214,9 @@ export default function Leave() {
 
   return (
     <div>
-      <Paper
+      <div
         sx={{ overflow: "hidden" }}
-        className="md:w-[100%] w-[calc(100vw-0.8rem)] h-[90%] top-24"
+        className="md:w-[100%] w-[calc(100vw-0.8rem)] h-[90%] top-24 dark:bg-neutral-950 bg-white dark:text-white rounded-md"
       >
         <div className="p-2 grid grid-cols-11 sm:grid-cols-12 lg:grid-cols-10 gap-2">
           <motion.div
@@ -394,10 +388,10 @@ export default function Leave() {
             >
               <GlobalStyles />
               <MenuItem value="all">All Records</MenuItem>
-              <MenuItem value="currentmonth">Current Month</MenuItem>
-              <MenuItem value="last3months">Last 3 Months</MenuItem>
-              <MenuItem value="last6months">Last 6 Months</MenuItem>
-              <MenuItem value="last1year">Last 1 Year</MenuItem>
+              <MenuItem value="current month">Current Month</MenuItem>
+              <MenuItem value="last 3 months">Last 3 Months</MenuItem>
+              <MenuItem value="last 6 months">Last 6 Months</MenuItem>
+              <MenuItem value="last 1 year">Last 1 Year</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -406,143 +400,73 @@ export default function Leave() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <TableContainer
-            component={Paper}
-            sx={{ boxShadow: "none" }}
-            className="m-2 pr-4 scrollbar-hide"
-          >
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    align="left"
-                    style={{
-                      // backgroundColor: "#f0f9ff",
-                      fontWeight: "bold",
-                      fontFamily: "Euclid",
-                    }}
-                  >
-                    Leave Type
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                    style={{
-                      // backgroundColor: "#f0f9ff",
-                      fontWeight: "bold",
-                      fontFamily: "Euclid",
-                    }}
-                  >
-                    Reason
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                    style={{
-                      // backgroundColor: "#f0f9ff",
-                      fontWeight: "bold",
-                      fontFamily: "Euclid",
-                    }}
-                  >
-                    From
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                    style={{
-                      // backgroundColor: "#f0f9ff",
-                      fontWeight: "bold",
-                      fontFamily: "Euclid",
-                    }}
-                  >
-                    To
-                  </TableCell>
-
-                  <TableCell
-                    align="left"
-                    style={{
-                      // backgroundColor: "#f0f9ff",
-                      fontWeight: "bold",
-                      fontFamily: "Euclid",
-                      width: 150,
-                    }}
-                  >
-                    No. of Leaves
-                  </TableCell>
-
-                  <TableCell
-                    align="left"
-                    style={{
-                      // backgroundColor: "#f0f9ff",
-                      fontWeight: "bold",
-                      fontFamily: "Euclid",
-                    }}
-                  >
-                    Status
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                    style={{
-                      // backgroundColor: "#f0f9ff",
-                      fontWeight: "bold",
-                      fontFamily: "Euclid",
-                    }}
-                  >
-                    Approved By
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {employeeData.map((emp) =>
-                  Object.values(emp.attendance)
-                    .filter((leave) => filterData(leave))
-                    .map((leave, index) => (
-                      <TableRow key={index}>
-                        <TableCell style={{ fontFamily: "Euclid" }}>
-                          {leave.leavetype}
-                        </TableCell>
-                        <TableCell style={{ fontFamily: "Euclid" }}>
-                          {leave.reason}
-                        </TableCell>
-                        <TableCell style={{ fontFamily: "Euclid" }}>
-                          {new Date(leave.from).toLocaleDateString()}
-                        </TableCell>
-                        <TableCell style={{ fontFamily: "Euclid" }}>
-                          {new Date(leave.to).toLocaleDateString()}
-                        </TableCell>
-
-                        <TableCell style={{ fontFamily: "Euclid" }}>
-                          {leave.noofleaves}
-                        </TableCell>
-
-                        <TableCell>
-                          {leave.status === 0 ? (
-                            <span className="text-red-600 euclid text-xs font-bold bg-red-200 py-1 px-2 rounded-md">
-                              Declined
-                            </span>
-                          ) : leave.status === 1 ? (
-                            <span className="text-green-600 euclid text-xs font-bold bg-green-200 py-1 px-2 rounded-md">
-                              Approved
-                            </span>
-                          ) : (
-                            <span className="text-orange-600 euclid text-xs font-bold bg-orange-200 py-1 px-2 rounded-md">
-                              Pending
-                            </span>
-                          )}
-                        </TableCell>
-
-                        <TableCell>{leave.approvedby}</TableCell>
-                      </TableRow>
-                    ))
-                )}
-              </TableBody>
-            </Table>
-            <div className="px-4 py-4 font-bold w-full bg-sky-50 dark:bg-neutral-900 flex flex-row justify-between sm:justify-start">
-              <h2 className=" sm:w-3/5 ">Total Leaves in Last</h2>
-              <h5 className="sm:ml-16 md:ml-16 lg:-ml-2">
-                {totalLeavesOfMonth}
-              </h5>
+          <div className="m-2 pr-4 flex flex-col ">
+            <div className="hidden lg:grid grid-cols-12 mb-2 gap-2 px-2 py-3 bg-sky-100 dark:bg-neutral-800 rounded-md font-bold">
+              <div className="col-span-2">Leave Type</div>
+              <div className="col-span-2">Reason</div>
+              <div className="col-span-1">From</div>
+              <div className="col-span-1">To</div>
+              <div className="col-span-2">No. of Leaves</div>
+              <div className="col-span-2">Status</div>
+              <div className="col-span-2">Approved By</div>
             </div>
-          </TableContainer>
+
+            <div className="flex flex-col overflow-scroll h-[78vh] 2xl:h-[50vh] scrollbar-hide">
+              {employeeData.map((emp) =>
+                Object.values(emp.attendance)
+                  .filter((leave) => filterData(leave))
+                  .map((leave, index) => (
+                    <motion.div
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5 }}
+                      key={index}
+                      className={`bg-sky-50 dark:bg-neutral-900 p-2 rounded-md grid grid-cols-12 gap-2 items-start ${
+                        index !== 0 ? "mt-2" : ""
+                      }`}
+                    >
+                      <div className="col-span-2">{leave.leavetype}</div>
+                      <div className="col-span-2">{leave.reason}</div>
+                      <div className="col-span-1">
+                        {new Date(leave.from).toLocaleDateString()}
+                      </div>
+                      <div className="col-span-1">
+                        {new Date(leave.to).toLocaleDateString()}
+                      </div>
+                      <div className="col-span-2">{leave.noofleaves}</div>
+                      <div className="col-span-2">
+                        {leave.status === 0 ? (
+                          <span className="text-red-600 text-xs font-bold bg-red-200 py-1 px-2 rounded-md">
+                            Declined
+                          </span>
+                        ) : leave.status === 1 ? (
+                          <span className="text-green-600 text-xs font-bold bg-green-200 py-1 px-2 rounded-md">
+                            Approved
+                          </span>
+                        ) : (
+                          <span className="text-orange-600 text-xs font-bold bg-orange-200 py-1 px-2 rounded-md">
+                            Pending
+                          </span>
+                        )}
+                      </div>
+                      <div className="col-span-2">{leave.approvedby}</div>
+                    </motion.div>
+                  ))
+              )}
+              <div className="mt-2 px-4 py-4 font-bold w-full bg-sky-50 dark:bg-neutral-800 rounded-md flex flex-row justify-between sm:justify-start">
+                <h2 className="sm:w-2/5">
+                  {filterValue === "all"
+                    ? "Total Leaves Until"
+                    : `Total Leaves in ${filterValue}`}
+                </h2>
+                <h5 className="sm:ml-16 md:ml-16 lg:ml-32">
+                  {filteredLeavesCount}
+                </h5>
+              </div>
+            </div>
+          </div>
         </motion.div>
-      </Paper>
+      </div>
     </div>
   );
 }

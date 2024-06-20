@@ -79,15 +79,15 @@ export default function Sidebar({ theme }) {
       </button>
       <div
         ref={sidebarRef}
-        className={`md:flex md:flex-col w-52 h-[98vh] md:h-screen ml-2 mt-2 md:m-0 md:rounded-none rounded-md absolute md:relative p-4 bg-white dark:bg-neutral-950 z-50 shadow-2xl md:shadow-none ${
+        className={`md:flex md:flex-col w-52 h-[98vh] md:h-screen ml-2 mt-2 md:m-0 md:rounded-none rounded-md absolute md:relative p-2 bg-white dark:bg-neutral-950 z-50 shadow-2xl md:shadow-none ${
           isSidebarOpen ? "" : "hidden"
         }`}
       >
-        <div className=" flex flex-row justify-between items-center">
+        <div className=" flex flex-row justify-between items-center bg-sky-100 dark:bg-neutral-900 rounded-md">
           {theme === "dark" ? (
-            <img src={logoDarkmode} className="pr-16" alt="logo" />
+            <img src={logoDarkmode} className="px-5 py-2" alt="logo" />
           ) : (
-            <img src={logolightmode} className="pr-16" alt="logo" />
+            <img src={logolightmode} className="px-5 py-2" alt="logo" />
           )}
           <div className="text-2xl absolute flex md:hidden right-5 mt-3 bg-sky-50 dark:bg-neutral-800 dark:text-white p-2 hover:bg-sky-100 dark:hover:bg-neutral-700 rounded-md">
             <TbLayoutSidebarLeftCollapseFilled
@@ -178,12 +178,21 @@ function SidebarLink({ item, pathname, onClick }) {
       className={classNames(
         isActive
           ? "euclid-bold bg-sky-50 dark:bg-neutral-900 after:w-1.5 after:bg-[#3C5EFE] after:rounded-full"
-          : "",
+          : " flex items-center",
         LinkClasses
       )}
       onClick={onClick}
     >
-      <span className="text-xl my-auto dark:text-white">{item.icon}</span>
+      <span
+        className={`text-xl my-auto ${
+          isActive
+            ? "text-[#5169d1]"
+            : "text-slate-800 dark:text-blue-200"
+        }`}
+      >
+        {item.icon}
+      </span>
+
       <span className="ml-3 w-[90%] dark:text-white">{item.label}</span>
     </Link>
   );
