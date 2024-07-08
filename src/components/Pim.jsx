@@ -15,7 +15,7 @@ export default function Pim() {
 
   return (
     <div className="">
-      <Employeelist />
+      {/* <Employeelist /> */}
       <MenuTabs />
       <Routes>
         <Route path="/pim" render={() => <Addemployee match={!!match} />} />

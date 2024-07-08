@@ -45,29 +45,34 @@
             }
         },
         "leavedata": {
-            "sickleave": {
-                "total": 4,
-                "remaining": 3,
-                "elapsed": 1
+            "totalLeaves": {
+                "total": 28,
+                "remaining": 15,
+                "elapsed": 13
             },
-            "privilegeleave": {
-                "total": 7,
-                "remaining": 5,
-                "elapsed": 2
+            "Leaves": {
+                "total": 18,
+                "remaining": 10,
+                "elapsed": 8
             },
-            "casualleave": {
-                "total": 7,
-                "remaining": 6,
-                "elapsed": 1
-            },
-            "holiday": {
-                "total": 10,
+            "mandatory": {
+                "total": 8,
                 "remaining": 4,
-                "elapsed": 6
+                "elapsed": 4
+            },
+            "optional": {
+                "total": 2,
+                "remaining": 1,
+                "elapsed": 1
+            },
+            "holidays": {
+                "total": 10,
+                "remaining": 5,
+                "elapsed": 5
             }
         },
         "timesheet": {
-            "2024-04-11": [
+            "2024-06-24": [
                 {
                     "task": 1,
                     "taskname": "Header Component",
@@ -119,7 +124,7 @@
                     "remark": 1
                 }
             ],
-            "2024-04-04": [
+            "2024-06-25": [
                 {
                     "task": 1,
                     "taskname": "Application",
@@ -141,7 +146,7 @@
                     "remark": 1
                 }
             ],
-            "2024-04-06": [
+            "2024-06-26": [
                 {
                     "task": 1,
                     "taskname": "Shuabhm",
@@ -202,25 +207,30 @@
             }
         },
         "leavedata": {
-            "sickleave": {
-                "total": 4,
-                "remaining": 2,
-                "elapsed": 2
+            "totalLeaves": {
+                "total": 28,
+                "remaining": 15,
+                "elapsed": 13
             },
-            "privilegeleave": {
-                "total": 7,
-                "remaining": 3,
+            "Leaves": {
+                "total": 18,
+                "remaining": 10,
+                "elapsed": 8
+            },
+            "mandatory": {
+                "total": 8,
+                "remaining": 4,
                 "elapsed": 4
             },
-            "casualleave": {
-                "total": 7,
-                "remaining": 3,
-                "elapsed": 4
+            "optional": {
+                "total": 2,
+                "remaining": 1,
+                "elapsed": 1
             },
-            "holiday": {
+            "holidays": {
                 "total": 10,
-                "remaining": 3,
-                "elapsed": 7
+                "remaining": 5,
+                "elapsed": 5
             }
         },
         "timesheet": {
@@ -297,25 +307,30 @@
             }
         },
         "leavedata": {
-            "sickleave": {
-                "total": 4,
-                "remaining": 2,
-                "elapsed": 2
+            "totalLeaves": {
+                "total": 28,
+                "remaining": 15,
+                "elapsed": 13
             },
-            "privilegeleave": {
-                "total": 7,
-                "remaining": 3,
+            "Leaves": {
+                "total": 18,
+                "remaining": 10,
+                "elapsed": 8
+            },
+            "mandatory": {
+                "total": 8,
+                "remaining": 4,
                 "elapsed": 4
             },
-            "casualleave": {
-                "total": 7,
-                "remaining": 3,
-                "elapsed": 4
+            "optional": {
+                "total": 2,
+                "remaining": 1,
+                "elapsed": 1
             },
-            "holiday": {
+            "holidays": {
                 "total": 10,
-                "remaining": 3,
-                "elapsed": 7
+                "remaining": 5,
+                "elapsed": 5
             }
         },
         "timesheet": {
@@ -394,25 +409,30 @@
             }
         },
         "leavedata": {
-            "sickleave": {
-                "total": 4,
-                "remaining": 2,
-                "elapsed": 2
+            "totalLeaves": {
+                "total": 28,
+                "remaining": 15,
+                "elapsed": 13
             },
-            "privilegeleave": {
-                "total": 7,
-                "remaining": 3,
+            "Leaves": {
+                "total": 18,
+                "remaining": 10,
+                "elapsed": 8
+            },
+            "mandatory": {
+                "total": 8,
+                "remaining": 4,
                 "elapsed": 4
             },
-            "casualleave": {
-                "total": 7,
-                "remaining": 3,
-                "elapsed": 4
+            "optional": {
+                "total": 2,
+                "remaining": 1,
+                "elapsed": 1
             },
-            "holiday": {
+            "holidays": {
                 "total": 10,
-                "remaining": 3,
-                "elapsed": 7
+                "remaining": 5,
+                "elapsed": 5
             }
         },
         "timesheet": {
@@ -486,25 +506,30 @@
             }
         },
         "leavedata": {
-            "sickleave": {
-                "total": 4,
-                "remaining": 2,
-                "elapsed": 2
+            "totalLeaves": {
+                "total": 28,
+                "remaining": 15,
+                "elapsed": 13
             },
-            "privilegeleave": {
-                "total": 7,
-                "remaining": 3,
+            "Leaves": {
+                "total": 18,
+                "remaining": 10,
+                "elapsed": 8
+            },
+            "mandatory": {
+                "total": 8,
+                "remaining": 4,
                 "elapsed": 4
             },
-            "casualleave": {
-                "total": 7,
-                "remaining": 3,
-                "elapsed": 4
+            "optional": {
+                "total": 2,
+                "remaining": 1,
+                "elapsed": 1
             },
-            "holiday": {
+            "holidays": {
                 "total": 10,
-                "remaining": 3,
-                "elapsed": 7
+                "remaining": 5,
+                "elapsed": 5
             }
         },
         "timesheet": {
@@ -569,25 +594,30 @@
             }
         },
         "leavedata": {
-            "sickleave": {
-                "total": 4,
-                "remaining": 2,
-                "elapsed": 2
+            "totalLeaves": {
+                "total": 28,
+                "remaining": 15,
+                "elapsed": 13
             },
-            "privilegeleave": {
-                "total": 7,
-                "remaining": 3,
+            "Leaves": {
+                "total": 18,
+                "remaining": 10,
+                "elapsed": 8
+            },
+            "mandatory": {
+                "total": 8,
+                "remaining": 4,
                 "elapsed": 4
             },
-            "casualleave": {
-                "total": 7,
-                "remaining": 3,
-                "elapsed": 4
+            "optional": {
+                "total": 2,
+                "remaining": 1,
+                "elapsed": 1
             },
-            "holiday": {
+            "holidays": {
                 "total": 10,
-                "remaining": 3,
-                "elapsed": 7
+                "remaining": 5,
+                "elapsed": 5
             }
         },
         "timesheet": {
@@ -652,25 +682,30 @@
             }
         },
         "leavedata": {
-            "sickleave": {
-                "total": 4,
-                "remaining": 2,
-                "elapsed": 2
+            "totalLeaves": {
+                "total": 28,
+                "remaining": 15,
+                "elapsed": 13
             },
-            "privilegeleave": {
-                "total": 7,
-                "remaining": 3,
+            "Leaves": {
+                "total": 18,
+                "remaining": 10,
+                "elapsed": 8
+            },
+            "mandatory": {
+                "total": 8,
+                "remaining": 4,
                 "elapsed": 4
             },
-            "casualleave": {
-                "total": 7,
-                "remaining": 3,
-                "elapsed": 4
+            "optional": {
+                "total": 2,
+                "remaining": 1,
+                "elapsed": 1
             },
-            "holiday": {
+            "holidays": {
                 "total": 10,
-                "remaining": 3,
-                "elapsed": 7
+                "remaining": 5,
+                "elapsed": 5
             }
         },
         "timesheet": {
@@ -735,25 +770,30 @@
             }
         },
         "leavedata": {
-            "sickleave": {
-                "total": 4,
-                "remaining": 2,
-                "elapsed": 2
+            "totalLeaves": {
+                "total": 28,
+                "remaining": 15,
+                "elapsed": 13
             },
-            "privilegeleave": {
-                "total": 7,
-                "remaining": 3,
+            "Leaves": {
+                "total": 18,
+                "remaining": 10,
+                "elapsed": 8
+            },
+            "mandatory": {
+                "total": 8,
+                "remaining": 4,
                 "elapsed": 4
             },
-            "casualleave": {
-                "total": 7,
-                "remaining": 3,
-                "elapsed": 4
+            "optional": {
+                "total": 2,
+                "remaining": 1,
+                "elapsed": 1
             },
-            "holiday": {
+            "holidays": {
                 "total": 10,
-                "remaining": 3,
-                "elapsed": 7
+                "remaining": 5,
+                "elapsed": 5
             }
         },
         "timesheet": {
@@ -818,25 +858,30 @@
             }
         },
         "leavedata": {
-            "sickleave": {
-                "total": 4,
-                "remaining": 2,
-                "elapsed": 2
+            "totalLeaves": {
+                "total": 28,
+                "remaining": 15,
+                "elapsed": 13
             },
-            "privilegeleave": {
-                "total": 7,
-                "remaining": 3,
+            "Leaves": {
+                "total": 18,
+                "remaining": 10,
+                "elapsed": 8
+            },
+            "mandatory": {
+                "total": 8,
+                "remaining": 4,
                 "elapsed": 4
             },
-            "casualleave": {
-                "total": 7,
-                "remaining": 3,
-                "elapsed": 4
+            "optional": {
+                "total": 2,
+                "remaining": 1,
+                "elapsed": 1
             },
-            "holiday": {
+            "holidays": {
                 "total": 10,
-                "remaining": 3,
-                "elapsed": 7
+                "remaining": 5,
+                "elapsed": 5
             }
         },
         "timesheet": {
@@ -910,25 +955,30 @@
             }
         },
         "leavedata": {
-            "sickleave": {
-                "total": 4,
-                "remaining": 1,
-                "elapsed": 3
+            "totalLeaves": {
+                "total": 28,
+                "remaining": 15,
+                "elapsed": 13
             },
-            "privilegeleave": {
-                "total": 7,
-                "remaining": 2,
-                "elapsed": 5
-            },
-            "casualleave": {
-                "total": 7,
-                "remaining": 2,
-                "elapsed": 5
-            },
-            "holiday": {
-                "total": 10,
-                "remaining": 2,
+            "Leaves": {
+                "total": 18,
+                "remaining": 10,
                 "elapsed": 8
+            },
+            "mandatory": {
+                "total": 8,
+                "remaining": 4,
+                "elapsed": 4
+            },
+            "optional": {
+                "total": 2,
+                "remaining": 1,
+                "elapsed": 1
+            },
+            "holidays": {
+                "total": 10,
+                "remaining": 5,
+                "elapsed": 5
             }
         },
         "timesheet": {
@@ -996,25 +1046,30 @@
             }
         },
         "leavedata": {
-            "sickleave": {
-                "total": 4,
-                "remaining": 3,
+            "totalLeaves": {
+                "total": 28,
+                "remaining": 15,
+                "elapsed": 13
+            },
+            "Leaves": {
+                "total": 18,
+                "remaining": 10,
+                "elapsed": 8
+            },
+            "mandatory": {
+                "total": 8,
+                "remaining": 4,
+                "elapsed": 4
+            },
+            "optional": {
+                "total": 2,
+                "remaining": 1,
                 "elapsed": 1
             },
-            "privilegeleave": {
-                "total": 7,
-                "remaining": 4,
-                "elapsed": 3
-            },
-            "casualleave": {
-                "total": 7,
-                "remaining": 5,
-                "elapsed": 2
-            },
-            "holiday": {
+            "holidays": {
                 "total": 10,
-                "remaining": 6,
-                "elapsed": 4
+                "remaining": 5,
+                "elapsed": 5
             }
         },
         "timesheet": {

@@ -55,7 +55,7 @@ const useStyles = makeStyles({
       fontWeight: "bold",
     },
     "& .MuiInputLabel-root.Mui-focused": {
-      color: "black",
+      // color: "black",
       fontWeight: "bold",
       fontSize: 15,
     },

@@ -154,7 +154,7 @@ export default function Greeting() {
                 {formatTime(remainingTime)} Remaining
               </span>
             </div>
-            <div className="bg-sky-100 dark:bg-gray-800 mt-2 h-5 rounded-full flex justify-start relative overflow-hidden">
+            <div className="bg-sky-100 dark:bg-gray-800 mt-2 h-5 rounded-md flex justify-start relative overflow-hidden">
               <div
                 className="absolute h-full bg-[#5336FD] transition-width duration-1000"
                 style={{

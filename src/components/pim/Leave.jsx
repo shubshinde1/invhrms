@@ -2,8 +2,19 @@ import React, { useState, useEffect } from "react";
 import empdata from "../../dummydata/leaveData.json";
 import classNames from "classnames";
 import { useParams } from "react-router-dom";
-import { Select, MenuItem, FormControl } from "@mui/material";
-import { InputLabel } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Select,
+  MenuItem,
+  FormControl,
+} from "@mui/material";
+import { TextField, InputLabel } from "@mui/material";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import { motion } from "framer-motion";
 import { FaCalculator } from "react-icons/fa6";
@@ -97,21 +108,21 @@ export default function Leave() {
   const { empid } = useParams();
   const [filterValue, setFilterValue] = useState("all");
 
-  const [totalSickLeave, setTotalSickLeave] = useState(0);
-  const [totalPrivilegeLeave, setTotalPrivilegeLeave] = useState(0);
-  const [totalCasualLeave, setTotalCasualLeave] = useState(0);
-  const [totalHoliday, setTotalHoliday] = useState(0);
-  const [remainingSickLeave, setRemainingSickLeave] = useState(0);
-  const [elapsedSickLeave, setElapsedSickLeave] = useState(0);
-  const [remainingPrivilegeLeave, setRemainingPrivilegeLeave] = useState(0);
-  const [elapsedPrivilegeLeave, setElapsedPrivilegeLeave] = useState(0);
-  const [remainingCasualLeave, setRemainingCasualLeave] = useState(0);
-  const [elapsedCasualLeave, setElapsedCasualLeave] = useState(0);
-  const [remainingHoliday, setRemainingHoliday] = useState(0);
-  const [elapsedHoliday, setElapsedHoliday] = useState(0);
-  const [totalAllLeaves, setTotalAllLeaves] = useState(0);
-  const [totalAllLeavesRemaining, setTotalAllLeavesRemaining] = useState(0);
-  const [totalAllLeavesElapsed, setTotalAllLeavesElapsed] = useState(0);
+  const [totalLeaves, setTotalLeaves] = useState(0);
+  const [Leaves, setLeaves] = useState(0);
+  const [remainingLeaves, setRemainingLeaves] = useState(0);
+  const [leavesRemaining, setLeavesRemaining] = useState(0);
+  const [remainingMandatoryHolidays, setremainingMandatoryHolidays] =
+    useState(0);
+  const [elapsedLeaves, setElapsedLeaves] = useState(0);
+
+  const [totalHolidays, setTotalHolidays] = useState(0);
+  const [mandatoryHolidays, setMandatoryHolidays] = useState(0);
+  const [totalmandatoryHolidays, settotalmandatoryHolidays] = useState(0);
+  const [optionalHolidays, setOptionalHolidays] = useState(0);
+  const [avaiableOptionalHoliday, setavaiableOptionalHoliday] = useState(0);
+  const [remainingHolidays, setRemainingHolidays] = useState(0);
+  const [elapsedHolidays, setElapsedHolidays] = useState(0);
 
   const [leaveData, setLeaveData] = useState(null);
 
@@ -119,62 +130,65 @@ export default function Leave() {
 
   const employeeData = data.filter((emp) => emp.empid === empid);
 
+  const totalLeavesOfMonth = employeeData.reduce((total, row) => {
+    const leaveKeys = Object.keys(row.attendance);
+    const totalLeavesForEmployee = leaveKeys.reduce((acc, key) => {
+      return acc + row.attendance[key].noofleaves;
+    }, 0);
+    return total + totalLeavesForEmployee;
+  }, 0);
+
   useEffect(() => {
-    let sickLeave = 0;
-    let privilegeLeave = 0;
-    let casualLeave = 0;
-    let holiday = 0;
+    let totalLeave = 0;
+    let Leave = 0;
 
-    employeeData.forEach((emp) => {
-      sickLeave += emp.leavedata.sickleave.total;
-      privilegeLeave += emp.leavedata.privilegeleave.total;
-      casualLeave += emp.leavedata.casualleave.total;
-      holiday += emp.leavedata.holiday.total;
-    });
+    let remainingLeave = 0;
+    let leavesRemaining = 0;
 
-    setTotalSickLeave(sickLeave);
-    setTotalPrivilegeLeave(privilegeLeave);
-    setTotalCasualLeave(casualLeave);
-    setTotalHoliday(holiday);
+    let optionalHoliday = 0;
+    let avaiableOptionalHoliday = 0;
 
-    let remainingSick = 0;
-    let elapsedSick = 0;
-    let remainingPrivilege = 0;
-    let elapsedPrivilege = 0;
-    let remainingCasual = 0;
-    let elapsedCasual = 0;
+    let totalmandatoryHolidays = 0;
+    let remainingMandatoryHolidays = 0;
+
+    let elapsedLeave = 0;
+    let totalHoliday = 0;
+    let mandatoryHoliday = 0;
     let remainingHoliday = 0;
     let elapsedHoliday = 0;
 
     employeeData.forEach((emp) => {
-      remainingSick += emp.leavedata.sickleave.remaining;
-      elapsedSick += emp.leavedata.sickleave.elapsed;
-      remainingPrivilege += emp.leavedata.privilegeleave.remaining;
-      elapsedPrivilege += emp.leavedata.privilegeleave.elapsed;
-      remainingCasual += emp.leavedata.casualleave.remaining;
-      elapsedCasual += emp.leavedata.casualleave.elapsed;
-      remainingHoliday += emp.leavedata.holiday.remaining;
-      elapsedHoliday += emp.leavedata.holiday.elapsed;
+      totalLeave += emp.leavedata.totalLeaves.total;
+      Leave += emp.leavedata.Leaves.total;
+      leavesRemaining += emp.leavedata.Leaves.remaining;
+      remainingLeave += emp.leavedata.totalLeaves.remaining;
+      elapsedLeave += emp.leavedata.totalLeaves.elapsed;
+
+      totalHoliday += emp.leavedata.holidays.total;
+      mandatoryHoliday += emp.leavedata.holidays.mandatory;
+      optionalHoliday += emp.leavedata.optional.total;
+      avaiableOptionalHoliday += emp.leavedata.optional.remaining;
+      totalmandatoryHolidays += emp.leavedata.mandatory.total;
+      remainingMandatoryHolidays += emp.leavedata.mandatory.remaining;
+      remainingHoliday += emp.leavedata.holidays.remaining;
+      elapsedHoliday += emp.leavedata.holidays.elapsed;
     });
 
-    setRemainingSickLeave(remainingSick);
-    setElapsedSickLeave(elapsedSick);
-    setRemainingPrivilegeLeave(remainingPrivilege);
-    setElapsedPrivilegeLeave(elapsedPrivilege);
-    setRemainingCasualLeave(remainingCasual);
-    setElapsedCasualLeave(elapsedCasual);
-    setRemainingHoliday(remainingHoliday);
-    setElapsedHoliday(elapsedHoliday);
+    setTotalLeaves(totalLeave);
+    setLeaves(Leave);
+    setRemainingLeaves(remainingLeave);
+    setavaiableOptionalHoliday(avaiableOptionalHoliday);
+    setLeavesRemaining(leavesRemaining);
+    setremainingMandatoryHolidays(remainingMandatoryHolidays);
+    setElapsedLeaves(elapsedLeave);
 
-    setTotalAllLeaves(sickLeave + privilegeLeave + casualLeave + holiday);
-    setTotalAllLeavesRemaining(
-      remainingSick + remainingPrivilege + remainingCasual + remainingHoliday
-    );
-    setTotalAllLeavesElapsed(
-      elapsedSick + elapsedPrivilege + elapsedCasual + elapsedHoliday
-    );
+    setTotalHolidays(totalHoliday);
+    setMandatoryHolidays(mandatoryHoliday);
+    settotalmandatoryHolidays(totalmandatoryHolidays);
+    setOptionalHolidays(optionalHoliday);
+    setRemainingHolidays(remainingHoliday);
+    setElapsedHolidays(elapsedHoliday);
 
-    // Calculate filtered leaves count based on filterValue
     const filteredLeaves = employeeData.reduce((total, emp) => {
       return (
         total +
@@ -194,16 +208,16 @@ export default function Leave() {
     const leaveDate = new Date(leave.from);
     const currentDate = new Date();
     switch (filterValue) {
-      case "current month":
+      case "currentmonth":
         return (
           leaveDate.getMonth() === currentDate.getMonth() &&
           leaveDate.getFullYear() === currentDate.getFullYear()
         );
-      case "last 3 months":
+      case "last3months":
         return leaveDate >= new Date().setMonth(currentDate.getMonth() - 3);
-      case "last 6 months":
+      case "last6months":
         return leaveDate >= new Date().setMonth(currentDate.getMonth() - 6);
-      case "last 1 year":
+      case "last1year":
         return (
           leaveDate >= new Date().setFullYear(currentDate.getFullYear() - 1)
         );
@@ -214,16 +228,16 @@ export default function Leave() {
 
   return (
     <div>
-      <div
+      <Paper
         sx={{ overflow: "hidden" }}
-        className="md:w-[100%] w-[calc(100vw-0.8rem)] h-[90%] top-24 dark:bg-neutral-950 bg-white dark:text-white rounded-md"
+        className="md:w-[100%] w-[calc(100vw-0.8rem)] h-[90%] top-24"
       >
-        <div className="p-2 grid grid-cols-11 sm:grid-cols-12 lg:grid-cols-10 gap-2">
+        <div className="p-2 grid grid-cols-11 sm:grid-cols-12 lg:grid-cols-12 gap-2">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
-            className="col-span-12 sm:col-span-6 lg:col-span-2 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
+            className="col-span-12 sm:col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
           >
             <div className="flex items-center gap-2">
               <div className="bg-sky-200  rounded-md p-2">
@@ -234,13 +248,13 @@ export default function Leave() {
             <h2 className="flex items-end justify-end">
               <span className="text-4xl font-bold text-gray-300 cursor-pointer">
                 <Tooltip title="Available" placement="top" arrow>
-                  {totalAllLeavesRemaining}
+                  {remainingLeaves}
                 </Tooltip>
               </span>
               /
               <span className="cursor-pointer">
                 <Tooltip title="Total" placement="top" arrow>
-                  {totalAllLeaves}
+                  {totalLeaves}
                 </Tooltip>
               </span>
             </h2>
@@ -249,7 +263,7 @@ export default function Leave() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="col-span-6 lg:col-span-2 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
+            className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
           >
             <div className="flex items-center gap-2">
               <div className="bg-green-100 rounded-md p-2">
@@ -258,44 +272,18 @@ export default function Leave() {
                   className="text-green-500"
                 />
               </div>
-              <h2 className="font-bold">Casual Leave</h2>
+              <h2 className="font-bold">Leaves</h2>
             </div>
             <h2 className="flex items-end justify-end">
               <span className="text-4xl font-bold text-gray-300 cursor-pointer">
                 <Tooltip title="Available" placement="top" arrow>
-                  {remainingCasualLeave}
+                  {leavesRemaining}
                 </Tooltip>
               </span>
               /
               <span className="cursor-pointer">
                 <Tooltip title="Total" placement="top" arrow>
-                  {totalCasualLeave}
-                </Tooltip>
-              </span>
-            </h2>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="col-span-6 lg:col-span-2 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
-          >
-            <div className="flex items-center gap-2">
-              <div className="bg-orange-100 rounded-md p-2">
-                <MdSick fontSize={20} className="text-orange-500" />
-              </div>
-              <h2 className="font-bold">Sick Leave</h2>
-            </div>
-            <h2 className="flex items-end justify-end">
-              <span className="text-4xl font-bold text-gray-300 cursor-pointer">
-                <Tooltip title="Available" placement="top" arrow>
-                  {remainingSickLeave}
-                </Tooltip>
-              </span>
-              /
-              <span className="cursor-pointer">
-                <Tooltip title="Total" placement="top" arrow>
-                  {totalSickLeave}
+                  {Leaves}
                 </Tooltip>
               </span>
             </h2>
@@ -304,51 +292,50 @@ export default function Leave() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="col-span-6 lg:col-span-2 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
+            className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
           >
             <div className="flex items-center gap-2">
-              <div className="bg-red-100 rounded-md p-2">
-                <FaHandHoldingHeart fontSize={20} className="text-red-500" />
+              <div className="bg-pink-100 rounded-md p-2">
+                <MdFestival fontSize={20} className="text-pink-500" />
               </div>
-              <h2 className="font-bold">Privilege Leave</h2>
+              <h2 className="font-bold">Mandatory Holidays</h2>
             </div>
             <h2 className="flex items-end justify-end">
               <span className="text-4xl font-bold text-gray-300 cursor-pointer">
-                <Tooltip title="Available" placement="top" arrow>
-                  {remainingPrivilegeLeave}
+                <Tooltip title="Mandatory" placement="top" arrow>
+                  {remainingMandatoryHolidays}
                 </Tooltip>
               </span>
               /
               <span className="cursor-pointer">
                 <Tooltip title="Total" placement="top" arrow>
-                  {totalPrivilegeLeave}
+                  {totalmandatoryHolidays}
                 </Tooltip>
               </span>
             </h2>
           </motion.div>
-
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="col-span-6 lg:col-span-2 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
+            transition={{ duration: 1.0 }}
+            className="col-span-12 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
           >
             <div className="flex items-center gap-2">
               <div className="bg-yellow-100 rounded-md p-2">
                 <MdFestival fontSize={20} className="text-yellow-500" />
               </div>
-              <h2 className="font-bold">Holiday</h2>
+              <h2 className="font-bold">Optional Holidays</h2>
             </div>
             <h2 className="flex items-end justify-end">
               <span className="text-4xl font-bold text-gray-300 cursor-pointer">
-                <Tooltip title="Available" placement="top" arrow>
-                  {remainingHoliday}
+                <Tooltip title="Optional" placement="top" arrow>
+                  {avaiableOptionalHoliday}
                 </Tooltip>
               </span>
               /
               <span className="cursor-pointer">
                 <Tooltip title="Total" placement="top" arrow>
-                  {totalHoliday}
+                  {optionalHolidays}
                 </Tooltip>
               </span>
             </h2>
@@ -388,10 +375,10 @@ export default function Leave() {
             >
               <GlobalStyles />
               <MenuItem value="all">All Records</MenuItem>
-              <MenuItem value="current month">Current Month</MenuItem>
-              <MenuItem value="last 3 months">Last 3 Months</MenuItem>
-              <MenuItem value="last 6 months">Last 6 Months</MenuItem>
-              <MenuItem value="last 1 year">Last 1 Year</MenuItem>
+              <MenuItem value="currentmonth">Current Month</MenuItem>
+              <MenuItem value="last3months">Last 3 Months</MenuItem>
+              <MenuItem value="last6months">Last 6 Months</MenuItem>
+              <MenuItem value="last1year">Last 1 Year</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -466,7 +453,7 @@ export default function Leave() {
             </div>
           </div>
         </motion.div>
-      </div>
+      </Paper>
     </div>
   );
 }

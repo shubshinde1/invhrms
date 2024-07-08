@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Menu } from "@headlessui/react";
 import { FaPowerOff } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 // import classNames from "classnames";
 
@@ -51,6 +51,7 @@ const LogoutMenuItem = ({ handleThemeSwitch }) => {
                 <p>Are you sure you want to logout?</p>
                 <div className="flex justify-around mt-4 ">
                   <button
+                    // to=""
                     className="px-3 py-2 bg-red-500 text-white rounded-md mr-2 flex items-center hover:scale-105 duration-300"
                     onClick={() =>
                       logout({

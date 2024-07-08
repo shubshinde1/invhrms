@@ -132,7 +132,7 @@ export default function TimeSheets() {
 
   // Render tasks for the current date or "No data for today" if no tasks found
   return (
-    <div className="rounded-md bg-white dark:bg-neutral-950  dark:text-white p-2 flex flex-col gap-2 mb-10">
+    <div className="rounded-md bg-white dark:bg-neutral-950 dark:text-white p-2 flex flex-col gap-2 mb-14">
       <div className=" grid grid-cols-12  gap-2 ">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -249,7 +249,7 @@ export default function TimeSheets() {
         </button>{" "}
         {/* Button to go back to today's date */}
       </div>
-      <div className="">
+      <div className=" ">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -268,7 +268,7 @@ export default function TimeSheets() {
         </motion.div>
 
         {currentTasks ? (
-          <div className=" flex flex-col overflow-scroll h-[78vh]  2xl:h-[50vh] scrollbar-hide ">
+          <div className=" flex flex-col overflow-scroll h-[78vh] md:h-fit scrollbar-hide ">
             {Object.values(currentTasks).map((task, index) => (
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
