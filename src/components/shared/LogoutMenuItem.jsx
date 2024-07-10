@@ -8,7 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const LogoutMenuItem = ({ handleThemeSwitch }) => {
   const navigate = useNavigate();
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const { logout } = useAuth0();
+  // const { logout } = useAuth0();
 
   const handleLogout = () => {
     setShowConfirmation(true);
@@ -16,6 +16,14 @@ const LogoutMenuItem = ({ handleThemeSwitch }) => {
 
   const cancelLogout = () => {
     setShowConfirmation(false);
+  };
+
+  const confirmlogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
+    localStorage.removeItem("user");
+    navigate("/login");
+    window.location.reload();
   };
 
   return (
@@ -53,11 +61,7 @@ const LogoutMenuItem = ({ handleThemeSwitch }) => {
                   <button
                     // to=""
                     className="px-3 py-2 bg-red-500 text-white rounded-md mr-2 flex items-center hover:scale-105 duration-300"
-                    onClick={() =>
-                      logout({
-                        logoutParams: { returnTo: window.location.origin },
-                      })
-                    }
+                    onClick={confirmlogout}
                   >
                     <FaPowerOff fontSize={18} className="mr-2" />
                     Logout

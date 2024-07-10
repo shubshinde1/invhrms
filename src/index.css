@@ -253,3 +253,52 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
     @apply text-red-500
 }
+
+@keyframes slide {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(200%);
+    }
+}
+
+.animate-slide {
+    animation: slide 0.4s linear infinite;
+}
+
+@keyframes meteor {
+    0% {
+        transform: translate(0, 0) rotate(215deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(500px, 500px) rotate(215deg);
+        opacity: 0;
+    }
+}
+
+.meteor-animation {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: #285999;
+    box-shadow: 0 0 10px #a0aec0;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: meteor linear infinite;
+}
+
+.meteor-tail {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 1px;
+    /* background: linear-gradient(to right, #a0aec0, transparent); */
+    transform-origin: 0 50%;
+    transform: translateX(-100%);
+    pointer-events: none;
+}

@@ -248,13 +248,13 @@ export default function Leave() {
             <h2 className="flex items-end justify-end">
               <span className="text-4xl font-bold text-gray-300 cursor-pointer">
                 <Tooltip title="Available" placement="top" arrow>
-                  {remainingLeaves}
+                  <span>{remainingLeaves}</span>
                 </Tooltip>
               </span>
               /
               <span className="cursor-pointer">
                 <Tooltip title="Total" placement="top" arrow>
-                  {totalLeaves}
+                  <span>{totalLeaves}</span>
                 </Tooltip>
               </span>
             </h2>
@@ -277,13 +277,13 @@ export default function Leave() {
             <h2 className="flex items-end justify-end">
               <span className="text-4xl font-bold text-gray-300 cursor-pointer">
                 <Tooltip title="Available" placement="top" arrow>
-                  {leavesRemaining}
+                  <span>{leavesRemaining}</span>
                 </Tooltip>
               </span>
               /
               <span className="cursor-pointer">
                 <Tooltip title="Total" placement="top" arrow>
-                  {Leaves}
+                  <span>{Leaves}</span>
                 </Tooltip>
               </span>
             </h2>
@@ -303,13 +303,13 @@ export default function Leave() {
             <h2 className="flex items-end justify-end">
               <span className="text-4xl font-bold text-gray-300 cursor-pointer">
                 <Tooltip title="Mandatory" placement="top" arrow>
-                  {remainingMandatoryHolidays}
+                  <span>{remainingMandatoryHolidays}</span>
                 </Tooltip>
               </span>
               /
               <span className="cursor-pointer">
                 <Tooltip title="Total" placement="top" arrow>
-                  {totalmandatoryHolidays}
+                  <span>{totalmandatoryHolidays}</span>
                 </Tooltip>
               </span>
             </h2>
@@ -329,13 +329,13 @@ export default function Leave() {
             <h2 className="flex items-end justify-end">
               <span className="text-4xl font-bold text-gray-300 cursor-pointer">
                 <Tooltip title="Optional" placement="top" arrow>
-                  {avaiableOptionalHoliday}
+                  <span>{avaiableOptionalHoliday}</span>
                 </Tooltip>
               </span>
               /
               <span className="cursor-pointer">
                 <Tooltip title="Total" placement="top" arrow>
-                  {optionalHolidays}
+                  <span>{optionalHolidays}</span>
                 </Tooltip>
               </span>
             </h2>

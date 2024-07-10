@@ -149,7 +149,7 @@ export default function TimeSheets() {
           <h2 className="flex items-end justify-end">
             <span className="text-4xl font-bold text-gray-300 cursor-pointer">
               <Tooltip title="Available" placement="top" arrow>
-                {totalTasks}
+                <span>{totalTasks}</span>
               </Tooltip>
             </span>
           </h2>
@@ -169,7 +169,7 @@ export default function TimeSheets() {
           <h2 className="flex items-end justify-end">
             <span className="text-4xl font-bold text-gray-300 cursor-pointer">
               <Tooltip title="Available" placement="top" arrow>
-                {totalCompletedTasks}
+                <span>{totalCompletedTasks}</span>
               </Tooltip>
             </span>
           </h2>
@@ -192,7 +192,7 @@ export default function TimeSheets() {
           <h2 className="flex items-end justify-end">
             <span className="text-4xl font-bold text-gray-300 cursor-pointer">
               <Tooltip title="Available" placement="top" arrow>
-                {totalPendingTasks}
+                <span>{totalPendingTasks}</span>
               </Tooltip>
             </span>
           </h2>
@@ -212,7 +212,7 @@ export default function TimeSheets() {
           <h2 className="flex items-end justify-end">
             <span className="text-4xl font-bold text-gray-300 cursor-pointer">
               <Tooltip title="Available" placement="top" arrow>
-                {totalDuration}
+                <span>{totalDuration}</span>
               </Tooltip>
             </span>
           </h2>

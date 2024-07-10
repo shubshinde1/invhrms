@@ -14,9 +14,7 @@ const MenuTabs = () => {
               : "bg-sky-50 dark:bg-neutral-800"
           }`}
         >
-          <NavLink to="/pim/employeelist" activeClassName="bg-gray-200">
-            Employee List
-          </NavLink>
+          <NavLink to="/pim/employeelist">Employee List</NavLink>
         </li>
         <li
           className={` text-sm px-3 py-1.5 rounded-md ${
@@ -25,9 +23,7 @@ const MenuTabs = () => {
               : "bg-sky-50 dark:bg-neutral-800"
           }`}
         >
-          <NavLink to="/pim/addemployee" activeClassName="bg-gray-200">
-            Add Employee
-          </NavLink>
+          <NavLink to="/pim/addemployee">Add Employee</NavLink>
         </li>
       </ul>
     </div>

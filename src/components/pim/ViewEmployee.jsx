@@ -27,7 +27,7 @@ export default function ViewEmployee() {
             }`}
             onClick={() => handleTabChange("view")}
           >
-            <div className="cursor-pointer" activeClassName="bg-gray-200">
+            <div className="cursor-pointer" >
               View
             </div>
           </li>
@@ -39,7 +39,7 @@ export default function ViewEmployee() {
             }`}
             onClick={() => handleTabChange("leave")}
           >
-            <div className="cursor-pointer" activeClassName="bg-gray-200">
+            <div className="cursor-pointer" >
               Leave info
             </div>
           </li>
@@ -51,7 +51,7 @@ export default function ViewEmployee() {
             }`}
             onClick={() => handleTabChange("timesheets")}
           >
-            <div className="cursor-pointer" activeClassName="bg-gray-200">
+            <div className="cursor-pointer" >
               Time Sheet
             </div>
           </li>

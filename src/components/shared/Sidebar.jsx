@@ -85,9 +85,17 @@ export default function Sidebar({ theme }) {
       >
         <div className=" flex flex-row justify-between items-center bg-none md:bg-sky-100 md:dark:bg-neutral-900 rounded-md">
           {theme === "dark" ? (
-            <img src={logoDarkmode} className="pr-16 md:px-5 md:py-2" alt="logo" />
+            <img
+              src={logoDarkmode}
+              className="pr-16 md:px-5 md:py-2"
+              alt="logo"
+            />
           ) : (
-            <img src={logolightmode} className="pr-16 md:px-5 md:py-2" alt="logo" />
+            <img
+              src={logolightmode}
+              className="pr-16 md:px-5 md:py-2"
+              alt="logo"
+            />
           )}
           <div className="text-2xl absolute flex md:hidden right-5 mt-3 bg-sky-50 dark:bg-neutral-800 dark:text-white p-2 hover:bg-sky-100 dark:hover:bg-neutral-700 rounded-md">
             <TbLayoutSidebarLeftCollapseFilled
@@ -185,9 +193,7 @@ function SidebarLink({ item, pathname, onClick }) {
     >
       <span
         className={`text-xl my-auto ${
-          isActive
-            ? "text-[#5169d1]"
-            : "text-slate-600 dark:text-blue-200"
+          isActive ? "text-[#5169d1]" : "text-slate-600 dark:text-blue-200"
         }`}
       >
         {item.icon}

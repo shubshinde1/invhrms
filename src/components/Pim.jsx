@@ -6,6 +6,8 @@ import {
   Routes,
 } from "react-router-dom";
 import Employeelist from "./pim/Employeelist";
+import Loginimg from "../../src/assets/images/login.svg";
+import logo from "../../src/assets/images/invezza-logo.png";
 
 import Addemployee from "./pim/Addemployee";
 import MenuTabs from "./pim/Menutabs";
