@@ -90,9 +90,9 @@ const ResetPassword = ({ theme }) => {
                 <h4 className="py-2">Send Link</h4>
                 {loading && <Loading />}
               </button>
-              <div className="flex flex-col md:flex-row justify-between hover:bg-blue-100 w-fit px-2 py-1 rounded-md">
+              <div className="flex flex-col md:flex-row justify-between  duration-500 hover:dark:bg-neutral-700 hover:px-2 hover:bg-blue-100 w-fit py-1 rounded-md">
                 <Link to="/login" className=" font-bold">
-                  <h5 className="flex items-center gap-2 text-blue-500">
+                  <h5 className="flex items-center gap-2 w-fit  text-blue-500">
                     <FaLongArrowAltLeft fontSize={20} /> Log In
                   </h5>
                 </Link>
@@ -100,7 +100,7 @@ const ResetPassword = ({ theme }) => {
             </div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 flex justify-center">
+        <div className="w-full md:w-1/2 hidden lg:flex justify-center">
           <img src={Loginimg} alt="Clientlogo" className="md:w-2/3" />
         </div>
       </div>

@@ -116,7 +116,10 @@ const Register = ({ theme }) => {
               <div className="flex flex-col md:flex-row justify-between">
                 <h5>
                   Already have an account?{" "}
-                  <Link to="/login" className="text-blue-500 font-bold">
+                  <Link
+                    to="/login"
+                    className="font-bold hover:bg-blue-100 hover:dark:bg-neutral-700 w-fit hover:px-2 duration-500 py-1 rounded-md text-blue-500"
+                  >
                     Log In
                   </Link>
                 </h5>
@@ -124,7 +127,7 @@ const Register = ({ theme }) => {
             </div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 flex justify-center">
+        <div className="w-full md:w-1/2 hidden lg:flex justify-center">
           <img src={Loginimg} alt="Clientlogo" className="md:w-2/3" />
         </div>
       </div>

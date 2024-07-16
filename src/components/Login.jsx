@@ -10,7 +10,6 @@ import { IoEyeOff, IoEye } from "react-icons/io5";
 import { AuthContext } from "../contexts/AuthContext";
 import secureLocalStorage from "react-secure-storage";
 
-
 const Login = ({ theme }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +23,7 @@ const Login = ({ theme }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:4000/api/login", {
+      const response = await axios.post("http://localhost:3000/api/login", {
         email,
         password,
       });
@@ -63,7 +62,7 @@ const Login = ({ theme }) => {
       onSubmit={handleSubmit}
       className="p-2 dark:bg-black h-screen dark:text-white"
     >
-      <div className="dark:bg-neutral-800 bg-sky-100 flex flex-col md:flex-row gap-28 md:gap-5 justify-center items-center h-full px-5 rounded-md">
+      <div className="dark:bg-neutral-800  bg-sky-100 flex flex-col md:flex-row gap-28 md:gap-5 justify-center items-center h-full px-3 rounded-md">
         <div className="w-full md:w-1/2 flex flex-col gap-10 items-center justify-center">
           <div className="flex flex-col gap-5 items-center">
             <img
@@ -71,6 +70,7 @@ const Login = ({ theme }) => {
               className="md:w-2/3"
               alt="logo"
             />
+
             <h2 className="text-lg text-black dark:text-white">
               Welcome To Invezza HRMS Portal
             </h2>
@@ -97,15 +97,11 @@ const Login = ({ theme }) => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
-                  <div className="bg-sky-100 text-blue-600 p-2 rounded-md cursor-pointer">
+                  <div className="dark:bg-neutral-700 bg-sky-100 text-blue-400 p-2 rounded-md cursor-pointer">
                     {showPassword ? (
-                      <IoEye fontSize={22} onMouseDown={showpass} />
+                      <IoEye fontSize={22} onClick={showpass} />
                     ) : (
-                      <IoEyeOff
-                        fontSize={22}
-                        onMouseUp={showpass}
-                        className="text-blue-400"
-                      />
+                      <IoEyeOff fontSize={22} onClick={showpass} />
                     )}
                   </div>
                 </div>
@@ -123,7 +119,7 @@ const Login = ({ theme }) => {
               </button>
               <div className="flex flex-col md:flex-row justify-between">
                 <Link to="/resetpassword" className=" font-bold">
-                  <h5 className="hover:bg-blue-100 w-fit px-2 py-1 rounded-md text-blue-500">
+                  <h5 className="hover:bg-blue-100 hover:dark:bg-neutral-700 w-fit hover:px-2 duration-500 py-1 rounded-md text-blue-500">
                     Forgot Password
                   </h5>
                 </Link>
@@ -131,7 +127,7 @@ const Login = ({ theme }) => {
                   Don't have an account?{" "}
                   <Link
                     to="/register"
-                    className="font-bold hover:bg-blue-100 w-fit px-2 py-1 rounded-md text-blue-500"
+                    className="font-bold hover:bg-blue-100 hover:dark:bg-neutral-700 w-fit hover:px-2 duration-500 py-1 rounded-md text-blue-500"
                   >
                     Register
                   </Link>
@@ -140,7 +136,7 @@ const Login = ({ theme }) => {
             </div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 flex justify-center">
+        <div className="w-full md:w-1/2 hidden lg:flex justify-center">
           <img src={Loginimg} alt="Clientlogo" className="md:w-2/3" />
         </div>
       </div>

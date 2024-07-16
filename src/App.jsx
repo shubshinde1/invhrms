@@ -20,6 +20,7 @@ import ResetPassword from "./components/ResetPassword";
 import Register from "./components/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthContext } from "../src/contexts/AuthContext";
+import NotFound from "./NotFound";
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -41,7 +42,7 @@ function App() {
   const renderRoutes = () => {
     if (userData?.employeeData?.auth === 1) {
       return (
-        //admin accessible routes
+        // Admin accessible routes
         <>
           <Route index element={<Dashboard />} />
           <Route path="/clients" element={<Clients />} />
@@ -68,17 +69,26 @@ function App() {
         </>
       );
     } else {
-      //employee accessible routes
-      return <Route index element={<Dashboard />} />;
+      // Employee accessible routes
+      return (
+        <>
+          <Route index element={<Dashboard />} />
+          <Route path="*" element={<NotFound />} />
+        </>
+      );
     }
   };
 
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/login" element={<Login theme={theme} />} />
+        <Route path="/register" element={<Register theme={theme} />} />
+        <Route
+          path="/resetpassword"
+          element={<ResetPassword theme={theme} />}
+        />
         <Route
           path="/"
           element={

@@ -73,7 +73,7 @@ export default function Greeting() {
 
   const handleClick = async () => {
     const mark = isPunchedIn ? "Out" : "In";
-    const endpoint = "http://localhost:4000/api/attendance";
+    const endpoint = "http://localhost:3000/api/attendance";
     const token = localStorage.getItem("accessToken");
 
     try {
