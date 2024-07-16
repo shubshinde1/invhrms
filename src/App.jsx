@@ -38,22 +38,11 @@ function App() {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
-  return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/resetpassword" element={<ResetPassword />} />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute
-              element={() => (
-                <Layout theme={theme} handleThemeSwitch={handleThemeSwitch} />
-              )}
-            />
-          }
-        >
+  const renderRoutes = () => {
+    if (userData?.employeeData?.auth === 1) {
+      return (
+        //admin accessible routes
+        <>
           <Route index element={<Dashboard />} />
           <Route path="clients" element={<Clients />} />
           <Route path="projects" element={<Projects />} />
@@ -76,6 +65,31 @@ function App() {
             path="/projects/viewproject/:projectId"
             element={<ViewProject />}
           />
+        </>
+      );
+    } else {
+      //employee accessible routes
+      return <Route index element={<Dashboard />} />;
+    }
+  };
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute
+              element={() => (
+                <Layout theme={theme} handleThemeSwitch={handleThemeSwitch} />
+              )}
+            />
+          }
+        >
+          {renderRoutes()}
         </Route>
       </Routes>
     </Router>

@@ -1,5 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import { DASHBOARD_SIDEBAR_LINKS } from "../../lib/consts/navigation";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import {
+  DASHBOARD_SIDEBAR_LINKS,
+  getFilteredLinks,
+} from "../../lib/consts/navigation";
 import logolightmode from "../../assets/images/invezza-logo.png";
 import logoDarkmode from "../../assets/images/invezza-logo-darkmode.png";
 import { Link, useLocation } from "react-router-dom";
@@ -7,12 +10,14 @@ import classNames from "classnames";
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { motion } from "framer-motion";
+import { AuthContext } from "../../contexts/AuthContext"; // Add AuthContext import
 
 const LinkClasses =
   "flex hover:bg-sky-50 dark:hover:bg-neutral-800 hover:duration-500 p-3 mt-1.5 rounded-md euclid";
 
 export default function Sidebar({ theme }) {
   const { pathname } = useLocation();
+  const { userData } = useContext(AuthContext); // Use AuthContext to get user data
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
   const sidebarRef = useRef(null);
@@ -66,10 +71,13 @@ export default function Sidebar({ theme }) {
   };
 
   const [rotate, setRotate] = React.useState(true);
+
+  const filteredLinks = getFilteredLinks(userData?.employeeData?.auth); // Filter links based on user auth
+
   return (
     <div className="z-10 ">
       <button
-        className="md:hidden fixed top-2 left-2 p-3 dark:text-white bg-white dark:bg-neutral-950  rounded-md"
+        className="md:hidden fixed top-2 left-2 p-3 dark:text-white bg-white dark:bg-neutral-950 rounded-md"
         onClick={() => {
           toggleSidebar();
           setRotate(!rotate);
@@ -83,7 +91,7 @@ export default function Sidebar({ theme }) {
           isSidebarOpen ? "" : "hidden"
         }`}
       >
-        <div className=" flex flex-row justify-between items-center bg-none md:bg-sky-100 md:dark:bg-neutral-900 rounded-md">
+        <div className="flex flex-row justify-between items-center bg-none md:bg-sky-100 md:dark:bg-neutral-900 rounded-md">
           {theme === "dark" ? (
             <img
               src={logoDarkmode}
@@ -108,7 +116,7 @@ export default function Sidebar({ theme }) {
           </div>
         </div>
         <div className="flex-1 mt-10 mb-2">
-          {DASHBOARD_SIDEBAR_LINKS.map((item) => (
+          {filteredLinks.map((item) => (
             <React.Fragment key={item.key}>
               <div
                 className="relative gred5"
@@ -150,7 +158,7 @@ export default function Sidebar({ theme }) {
                 {clickedItem === item && item.subItems && (
                   <div className="md:absolute left-44 md:pl-6 top-0 md:w-60 ">
                     <motion.div
-                      className=" bg-white dark:bg-neutral-950  shadow-md rounded-md p-1 border border-neutral-600"
+                      className="bg-white dark:bg-neutral-950 shadow-md rounded-md p-1 border border-neutral-600"
                       animate={{ x: 0 }}
                       initial={{ x: -20 }}
                       transition={{ type: "spring", bounce: 0.7 }}
@@ -186,7 +194,7 @@ function SidebarLink({ item, pathname, onClick }) {
       className={classNames(
         isActive
           ? "euclid-bold bg-sky-50 dark:bg-neutral-900 after:w-1.5 after:bg-[#3C5EFE] after:rounded-full"
-          : " flex items-center",
+          : "flex items-center",
         LinkClasses
       )}
       onClick={onClick}
