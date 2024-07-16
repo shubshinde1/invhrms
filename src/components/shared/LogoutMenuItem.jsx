@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Menu } from "@headlessui/react";
 import { FaPowerOff } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import Cookies from "js-cookie";
+
 // import classNames from "classnames";
 
 const LogoutMenuItem = ({ handleThemeSwitch }) => {
@@ -19,9 +20,8 @@ const LogoutMenuItem = ({ handleThemeSwitch }) => {
   };
 
   const confirmlogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userInfo");
-    localStorage.removeItem("user");
+    Cookies.remove("userData");
+    localStorage.removeItem("accessToken");
     navigate("/login");
     window.location.reload();
   };

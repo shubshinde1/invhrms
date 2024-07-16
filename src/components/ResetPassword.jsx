@@ -7,11 +7,10 @@ import logodark from "../../src/assets/images/invezza-logo-darkmode.png";
 import Loading from "./extra/loading";
 import ErrorMsg from "./extra/ErrorMsg";
 import { IoMailUnread } from "react-icons/io5";
+import { FaLongArrowAltLeft } from "react-icons/fa";
 
-const Register = ({ theme }) => {
+const ResetPassword = ({ theme }) => {
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [popup, setPopup] = useState(false);
@@ -22,11 +21,9 @@ const Register = ({ theme }) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/createuser",
+        "http://localhost:4000/api/forgotpassword",
         {
           email,
-          name,
-          phone,
         }
       );
 
@@ -73,32 +70,12 @@ const Register = ({ theme }) => {
           <div className="dark:bg-neutral-900 bg-white shadow-xl p-3 rounded-md flex flex-col gap-5 w-full md:w-2/3">
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
-                <label>Name</label>
-                <input
-                  className="p-2 rounded-md dark:bg-neutral-700 bg-sky-100"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="flex flex-col gap-1">
                 <label>Email</label>
                 <input
                   className="p-2 rounded-md dark:bg-neutral-700 bg-sky-100"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <label>Phone No</label>
-                <input
-                  className="p-2 rounded-md dark:bg-neutral-700 bg-sky-100"
-                  type="number"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
                   required
                 />
               </div>
@@ -110,16 +87,15 @@ const Register = ({ theme }) => {
                 className="bg-blue-600 rounded-md text-white md:text-base font-bold hover:bg-blue-700 w-full flex flex-col gap-2 items-center justify-center"
                 disabled={loading}
               >
-                <h4 className="py-2">Register</h4>
+                <h4 className="py-2">Send Link</h4>
                 {loading && <Loading />}
               </button>
-              <div className="flex flex-col md:flex-row justify-between">
-                <h5>
-                  Already have an account?{" "}
-                  <Link to="/login" className="text-blue-500 font-bold">
-                    Log In
-                  </Link>
-                </h5>
+              <div className="flex flex-col md:flex-row justify-between hover:bg-blue-100 w-fit px-2 py-1 rounded-md">
+                <Link to="/login" className=" font-bold">
+                  <h5 className="flex items-center gap-2 text-blue-500">
+                    <FaLongArrowAltLeft fontSize={20} /> Log In
+                  </h5>
+                </Link>
               </div>
             </div>
           </div>
@@ -147,9 +123,8 @@ const Register = ({ theme }) => {
           <div className="bg-white dark:bg-neutral-950 p-3 rounded-md dark:text-white flex flex-col items-center gap-2">
             <IoMailUnread className="text-green-500" fontSize={30} />
             <h3 className="text-center">
-              <strong className="text-lg">Congratulation...</strong> <br /> Your
-              login credential has been sent <br /> to your{" "}
-              <strong>invezza's</strong> mail
+              <strong className="text-lg">Check Your Mail Box</strong> <br />
+              Password reset link has been send to your mail
             </h3>
           </div>
         </div>
@@ -158,4 +133,4 @@ const Register = ({ theme }) => {
   );
 };
 
-export default Register;
+export default ResetPassword;

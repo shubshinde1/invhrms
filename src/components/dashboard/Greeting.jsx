@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { IoLogIn, IoLogOut } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const ONE_HOUR_IN_SECONDS = 3600;
 const NINE_HOURS_IN_SECONDS = 9 * ONE_HOUR_IN_SECONDS;
 
 export default function Greeting() {
+  const { userData } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
   const [isPunchedIn, setIsPunchedIn] = useState(false);
   const [startTime, setStartTime] = useState(null);
   const [remainingTime, setRemainingTime] = useState(NINE_HOURS_IN_SECONDS);
@@ -66,32 +71,61 @@ export default function Greeting() {
     return () => clearInterval(timer);
   }, [isPunchedIn]);
 
-  const handleClick = () => {
-    if (!isPunchedIn) {
-      const currentTime = Date.now();
-      sessionStorage.setItem("startTime", currentTime);
-      setStartTime(currentTime);
-      sessionStorage.setItem("punchInTime", currentTime);
-      setPunchInTime(
-        new Date(currentTime).toLocaleTimeString([], {
-          hour: "numeric",
-          minute: "2-digit",
-        })
-      );
-    } else {
-      const currentTime = Date.now();
-      sessionStorage.setItem("punchOutTime", currentTime);
-      setPunchOutTime(
-        new Date(currentTime).toLocaleTimeString([], {
-          hour: "numeric",
-          minute: "2-digit",
-        })
-      );
-      setIsPunchedIn(false);
-      sessionStorage.removeItem("startTime");
-      sessionStorage.removeItem("punchInTime");
+  const handleClick = async () => {
+    const mark = isPunchedIn ? "Out" : "In";
+    const endpoint = "http://localhost:4000/api/attendance";
+    const token = localStorage.getItem("accessToken");
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          employee_id: userData.employeeData._id,
+          mark,
+        }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+
+      if (data.success) {
+        const currentTime = Date.now();
+        if (mark === "In") {
+          sessionStorage.setItem("startTime", currentTime);
+          setStartTime(currentTime);
+          sessionStorage.setItem("punchInTime", currentTime);
+          setPunchInTime(
+            new Date(currentTime).toLocaleTimeString([], {
+              hour: "numeric",
+              minute: "2-digit",
+            })
+          );
+          setIsPunchedIn(true);
+        } else {
+          sessionStorage.setItem("punchOutTime", currentTime);
+          setPunchOutTime(
+            new Date(currentTime).toLocaleTimeString([], {
+              hour: "numeric",
+              minute: "2-digit",
+            })
+          );
+          setIsPunchedIn(false);
+          sessionStorage.removeItem("startTime");
+          sessionStorage.removeItem("punchInTime");
+        }
+      } else {
+        const error = data.msg;
+        localStorage.removeItem("accessToken");
+        navigate("/login");
+        return error;
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
-    setIsPunchedIn(!isPunchedIn);
   };
 
   const progressBarWidth =
@@ -116,7 +150,7 @@ export default function Greeting() {
         <div className="md:w-1/2 flex flex-col md:justify-between">
           <div className="flex flex-col gap-1">
             <h2 className="text-xl md:text-2xl font-bold text-[#3C5EFE]">
-              Good Morning Shubham
+              Good Morning {userData ? userData.employeeData.name : ""}
             </h2>
             <h2>You have 24 new tasks. It's a lot of work today!</h2>
           </div>

@@ -1,47 +1,53 @@
-// Login.js
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthContext";
+import React, { useState, useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 import Loginimg from "../../src/assets/images/login.svg";
 import logo from "../../src/assets/images/invezza-logo.png";
 import logodark from "../../src/assets/images/invezza-logo-darkmode.png";
-import { Link } from "react-router-dom";
 import Loading from "./extra/loading";
 import ErrorMsg from "./extra/ErrorMsg";
-import axios from "axios";
+import { IoEyeOff, IoEye } from "react-icons/io5";
+import { AuthContext } from "../contexts/AuthContext"; // Import AuthContext
+import Cookies from "js-cookie";
 
 const Login = ({ theme }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(true);
+  const { setUserData } = useContext(AuthContext); // Access setUserData from context
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+      const response = await axios.post("http://localhost:4000/api/login", {
+        email,
+        password,
+      });
 
-      setLoading(true);
+      const data = response.data.data;
 
-      const { data } = await axios.post(
-        "http://localhost:4000/api/login",
-        {
-          email,
-          password,
-        },
-        config
-      );
+      console.log(response.data);
 
-      login(data); // Pass the entire response data to the login function
+      if (response.data.success) {
+        // Set logged-in status to true
+        const localToken = localStorage.setItem(
+          "accessToken",
+          response.data.accessToken
+        );
+        // localStorage.setItem("userData", JSON.stringify(data));
+        Cookies.set("userData", JSON.stringify(data), { expires: 5 });
+        setUserData(data); // Set user data in context
+        // Redirect to home page after successful login
+        navigate("/");
+      } else {
+        setError(response.data.msg || "Login failed");
+      }
       setLoading(false);
-
-      navigate("/"); // Redirect to the dashboard or any other protected route
+      setError(null); // Clear previous error state
     } catch (error) {
       setLoading(false);
       if (error.response && error.response.status === 400) {
@@ -52,19 +58,23 @@ const Login = ({ theme }) => {
     }
   };
 
+  const showpass = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
       className="p-2 dark:bg-black h-screen dark:text-white"
     >
-      <div className="dark:bg-neutral-800 bg-sky-100 flex flex-col md:flex-row gap-28 md:gap-5 justify-center items-center h-full px-5 rounded-md ">
-        <div className="w-full md:w-1/2 flex flex-col gap-10 items-center justify-center ">
-          <div className="flex flex-col gap-5 items-center ">
-            {theme === "dark" ? (
-              <img src={logodark} className="md:w-2/3" alt="logo" />
-            ) : (
-              <img src={logo} className="md:w-2/3" alt="logo" />
-            )}
+      <div className="dark:bg-neutral-800 bg-sky-100 flex flex-col md:flex-row gap-28 md:gap-5 justify-center items-center h-full px-5 rounded-md">
+        <div className="w-full md:w-1/2 flex flex-col gap-10 items-center justify-center">
+          <div className="flex flex-col gap-5 items-center">
+            <img
+              src={theme === "dark" ? logodark : logo}
+              className="md:w-2/3"
+              alt="logo"
+            />
             <h2 className="text-lg text-black dark:text-white">
               Welcome To Invezza HRMS Portal
             </h2>
@@ -72,7 +82,7 @@ const Login = ({ theme }) => {
           <div className="dark:bg-neutral-900 bg-white shadow-xl p-3 rounded-md flex flex-col gap-5 w-full md:w-2/3">
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
-                <label>Email:</label>
+                <label>Email</label>
                 <input
                   className="p-2 rounded-md dark:bg-neutral-700 bg-sky-100"
                   type="email"
@@ -82,35 +92,51 @@ const Login = ({ theme }) => {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <label>Password:</label>
-                <input
-                  className="p-2 rounded-md dark:bg-neutral-700 bg-sky-100"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <label>Password</label>
+                <div className="flex gap-2">
+                  <input
+                    className="p-2 rounded-md dark:bg-neutral-700 bg-sky-100 w-full"
+                    type={showPassword ? "password" : "text"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <div className="bg-sky-100 text-blue-600 p-2 rounded-md cursor-pointer">
+                    {showPassword ? (
+                      <IoEye fontSize={22} onMouseDown={showpass} />
+                    ) : (
+                      <IoEyeOff
+                        fontSize={22}
+                        onMouseUp={showpass}
+                        className="text-blue-400"
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
             <div className="flex flex-col gap-3">
               {error && <ErrorMsg severity="error">{error}</ErrorMsg>}
-
               <button
                 type="submit"
                 className="bg-blue-600 rounded-md text-white md:text-base font-bold hover:bg-blue-700 w-full flex flex-col gap-2 items-center justify-center"
+                disabled={loading}
               >
                 <h4 className="py-2">Login</h4>
                 {loading && <Loading />}
               </button>
               <div className="flex flex-col md:flex-row justify-between">
-                <h5>
-                  <button className="text-blue-500 font-bold">
+                <Link to="/resetpassword" className=" font-bold">
+                  <h5 className="hover:bg-blue-100 w-fit px-2 py-1 rounded-md text-blue-500">
                     Forgot Password
-                  </button>
-                </h5>
+                  </h5>
+                </Link>
                 <h5>
                   Don't have an account?{" "}
-                  <Link to="/register" className="text-blue-500 font-bold">
+                  <Link
+                    to="/register"
+                    className="font-bold hover:bg-blue-100 w-fit px-2 py-1 rounded-md text-blue-500"
+                  >
                     Register
                   </Link>
                 </h5>
