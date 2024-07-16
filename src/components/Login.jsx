@@ -10,6 +10,7 @@ import { IoEyeOff, IoEye } from "react-icons/io5";
 import { AuthContext } from "../contexts/AuthContext";
 import secureLocalStorage from "react-secure-storage";
 
+
 const Login = ({ theme }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
