@@ -2,13 +2,13 @@
     "version": 2,
     "builds": [
         {
-            "src": "./src/App.jsx",
-            "use": "vite build"
+            "src": "/src/App.jsx",
+            "use": "@vercel/node"
         }
     ],
     "routes": [
         {
-            "src": "./src(.*)",
+            "src": "/src(.*)",
             "dest": "App.jsx"
         }
     ]
