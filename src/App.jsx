@@ -44,12 +44,12 @@ function App() {
         //admin accessible routes
         <>
           <Route index element={<Dashboard />} />
-          <Route path="clients" element={<Clients />} />
-          <Route path="projects" element={<Projects />} />
-          <Route path="Pim" element={<Pim />} />
-          <Route path="pim/employeelist" element={<Employeelist />} />
-          <Route path="pim/addemployee" element={<Addemployee />} />
-          <Route path="pim/leave" element={<Leave />} />
+          <Route path="/clients" element={<Clients />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/Pim" element={<Pim />} />
+          <Route path="/pim/employeelist" element={<Employeelist />} />
+          <Route path="/pim/addemployee" element={<Addemployee />} />
+          <Route path="/pim/leave" element={<Leave />} />
           <Route
             path="/pim/edit/:empid/:ename/:designation/:jdate/:status"
             element={<EditEmployee />}
@@ -58,9 +58,9 @@ function App() {
             path="/pim/view/:empid/:ename/:designation/:jdate/:status"
             element={<ViewEmployee />}
           />
-          <Route path="clients/viewclient" element={<ViewClient />} />
-          <Route path="clients/addclient" element={<Addclient />} />
-          <Route path="projects/addproject" element={<Addproject />} />
+          <Route path="/clients/viewclient" element={<ViewClient />} />
+          <Route path="/clients/addclient" element={<Addclient />} />
+          <Route path="/projects/addproject" element={<Addproject />} />
           <Route
             path="/projects/viewproject/:projectId"
             element={<ViewProject />}
