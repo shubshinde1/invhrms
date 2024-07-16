@@ -22,6 +22,7 @@ const LogoutMenuItem = ({ handleThemeSwitch }) => {
   const confirmlogout = () => {
     Cookies.remove("userData");
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("@secure.s.userData");
     navigate("/login");
     window.location.reload();
   };

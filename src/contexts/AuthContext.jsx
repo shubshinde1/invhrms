@@ -1,29 +1,5 @@
-// import React, { createContext, useState, useEffect } from "react";
-// import Cookies from "js-cookie";
-
-// export const AuthContext = createContext();
-
-// export const AuthProvider = ({ children }) => {
-//   const [userData, setUserData] = useState(null);
-
-//   useEffect(() => {
-//     const storedUserData = Cookies.get("userData");
-//     if (storedUserData) {
-//       setUserData(JSON.parse(storedUserData));
-//     }
-//   }, []);
-
-//   return (
-//     <AuthContext.Provider value={{ userData, setUserData }}>
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
-// src/contexts/AuthContext.js
-
 import React, { createContext, useState, useEffect } from "react";
-import Cookies from "js-cookie";
+import secureLocalStorage from "react-secure-storage";
 
 export const AuthContext = createContext();
 
@@ -32,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [tokenType, setTokenType] = useState(null);
 
   useEffect(() => {
-    const storedUserData = Cookies.get("userData");
+    const storedUserData = secureLocalStorage.getItem("userData");
     if (storedUserData) {
       const parsedData = JSON.parse(storedUserData);
       setUserData(parsedData);
