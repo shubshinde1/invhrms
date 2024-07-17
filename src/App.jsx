@@ -73,7 +73,7 @@ function App() {
       return (
         <>
           <Route index element={<Dashboard />} />
-          <Route path="*" element={<NotFound />} />
+          {/* <Route path="*" element={<NotFound />} /> */}
         </>
       );
     }
@@ -82,7 +82,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<NotFound theme={theme} />} />
         <Route path="/login" element={<Login theme={theme} />} />
         <Route path="/register" element={<Register theme={theme} />} />
         <Route
