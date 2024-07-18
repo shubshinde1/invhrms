@@ -22,6 +22,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthContext } from "../src/contexts/AuthContext";
 import NotFound from "./NotFound";
 
+//userprofile
+import UserProfile from "../src/components/userprofile/UserProfile";
+
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const { userData } = useContext(AuthContext);
@@ -73,6 +76,8 @@ function App() {
       return (
         <>
           <Route index element={<Dashboard />} />
+          <Route path="/myprofile" element={<UserProfile />} />
+
           {/* <Route path="*" element={<NotFound />} /> */}
         </>
       );

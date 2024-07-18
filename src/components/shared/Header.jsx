@@ -11,6 +11,7 @@ import { TbMoonFilled } from "react-icons/tb";
 import { MdLightMode } from "react-icons/md";
 import { motion } from "framer-motion";
 import userprofile from "../../assets/images/profilepic.png";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 export default function Header({ handleThemeSwitch, theme }) {
   const location = useLocation();
@@ -154,12 +155,13 @@ export default function Header({ handleThemeSwitch, theme }) {
           <Menu as="div" className="relative">
             <div>
               <Menu.Button className="flex align-middle">
-                <div
-                  className="h-9 w-9 rounded-md bg-top bg-no-repeat"
-                  style={{
-                    backgroundImage: `url(${userprofile})`,
-                  }}
-                >
+                <div className="flex items-center bg-sky-50 dark:bg-neutral-900 rounded-md ">
+                  <BsThreeDotsVertical fontSize={22} className="m-0.5 " />
+                  <img
+                    src={userprofile}
+                    alt=""
+                    className="h-9 w-9 rounded-md bg-top bg-no-repeat"
+                  />
                   <span className="sr-only">Shubham Shinde</span>
                 </div>
               </Menu.Button>

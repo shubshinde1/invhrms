@@ -10,6 +10,7 @@ import { IoMailUnread } from "react-icons/io5";
 
 const Register = ({ theme }) => {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState(null);
@@ -22,9 +23,10 @@ const Register = ({ theme }) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/createuser",
+        "http://localhost:3000/api/createuser",
         {
           email,
+          password,
           name,
           phone,
         }
@@ -99,6 +101,16 @@ const Register = ({ theme }) => {
                   type="number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label>Password</label>
+                <input
+                  className="p-2 rounded-md dark:bg-neutral-700 bg-sky-100"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>

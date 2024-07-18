@@ -59,6 +59,13 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     icon: <RiShieldUserFill />,
     allowedAuth: [1], // only admin can access
   },
+  {
+    key: "profile",
+    label: "Profile",
+    path: "/myprofile",
+    icon: <RiShieldUserFill />,
+    allowedAuth: [0], // user only
+  },
 ];
 
 export const DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
@@ -67,12 +74,6 @@ export const DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
   //     label: "Settings",
   //     path: "/setting",
   //     icon: <RiSettingsFill />,
-  //   },
-  //   {
-  //     key: "logout",
-  //     label: "Log out",
-  //     path: "/logout",
-  //     icon: <IoExit />,
   //   },
 ];
 
