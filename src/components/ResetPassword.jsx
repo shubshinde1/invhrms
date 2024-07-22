@@ -21,7 +21,7 @@ const ResetPassword = ({ theme }) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/forgotpassword",
+        "http://localhost:3000/api/forgotpassword",
         {
           email,
         }

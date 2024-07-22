@@ -254,6 +254,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     @apply text-red-500
 }
 
+
 @keyframes slide {
     0% {
         transform: translateX(-100%);
