@@ -8,8 +8,94 @@ import { IoTimer } from "react-icons/io5";
 import { SiTask } from "react-icons/si";
 import { FaSquareCheck } from "react-icons/fa6";
 import { TbTimelineEventFilled } from "react-icons/tb";
+import {
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import classNames from "classnames";
+import { createGlobalStyle } from "styled-components";
+import { makeStyles } from "@mui/styles";
+import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
+import { FaSave } from "react-icons/fa";
+
+const GlobalStyles = createGlobalStyle`
+.MuiPaper-root{
+  height:fit-content;
+  border-radius:10px;
+} 
+  .MuiMenuItem-root {
+    font-family: Euclid;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 5px 8px;
+    border-radius: 7px;
+  }
+  .MuiMenuItem-root:hover {
+    background-color:#e0f2fe;
+    padding-left: 14px;
+  }
+  .MuiMenuItem-root:hover {
+    transition-duration: 0.2s;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+`;
+
+const useStyles = makeStyles({
+  root: {
+    "& .MuiInputLabel-root": {
+      fontFamily: "euclid",
+      fontSize: 14,
+      paddingTop: -2.5,
+      fontWeight: "bold",
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      fontWeight: "bold",
+      fontSize: 15,
+    },
+    "& .MuiInputBase-root": {
+      border: "0 none",
+      borderRadius: 7,
+      height: 50,
+      width: "100%",
+      overflow: "hidden",
+    },
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "gray",
+    },
+    "& .Muilplaceholder": {
+      fontFamily: "euclid",
+      fontSize: 10,
+    },
+    "& .MuiOutlinedInput-input": {
+      fontFamily: "euclid-medium",
+      fontSize: 14,
+    },
+    "& ::placeholder": {
+      fontSize: 12,
+    },
+    display: "block",
+    width: "100%",
+    fontFamily: "euclid-medium",
+  },
+});
 
 export default function TimeSheet() {
+  const classes = useStyles();
+
   const token = localStorage.getItem("accessToken");
   const { userData } = useContext(AuthContext);
   const [currentDate, setCurrentDate] = useState(
@@ -341,94 +427,149 @@ export default function TimeSheet() {
 
       {/* Add Record Section */}
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-12 gap-2">
+        <div className="">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9 }}
-            className="col-span-12 lg:col-span-6 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-4 flex flex-col gap-4"
+            transition={{ duration: 0.5 }}
+            className="grid grid-cols-12 gap-2 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 items-start"
           >
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold">Task Name</label>
-              <input
-                type="text"
+            <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
+              <FormControl
+                variant="outlined"
+                margin="dense"
+                className={classNames(
+                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                  classes.root
+                )}
+              >
+                <InputLabel id="project-label" className="w-52">
+                  Project
+                </InputLabel>
+                <Select
+                  labelId="project-label"
+                  id="project"
+                  name="project"
+                  label="Project"
+                  IconComponent={(props) => (
+                    <ArrowDropDownRoundedIcon
+                      {...props}
+                      sx={{
+                        fontSize: 40,
+                        borderRadius: 1,
+                      }}
+                    />
+                  )}
+                  value={formData.project}
+                  onChange={handleInputChange}
+                >
+                  <GlobalStyles />
+                  <MenuItem value="">Choose value</MenuItem>
+                  {projects.map((project) => (
+                    <MenuItem key={project._id} value={project._id}>
+                      {project.projectname}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
+            <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
+              <TextField
+                className={classNames(
+                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                  classes.root
+                )}
+                id="taskName"
                 name="taskName"
+                label="Task Name"
+                variant="outlined"
+                margin="dense"
                 value={formData.taskName}
                 onChange={handleInputChange}
-                className="p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
               />
             </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold">Sub Task Name</label>
-              <input
-                type="text"
+            <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
+              <TextField
+                className={classNames(
+                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                  classes.root
+                )}
+                id="subTaskName"
                 name="subTaskName"
+                label="Sub Task Name"
+                variant="outlined"
+                margin="dense"
                 value={formData.subTaskName}
                 onChange={handleInputChange}
-                className="p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
               />
             </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold">Description</label>
+            <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-6">
               <textarea
                 name="description"
                 value={formData.description}
+                rows={2}
+                placeholder="description"
                 onChange={handleInputChange}
-                className="p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
+                className="px-2 py-1 mt-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
               />
             </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1 }}
-            className="col-span-12 lg:col-span-6 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-4 flex flex-col gap-4"
-          >
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold">Duration (hours)</label>
-              <input
-                type="number"
+            <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-2">
+              <TextField
+                className={classNames(
+                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                  classes.root
+                )}
+                id="duration"
                 name="duration"
+                label="Duration"
+                variant="outlined"
+                margin="dense"
                 value={formData.duration}
                 onChange={handleInputChange}
-                className="p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
               />
             </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold">Remark</label>
-              <select
-                name="remark"
-                value={formData.remark}
-                onChange={handleInputChange}
-                className="p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
+            <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-2">
+              <FormControl
+                variant="outlined"
+                margin="dense"
+                className={classNames(
+                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                  classes.root
+                )}
               >
-                <option value="0">Pending</option>
-                <option value="1">Completed</option>
-              </select>
+                <InputLabel id="remark-label" className="w-52">
+                  Remark
+                </InputLabel>
+                <Select
+                  labelId="remark-label"
+                  id="remark"
+                  name="remark"
+                  label="Remark"
+                  IconComponent={(props) => (
+                    <ArrowDropDownRoundedIcon
+                      {...props}
+                      sx={{
+                        fontSize: 40,
+                        borderRadius: 1,
+                      }}
+                    />
+                  )}
+                  value={formData.remark}
+                  onChange={handleInputChange}
+                >
+                  <GlobalStyles />
+                  <MenuItem value="">Choose Status</MenuItem>
+                  <MenuItem value="0">Pending</MenuItem>
+                  <MenuItem value="1">Completed</MenuItem>
+                </Select>
+              </FormControl>
             </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold">Project</label>
-              <select
-                name="project"
-                value={formData.project}
-                onChange={handleInputChange}
-                className="p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
-              >
-                <option value="">Choose value</option>
-                {projects.map((project) => (
-                  <option key={project._id} value={project._id}>
-                    {project.projectname}
-                  </option>
-                ))}
-              </select>
-            </div>
-
             <button
+              className="col-span-12 sm:col-span-12 lg:col-span-2 mt-1.5 px-2 py-3.5 bg-blue-500/15 text-blue-500 font-bold text-[1rem] rounded-lg   flex items-center justify-center gap-2"
               type="submit"
-              className="mt-2 p-2 bg-blue-500 text-white rounded-lg dark:bg-blue-700"
             >
-              Add Record
+              <FaSave fontSize={20} />
+              Save
             </button>
           </motion.div>
         </div>
