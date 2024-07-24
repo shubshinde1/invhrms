@@ -6,10 +6,12 @@ import profile from "../../../src/assets/images/profilepic.png";
 import { MdEdit } from "react-icons/md";
 import { FaDotCircle } from "react-icons/fa";
 import { useWindowScroll } from "react-use";
-import { IoIosClose } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa6";
 import Checkbox from "@mui/material/Checkbox";
 import { TiMinus } from "react-icons/ti";
+import { FaExternalLinkAlt } from "react-icons/fa";
+import { FaCopy } from "react-icons/fa6";
 
 const UserProfile = () => {
   const { userData } = useContext(AuthContext);
@@ -69,6 +71,7 @@ const UserProfile = () => {
   const [showPasswordModal, setShowPasswordModal] = useState(false); // State to manage password modal
   const [password, setPassword] = useState(""); // State for password input
   const [passwordError, setPasswordError] = useState(""); // State for password error message
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     setFormData({
@@ -352,6 +355,15 @@ const UserProfile = () => {
     setFormData({ ...formData, workexperience: updatedWorkexperience });
   };
 
+  const handleCopyLink = (url) => {
+    navigator.clipboard.writeText(url).then(() => {
+      setShowPopup(true);
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 2000); // Hide the popup after 2 seconds
+    });
+  };
+
   return (
     <div className="flex flex-col md:flex-row gap-2 h-fit mb-20">
       <div className="flex flex-col lg:flex-row gap-2">
@@ -507,7 +519,6 @@ const UserProfile = () => {
               </div>
               <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
                 <label className="w-1/3">Gender</label>
-
                 {isEditMode ? (
                   <select
                     name="gender"
@@ -713,7 +724,7 @@ const UserProfile = () => {
                         <FaPlus
                           type="button"
                           onClick={handleAddCustomTech}
-                          fontSize={18}
+                          fontSize={17}
                         />
                       </button>
                     </div>
@@ -721,18 +732,17 @@ const UserProfile = () => {
                       {formData.techexperties.map((tech, index) => (
                         <li
                           key={index}
-                          className="flex gap-1.5 justify-between items-center bg-green-200 text-green-600 rounded-md font-bold py-1 px-1.5  "
+                          className="flex gap-1.5 justify-between items-center bg-green-200 dark:bg-green-200/15 text-green-600 rounded-md font-bold py-1 px-1.5  "
                         >
                           <span>{tech}</span>
                           <button
                             type="button"
                             onClick={() => handleCheckboxChange(tech)}
-                            className="text-green-700"
+                            className=""
                           >
-                            <IoIosClose
-                              className="bg-green-400 font-bold rounded-md  "
+                            <IoClose
+                              className="bg-green-400/15 font-bold rounded-md  "
                               fontSize={20}
-                              fontWeight={700}
                             />
                           </button>
                         </li>
@@ -1060,13 +1070,37 @@ const UserProfile = () => {
                         <input
                           type="text"
                           name={`workexperience[${index}].companylinkedinurl`}
-                          value={experience.companylinkedinurl || ""}
+                          value={experience.companylinkedinurl}
                           onChange={(e) => handleExperienceChange(e, index)}
                           required
                           className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
                         />
                       ) : (
-                        <strong>{experience.companylinkedinurl}</strong>
+                        <strong>
+                          <div className="flex items-center gap-2">
+                            <a
+                              href={experience.companylinkedinurl}
+                              className="text-blue-500 bg-blue-200 dark:bg-blue-200/15 p-2 rounded-md"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <FaExternalLinkAlt />
+                            </a>
+                            <button
+                              className=" text-green-600 bg-green-200 dark:bg-green-200/15 p-2 rounded-md"
+                              onClick={() =>
+                                handleCopyLink(experience.companylinkedinurl)
+                              }
+                            >
+                              <FaCopy />
+                            </button>
+                          </div>
+                          {showPopup && (
+                            <div className="fixed bottom-4 text-base right-4 bg-green-200 dark:bg-green-500/30 text-green-600 px-4 py-2 rounded">
+                              Link copied to clipboard!
+                            </div>
+                          )}
+                        </strong>
                       )}
                     </div>
 
@@ -1074,8 +1108,9 @@ const UserProfile = () => {
                       <label className="w-1/3">Employment Type</label>
                       {isEditMode ? (
                         <select
+                          type="text"
                           name={`workexperience[${index}].employeementtype`}
-                          value={experience.employeementtype || ""}
+                          value={experience.employeementtype}
                           onChange={(e) => handleExperienceChange(e, index)}
                           required
                           className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"

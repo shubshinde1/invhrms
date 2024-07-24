@@ -6,6 +6,7 @@ import { RiServiceFill } from "react-icons/ri";
 import { HiMiniCodeBracketSquare } from "react-icons/hi2";
 import { RiShieldUserFill } from "react-icons/ri";
 import { BsPeopleFill } from "react-icons/bs";
+import { FaBusinessTime } from "react-icons/fa6";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
   {
@@ -58,6 +59,13 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     path: "/user",
     icon: <RiShieldUserFill />,
     allowedAuth: [1], // only admin can access
+  },
+  {
+    key: "timesheet",
+    label: "Timesheet",
+    path: "/timesheet",
+    icon: <FaBusinessTime />,
+    allowedAuth: [0], // user only
   },
   {
     key: "profile",

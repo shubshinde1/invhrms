@@ -21,6 +21,7 @@ import Register from "./components/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthContext } from "../src/contexts/AuthContext";
 import NotFound from "./NotFound";
+import Timesheet from "./components/timesheet/TimeSheet";
 
 //userprofile
 import UserProfile from "../src/components/userprofile/UserProfile";
@@ -77,6 +78,7 @@ function App() {
         <>
           <Route index element={<Dashboard />} />
           <Route path="/myprofile" element={<UserProfile />} />
+          <Route path="/timesheet" element={<Timesheet />} />
 
           {/* <Route path="*" element={<NotFound />} /> */}
         </>

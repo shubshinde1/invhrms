@@ -120,6 +120,7 @@ export default function Greeting() {
       } else {
         const error = data.msg;
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("@secure.s.userData");
         navigate("/login");
         return error;
       }
