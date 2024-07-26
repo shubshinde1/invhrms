@@ -96,7 +96,7 @@ export default function Header({ handleThemeSwitch, theme }) {
               <div
                 className={classNames(
                   "p-1",
-                  theme !== "dark" && "z-10 rounded-md text-green-400"
+                  theme !== "dark" && "z-10 rounded-md text-green-400 "
                 )}
                 onClick={() => setVisible(!visible)}
               >
@@ -112,7 +112,7 @@ export default function Header({ handleThemeSwitch, theme }) {
                   "p-1",
                   theme === "dark" && "z-10 rounded-md text-green-400"
                 )}
-                onClick={() => setVisible(!visible)}
+                onClick={() => setVisible(visible)}
               >
                 <div>
                   <TbMoonFilled
@@ -125,7 +125,7 @@ export default function Header({ handleThemeSwitch, theme }) {
                   />
                 </div>
               </div>
-              {visible && (
+              {!visible && (
                 <motion.div
                   initial={{ x: 20 }}
                   animate={{ x: 0 }}
@@ -134,7 +134,7 @@ export default function Header({ handleThemeSwitch, theme }) {
                     stiffness: 260,
                     damping: 30,
                   }}
-                  className="bg-white dark:hidden w-7 h-7 rounded-md -z-0 inline-block absolute"
+                  className="dark:hidden bg-white  w-7 h-7 rounded-md -z-0 inline-block absolute"
                 ></motion.div>
               )}
               {!visible && (

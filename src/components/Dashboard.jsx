@@ -29,7 +29,7 @@ export default function dashboard() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: -1 }}
             transition={{ duration: 0.8 }}
-            className=" col-span-12 xl:col-span-9 xl:mt-20 2xl:mt-24 row-span-12 mb-10 "
+            className=" col-span-12 xl:col-span-9 xl:mt-20 2xl:mt-32 row-span-12 mb-10 "
           >
             <Bodycards />
           </motion.div>

@@ -478,7 +478,9 @@ const UserProfile = () => {
             <div className=" flex gap-2 items-center">
               <label className="lable w-2/5">Email </label>
               <strong className="w-3/4 overflow-scroll scrollbar-hide">
-                {email}
+                <a href={`mailto:${email}`} target="_blank">
+                  {email}
+                </a>
               </strong>
             </div>
             <div className=" flex gap-2 items-center">
@@ -493,7 +495,11 @@ const UserProfile = () => {
                   className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
                 />
               ) : (
-                <strong>{phone}</strong>
+                <strong>
+                  <a href={`tell:${phone}`} target="_blank">
+                    {phone}
+                  </a>
+                </strong>
               )}
             </div>
           </div>
@@ -994,7 +1000,14 @@ const UserProfile = () => {
                     className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
                   />
                 ) : (
-                  <strong>{formData.emergencypersonemail}</strong>
+                  <strong>
+                    <a
+                      href={`mailto:${formData.emergencypersonemail}`}
+                      target="_blank"
+                    >
+                      {formData.emergencypersonemail}
+                    </a>
+                  </strong>
                 )}
               </div>
               <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
