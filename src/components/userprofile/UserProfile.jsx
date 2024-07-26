@@ -169,41 +169,44 @@ const UserProfile = () => {
         workexperience,
       } = formData;
 
-      const response = await fetch("http://localhost:3000/api/updateuser", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          id,
-          name,
-          phone,
-          status,
-          dob,
-          gender,
-          maritialstatus,
-          bloodgroup,
-          dateofjoining,
-          designation,
-          department,
-          reportingto,
-          teamleader,
-          techexperties,
-          address,
-          city,
-          state,
-          country,
-          zipcode,
-          emergencypersonname,
-          relation,
-          profession,
-          emergencypersonaddress,
-          emergencypersonemail,
-          emergencypersonphone,
-          workexperience,
-        }),
-      });
+      const response = await fetch(
+        "https://engineinv-production.up.railway.app/api/updateuser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            id,
+            name,
+            phone,
+            status,
+            dob,
+            gender,
+            maritialstatus,
+            bloodgroup,
+            dateofjoining,
+            designation,
+            department,
+            reportingto,
+            teamleader,
+            techexperties,
+            address,
+            city,
+            state,
+            country,
+            zipcode,
+            emergencypersonname,
+            relation,
+            profession,
+            emergencypersonaddress,
+            emergencypersonemail,
+            emergencypersonphone,
+            workexperience,
+          }),
+        }
+      );
 
       if (response.status === 200) {
         try {

@@ -23,10 +23,13 @@ const Login = ({ theme }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:3000/api/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://engineinv-production.up.railway.app/api/login",
+        {
+          email,
+          password,
+        }
+      );
 
       const data = response.data.data;
 

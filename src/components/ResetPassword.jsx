@@ -21,7 +21,7 @@ const ResetPassword = ({ theme }) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/forgotpassword",
+        "https://engineinv-production.up.railway.app/api/forgotpassword",
         {
           email,
         }

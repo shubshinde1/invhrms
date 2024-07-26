@@ -141,7 +141,7 @@ export default function TimeSheet({ record, index }) {
       try {
         setLoading(true);
         const response = await fetch(
-          "http://localhost:3000/api/gettimesheetbydate",
+          "https://engineinv-production.up.railway.app/api/gettimesheetbydate",
           {
             method: "POST",
             headers: {
@@ -177,7 +177,7 @@ export default function TimeSheet({ record, index }) {
     const getProjectDetails = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/api/getprojectdetails",
+          "https://engineinv-production.up.railway.app/api/getprojectdetails",
           {
             method: "get",
             headers: {
@@ -262,14 +262,17 @@ export default function TimeSheet({ record, index }) {
       setLoading(true);
       const token = localStorage.getItem("accessToken");
 
-      const response = await fetch("http://localhost:3000/api/filltimesheet", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://engineinv-production.up.railway.app/api/filltimesheet",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await response.json();
       if (data.success) {
         setTimesheetData((prevData) => ({
@@ -354,7 +357,7 @@ export default function TimeSheet({ record, index }) {
       const token = localStorage.getItem("accessToken");
 
       const response = await fetch(
-        "http://localhost:3000/api/deletetimesheet",
+        "https://engineinv-production.up.railway.app/api/deletetimesheet",
         {
           method: "POST",
           headers: {
@@ -425,7 +428,7 @@ export default function TimeSheet({ record, index }) {
       });
 
       const response = await fetch(
-        "http://localhost:3000/api/updatetimesheet",
+        "https://engineinv-production.up.railway.app/api/updatetimesheet",
         {
           method: "POST",
           headers: {
