@@ -8,6 +8,7 @@ import Loading from "./extra/loading";
 import ErrorMsg from "./extra/ErrorMsg";
 import { IoMailUnread } from "react-icons/io5";
 import { FaLongArrowAltLeft } from "react-icons/fa";
+import ApiendPonits from "../api/APIEndPoints.json";
 
 const ResetPassword = ({ theme }) => {
   const [email, setEmail] = useState("");
@@ -20,12 +21,9 @@ const ResetPassword = ({ theme }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
-        "https://engineinv-production.up.railway.app/api/forgotpassword",
-        {
-          email,
-        }
-      );
+      const response = await axios.post(ApiendPonits.forgotpassword, {
+        email,
+      });
 
       console.log(response.data);
 

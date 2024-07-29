@@ -9,6 +9,7 @@ import ErrorMsg from "./extra/ErrorMsg";
 import { IoEyeOff, IoEye } from "react-icons/io5";
 import { AuthContext } from "../contexts/AuthContext";
 import secureLocalStorage from "react-secure-storage";
+import ApiendPonits from "../api/APIEndPoints.json";
 
 const Login = ({ theme }) => {
   const [email, setEmail] = useState("");
@@ -23,13 +24,10 @@ const Login = ({ theme }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
-        "https://engineinv-production.up.railway.app/api/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(ApiendPonits.login, {
+        email,
+        password,
+      });
 
       const data = response.data.data;
 

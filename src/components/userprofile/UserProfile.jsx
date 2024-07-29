@@ -12,6 +12,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { TiMinus } from "react-icons/ti";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa6";
+import ApiendPonits from "../../api/APIEndPoints.json";
 
 const UserProfile = () => {
   const { userData } = useContext(AuthContext);
@@ -169,54 +170,48 @@ const UserProfile = () => {
         workexperience,
       } = formData;
 
-      const response = await fetch(
-        "https://engineinv-production.up.railway.app/api/updateuser",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            id,
-            name,
-            phone,
-            status,
-            dob,
-            gender,
-            maritialstatus,
-            bloodgroup,
-            dateofjoining,
-            designation,
-            department,
-            reportingto,
-            teamleader,
-            techexperties,
-            address,
-            city,
-            state,
-            country,
-            zipcode,
-            emergencypersonname,
-            relation,
-            profession,
-            emergencypersonaddress,
-            emergencypersonemail,
-            emergencypersonphone,
-            workexperience,
-          }),
-        }
-      );
+      const response = await fetch(ApiendPonits.updateuser, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id,
+          name,
+          phone,
+          status,
+          dob,
+          gender,
+          maritialstatus,
+          bloodgroup,
+          dateofjoining,
+          designation,
+          department,
+          reportingto,
+          teamleader,
+          techexperties,
+          address,
+          city,
+          state,
+          country,
+          zipcode,
+          emergencypersonname,
+          relation,
+          profession,
+          emergencypersonaddress,
+          emergencypersonemail,
+          emergencypersonphone,
+          workexperience,
+        }),
+      });
 
       if (response.status === 200) {
         try {
-          const loginResponse = await axios.post(
-            "https://engineinv-production.up.railway.app/api/login",
-            {
-              email: userData.employeeData.email,
-              password: password,
-            }
-          );
+          const loginResponse = await axios.post(ApiendPonits.login, {
+            email: userData.employeeData.email,
+            password: password,
+          });
 
           const data = loginResponse.data.data;
 

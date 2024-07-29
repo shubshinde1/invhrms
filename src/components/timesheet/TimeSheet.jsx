@@ -24,6 +24,7 @@ import { IoClose } from "react-icons/io5";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { FaFaceFrownOpen } from "react-icons/fa6";
 import Loading from "../Loading";
+import ApiendPonits from "../../api/APIEndPoints.json";
 
 const GlobalStyles = createGlobalStyle`
 .MuiPaper-root{
@@ -121,6 +122,103 @@ export default function TimeSheet({ record, index }) {
     project: "",
   });
 
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
+  const [datesFromApi, setDatesFromApi] = useState([]);
+
+  useEffect(() => {
+    const fetchTimesheetDates = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(ApiendPonits.gettimesheetday, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            employee_id: eid.toString(),
+          }),
+        });
+        setLoading(false);
+        const data = await response.json();
+        console.log(data);
+        if (data.success) {
+          const parsedDates = data.dates.map((dateStr) =>
+            new Date(dateStr).toDateString()
+          );
+          setDatesFromApi(new Set(parsedDates));
+          setError(null);
+        } else {
+          setError(data.msg);
+        }
+      } catch (error) {
+        setError("Failed to fetch timesheet data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTimesheetDates();
+  }, []);
+
+  useEffect(() => {
+    setCurrentDate(new Date(currentDate).toISOString().split("T")[0]);
+  }, [currentDate]);
+
+  const getDaysInMonth = (month, year) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
+
+  const getFirstDayOfMonth = (month, year) => {
+    return new Date(year, month, 1).getDay();
+  };
+
+  const handleDateClick = (day) => {
+    const newDate = new Date(currentYear, currentMonth, day)
+      .toISOString()
+      .split("T")[0];
+    setCurrentDate(newDate);
+    setShowCalendar(false);
+  };
+
+  const handleMonthChange = (direction) => {
+    const newDate = new Date(currentYear, currentMonth + direction, 1);
+    setCurrentMonth(newDate.getMonth());
+    setCurrentYear(newDate.getFullYear());
+  };
+
+  const handleMonthSelectorChange = (event) => {
+    setCurrentMonth(parseInt(event.target.value));
+  };
+
+  const handleYearSelectorChange = (event) => {
+    setCurrentYear(parseInt(event.target.value));
+  };
+
+  const daysInMonth = getDaysInMonth(currentMonth, currentYear);
+  const firstDay = getFirstDayOfMonth(currentMonth, currentYear);
+
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const years = Array.from({ length: 20 }, (_, i) => currentYear - 10 + i);
+
   // Form state
   const [formData, setFormData] = useState({
     employee_id: userData?.employeeData?._id,
@@ -140,21 +238,18 @@ export default function TimeSheet({ record, index }) {
     const fetchTimesheetData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(
-          "https://engineinv-production.up.railway.app/api/gettimesheetbydate",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              employee_id: eid.toString(),
-              startDate: currentDate,
-              endDate: currentDate,
-            }),
-          }
-        );
+        const response = await fetch(ApiendPonits.gettimesheet, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            employee_id: eid.toString(),
+            startDate: currentDate,
+            endDate: currentDate,
+          }),
+        });
         setLoading(false);
         const data = await response.json();
         if (data.success) {
@@ -176,16 +271,13 @@ export default function TimeSheet({ record, index }) {
   useEffect(() => {
     const getProjectDetails = async () => {
       try {
-        const response = await fetch(
-          "https://engineinv-production.up.railway.app/api/getprojectdetails",
-          {
-            method: "get",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(ApiendPonits.getprojectdetails, {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = await response.json();
         if (data.success) {
           setProjects(data.data); // Store project data
@@ -262,17 +354,14 @@ export default function TimeSheet({ record, index }) {
       setLoading(true);
       const token = localStorage.getItem("accessToken");
 
-      const response = await fetch(
-        "https://engineinv-production.up.railway.app/api/filltimesheet",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(ApiendPonits.filltimesheet, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
       const data = await response.json();
       if (data.success) {
         setTimesheetData((prevData) => ({
@@ -356,27 +445,28 @@ export default function TimeSheet({ record, index }) {
       setLoading(true);
       const token = localStorage.getItem("accessToken");
 
-      const response = await fetch(
-        "https://engineinv-production.up.railway.app/api/deletetimesheet",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            timesheetId: timesheetId,
-            taskId: buttonValue,
-          }),
-        }
-      );
+      const response = await fetch(ApiendPonits.deletetimesheet, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          timesheetId: timesheetId,
+          taskId: buttonValue,
+          date: currentDate,
+        }),
+      });
 
       const data = await response.json();
 
       if (response.ok) {
         location.reload();
       } else {
-        console.log("Failed to delete timesheet", data);
+        setError(data.errors || data.msg);
+        setTimeout(() => {
+          setError([]);
+        }, 4500);
       }
     } catch (error) {
       console.log("Failed to delete timesheet", error);
@@ -427,22 +517,19 @@ export default function TimeSheet({ record, index }) {
         ...taskDetails,
       });
 
-      const response = await fetch(
-        "https://engineinv-production.up.railway.app/api/updatetimesheet",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            timesheet_id: currentTask?.timesheet_id,
-            task_id: currentTask?._id,
-            date: checkDate,
-            ...taskDetails,
-          }),
-        }
-      );
+      const response = await fetch(ApiendPonits.updatetimesheet, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          timesheet_id: currentTask?.timesheet_id,
+          task_id: currentTask?._id,
+          date: checkDate,
+          ...taskDetails,
+        }),
+      });
 
       const data = await response.json();
 
@@ -587,12 +674,152 @@ export default function TimeSheet({ record, index }) {
         >
           <FaCaretLeft fontSize={22} />
         </button>
-        <input
+        {/* <input
           type="date"
           value={currentDate}
           onChange={handleDateChange}
           className="p-2 border rounded-lg bg-sky-100 dark:bg-neutral-800 dark:border-neutral-700"
-        />
+        /> */}
+        <div className="relative">
+          <input
+            type="text"
+            value={currentDate}
+            onClick={() => setShowCalendar(!showCalendar)}
+            onChange={(e) => setCurrentDate(e.target.value)}
+            className="p-2 border rounded-lg bg-sky-100 dark:bg-neutral-800 dark:border-neutral-700 cursor-pointer"
+            readOnly
+          />
+
+          {showCalendar && (
+            <div className="absolute w-72 -ml-5 md:ml-0 md:w-80 z-10 mt-2 p-4 border border-gray-300 rounded-lg bg-sky-100 dark:bg-neutral-900 dark:border-neutral-700 shadow-lg">
+              <div className="flex items-center justify-between mb-4">
+                <button
+                  onClick={() => handleMonthChange(-1)}
+                  className="p-2 bg-sky-50 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 mt-0.5"
+                >
+                  <FaCaretLeft fontSize={23} />
+                </button>
+                <div className="flex mx-2 gap-2 ">
+                  <FormControl
+                    variant="outlined"
+                    margin="dense"
+                    className={classNames(
+                      "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                      classes.root
+                    )}
+                  >
+                    {/* <InputLabel id="month-label" className="w">
+                      Month
+                    </InputLabel> */}
+                    <Select
+                      labelId="month-label"
+                      id="month"
+                      name="month"
+                      // label="Month"
+                      IconComponent={(props) => (
+                        <ArrowDropDownRoundedIcon
+                          {...props}
+                          sx={{
+                            fontSize: 40,
+                            borderRadius: 1,
+                          }}
+                        />
+                      )}
+                      value={currentMonth}
+                      onChange={handleMonthSelectorChange}
+                    >
+                      <GlobalStyles />
+                      <MenuItem value="">Choose value</MenuItem>
+                      {months.map((month, index) => (
+                        <MenuItem key={index} value={index}>
+                          {month}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormControl
+                    variant="outlined"
+                    margin="dense"
+                    className={classNames(
+                      "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                      classes.root
+                    )}
+                  >
+                    {/* <InputLabel id="year-label" className="w-52">
+                      Year
+                    </InputLabel> */}
+                    <Select
+                      labelId="year-label"
+                      id="year"
+                      name="year"
+                      // label="Year"
+                      IconComponent={(props) => (
+                        <ArrowDropDownRoundedIcon
+                          {...props}
+                          sx={{
+                            fontSize: 40,
+                            borderRadius: 1,
+                          }}
+                        />
+                      )}
+                      value={currentYear}
+                      onChange={handleYearSelectorChange}
+                    >
+                      <GlobalStyles />
+                      <MenuItem value="">Choose value</MenuItem>
+                      {years.map((year) => (
+                        <MenuItem key={year} value={year}>
+                          {year}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+                <button
+                  onClick={() => handleMonthChange(1)}
+                  className="p-2 bg-sky-50 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 mt-0.5"
+                >
+                  <FaCaretRight fontSize={23} />
+                </button>
+              </div>
+              <div className="grid grid-cols-7 gap-1 text-center mb-2">
+                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                  (day) => (
+                    <div key={day} className="font-semibold">
+                      {day}
+                    </div>
+                  )
+                )}
+                {Array.from({ length: firstDay }).map((_, index) => (
+                  <div key={index} />
+                ))}
+                {Array.from({ length: daysInMonth }).map((_, day) => (
+                  <div
+                    key={day + 1}
+                    onClick={() => handleDateClick(day + 1)}
+                    className={classNames(
+                      "p-2 cursor-pointer rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800",
+                      {
+                        "bg-blue-500 text-white":
+                          new Date(currentDate).getDate() === day,
+                        "bg-green-300 dark:bg-green-600/15 text-green-600 font-bold":
+                          datesFromApi.has(
+                            new Date(
+                              currentYear,
+                              currentMonth,
+                              day
+                            ).toDateString()
+                          ),
+                      }
+                    )}
+                  >
+                    {day}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
         <button
           onClick={handleNextDate}
           className="p-2 bg-sky-100 rounded-lg dark:bg-neutral-800 dark:border-neutral-700"

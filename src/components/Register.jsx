@@ -7,6 +7,7 @@ import logodark from "../../src/assets/images/invezza-logo-darkmode.png";
 import Loading from "./extra/loading";
 import ErrorMsg from "./extra/ErrorMsg";
 import { IoMailUnread } from "react-icons/io5";
+import ApiendPonits from "../api/APIEndPoints.json";
 
 const Register = ({ theme }) => {
   const [email, setEmail] = useState("");
@@ -22,15 +23,12 @@ const Register = ({ theme }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/createuser",
-        {
-          email,
-          password,
-          name,
-          phone,
-        }
-      );
+      const response = await axios.post(ApiendPonits.registeruser, {
+        email,
+        password,
+        name,
+        phone,
+      });
 
       console.log(response.data);
 

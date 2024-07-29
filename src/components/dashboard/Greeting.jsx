@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { IoLogIn, IoLogOut } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import ApiendPonits from "../../api/APIEndPoints.json";
 
 const ONE_HOUR_IN_SECONDS = 3600;
 const NINE_HOURS_IN_SECONDS = 9 * ONE_HOUR_IN_SECONDS;
@@ -73,8 +74,7 @@ export default function Greeting() {
 
   const handleClick = async () => {
     const mark = isPunchedIn ? "Out" : "In";
-    const endpoint =
-      "https://engineinv-production.up.railway.app/api/attendance";
+    const endpoint = ApiendPonits.attendance;
     const token = localStorage.getItem("accessToken");
 
     try {

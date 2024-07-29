@@ -1,0 +1,16 @@
+/* custom-calendar.css */
+.react-calendar {
+    @apply bg-red-500 rounded-lg shadow-md;
+}
+
+.react-calendar__tile {
+    @apply p-2 rounded-lg;
+}
+
+.react-calendar__tile--active {
+    @apply bg-blue-800 text-white;
+}
+
+.react-calendar__tile--hasActive {
+    @apply border-blue-500;
+}
