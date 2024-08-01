@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/shared/Layout";
 import Dashboard from "./components/Dashboard";
 import User from "./components/User";
-import Leave from "./components/Leave";
+import RefillLeaves from "./components/admin/leave/RefillLeaves";
 import Pim from "./components/Pim";
 import Clients from "./components/Clients";
 import Projects from "./components/Projects";
@@ -50,11 +50,12 @@ function App() {
         <>
           <Route index element={<Dashboard />} />
           <Route path="/clients" element={<Clients />} />
+          <Route path="/clients" element={<Clients />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/Pim" element={<Pim />} />
           <Route path="/pim/employeelist" element={<Employeelist />} />
           <Route path="/pim/addemployee" element={<Addemployee />} />
-          <Route path="/pim/leave" element={<Leave />} />
+          <Route path="/pim/addleave" element={<RefillLeaves />} />
           <Route
             path="/pim/edit/:empid/:ename/:designation/:jdate/:status"
             element={<EditEmployee />}

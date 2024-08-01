@@ -14,6 +14,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Slider,
 } from "@mui/material";
 import classNames from "classnames";
 import { createGlobalStyle } from "styled-components";
@@ -25,6 +26,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { FaFaceFrownOpen } from "react-icons/fa6";
 import Loading from "../Loading";
 import ApiendPonits from "../../api/APIEndPoints.json";
+import { IoToday } from "react-icons/io5";
 
 const GlobalStyles = createGlobalStyle`
 .MuiPaper-root{
@@ -145,7 +147,6 @@ export default function TimeSheet({ record, index }) {
         });
         setLoading(false);
         const data = await response.json();
-        console.log(data);
         if (data.success) {
           const parsedDates = data.dates.map((dateStr) =>
             new Date(dateStr).toDateString()
@@ -178,10 +179,8 @@ export default function TimeSheet({ record, index }) {
   };
 
   const handleDateClick = (day) => {
-    const newDate = new Date(currentYear, currentMonth, day)
-      .toISOString()
-      .split("T")[0];
-    setCurrentDate(newDate);
+    const newDate = new Date(currentYear, currentMonth, day + 1, 12); // Setting time to noon
+    setCurrentDate(newDate.toISOString().split("T")[0]);
     setShowCalendar(false);
   };
 
@@ -430,14 +429,14 @@ export default function TimeSheet({ record, index }) {
     let timesheetId;
     timesheetData[currentDate].forEach((record) => {
       if (buttonValue) {
-        console.log(buttonValue);
+        // console.log(buttonValue);
         timesheetId = record.timesheet_id;
-        console.log(record);
+        // console.log(record);
       }
     });
 
     if (!timesheetId) {
-      console.log("Timesheet ID not found for the given task ID");
+      // console.log("Timesheet ID not found for the given task ID");
       return;
     }
 
@@ -469,7 +468,7 @@ export default function TimeSheet({ record, index }) {
         }, 4500);
       }
     } catch (error) {
-      console.log("Failed to delete timesheet", error);
+      // console.log("Failed to delete timesheet", error);
     } finally {
       setLoading(false);
     }
@@ -495,7 +494,7 @@ export default function TimeSheet({ record, index }) {
     });
 
     if (!timesheetId) {
-      console.log("Timesheet ID not found for the given task ID");
+      // console.log("Timesheet ID not found for the given task ID");
       return;
     }
 
@@ -511,11 +510,11 @@ export default function TimeSheet({ record, index }) {
       setLoading(true);
       const token = localStorage.getItem("accessToken");
 
-      console.log("Submitting data:", {
-        timesheet_id: currentTask?.timesheet_id,
-        task_id: currentTask?._id,
-        ...taskDetails,
-      });
+      // console.log("Submitting data:", {
+      //   timesheet_id: currentTask?.timesheet_id,
+      //   task_id: currentTask?._id,
+      //   ...taskDetails,
+      // });
 
       const response = await fetch(ApiendPonits.updatetimesheet, {
         method: "POST",
@@ -534,7 +533,7 @@ export default function TimeSheet({ record, index }) {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        console.log("Timesheet updated successfully", data);
+        // console.log("Timesheet updated successfully", data);
         setIsEditing(false);
         location.reload();
       } else {
@@ -544,10 +543,16 @@ export default function TimeSheet({ record, index }) {
         }, 4500);
       }
     } catch (error) {
-      console.log("Error updating timesheet", error);
+      // console.log("Error updating timesheet", error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    return date.toLocaleDateString("en-GB", options);
   };
 
   return (
@@ -674,32 +679,36 @@ export default function TimeSheet({ record, index }) {
         >
           <FaCaretLeft fontSize={22} />
         </button>
-        {/* <input
-          type="date"
-          value={currentDate}
-          onChange={handleDateChange}
-          className="p-2 border rounded-lg bg-sky-100 dark:bg-neutral-800 dark:border-neutral-700"
-        /> */}
         <div className="relative">
-          <input
-            type="text"
-            value={currentDate}
+          <div
             onClick={() => setShowCalendar(!showCalendar)}
             onChange={(e) => setCurrentDate(e.target.value)}
-            className="p-2 border rounded-lg bg-sky-100 dark:bg-neutral-800 dark:border-neutral-700 cursor-pointer"
-            readOnly
-          />
+          >
+            <input
+              type="text"
+              value={formatDate(currentDate)}
+              className="p-2 border rounded-lg bg-sky-100 dark:bg-neutral-800 dark:border-neutral-700 cursor-pointer"
+              readOnly
+            />
+            <IoToday
+              className="text-blue-500 absolute top-2 right-1.5"
+              fontSize={20}
+            />
+          </div>
 
           {showCalendar && (
-            <div className="absolute w-72 -ml-5 md:ml-0 md:w-80 z-10 mt-2 p-4 border border-gray-300 rounded-lg bg-sky-100 dark:bg-neutral-900 dark:border-neutral-700 shadow-lg">
-              <div className="flex items-center justify-between mb-4">
+            <div className="absolute -ml-5 md:ml-0  z-10 mt-2 p-4 border border-gray-300 rounded-lg bg-sky-100 dark:bg-neutral-900 dark:border-neutral-700 shadow-lg">
+              <div className="flex items-center justify- mb-4 gap-2">
                 <button
                   onClick={() => handleMonthChange(-1)}
-                  className="p-2 bg-sky-50 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 mt-0.5"
+                  className="p-2 bg-sky-50 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 mt-1 group"
                 >
-                  <FaCaretLeft fontSize={23} />
+                  <FaCaretLeft
+                    fontSize={23}
+                    className="group-hover:-translate-x-1 duration-300"
+                  />
                 </button>
-                <div className="flex mx-2 gap-2 ">
+                <div className="flex  gap-2 ">
                   <FormControl
                     variant="outlined"
                     margin="dense"
@@ -777,9 +786,12 @@ export default function TimeSheet({ record, index }) {
                 </div>
                 <button
                   onClick={() => handleMonthChange(1)}
-                  className="p-2 bg-sky-50 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 mt-0.5"
+                  className="p-2 bg-sky-50 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 mt-1 group"
                 >
-                  <FaCaretRight fontSize={23} />
+                  <FaCaretRight
+                    fontSize={23}
+                    className="group-hover:translate-x-1 duration-300"
+                  />
                 </button>
               </div>
               <div className="grid grid-cols-7 gap-1 text-center mb-2">
@@ -795,25 +807,27 @@ export default function TimeSheet({ record, index }) {
                 ))}
                 {Array.from({ length: daysInMonth }).map((_, day) => (
                   <div
-                    key={day + 1}
-                    onClick={() => handleDateClick(day + 1)}
+                    key={day}
+                    onClick={() => handleDateClick(day)}
                     className={classNames(
                       "p-2 cursor-pointer rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800",
                       {
-                        "bg-blue-500 text-white":
-                          new Date(currentDate).getDate() === day,
+                        "bg-blue-500/15 text-blue-600 font-bold":
+                          new Date(currentDate).getDate() === day + 1 &&
+                          new Date(currentDate).getMonth() === currentMonth &&
+                          new Date(currentDate).getFullYear() === currentYear,
                         "bg-green-300 dark:bg-green-600/15 text-green-600 font-bold":
                           datesFromApi.has(
                             new Date(
                               currentYear,
                               currentMonth,
-                              day
+                              day + 1
                             ).toDateString()
                           ),
                       }
                     )}
                   >
-                    {day}
+                    {day + 1}
                   </div>
                 ))}
               </div>
@@ -828,7 +842,7 @@ export default function TimeSheet({ record, index }) {
         </button>
         <button
           onClick={handleToday}
-          className="p-2 bg-sky-100 rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
+          className="p-2 bg-sky-100 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 flex items-center gap-2 "
         >
           Today
         </button>
@@ -1034,8 +1048,8 @@ export default function TimeSheet({ record, index }) {
       {/* Timesheet Records */}
       <div className="">
         {error && (
-          <div className="absolute bottom-0 right-0 m-4  flex flex-col gap-2 z-50">
-            {error.map((err, index) => (
+          <div className="absolute bottom-0 right-0 m-4 flex flex-col gap-2 z-50">
+            {(Array.isArray(error) ? error : [error]).map((err, index) => (
               <motion.div
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -1046,9 +1060,9 @@ export default function TimeSheet({ record, index }) {
                   duration: 0.3,
                 }}
                 key={index}
-                className="font-bold  bg-red-300 dark:bg-black dark:border-2 border-red-950/45 p-3 rounded-lg flex items-center gap-2"
+                className="font-bold bg-red-300 dark:bg-black dark:border-2 border-red-950/45 p-3 rounded-lg flex items-center gap-2"
               >
-                <div className=" text-red-600 p-1 rounded-lg">
+                <div className="text-red-600 p-1 rounded-lg">
                   <FaFaceFrownOpen fontSize={22} />
                 </div>
                 {err.msg || err}
@@ -1056,6 +1070,7 @@ export default function TimeSheet({ record, index }) {
             ))}
           </div>
         )}
+
         {timesheetData[currentDate] && timesheetData[currentDate].length > 0 ? (
           <div className="flex flex-col overflow-scroll h-[78vh] md:h-fit scrollbar-hide">
             <motion.div

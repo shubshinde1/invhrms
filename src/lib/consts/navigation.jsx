@@ -37,6 +37,13 @@ export const DASHBOARD_SIDEBAR_LINKS = [
         icon: <IoPersonAdd />,
         allowedAuth: [1], // only admin can access
       },
+      {
+        key: "leave",
+        label: "Add Leaves",
+        path: "/pim/addleave",
+        icon: <IoPersonAdd />,
+        allowedAuth: [1], // only admin can access
+      },
     ],
   },
   {

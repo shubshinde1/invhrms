@@ -25,6 +25,15 @@ const MenuTabs = () => {
         >
           <NavLink to="/pim/addemployee">Add Employee</NavLink>
         </li>
+        <li
+          className={` text-sm px-3 py-1.5 rounded-md ${
+            location.pathname === "/pim/addleave"
+              ? "bg-[#5336FD] text-white font-bold"
+              : "bg-sky-50 dark:bg-neutral-800"
+          }`}
+        >
+          <NavLink to="/pim/addleave">Add Leaves</NavLink>
+        </li>
       </ul>
     </div>
   );
