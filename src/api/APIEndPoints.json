@@ -9,5 +9,7 @@
     "filltimesheet": "http://localhost:3000/api/filltimesheet",
     "deletetimesheet": "http://localhost:3000/api/deletetimesheet",
     "updatetimesheet": "http://localhost:3000/api/updatetimesheet",
-    "gettimesheetday": "http://localhost:3000/api/gettimesheetdays"
+    "gettimesheetday": "http://localhost:3000/api/gettimesheetdays",
+    "addholidays": "http://localhost:3000/api/admin/addholidays",
+    "viewholidays": "http://localhost:3000/api/admin/viewholidays"
 }
