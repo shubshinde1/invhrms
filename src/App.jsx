@@ -55,7 +55,7 @@ function App() {
           <Route path="/Pim" element={<Pim />} />
           <Route path="/pim/employeelist" element={<Employeelist />} />
           <Route path="/pim/addemployee" element={<Addemployee />} />
-          <Route path="/pim/addleave" element={<RefillLeaves />} />
+          <Route path="/pim/addholidays" element={<RefillLeaves />} />
           <Route
             path="/pim/edit/:empid/:ename/:designation/:jdate/:status"
             element={<EditEmployee />}

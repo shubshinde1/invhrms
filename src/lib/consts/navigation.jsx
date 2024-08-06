@@ -39,8 +39,8 @@ export const DASHBOARD_SIDEBAR_LINKS = [
       },
       {
         key: "leave",
-        label: "Add Leaves",
-        path: "/pim/addleave",
+        label: "Add Holidays",
+        path: "/pim/addholidays",
         icon: <IoPersonAdd />,
         allowedAuth: [1], // only admin can access
       },

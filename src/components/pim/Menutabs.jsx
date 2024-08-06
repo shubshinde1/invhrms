@@ -27,12 +27,12 @@ const MenuTabs = () => {
         </li>
         <li
           className={` text-sm px-3 py-1.5 rounded-md ${
-            location.pathname === "/pim/addleave"
+            location.pathname === "/pim/addholidays"
               ? "bg-[#5336FD] text-white font-bold"
               : "bg-sky-50 dark:bg-neutral-800"
           }`}
         >
-          <NavLink to="/pim/addleave">Add Leaves</NavLink>
+          <NavLink to="/pim/addholidays">Add Holidays</NavLink>
         </li>
       </ul>
     </div>
