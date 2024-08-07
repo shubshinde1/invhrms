@@ -25,6 +25,7 @@ import Timesheet from "./components/timesheet/TimeSheet";
 
 //userprofile
 import UserProfile from "../src/components/userprofile/UserProfile";
+import UserLeave from "./components/userleave/UserLeave";
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -80,6 +81,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="/myprofile" element={<UserProfile />} />
           <Route path="/timesheet" element={<Timesheet />} />
+          <Route path="/leave" element={<UserLeave />} />
 
           {/* <Route path="*" element={<NotFound />} /> */}
         </>

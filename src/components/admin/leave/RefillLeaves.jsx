@@ -517,15 +517,17 @@ const RefillLeaves = () => {
                     variant="contained"
                     color="primary"
                     onClick={handleSubmit}
-                    className="bg-blue-500/15 hover:bg-blue-500/30 p-1.5 rounded-md text-blue-500 duration-500"
+                    className="bg-blue-500/15 hover:bg-blue-500/30 p-1.5 rounded-md text-blue-500 duration-500 flex items-center gap-1 hover:font-bold cursor-default"
                   >
                     <FaSave fontSize={20} />
+                    <span>Save</span>
                   </div>
                   <div
                     onClick={() => setShowAddHolidays(false)}
-                    className="bg-red-500/15 hover:bg-red-500/30 p-1.5 rounded-md text-red-500 duration-500"
+                    className="bg-red-500/15 hover:bg-red-500/30 p-1.5 rounded-md text-red-500 duration-500 flex items-center gap-1 hover:font-bold cursor-default"
                   >
                     <IoClose fontSize={20} />
+                    <span>Close</span>
                   </div>
                 </div>
               </div>

@@ -1,15 +1,15 @@
 {
-    "registeruser": "https://engineinv-production.up.railway.app//api/createuser",
-    "forgotpassword": "https://engineinv-production.up.railway.app//api/forgotpassword",
-    "login": "https://engineinv-production.up.railway.app//api/login",
-    "updateuser": "https://engineinv-production.up.railway.app//api/updateuser",
-    "attendance": "https://engineinv-production.up.railway.app//api/attendance",
-    "gettimesheet": "https://engineinv-production.up.railway.app//api/gettimesheetbydate",
-    "getprojectdetails": "https://engineinv-production.up.railway.app//api/getprojectdetails",
-    "filltimesheet": "https://engineinv-production.up.railway.app//api/filltimesheet",
-    "deletetimesheet": "https://engineinv-production.up.railway.app//api/deletetimesheet",
-    "updatetimesheet": "https://engineinv-production.up.railway.app//api/updatetimesheet",
-    "gettimesheetday": "https://engineinv-production.up.railway.app//api/gettimesheetdays",
-    "addholidays": "https://engineinv-production.up.railway.app//api/admin/addholidays",
-    "viewholidays": "https://engineinv-production.up.railway.app//api/admin/viewholidays"
+    "registeruser": "https://engineinv-production.up.railway.app/api/createuser",
+    "forgotpassword": "https://engineinv-production.up.railway.app/api/forgotpassword",
+    "login": "https://engineinv-production.up.railway.app/api/login",
+    "updateuser": "https://engineinv-production.up.railway.app/api/updateuser",
+    "attendance": "https://engineinv-production.up.railway.app/api/attendance",
+    "gettimesheet": "https://engineinv-production.up.railway.app/api/gettimesheetbydate",
+    "getprojectdetails": "https://engineinv-production.up.railway.app/api/getprojectdetails",
+    "filltimesheet": "https://engineinv-production.up.railway.app/api/filltimesheet",
+    "deletetimesheet": "https://engineinv-production.up.railway.app/api/deletetimesheet",
+    "updatetimesheet": "https://engineinv-production.up.railway.app/api/updatetimesheet",
+    "gettimesheetday": "https://engineinv-production.up.railway.app/api/gettimesheetdays",
+    "addholidays": "https://engineinv-production.up.railway.app/api/admin/addholidays",
+    "viewholidays": "https://engineinv-production.up.railway.app/api/admin/viewholidays"
 }

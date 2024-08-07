@@ -1,7 +1,7 @@
 // src/lib/consts/navigation.jsx
 import { FaAddressBook } from "react-icons/fa";
 import { MdSpaceDashboard } from "react-icons/md";
-import { IoPersonAdd } from "react-icons/io5";
+import { IoPersonAdd, IoCalendar } from "react-icons/io5";
 import { RiServiceFill } from "react-icons/ri";
 import { HiMiniCodeBracketSquare } from "react-icons/hi2";
 import { RiShieldUserFill } from "react-icons/ri";
@@ -72,6 +72,13 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     label: "Timesheet",
     path: "/timesheet",
     icon: <FaBusinessTime />,
+    allowedAuth: [0], // user only
+  },
+  {
+    key: "leave",
+    label: "Leave",
+    path: "/leave",
+    icon: <IoCalendar />,
     allowedAuth: [0], // user only
   },
   {
