@@ -190,9 +190,10 @@ const RefillLeaves = () => {
             mandatoryholiday: data.holidays.mandatoryholiday.filter(
               (holiday) => new Date(holiday.date).getFullYear() === year
             ),
-            optionalholiday: data.holidays.optionalholiday.filter(
-              (holiday) => new Date(holiday.date).getFullYear() === year
-            ),
+            optionalholiday:
+              data.holidays.optionalholiday.optionalholidaylist.filter(
+                (holiday) => new Date(holiday.date).getFullYear() === year
+              ),
             weekendHoliday: data.holidays.weekendHoliday.filter(
               (holiday) => new Date(holiday.date).getFullYear() === year
             ),
@@ -434,28 +435,17 @@ const RefillLeaves = () => {
                                             {eventDateString}
                                           </div>
                                           <div
-                                            className={`flex items-center gap-2 p-2 font-bold py-1 rounded-md text-xs ${
-                                              holiday.type === "Mandatory"
-                                                ? "bg-orange-500/15 text-orange-500"
-                                                : "bg-green-500/15 text-green-500"
-                                            }`}
+                                            // className={`flex items-center gap-2 p-2 font-bold py-1 rounded-md text-xs bg-orange-500/15 text-orange-500 ${
+                                            //   holiday.type === "Mandatory"
+                                            //     ? "bg-orange-500/15 text-orange-500"
+                                            //     : "bg-orange-500/15 text-orange-500"
+                                            // }`}
+                                            className="flex items-center gap-2 p-2 font-bold py-1 rounded-md text-xs bg-orange-500/15 text-orange-500"
                                           >
                                             <span>Today</span>
                                             <span className="relative flex h-1.5 w-1.5 items-center justify-center">
-                                              <span
-                                                className={`animate-ping absolute inline-flex h-2 w-2 rounded-full ${
-                                                  holiday.type === "Mandatory"
-                                                    ? "bg-orange-400"
-                                                    : "bg-green-400"
-                                                } opacity-75`}
-                                              ></span>
-                                              <span
-                                                className={`relative inline-flex rounded-full h-1.5 w-1.5 ${
-                                                  holiday.type === "Mandatory"
-                                                    ? "bg-orange-500"
-                                                    : "bg-green-500"
-                                                }`}
-                                              ></span>
+                                              <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-orange-400"></span>
+                                              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-orange-500"></span>
                                             </span>
                                           </div>
                                         </div>
@@ -652,6 +642,25 @@ const RefillLeaves = () => {
                         )(e, index)
                       }
                       required
+                      autoComplete="off"
+                    />
+                    <TextField
+                      className={classNames(
+                        "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                        classes.root
+                      )}
+                      id="greeting"
+                      variant="outlined"
+                      margin="dense"
+                      label="Greeting"
+                      name="greeting"
+                      value={holiday.greeting}
+                      onChange={(e) =>
+                        handleHolidayChange(
+                          setOptionalHoliday,
+                          optionalHoliday
+                        )(e, index)
+                      }
                       autoComplete="off"
                     />
                     <div
