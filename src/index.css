@@ -159,6 +159,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     @apply font-bold text-lg rounded cursor-pointer bg-red-600;
 } */
 
+.css-9emuhu-MuiPaper-root-MuiDrawer-paper {
+    @apply !bg-transparent
+}
+
 .MuiDayCalendar-weekDayLabel,
 .MuiPickersDay-root,
 .MuiPickersCalendarHeader-label,

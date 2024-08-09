@@ -5,12 +5,14 @@ import { FaCalculator } from "react-icons/fa6";
 import { BiSolidHappyHeartEyes } from "react-icons/bi";
 import { MdFestival } from "react-icons/md";
 import Tooltip from "@mui/material/Tooltip";
-const token = localStorage.getItem("accessToken");
 import ApiendPonits from "../../../src/api/APIEndPoints.json";
+import OpenCalendar from "../../components/custom/OpenCalendar";
+import { FaSave, FaSadTear } from "react-icons/fa";
 
 const UserLeave = () => {
   const { userData } = useContext(AuthContext);
   const employee_id = userData?.employeeData._id;
+  const token = localStorage.getItem("accessToken");
 
   const [totalLeaves, setTotalLeaves] = useState(0);
   const [availableLeaves, setAvailableLeaves] = useState(0);
@@ -19,10 +21,20 @@ const UserLeave = () => {
   const [totalOptionalHoliday, setTotalOptionalHoliday] = useState(0);
   const [availableOptionalHoliday, setAvailableOptionalHoliday] = useState(0);
   const [totalWeekendHoliday, setTotalWeekendHoliday] = useState(0);
+  const [remainingMandatoryHoliday, setRemainingMandatoryHoliday] = useState(0);
+  const [remainingWeekendHoliday, setRemainingWeekendHoliday] = useState(0);
+  const [allTotalLeaves, setAllTotalLeaves] = useState(0);
+  const [allRemaining, setAllRemaining] = useState(0);
+
+  const [holidays, setHolidays] = useState({
+    mandatoryholiday: [],
+    optionalholiday: [],
+    weekendHoliday: [],
+    leaves: {},
+  });
 
   const [error, setError] = useState(null);
 
-  //   useEffect(() => {
   const getLeaveRecord = async () => {
     try {
       const response = await fetch(ApiendPonits.viewleaverecords, {
@@ -35,33 +47,92 @@ const UserLeave = () => {
           employee_id,
         }),
       });
-      const data = await response.json();
-      if (data.success) {
-        setTotalLeaves(data.leaves?.total || 0);
-        setAvailableLeaves(data.leaves?.available || 0);
-        setConsumedLeaves(data.leaves?.consume || 0);
-        setTotalMandatoryHoliday(data.mandatoryholiday?.length || 0);
-        setTotalOptionalHoliday(
-          data.optionalholiday?.optionalholidaylist?.length || 0
-        );
-        setAvailableOptionalHoliday(data.optionalholiday?.available || 0);
-        setTotalWeekendHoliday(data.weekendHoliday?.length || 0);
-        console.log(data.holidays);
-      } else {
-        setError("Failed to fetch holidays.");
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.msg || "Failed to fetch leave records.");
       }
+
+      const data = await response.json();
+      const { holidays } = data;
+      const currentYear = new Date().getFullYear();
+      const today = new Date();
+
+      const filterCurrentYear = (arr) =>
+        arr.filter((item) => new Date(item.date).getFullYear() === currentYear);
+
+      const mandatoryHolidayCurrentYear = filterCurrentYear(
+        holidays.mandatoryholiday || []
+      );
+      const optionalHolidayCurrentYear = filterCurrentYear(
+        holidays.optionalholiday?.optionalholidaylist || []
+      );
+      const weekendHolidayCurrentYear = filterCurrentYear(
+        holidays.weekendHoliday || []
+      );
+
+      const remainingMandatoryHolidays = mandatoryHolidayCurrentYear.filter(
+        (holiday) => new Date(holiday.date) > today
+      ).length;
+
+      const remainingWeekendHolidays = weekendHolidayCurrentYear.filter(
+        (holiday) => new Date(holiday.date) > today
+      ).length;
+
+      setTotalLeaves(holidays.leaves?.total || 0);
+      setAvailableLeaves(holidays.leaves?.available || 0);
+      setConsumedLeaves(holidays.leaves?.consume || 0);
+      setTotalMandatoryHoliday(mandatoryHolidayCurrentYear.length || 0);
+      setTotalOptionalHoliday(holidays.optionalholiday?.total || 0);
+      setAvailableOptionalHoliday(holidays.optionalholiday?.available || 0);
+      setTotalWeekendHoliday(weekendHolidayCurrentYear.length || 0);
+      setRemainingMandatoryHoliday(remainingMandatoryHolidays);
+      setRemainingWeekendHoliday(remainingWeekendHolidays);
+
+      const totalHolidays =
+        mandatoryHolidayCurrentYear.length +
+        holidays.optionalholiday?.total +
+        weekendHolidayCurrentYear.length +
+        (holidays.leaves?.total || 0);
+
+      const allRemainings =
+        holidays.leaves?.available +
+        remainingMandatoryHolidays +
+        holidays.optionalholiday?.available +
+        remainingWeekendHolidays;
+
+      setAllTotalLeaves(totalHolidays);
+      setAllRemaining(allRemainings);
+
+      setHolidays({
+        mandatoryholiday: mandatoryHolidayCurrentYear,
+        optionalholiday: holidays.optionalholiday?.optionalholidaylist || [],
+        weekendHoliday: weekendHolidayCurrentYear,
+        // leaves: holidays.leaves,
+      });
+
+      // console.log({
+      //   mandatoryHolidayCurrentYear,
+      //   optionalHolidayCurrentYear,
+      //   weekendHolidayCurrentYear,
+      //   totalHolidays,
+      // });
     } catch (error) {
-      setError("Error fetching holidays. Please try again.");
+      setError(error.message || "Error fetching holidays. Please try again.");
       console.error(error);
     }
   };
 
-  getLeaveRecord();
-  //   }, [employee_id, token]);
+  useEffect(() => {
+    if (employee_id) {
+      getLeaveRecord();
+    }
+  }, [employee_id]);
+
   return (
-    <div className="bg-neutral-950 rounded-md dark:text-white">
-      <div className="p-2 grid grid-cols-12 xl:grid-cols-5 gap-2">
-        {/* Total Leaves Holidays */}
+    <div className="bg-white dark:bg-neutral-950 rounded-md dark:text-white p-2 ">
+      <div className="grid grid-cols-12 xl:grid-cols-5 gap-2">
+        {/* Total Leaves */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -69,7 +140,7 @@ const UserLeave = () => {
           className="col-span-6 lg:col-span-4 xl:col-span-1 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
         >
           <div className="flex items-center gap-2">
-            <div className="bg-sky-200  rounded-md p-2">
+            <div className="bg-sky-200 rounded-md p-2">
               <FaCalculator fontSize={20} className="text-sky-600" />
             </div>
             <h2 className="font-bold">Total Leaves</h2>
@@ -77,17 +148,18 @@ const UserLeave = () => {
           <h2 className="flex items-end justify-end">
             <span className="text-4xl font-bold text-gray-300 cursor-pointer">
               <Tooltip title="Available" placement="top" arrow>
-                <span>20</span>
+                <span>{allRemaining}</span>
               </Tooltip>
             </span>
             /
             <span className="cursor-pointer">
               <Tooltip title="Total" placement="top" arrow>
-                <span>20</span>
+                <span>{allTotalLeaves}</span>
               </Tooltip>
             </span>
           </h2>
         </motion.div>
+
         {/* Leaves Holidays */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -104,18 +176,19 @@ const UserLeave = () => {
           <h2 className="flex items-end justify-end">
             <span className="text-4xl font-bold text-gray-300 cursor-pointer">
               <Tooltip title="Available" placement="top" arrow>
-                <span>0</span>
+                <span>{availableLeaves}</span>
               </Tooltip>
             </span>
             /
             <span className="cursor-pointer">
               <Tooltip title="Total" placement="top" arrow>
-                <span>20</span>
+                <span>{totalLeaves}</span>
               </Tooltip>
             </span>
           </h2>
         </motion.div>
-        {/* Mandatory Holidays*/}
+
+        {/* Mandatory Holidays */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -130,73 +203,83 @@ const UserLeave = () => {
           </div>
           <h2 className="flex items-end justify-end">
             <span className="text-4xl font-bold text-gray-300 cursor-pointer">
-              <Tooltip title="Mandatory" placement="top" arrow>
-                <span>20</span>
+              <Tooltip title="Remaining" placement="top" arrow>
+                <span>{remainingMandatoryHoliday}</span>
               </Tooltip>
             </span>
             /
             <span className="cursor-pointer">
               <Tooltip title="Total" placement="top" arrow>
-                <span>20</span>
+                <span>{totalMandatoryHoliday}</span>
               </Tooltip>
             </span>
           </h2>
         </motion.div>
+
         {/* Optional Holidays */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.0 }}
+          transition={{ duration: 1 }}
           className="col-span-6 lg:col-span-4 xl:col-span-1 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
         >
           <div className="flex items-center gap-2">
             <div className="bg-yellow-100 rounded-md p-2">
-              <MdFestival fontSize={20} className="text-yellow-500" />
+              <FaCalculator fontSize={20} className="text-yellow-500" />
             </div>
             <h2 className="font-bold">Optional Holidays</h2>
           </div>
           <h2 className="flex items-end justify-end">
             <span className="text-4xl font-bold text-gray-300 cursor-pointer">
-              <Tooltip title="Optional" placement="top" arrow>
-                <span>20</span>
+              <Tooltip title="Available" placement="top" arrow>
+                <span>{availableOptionalHoliday}</span>
               </Tooltip>
             </span>
             /
             <span className="cursor-pointer">
               <Tooltip title="Total" placement="top" arrow>
-                <span>20</span>
+                <span>{totalOptionalHoliday}</span>
               </Tooltip>
             </span>
           </h2>
         </motion.div>
+
         {/* Weekend Holidays */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.0 }}
+          transition={{ duration: 1.2 }}
           className="col-span-6 lg:col-span-4 xl:col-span-1 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
         >
           <div className="flex items-center gap-2">
-            <div className="bg-yellow-100 rounded-md p-2">
-              <MdFestival fontSize={20} className="text-yellow-500" />
+            <div className="bg-red-100 rounded-md p-2">
+              <FaSadTear fontSize={20} className="text-red-500" />
             </div>
             <h2 className="font-bold">Weekend Holidays</h2>
           </div>
           <h2 className="flex items-end justify-end">
             <span className="text-4xl font-bold text-gray-300 cursor-pointer">
-              <Tooltip title="Optional" placement="top" arrow>
-                <span>20</span>
+              <Tooltip title="Remaining" placement="top" arrow>
+                <span>{remainingWeekendHoliday}</span>
               </Tooltip>
             </span>
             /
             <span className="cursor-pointer">
               <Tooltip title="Total" placement="top" arrow>
-                <span>20</span>
+                <span>{totalWeekendHoliday}</span>
               </Tooltip>
             </span>
           </h2>
         </motion.div>
       </div>
+
+      {/* Calendar Component */}
+      <OpenCalendar
+        mandatoryholiday={holidays.mandatoryholiday}
+        optionalholiday={holidays.optionalholiday}
+        weekendHoliday={holidays.weekendHoliday}
+        // leaves={holidays.leaves}
+      />
     </div>
   );
 };
