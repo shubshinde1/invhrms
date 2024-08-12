@@ -289,7 +289,7 @@ const DashCalendar = ({
                 key={day}
                 onClick={() => handleDateClick(day + 1)}
                 className={classNames(
-                  "group p-2 rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800 relative border dark:border-neutral-800 border-sky-200 text-center",
+                  "group p-2 rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800 relative border dark:border-neutral-900 border-sky-100 text-center",
                   {
                     "bg-blue-500/15 text-blue-600 font-bold":
                       new Date(currentDate).getDate() === day + 1 &&

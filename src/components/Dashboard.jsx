@@ -116,7 +116,7 @@ export default function dashboard() {
     if (employee_id) {
       getLeaveRecord();
     }
-  }, [employee_id]);
+  }, [employee_id, token]);
   return (
     <div className="">
       <div className="">

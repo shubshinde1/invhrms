@@ -189,9 +189,7 @@ const OpenCalendar = ({
   const handleDateClick = (day) => {
     const details = getHolidayDetails(day);
     setHolidayDetails(details);
-    setSelectedDate(
-      formatFullDate(new Date(currentYear, currentMonth, day + 1))
-    );
+    setSelectedDate(formatFullDate(new Date(currentYear, currentMonth, day)));
     setDrawerOpen(true);
   };
 
@@ -201,9 +199,9 @@ const OpenCalendar = ({
   };
 
   return (
-    <div className="select-none">
+    <div className="select-none flex flex-col xl:flex-row justify-between">
       {showCalendar && (
-        <div className="w-full z-10 mt-2 p-2 border dark:border-none border-gray-300 rounded-lg bg-white dark:bg-neutral-900 dark:border-neutral-700 shadow-lg flex flex-col gap-2">
+        <div className="justify-end xl:w-2/3 w-full z-10 mt-2 p-2 border dark:border-none border-gray-300 rounded-lg bg-white dark:bg-neutral-900 dark:border-neutral-700 shadow-lg flex flex-col gap-2">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <button
@@ -301,11 +299,11 @@ const OpenCalendar = ({
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-7 gap-1">
+          <div className="grid grid-cols-7 gap-1 bg-sky-50 dark:bg-neutral-950 p-2 rounded-md">
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
               <div
                 key={day}
-                className="font-semibold text-center hover:bg-neutral-800 py-0.5 rounded-md mb-2"
+                className="font-semibold text-center hover:bg-sky-100 dark:hover:bg-neutral-800 py-0.5 rounded-md mb-2"
               >
                 {day}
               </div>
@@ -318,7 +316,7 @@ const OpenCalendar = ({
                 key={day}
                 onClick={() => handleDateClick(day + 1)}
                 className={classNames(
-                  "group p-2 rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800 relative border dark:border-neutral-800 border-sky-200 text-center lg:text-start",
+                  "group p-2 rounded-md hover:bg-sky-100 dark:hover:bg-neutral-800 relative border dark:border-neutral-800 border-sky-200 text-center lg:text-start",
                   {
                     "bg-blue-500/15 text-blue-600 font-bold":
                       new Date(currentDate).getDate() === day + 1 &&
@@ -369,6 +367,7 @@ const OpenCalendar = ({
           </div>
         </div>
       )}
+      <div>hello</div>
 
       {/* Mobile view holiday details drawer */}
       <Drawer
