@@ -199,9 +199,9 @@ const OpenCalendar = ({
   };
 
   return (
-    <div className="select-none flex flex-col xl:flex-row justify-between">
+    <div className="select-none flex flex-col xl:flex-row justify-between h-full items-start">
       {showCalendar && (
-        <div className="justify-end xl:w-2/3 w-full z-10 mt-2 p-2 border dark:border-none border-gray-300 rounded-lg bg-white dark:bg-neutral-900 dark:border-neutral-700 shadow-lg flex flex-col gap-2">
+        <div className="justify-end w-full z-10  p-2 border dark:border-none border-gray-300 rounded-lg bg-white dark:bg-neutral-900 dark:border-neutral-700 shadow-lg flex flex-col gap-2">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <button
@@ -367,7 +367,6 @@ const OpenCalendar = ({
           </div>
         </div>
       )}
-      <div>hello</div>
 
       {/* Mobile view holiday details drawer */}
       <Drawer

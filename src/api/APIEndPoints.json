@@ -12,5 +12,6 @@
     "gettimesheetday": "http://localhost:3000/api/gettimesheetdays",
     "addholidays": "http://localhost:3000/api/admin/addholidays",
     "viewholidays": "http://localhost:3000/api/admin/viewholidays",
-    "viewleaverecords": "http://localhost:3000/api/viewleaverecords"
+    "viewleaverecords": "http://localhost:3000/api/viewleaverecords",
+    "getoptionalholidaylist": "http://localhost:3000/api/getoptionalholidaylist"
 }

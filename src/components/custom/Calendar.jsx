@@ -145,26 +145,29 @@ const Calendar = ({ onDateChange }) => {
   const years = Array.from({ length: 20 }, (_, i) => currentYear - 10 + i);
 
   return (
-    <div className="relative">
-      <div onClick={() => setShowCalendar(!showCalendar)}>
+    <div className="relative z-20">
+      <div
+        onClick={() => setShowCalendar(!showCalendar)}
+        className="bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700 rounded-md mt-1"
+      >
         <input
           type="text"
           value={formatDate(currentDate)}
-          className="px-3 py-3.5 border rounded-lg bg-sky-100 dark:bg-neutral-800 dark:border-neutral-700 cursor-pointer mt-1"
+          className=" px-3 py-3.5 border rounded-md bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700 cursor-pointer "
           readOnly
         />
         <IoToday
-          className="text-blue-500/60 absolute top-4 right-1.5"
+          className="text-stone-500 dark:text-stone-300 absolute top-4 right-4"
           fontSize={20}
         />
       </div>
 
       {showCalendar && (
-        <div className="absolute -ml-5 md:ml-0 z-10 mt-2 p-4 border border-gray-300 rounded-lg bg-sky-100 dark:bg-neutral-900 dark:border-neutral-700 shadow-lg">
+        <div className="absolute -ml-5 md:ml-0 z-10 mt-2 p-4 border border-gray-300 rounded-md bg-sky-100 dark:bg-neutral-900 dark:border-neutral-700 shadow-lg">
           <div className="flex items-center justify-between mb-4 gap-2">
             <button
               onClick={() => handleMonthChange(-1)}
-              className="p-2 bg-sky-50 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 mt-1 group"
+              className="p-2 bg-sky-50 rounded-md dark:bg-neutral-800 dark:border-neutral-700 mt-1 group"
             >
               <FaCaretLeft
                 fontSize={23}
@@ -176,7 +179,7 @@ const Calendar = ({ onDateChange }) => {
                 variant="outlined"
                 margin="dense"
                 className={classNames(
-                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                  "p-2 border rounded-md dark:bg-neutral-800 dark:border-neutral-700 h-10",
                   classes.root
                 )}
               >
@@ -199,7 +202,7 @@ const Calendar = ({ onDateChange }) => {
                 variant="outlined"
                 margin="dense"
                 className={classNames(
-                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                  "p-2 border rounded-md dark:bg-neutral-800 dark:border-neutral-700 h-10",
                   classes.root
                 )}
               >
@@ -221,7 +224,7 @@ const Calendar = ({ onDateChange }) => {
             </div>
             <button
               onClick={() => handleMonthChange(1)}
-              className="p-2 bg-sky-50 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 mt-1 group"
+              className="p-2 bg-sky-50 rounded-md dark:bg-neutral-800 dark:border-neutral-700 mt-1 group"
             >
               <FaCaretRight
                 fontSize={23}

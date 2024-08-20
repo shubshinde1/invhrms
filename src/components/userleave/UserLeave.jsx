@@ -8,6 +8,8 @@ import Tooltip from "@mui/material/Tooltip";
 import ApiendPonits from "../../../src/api/APIEndPoints.json";
 import OpenCalendar from "../../components/custom/OpenCalendar";
 import { FaSave, FaSadTear } from "react-icons/fa";
+import ApplyLeave from "./ApplyLeave";
+import LeaveHistory from "./LeaveHistory";
 
 const UserLeave = () => {
   const { userData } = useContext(AuthContext);
@@ -32,6 +34,8 @@ const UserLeave = () => {
     weekendHoliday: [],
     leaves: {},
   });
+
+  const [activeTab, setActiveTab] = useState("calendar");
 
   const [error, setError] = useState(null);
 
@@ -130,7 +134,7 @@ const UserLeave = () => {
   }, [employee_id]);
 
   return (
-    <div className="bg-white dark:bg-neutral-950 rounded-md dark:text-white p-2 ">
+    <div className="bg-white dark:bg-neutral-950 rounded-md dark:text-white p-2 flex flex-col gap-2 mb-16">
       <div className="grid grid-cols-12 xl:grid-cols-5 gap-2">
         {/* Total Leaves */}
         <motion.div
@@ -174,6 +178,12 @@ const UserLeave = () => {
             <h2 className="font-bold">Leaves</h2>
           </div>
           <h2 className="flex items-end justify-end">
+            {/* <span className="text-4xl font-bold text-gray-300 cursor-pointer">
+              <Tooltip title="Consumed" placement="top" arrow>
+                <span>{consumedLeaves}</span>
+              </Tooltip>
+            </span>
+            / */}
             <span className="text-4xl font-bold text-gray-300 cursor-pointer">
               <Tooltip title="Available" placement="top" arrow>
                 <span>{availableLeaves}</span>
@@ -273,13 +283,50 @@ const UserLeave = () => {
         </motion.div>
       </div>
 
-      {/* Calendar Component */}
-      <OpenCalendar
-        mandatoryholiday={holidays.mandatoryholiday}
-        optionalholiday={holidays.optionalholiday}
-        weekendHoliday={holidays.weekendHoliday}
-        // leaves={holidays.leaves}
-      />
+      <div className="xl:grid grid-cols-12 gap-2">
+        <div className="col-span-4 ">
+          <ApplyLeave />
+        </div>
+
+        <div className="col-span-8 flex flex-col gap-2 mt-2 xl:mt-0">
+          {/* Tabs */}
+          <div className="flex bg-sky-100 dark:bg-neutral-900 p-1 rounded-md gap-1">
+            <div
+              className={`px-2 py-1 cursor-pointer ${
+                activeTab === "calendar"
+                  ? "bg-blue-500/15 text-blue-500 font-bold rounded-md"
+                  : "bg-neutral-400/15 rounded-md"
+              }`}
+              onClick={() => setActiveTab("calendar")}
+            >
+              Calendar
+            </div>
+            <div
+              className={`px-2 py-1 cursor-pointer ${
+                activeTab === "history"
+                  ? "bg-blue-500/15 text-blue-500 font-bold rounded-md"
+                  : "bg-neutral-400/15 rounded-md"
+              }`}
+              onClick={() => setActiveTab("history")}
+            >
+              Leave History
+            </div>
+          </div>
+
+          {/* Tab Content */}
+          <div className="">
+            {activeTab === "calendar" && (
+              <OpenCalendar
+                mandatoryholiday={holidays.mandatoryholiday}
+                optionalholiday={holidays.optionalholiday}
+                weekendHoliday={holidays.weekendHoliday}
+                // leaves={holidays.leaves}
+              />
+            )}
+            {activeTab === "history" && <LeaveHistory />}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -190,7 +190,7 @@ const DashCalendar = ({
     const details = getHolidayDetails(day);
     setHolidayDetails(details);
     setSelectedDate(
-      formatFullDate(new Date(currentYear, currentMonth, day + 1))
+      formatFullDate(new Date(currentYear, currentMonth, day))
     );
     setDrawerOpen(true);
   };
