@@ -293,7 +293,7 @@ const UserLeave = () => {
           {/* Tabs */}
           <div className="flex bg-sky-100 dark:bg-neutral-900 p-1 rounded-md gap-1">
             <div
-              className={`px-2 py-1 cursor-pointer flex items-center gap-1.5 ${
+              className={`px-2 py-1 cursor-pointer flex items-center gap-1.5 w-full sm:w-fit ${
                 activeTab === "calendar"
                   ? "bg-blue-500/15 text-blue-500 font-bold rounded-md"
                   : "bg-neutral-400/15 rounded-md"
@@ -304,7 +304,7 @@ const UserLeave = () => {
               Calendar
             </div>
             <div
-              className={`px-2 py-1 cursor-pointer flex items-center gap-1.5 ${
+              className={`px-2 py-1 cursor-pointer flex items-center gap-1.5 w-full sm:w-fit ${
                 activeTab === "history"
                   ? "bg-blue-500/15 text-blue-500 font-bold rounded-md"
                   : "bg-neutral-400/15 rounded-md"

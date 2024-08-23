@@ -5,10 +5,100 @@ import { FaCaretDown, FaSyncAlt } from "react-icons/fa"; // Import the refresh i
 import { RiRefreshLine } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 import { motion } from "framer-motion";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Slider,
+} from "@mui/material";
+import classNames from "classnames";
+import { createGlobalStyle } from "styled-components";
+import { makeStyles } from "@mui/styles";
+import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
+import { FaCalendarDays } from "react-icons/fa6";
+import { FaStopwatch } from "react-icons/fa6";
+import { FaCalendarCheck } from "react-icons/fa6";
+import { FaCalendarXmark } from "react-icons/fa6";
+import ApiendPonits from "../../../src/api/APIEndPoints.json";
 
 import NotFound from "../../assets/images/norecordfound.svg";
 
+const GlobalStyles = createGlobalStyle`
+.MuiPaper-root{
+  height:fit-content;
+  border-radius:10px;
+} 
+  .MuiMenuItem-root {
+    font-family: Euclid;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 5px 8px;
+    border-radius: 7px;
+  }
+  .MuiMenuItem-root:hover {
+    background-color:#e0f2fe;
+    padding-left: 14px;
+  }
+  .MuiMenuItem-root:hover {
+    transition-duration: 0.2s;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+`;
+
+const useStyles = makeStyles({
+  root: {
+    "& .MuiInputLabel-root": {
+      fontFamily: "euclid",
+      fontSize: 14,
+      paddingTop: -2.5,
+      fontWeight: "bold",
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      fontWeight: "bold",
+      fontSize: 15,
+    },
+    "& .MuiInputBase-root": {
+      border: "0 none",
+      borderRadius: 7,
+      height: 50,
+      width: "100%",
+      overflow: "hidden",
+    },
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "gray",
+    },
+    "& .Muilplaceholder": {
+      fontFamily: "euclid",
+      fontSize: 10,
+    },
+    "& .MuiOutlinedInput-input": {
+      fontFamily: "euclid-medium",
+      fontSize: 14,
+    },
+    "& ::placeholder": {
+      fontSize: 12,
+    },
+    display: "block",
+    width: "100%",
+    fontFamily: "euclid-medium",
+  },
+});
+
 const LeaveHistory = () => {
+  const classes = useStyles();
+
   const { userData } = useContext(AuthContext);
   const token = localStorage.getItem("accessToken");
   const employee_id = userData?.employeeData._id;
@@ -17,6 +107,9 @@ const LeaveHistory = () => {
   const [errors, setErrors] = useState("");
   const [expandedIndex, setExpandedIndex] = useState(null); // Track the expanded card
   const [loading, setLoading] = useState(false); // Track loading state
+  const [selectedMonth, setSelectedMonth] = useState("all"); // Track selected month
+  const [selectedStatus, setSelectedStatus] = useState("all"); // Track selected status
+  const [message, setMessage] = useState("");
 
   const formatDate = (dateString) => {
     const options = { weekday: "short", day: "2-digit", month: "short" };
@@ -26,19 +119,16 @@ const LeaveHistory = () => {
   const getLeaveHistory = async () => {
     setLoading(true); // Start loading
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/leaveapplicationhistory",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            employee_id,
-          }),
-        }
-      );
+      const response = await fetch(ApiendPonits.employeeleavehistory, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          employee_id,
+        }),
+      });
       const data = await response.json();
 
       if (data.success) {
@@ -62,7 +152,7 @@ const LeaveHistory = () => {
   const handleDelete = async (applicationId) => {
     try {
       const response = await fetch(
-        "http://localhost:3000/api/deleteleaveapplication", // Assuming this is your delete endpoint
+        ApiendPonits.deleteleaveapplication, // Assuming this is your delete endpoint
         {
           method: "POST",
           headers: {
@@ -82,6 +172,8 @@ const LeaveHistory = () => {
         setLeaveHistory((prevHistory) =>
           prevHistory.filter((record) => record._id !== applicationId)
         );
+        setMessage("Record Deleted Succesfully");
+        setTimeout(() => setMessage(""), 4000);
       } else {
         setErrors(data.msg || "Failed to delete leave application.");
       }
@@ -107,13 +199,172 @@ const LeaveHistory = () => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
+  const filterHistory = () => {
+    return leavehistory.filter((record) => {
+      const recordMonth = new Date(record.fromdate).getMonth() + 1; // Months are 0-based
+      const recordStatus = record.applicationstatus;
+
+      const monthFilter =
+        selectedMonth === "all" || parseInt(selectedMonth, 10) === recordMonth;
+      const statusFilter =
+        selectedStatus === "all" ||
+        parseInt(selectedStatus, 10) === recordStatus;
+
+      return monthFilter && statusFilter;
+    });
+  };
+
+  // Count the statuses
+  const statusCounts = leavehistory.reduce(
+    (acc, record) => {
+      acc.all += 1;
+      if (record.applicationstatus === 0) acc.awaiting += 1;
+      if (record.applicationstatus === 1) acc.approved += 1;
+      if (record.applicationstatus === 2) acc.declined += 1;
+      return acc;
+    },
+    { all: 0, awaiting: 0, approved: 0, declined: 0 }
+  );
+
   return (
-    <div className="p-2 bg-sky-50 dark:bg-neutral-900 rounded-md h-[67.5vh] overflow-hidden pb-12">
-      <div className="flex justify-between items-center mb-2">
+    <div className="p-2 border dark:border-none dark:bg-neutral-900 rounded-md h-[67.5vh] overflow-hidden pb-12">
+      <div className="flex gap-2 items-start justify-between mb-2">
         {/* <h2 className="text-lg font-bold">Leave History</h2> */}
+
+        <div className="flex gap-2 items-center">
+          {/* <FormControl
+            variant="outlined"
+            margin="dense"
+            className={classNames(
+              "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+              classes.root
+            )}
+          >
+            <InputLabel id="Month-label" className="w-fit">
+              Month
+            </InputLabel>
+            <Select
+              labelId="Month-label"
+              id="Month"
+              name="Month"
+              label="Month"
+              IconComponent={(props) => (
+                <ArrowDropDownRoundedIcon
+                  {...props}
+                  sx={{
+                    fontSize: 40,
+                    borderRadius: 1,
+                  }}
+                />
+              )}
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+            >
+              <GlobalStyles />
+              <MenuItem value="all">All Months</MenuItem>
+              {[...Array(12).keys()].map((month) => (
+                <MenuItem key={month + 1} value={month + 1}>
+                  {new Date(0, month).toLocaleString("default", {
+                    month: "long",
+                  })}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl> */}
+
+          {/* <FormControl
+            variant="outlined"
+            margin="dense"
+            className={classNames(
+              "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+              classes.root
+            )}
+          >
+            <InputLabel id="Status-label" className="w-fit">
+              Status
+            </InputLabel>
+            <Select
+              labelId="Status-label"
+              id="Status"
+              name="Status"
+              label="Status"
+              IconComponent={(props) => (
+                <ArrowDropDownRoundedIcon
+                  {...props}
+                  sx={{
+                    fontSize: 40,
+                    borderRadius: 1,
+                  }}
+                />
+              )}
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+            >
+              <GlobalStyles />
+              <MenuItem value="all">All Statuses</MenuItem>
+              <MenuItem value="0">Awaiting</MenuItem>
+              <MenuItem value="1">Approved</MenuItem>
+              <MenuItem value="2">Declined</MenuItem>
+            </Select>
+          </FormControl> */}
+          <div className="flex gap-1 bg-sky-100 dark:bg-neutral-950 p-1 rounded-md text-xs">
+            <button
+              onClick={() => setSelectedStatus("all")}
+              className={classNames(
+                "px-1.5 py-1 rounded-md h-fit  flex items-end gap-1",
+                selectedStatus === "all"
+                  ? "bg-neutral-500/15 text-blue-500 font-semibold flex items-center"
+                  : "hover:bg-sky-50 dark:hover:bg-neutral-900"
+              )}
+            >
+              <FaCalendarDays fontSize={15} />
+              {selectedStatus === "all" ? "All" : ""}
+              {/* <span className="text-xs">{statusCounts.all}</span> */}
+            </button>
+            <button
+              onClick={() => setSelectedStatus("0")}
+              className={classNames(
+                "px-1.5 py-1 rounded-md h-fit  flex items-center gap-1",
+                selectedStatus === "0"
+                  ? "bg-neutral-500/15 text-yellow-500 font-semibold flex items-center"
+                  : "hover:bg-sky-50 dark:hover:bg-neutral-900"
+              )}
+            >
+              <FaStopwatch fontSize={15} />
+              {selectedStatus == 0 ? "Awaiting" : ""}
+              {/* <span className="text-xs">{statusCounts.awaiting}</span> */}
+            </button>
+            <button
+              onClick={() => setSelectedStatus("1")}
+              className={classNames(
+                "px-1.5 py-1 rounded-md h-fit  flex items-cente gap-1",
+                selectedStatus === "1"
+                  ? "bg-neutral-500/15 text-green-500 font-semibold flex items-center"
+                  : "hover:bg-sky-50 dark:hover:bg-neutral-900"
+              )}
+            >
+              <FaCalendarCheck fontSize={15} />
+              {selectedStatus == 1 ? "Approved" : ""}
+              {/* <span className="text-xs">{statusCounts.approved}</span> */}
+            </button>
+            <button
+              onClick={() => setSelectedStatus("2")}
+              className={classNames(
+                "px-1.5 py-1 rounded-md h-fit  flex items-center gap-1",
+                selectedStatus === "2"
+                  ? "bg-neutral-500/15 text-red-500 font-semibold flex items-center"
+                  : "hover:bg-sky-50 dark:hover:bg-neutral-900"
+              )}
+            >
+              <FaCalendarXmark fontSize={15} />
+              {selectedStatus == 2 ? "Declined" : ""}
+              {/* <span className="text-xs">{statusCounts.declined}</span> */}
+            </button>
+          </div>
+        </div>
         <button
           onClick={getLeaveHistory}
-          className="bg-white dark:bg-neutral-800/30 dark:hover:bg-neutral-800/70 hover:bg-sky-100 p-1.5 rounded-md"
+          className="bg-sky-50 dark:bg-neutral-950 dark:hover:bg-neutral-800 hover:bg-sky-100 p-1.5 rounded-md"
         >
           <RiRefreshLine
             fontSize={20}
@@ -140,12 +391,12 @@ const LeaveHistory = () => {
         <div
           // className="grid gap-2 md:grid-cols-2 dark:bg-neutral-900 h-full overflow-y-scroll scrollbrhdn"
           className={
-            leavehistory.length > 8
+            filterHistory().length > 8
               ? "grid gap-2 md:grid-cols-2 dark:bg-neutral-900 h-full overflow-y-scroll scrollbrhdn"
               : "grid gap-2 md:grid-cols-2 dark:bg-neutral-900 h-fit overflow-y-scroll scrollbrhdn"
           }
         >
-          {[...leavehistory].reverse().map((record, index) => (
+          {[...filterHistory()].reverse().map((record, index) => (
             <div
               key={index}
               className="bg-white flex flex-col gap-2 dark:bg-neutral-800 rounded-xl shadow-md p-2 border border-gray-200 dark:border-neutral-700 h-fit"
@@ -253,6 +504,11 @@ const LeaveHistory = () => {
               )}
             </div>
           ))}
+        </div>
+      )}
+      {message && (
+        <div className="absolute bg-green-600 right-2 bottom-2 p-2 text-white rounded-md z-40">
+          {message}
         </div>
       )}
     </div>

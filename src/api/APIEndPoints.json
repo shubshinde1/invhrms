@@ -13,5 +13,8 @@
     "addholidays": "http://localhost:3000/api/admin/addholidays",
     "viewholidays": "http://localhost:3000/api/admin/viewholidays",
     "viewleaverecords": "http://localhost:3000/api/viewleaverecords",
-    "getoptionalholidaylist": "http://localhost:3000/api/getoptionalholidaylist"
+    "getoptionalholidaylist": "http://localhost:3000/api/getoptionalholidaylist",
+    "leaveapplication": "http://localhost:3000/api/leaveapplication",
+    "employeeleavehistory": "http://localhost:3000/api/leaveapplicationhistory",
+    "deleteleaveapplication": "http://localhost:3000/api/deleteleaveapplication"
 }

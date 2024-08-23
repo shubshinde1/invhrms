@@ -213,20 +213,17 @@ const ApplyLeave = () => {
     if (!validateForm()) return;
 
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/leaveapplication",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            ...formData,
-            employee_id,
-          }),
-        }
-      );
+      const response = await fetch(ApiendPonits.leaveapplication, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ...formData,
+          employee_id,
+        }),
+      });
       const result = await response.json();
       if (result.success) {
         setFormData({
@@ -450,6 +447,7 @@ const ApplyLeave = () => {
               onChange={handleChange}
               placeholder="Reason"
               rows="4"
+              // required
               className="w-full p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
             />
             {errors.reason && (
