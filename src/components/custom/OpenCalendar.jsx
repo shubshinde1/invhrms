@@ -199,10 +199,10 @@ const OpenCalendar = ({
   };
 
   return (
-    <div className="select-none flex flex-col xl:flex-row justify-between h-full items-start">
+    <div className="select-none flex flex-col xl:flex-row justify-between xl:h-[67.5vh] items-start">
       {showCalendar && (
-        <div className="justify-end w-full z-10  p-2 border dark:border-none border-gray-300 rounded-lg bg-white dark:bg-neutral-900 dark:border-neutral-700 shadow-lg flex flex-col gap-2">
-          <div className="flex items-center justify-between gap-2">
+        <div className="justify-en w-full z-10 h-full p-2 border dark:border-none border-gray-300 rounded-lg bg-white dark:bg-neutral-900 dark:border-neutral-700 shadow-lg flex flex-col gap-2">
+          <div className="flex items-center justify-between gap-2 h-ful">
             <div className="flex items-center gap-2">
               <button
                 onClick={() => handleMonthChange(-1)}
@@ -299,7 +299,7 @@ const OpenCalendar = ({
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-7 gap-1 bg-sky-50 dark:bg-neutral-950 p-2 rounded-md">
+          <div className="grid grid-cols-7 gap-1 bg-sky-50 dark:bg-neutral-950 p-2 rounded-md h-full">
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
               <div
                 key={day}
@@ -316,7 +316,7 @@ const OpenCalendar = ({
                 key={day}
                 onClick={() => handleDateClick(day + 1)}
                 className={classNames(
-                  "group p-2 rounded-md hover:bg-sky-100 dark:hover:bg-neutral-800 relative border dark:border-neutral-800 border-sky-200 text-center lg:text-start",
+                  " group p-2 rounded-md hover:bg-sky-100 dark:hover:bg-neutral-800 relative border dark:border-neutral-800 border-sky-200 text-center lg:text-start",
                   {
                     "bg-blue-500/15 text-blue-600 font-bold":
                       new Date(currentDate).getDate() === day + 1 &&

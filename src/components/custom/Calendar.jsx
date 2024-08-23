@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FormControl, Select, MenuItem } from "@mui/material";
 import { IoToday } from "react-icons/io5";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
@@ -85,6 +85,8 @@ const Calendar = ({ onDateChange }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 
+  const calendarRef = useRef(null);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const options = { day: "numeric", month: "long", year: "numeric" };
@@ -94,6 +96,20 @@ const Calendar = ({ onDateChange }) => {
   useEffect(() => {
     setCurrentDate(new Date(currentDate).toISOString().split("T")[0]);
   }, [currentDate]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+        setShowCalendar(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [calendarRef]);
 
   const getDaysInMonth = (month, year) => {
     return new Date(year, month + 1, 0).getDate();
@@ -145,7 +161,7 @@ const Calendar = ({ onDateChange }) => {
   const years = Array.from({ length: 20 }, (_, i) => currentYear - 10 + i);
 
   return (
-    <div className="relative z-20">
+    <div className="relative z-20" ref={calendarRef}>
       <div
         onClick={() => setShowCalendar(!showCalendar)}
         className="bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700 rounded-md mt-1"

@@ -260,7 +260,7 @@ const ApplyLeave = () => {
   };
 
   return (
-    <div className="container mx-auto p-2 bg-sky-100 dark:bg-neutral-900 rounded-md">
+    <div className="container mx-auto p-2 bg-white border  dark:border-none dark:bg-neutral-900 rounded-md">
       {/* <h1 className="text-xl font-bold mb-4">Apply for Leave</h1> */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
@@ -426,7 +426,7 @@ const ApplyLeave = () => {
             >
               <span
                 className={`relative inline-flex items-center cursor-pointer w-10 h-6 dark:bg-neutral-600 bg-gray-300 rounded-full transition-colors duration-300 ease-in-out ${
-                  formData.halfday ? "bg-indigo-600 dark:bg-blue-600" : ""
+                  formData.halfday ? "bg-indigo-600 dark:bg-indigo-600" : ""
                 }`}
               >
                 <span
@@ -449,7 +449,7 @@ const ApplyLeave = () => {
               value={formData.reason}
               onChange={handleChange}
               placeholder="Reason"
-              rows="2"
+              rows="4"
               className="w-full p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
             />
             {errors.reason && (
@@ -460,17 +460,17 @@ const ApplyLeave = () => {
 
         <button
           type="submit"
-          className=" p-2 bg-blue-500/15 text-blue-500 font-bold rounded-lg w-full"
+          className=" p-2 bg-blue-500/15 text-blue-500 font-bold rounded-lg w-full text-base"
         >
           Submit Application
         </button>
         {message && (
-          <div className="absolute bg-green-600 right-2 bottom-2 p-2 text-white rounded-md ">
+          <div className="absolute bg-green-600 right-2 bottom-2 p-2 text-white rounded-md z-40">
             {message}
           </div>
         )}
         {errors.length > 0 && (
-          <div className="absolute right-2 bottom-2 flex flex-col gap-2">
+          <div className="absolute right-2 bottom-2 flex flex-col gap-2 z-40">
             {errors.map((error, index) => (
               <div key={index} className="text-white bg-red-600 rounded-md p-2">
                 {error}

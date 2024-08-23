@@ -10,6 +10,7 @@ import OpenCalendar from "../../components/custom/OpenCalendar";
 import { FaSave, FaSadTear } from "react-icons/fa";
 import ApplyLeave from "./ApplyLeave";
 import LeaveHistory from "./LeaveHistory";
+import { FaCalendarAlt, FaListAlt } from "react-icons/fa";
 
 const UserLeave = () => {
   const { userData } = useContext(AuthContext);
@@ -292,23 +293,25 @@ const UserLeave = () => {
           {/* Tabs */}
           <div className="flex bg-sky-100 dark:bg-neutral-900 p-1 rounded-md gap-1">
             <div
-              className={`px-2 py-1 cursor-pointer ${
+              className={`px-2 py-1 cursor-pointer flex items-center gap-1.5 ${
                 activeTab === "calendar"
                   ? "bg-blue-500/15 text-blue-500 font-bold rounded-md"
                   : "bg-neutral-400/15 rounded-md"
               }`}
               onClick={() => setActiveTab("calendar")}
             >
+              <FaCalendarAlt />
               Calendar
             </div>
             <div
-              className={`px-2 py-1 cursor-pointer ${
+              className={`px-2 py-1 cursor-pointer flex items-center gap-1.5 ${
                 activeTab === "history"
                   ? "bg-blue-500/15 text-blue-500 font-bold rounded-md"
                   : "bg-neutral-400/15 rounded-md"
               }`}
               onClick={() => setActiveTab("history")}
             >
+              <FaListAlt />
               Leave History
             </div>
           </div>
