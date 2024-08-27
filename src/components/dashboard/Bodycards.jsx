@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Feed from "./Feed";
+import AttendanceHistory from "./AttendanceHistory";
 import ApexCharts from "apexcharts";
 import intime from "../../assets/images/intime.png";
 import breaktime from "../../assets/images/breaktime.png";
@@ -7308,7 +7308,7 @@ export default function Bodycards() {
           </div>
         </div>
       </div>
-      <Feed />
+      <AttendanceHistory />
     </div>
   );
 }

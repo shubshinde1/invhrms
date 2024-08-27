@@ -1,19 +1,21 @@
 // src/lib/consts/navigation.jsx
 import { FaAddressBook } from "react-icons/fa";
-import { MdSpaceDashboard } from "react-icons/md";
-import { IoPersonAdd, IoCalendar } from "react-icons/io5";
+import { IoPersonAdd } from "react-icons/io5";
+import { FaCalendarCheck, FaCalendarDays } from "react-icons/fa6";
 import { RiServiceFill } from "react-icons/ri";
 import { HiMiniCodeBracketSquare } from "react-icons/hi2";
 import { RiShieldUserFill } from "react-icons/ri";
 import { BsPeopleFill } from "react-icons/bs";
 import { FaBusinessTime } from "react-icons/fa6";
+import { TbLayoutDashboardFilled } from "react-icons/tb";
+import { HiUser } from "react-icons/hi2";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
   {
     key: "dashboard",
     label: "Dashboard",
     path: "/",
-    icon: <MdSpaceDashboard />,
+    icon: <TbLayoutDashboardFilled />,
     allowedAuth: [0, 1], // both employee and admin can access
   },
   {
@@ -75,17 +77,24 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     allowedAuth: [0], // user only
   },
   {
+    key: "Attendance",
+    label: "Attendance",
+    path: "/Attendance",
+    icon: <FaCalendarDays />,
+    allowedAuth: [0], // user only
+  },
+  {
     key: "leave",
     label: "Leave",
     path: "/leave",
-    icon: <IoCalendar />,
+    icon: <FaCalendarCheck />,
     allowedAuth: [0], // user only
   },
   {
     key: "profile",
     label: "Profile",
     path: "/myprofile",
-    icon: <RiShieldUserFill />,
+    icon: <HiUser />,
     allowedAuth: [0], // user only
   },
 ];

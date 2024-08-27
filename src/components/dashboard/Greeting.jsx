@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
 import { IoLogIn, IoLogOut } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import ApiendPonits from "../../api/APIEndPoints.json";
+import { FaCaretRight } from "react-icons/fa6";
 
 const ONE_HOUR_IN_SECONDS = 3600;
 const NINE_HOURS_IN_SECONDS = 9 * ONE_HOUR_IN_SECONDS;
 
 export default function Greeting() {
   const { userData } = useContext(AuthContext);
-
-  const navigate = useNavigate();
-
   const [isPunchedIn, setIsPunchedIn] = useState(false);
   const [startTime, setStartTime] = useState(null);
   const [remainingTime, setRemainingTime] = useState(NINE_HOURS_IN_SECONDS);
   const [punchInTime, setPunchInTime] = useState(null);
   const [punchOutTime, setPunchOutTime] = useState(null);
+  const [error, setError] = useState(""); // Error state variable
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const storedStartTime = sessionStorage.getItem("startTime");
@@ -78,6 +78,23 @@ export default function Greeting() {
     const token = localStorage.getItem("accessToken");
 
     try {
+      // Get user's current location
+      let inlocation = null;
+      let outlocation = null;
+
+      if (mark === "In" || mark === "Out") {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+
+        const { latitude, longitude } = position.coords;
+        if (mark === "In") {
+          inlocation = { latitude, longitude };
+        } else {
+          outlocation = { latitude, longitude };
+        }
+      }
+
       const response = await fetch(endpoint, {
         method: "POST",
         headers: {
@@ -87,14 +104,25 @@ export default function Greeting() {
         body: JSON.stringify({
           employee_id: userData.employeeData._id,
           mark,
+          inlocation,
+          outlocation,
         }),
       });
 
       const data = await response.json();
       console.log(data);
 
-      if (data.success) {
+      if (response.ok) {
         const currentTime = Date.now();
+        if (mark === "In") {
+          setMessage("Punch In Successfully");
+          setTimeout(() => setMessage(""), 4000);
+        }
+        if (mark === "Out") {
+          setMessage("Punch Out Successfully");
+          setTimeout(() => setMessage(""), 4000);
+        }
+
         if (mark === "In") {
           sessionStorage.setItem("startTime", currentTime);
           setStartTime(currentTime);
@@ -108,6 +136,9 @@ export default function Greeting() {
           setIsPunchedIn(true);
         } else {
           sessionStorage.setItem("punchOutTime", currentTime);
+          sessionStorage.removeItem("punchInTime");
+          sessionStorage.removeItem("punchOutTime");
+
           setPunchOutTime(
             new Date(currentTime).toLocaleTimeString([], {
               hour: "numeric",
@@ -116,17 +147,20 @@ export default function Greeting() {
           );
           setIsPunchedIn(false);
           sessionStorage.removeItem("startTime");
-          sessionStorage.removeItem("punchInTime");
+          // sessionStorage.removeItem("punchInTime");
         }
       } else {
-        const error = data.msg;
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("@secure.s.userData");
-        navigate("/login");
-        return error;
+        if (!token) {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("@secure.s.userData");
+        }
+        const error =
+          data.message || "An error occurred while processing your request.";
+        setError(error);
+        setTimeout(() => setError(""), 4000);
       }
     } catch (error) {
-      console.error("Error:", error);
+      setError("An error occurred. Please try again.");
     }
   };
 
@@ -181,6 +215,13 @@ export default function Greeting() {
               )}
             </button>
           </div>
+          <Link
+            to="/Attendance"
+            className="flex items-center text-xs text-blue-500 py-0.5 hover:px-1 rounded-md cursor-pointer duration-300 mt-1 hover:bg-blue-500/15"
+          >
+            <h3>History</h3>
+            <FaCaretRight />
+          </Link>
           <div className="w-full sm:w-2/3 mt-4">
             <div className="flex justify-between text-xs">
               <span className="flex flex-col items-end">
@@ -206,6 +247,16 @@ export default function Greeting() {
           </div>
         </div>
       </div>
+      {message && (
+        <div className="absolute bottom-4 right-4 bg-green-500 text-white p-3 rounded-md z-10">
+          {message}
+        </div>
+      )}
+      {error && (
+        <div className="absolute bottom-4 right-4 bg-red-500 text-white p-3 rounded-md z-10">
+          {error}
+        </div>
+      )}
     </div>
   );
 }

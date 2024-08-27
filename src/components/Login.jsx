@@ -31,7 +31,7 @@ const Login = ({ theme }) => {
 
       const data = response.data.data;
 
-      console.log(response.data);
+      // console.log(response.data);
 
       if (response.data.success) {
         localStorage.setItem("accessToken", response.data.accessToken);

@@ -97,14 +97,14 @@ const UserLeave = () => {
       const totalHolidays =
         mandatoryHolidayCurrentYear.length +
         holidays.optionalholiday?.total +
-        weekendHolidayCurrentYear.length +
+        // weekendHolidayCurrentYear.length +
         (holidays.leaves?.total || 0);
 
       const allRemainings =
         holidays.leaves?.available +
         remainingMandatoryHolidays +
-        holidays.optionalholiday?.available +
-        remainingWeekendHolidays;
+        holidays.optionalholiday?.available;
+      // remainingWeekendHolidays;
 
       setAllTotalLeaves(totalHolidays);
       setAllRemaining(allRemainings);
@@ -145,7 +145,7 @@ const UserLeave = () => {
           className="col-span-6 lg:col-span-4 xl:col-span-1 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
         >
           <div className="flex items-center gap-2">
-            <div className="bg-sky-200 rounded-md p-2">
+            <div className="bg-sky-500/15 rounded-md p-2">
               <FaCalculator fontSize={20} className="text-sky-600" />
             </div>
             <h2 className="font-bold">Total Leaves</h2>
@@ -173,7 +173,7 @@ const UserLeave = () => {
           className="col-span-6 lg:col-span-4 xl:col-span-1 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
         >
           <div className="flex items-center gap-2">
-            <div className="bg-green-100 rounded-md p-2">
+            <div className="bg-green-500/15 rounded-md p-2">
               <BiSolidHappyHeartEyes fontSize={20} className="text-green-500" />
             </div>
             <h2 className="font-bold">Leaves</h2>
@@ -207,7 +207,7 @@ const UserLeave = () => {
           className="col-span-6 lg:col-span-4 xl:col-span-1 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
         >
           <div className="flex items-center gap-2">
-            <div className="bg-pink-100 rounded-md p-2">
+            <div className="bg-pink-500/15 rounded-md p-2">
               <MdFestival fontSize={20} className="text-pink-500" />
             </div>
             <h2 className="font-bold">Mandatory Holidays</h2>
@@ -235,7 +235,7 @@ const UserLeave = () => {
           className="col-span-6 lg:col-span-4 xl:col-span-1 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
         >
           <div className="flex items-center gap-2">
-            <div className="bg-yellow-100 rounded-md p-2">
+            <div className="bg-yellow-500/15 rounded-md p-2">
               <FaCalculator fontSize={20} className="text-yellow-500" />
             </div>
             <h2 className="font-bold">Optional Holidays</h2>
@@ -263,7 +263,7 @@ const UserLeave = () => {
           className="col-span-6 lg:col-span-4 xl:col-span-1 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
         >
           <div className="flex items-center gap-2">
-            <div className="bg-red-100 rounded-md p-2">
+            <div className="bg-red-500/15 rounded-md p-2">
               <FaSadTear fontSize={20} className="text-red-500" />
             </div>
             <h2 className="font-bold">Weekend Holidays</h2>

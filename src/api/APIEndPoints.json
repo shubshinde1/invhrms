@@ -16,5 +16,6 @@
     "getoptionalholidaylist": "https://engineinv-production.up.railway.app/api/getoptionalholidaylist",
     "leaveapplication": "https://engineinv-production.up.railway.app/api/leaveapplication",
     "employeeleavehistory": "https://engineinv-production.up.railway.app/api/leaveapplicationhistory",
-    "deleteleaveapplication": "https://engineinv-production.up.railway.app/api/deleteleaveapplication"
+    "deleteleaveapplication": "https://engineinv-production.up.railway.app/api/deleteleaveapplication",
+    "getattendancehistory": "https://engineinv-production.up.railway.app/api/viewattendance"
 }

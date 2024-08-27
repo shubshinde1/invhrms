@@ -134,7 +134,7 @@ export default function dashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             // className=" col-span-12 xl:col-span-3 pb-4 md:pb-4 mb-16 sm:mt-0 md:-mt-9 lg:-mt-9 xl:mt-0 2xl:-mt-7 md:row-span-2 xl:row-span-12 bg-white dark:bg-neutral-950 dark:text-white rounded-md 2xl:fixed 2xl:right-2 2xl:top-24"
-            className="col-span-12  xl:col-span-3 -mt-2 md:-mt-20 lg:-mt-24 xl:-mt-2"
+            className="col-span-12  xl:col-span-3 -mt-2 md:-mt-20 lg:-mt-[5.7rem] xl:-mt-2"
           >
             <DashCalendar
               mandatoryholiday={holidays.mandatoryholiday}
@@ -146,7 +146,7 @@ export default function dashboard() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: -1 }}
             transition={{ duration: 0.8 }}
-            className=" col-span-12 xl:col-span-9 xl:mt-20 2xl:mt-24 row-span-12 mb-1 mt-16"
+            className=" col-span-12 xl:col-span-9 row-span-12 mb-1 xl:mt-24 2xl:mt-[7.2rem] mt-16"
           >
             <Bodycards />
           </motion.div>

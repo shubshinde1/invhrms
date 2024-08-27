@@ -23,6 +23,9 @@ const LogoutMenuItem = ({ handleThemeSwitch }) => {
     Cookies.remove("userData");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("@secure.s.userData");
+    sessionStorage.removeItem("inLocation");
+    sessionStorage.removeItem("outLocation");
+
     navigate("/login");
     window.location.reload();
   };

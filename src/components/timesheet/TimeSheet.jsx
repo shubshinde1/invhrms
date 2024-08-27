@@ -566,11 +566,8 @@ export default function TimeSheet({ record, index }) {
           className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 flex flex-col gap-3"
         >
           <div className="flex items-center gap-2">
-            <div className="bg-sky-200 dark:bg-sky-800 rounded-lg p-3">
-              <SiTask
-                fontSize={20}
-                className="text-sky-600 dark:text-sky-400"
-              />
+            <div className="bg-sky-200 dark:bg-sky-500/15 rounded-lg p-2">
+              <SiTask fontSize={20} className="text-sky-600" />
             </div>
             <h2 className="font-bold text-lg">Total Tasks</h2>
           </div>
@@ -587,11 +584,8 @@ export default function TimeSheet({ record, index }) {
           className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 flex flex-col gap-3"
         >
           <div className="flex items-center gap-2">
-            <div className="bg-green-200 dark:bg-green-800 rounded-lg p-3">
-              <FaSquareCheck
-                fontSize={20}
-                className="text-green-500 dark:text-green-300"
-              />
+            <div className="bg-green-200 dark:bg-green-500/15 rounded-lg p-2">
+              <FaSquareCheck fontSize={20} className="text-green-500" />
             </div>
             <h2 className="font-bold text-lg">Completed Tasks</h2>
           </div>
@@ -608,10 +602,10 @@ export default function TimeSheet({ record, index }) {
           className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 flex flex-col gap-3"
         >
           <div className="flex items-center gap-2">
-            <div className="bg-orange-200 dark:bg-orange-800 rounded-lg p-3">
+            <div className="bg-orange-200 dark:bg-orange-500/15 rounded-lg p-2">
               <TbTimelineEventFilled
                 fontSize={20}
-                className="text-orange-600 dark:text-orange-300"
+                className="text-orange-600"
               />
             </div>
             <h2 className="font-bold text-lg">Pending Tasks</h2>
@@ -629,11 +623,8 @@ export default function TimeSheet({ record, index }) {
           className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 flex flex-col gap-3"
         >
           <div className="flex items-center gap-2">
-            <div className="bg-pink-200 dark:bg-pink-800 rounded-lg p-3">
-              <IoTimer
-                fontSize={20}
-                className="text-pink-600 dark:text-pink-400"
-              />
+            <div className="bg-pink-200 dark:bg-pink-500/15 rounded-lg p-2">
+              <IoTimer fontSize={20} className="text-pink-600" />
             </div>
             <h2 className="font-bold text-lg">Total Time</h2>
           </div>
