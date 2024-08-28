@@ -87,7 +87,7 @@ export default function Sidebar({ theme }) {
       </button>
       <div
         ref={sidebarRef}
-        className={`md:flex md:flex-col w-52 h-[98vh] md:h-screen ml-2 mt-2 md:m-0 md:rounded-none rounded-md absolute md:relative p-2 bg-white dark:bg-neutral-950 z-50 shadow-2xl md:shadow-none ${
+        className={`md:flex md:flex-col w-52 h-[98vh] md:h-screen ml-2 mt-2 md:m-0 md:rounded-none rounded-md absolute md:relative p-2 bg-white dark:bg-neutral-950 z-50 shadow-2xl md:shadow-none md:dark:border-none dark:border-2 dark:border-neutral-700 ${
           isSidebarOpen ? "" : "hidden"
         }`}
       >
@@ -201,7 +201,7 @@ function SidebarLink({ item, pathname, onClick }) {
     >
       <span
         className={`text-xl my-auto ${
-          isActive ? "text-[#5169d1]" : "text-slate-600 dark:text-blue-200"
+          isActive ? "text-[#3C5EFE]" : "text-slate-600 dark:text-blue-200"
         }`}
       >
         {item.icon}

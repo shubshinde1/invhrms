@@ -118,7 +118,8 @@ export default function Greeting() {
         setTimeout(() => setError(""), 4000);
       }
     } catch (error) {
-      setError("An error occurred. Please try again.");
+      setError(error.message || "An error occurred. Please try again.");
+      setTimeout(() => setError(""), 4000);
     }
   };
 
@@ -148,7 +149,7 @@ export default function Greeting() {
         </div>
         <div className="bg-sky-100 dark:bg-gray-800 mt-2 h-5 rounded-md flex justify-start relative overflow-hidden">
           <div
-            className="absolute h-full bg-[#5336FD] transition-[width] duration-1000"
+            className="absolute h-full bg-[#4160f9]  transition-[width] duration-1000"
             style={{
               width: `${progressBarWidth}%`,
               borderRadius: "inherit",
@@ -164,6 +165,7 @@ export default function Greeting() {
                   {
                     hour: "2-digit",
                     minute: "2-digit",
+                    // second: "2-digit",
                   }
                 )
               : "--:--"}
