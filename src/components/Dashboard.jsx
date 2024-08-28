@@ -142,14 +142,14 @@ export default function dashboard() {
               weekendHoliday={holidays.weekendHoliday}
             />
           </motion.div>
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: -1 }}
             transition={{ duration: 0.8 }}
             className=" col-span-12 xl:col-span-9 row-span-12 mb-1 xl:mt-24 2xl:mt-[7.2rem] mt-16"
           >
             <Bodycards />
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ import {
   FaCircleHalfStroke,
 } from "react-icons/fa6";
 import ApiendPonits from "../../api/APIEndPoints.json";
+import CustomDropdown from "../custom/CustomDropdown";
 
 function msToTime(duration) {
   let milliseconds = parseInt((duration % 1000) / 100),
@@ -32,8 +33,15 @@ const AttendanceHistory = () => {
   const [monthName, setMonthName] = useState("");
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const [yearOptions, setYearOptions] = useState([]);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  // const [yearOptions, setYearOptions] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(""); // State for attendance status filter
+  // const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
+  // const years = Array.from({ length: 20 }, (_, i) => currentYear - 10 + i);
+
+  const currentYr = new Date().getFullYear();
+  const prevYear = currentYr - 1;
 
   const { userData } = useContext(AuthContext);
   const token = localStorage.getItem("accessToken");
@@ -54,11 +62,11 @@ const AttendanceHistory = () => {
 
       if (response.ok) {
         setAttendanceHistory(data.attendance);
-        setYearOptions([
-          ...new Set(
-            data.attendance.map((record) => new Date(record.date).getFullYear())
-          ),
-        ]);
+        // setYearOptions([
+        //   ...new Set(
+        //     data.attendance.map((record) => new Date(record.date).getFullYear())
+        //   ),
+        // ]);
         filterByMonthYear(
           data.attendance,
           selectedMonth,
@@ -116,42 +124,64 @@ const AttendanceHistory = () => {
     filterByMonthYear(attendanceHistory, selectedMonth, year, selectedStatus);
   };
 
-  const handleStatusChange = (event) => {
-    const status = event.target.value;
-    setSelectedStatus(status);
-    filterByMonthYear(attendanceHistory, selectedMonth, selectedYear, status);
+  const handleStatusChange = (value) => {
+    setSelectedStatus(value);
+    filterByMonthYear(attendanceHistory, selectedMonth, selectedYear, value);
+  };
+  // Status options
+  const statusOptions = ["All", "Absent", "Present", "Half Day"];
+
+  const statusOptionsMap = {
+    All: "",
+    Absent: "0",
+    Present: "1",
+    "Half Day": "2",
   };
 
   const handlePrevMonth = () => {
-    const newDate = new Date(
-      currentMonth.getFullYear(),
-      currentMonth.getMonth() - 1,
-      1
-    );
+    let newMonth = currentMonth.getMonth() - 1;
+    let newYear = currentMonth.getFullYear();
+
+    // If navigating to the previous month would go beyond the previous year
+    if (newMonth < 0) {
+      newMonth = 11;
+      newYear -= 1;
+    }
+
+    // Ensure the new year is within the range of the previous year and the current year
+    if (newYear < prevYear) {
+      newYear = prevYear;
+      newMonth = 11; // December of the previous year
+    }
+
+    const newDate = new Date(newYear, newMonth, 1);
     setCurrentMonth(newDate);
-    setSelectedMonth(newDate.getMonth());
-    filterByMonthYear(
-      attendanceHistory,
-      newDate.getMonth(),
-      newDate.getFullYear(),
-      selectedStatus
-    );
+    setSelectedMonth(newMonth);
+    setSelectedYear(newYear);
+    filterByMonthYear(attendanceHistory, newMonth, newYear, selectedStatus);
   };
 
   const handleNextMonth = () => {
-    const newDate = new Date(
-      currentMonth.getFullYear(),
-      currentMonth.getMonth() + 1,
-      1
-    );
+    let newMonth = currentMonth.getMonth() + 1;
+    let newYear = currentMonth.getFullYear();
+
+    // If navigating to the next month would go beyond the current year
+    if (newMonth > 11) {
+      newMonth = 0;
+      newYear += 1;
+    }
+
+    // Ensure the new year is within the range of the previous year and the current year
+    if (newYear > currentYr) {
+      newYear = currentYr;
+      newMonth = 0; // January of the current year
+    }
+
+    const newDate = new Date(newYear, newMonth, 1);
     setCurrentMonth(newDate);
-    setSelectedMonth(newDate.getMonth());
-    filterByMonthYear(
-      attendanceHistory,
-      newDate.getMonth(),
-      newDate.getFullYear(),
-      selectedStatus
-    );
+    setSelectedMonth(newMonth);
+    setSelectedYear(newYear);
+    filterByMonthYear(attendanceHistory, newMonth, newYear, selectedStatus);
   };
 
   useEffect(() => {
@@ -162,18 +192,18 @@ const AttendanceHistory = () => {
 
   useEffect(() => {
     const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
       "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
     ];
     setMonthName(`${monthNames[selectedMonth]} ${selectedYear}`);
   }, [selectedMonth, selectedYear]);
@@ -194,6 +224,15 @@ const AttendanceHistory = () => {
   // Calculate statistics
   const { totalWorkingDays, presentDays, absentDays, halfDays } =
     calculateStats();
+
+  const monthOptions = Array.from({ length: 12 }, (_, i) =>
+    new Date(0, i).toLocaleString("default", {
+      month: "short",
+    })
+  );
+
+  const currentYear = new Date().getFullYear();
+  const yearOptions = [currentYear.toString(), (currentYear - 1).toString()];
 
   return (
     <div className="dark:text-white bg-white dark:bg-neutral-950 p-2 rounded-md">
@@ -285,64 +324,61 @@ const AttendanceHistory = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrevMonth}
-              className="p-1.5 bg-neutral-800 text-white rounded-md group"
+              className="p-1.5 bg-sky-50 dark:bg-neutral-800 text-white rounded-md group"
             >
               <FaCaretLeft
                 fontSize={24}
-                className="group-hover:-translate-x-1 duration-300"
+                className="group-hover:-translate-x-1 duration-300 text-black dark:text-white"
               />
             </button>
             <div className="flex items-center gap-2">
-              <select
-                value={selectedMonth}
-                onChange={handleMonthChange}
-                className="p-1.5 bg-gray-200 dark:bg-neutral-800 rounded-md"
-              >
-                {Array.from({ length: 12 }, (_, i) => (
-                  <option key={i} value={i}>
-                    {new Date(0, i).toLocaleString("default", {
-                      month: "long",
-                    })}
-                  </option>
-                ))}
-              </select>
-              <select
-                value={selectedYear}
-                onChange={handleYearChange}
-                className="p-1.5 bg-gray-200 dark:bg-neutral-800 rounded-md"
-              >
-                {yearOptions.map((year) => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
+              <CustomDropdown
+                label="Month"
+                options={monthOptions}
+                selectedValue={selectedMonth}
+                onChange={(value) => {
+                  setSelectedMonth(value);
+                  handleMonthChange({ target: { value } });
+                }}
+              />
+              <CustomDropdown
+                label="Year"
+                options={yearOptions}
+                selectedValue={yearOptions.indexOf(selectedYear.toString())}
+                onChange={(value) => {
+                  const selectedYearValue = parseInt(yearOptions[value]);
+                  setSelectedYear(selectedYearValue);
+                  handleYearChange({ target: { value: selectedYearValue } });
+                }}
+              />
             </div>
             <button
               onClick={handleNextMonth}
-              className="p-1.5 bg-neutral-800 text-white rounded-md group"
+              className="p-1.5 bg-sky-50 dark:bg-neutral-800 text-white rounded-md group"
             >
               <FaCaretRight
                 fontSize={24}
-                className="group-hover:translate-x-1 duration-300"
+                className="group-hover:translate-x-1 duration-300 text-black dark:text-white"
               />
             </button>
-            <select
-              value={selectedStatus}
-              onChange={handleStatusChange}
-              className="p-1.5 bg-gray-200 dark:bg-neutral-800 rounded-md"
-            >
-              <option value="">All</option>
-              <option value="0">Absent</option>
-              <option value="1">Present</option>
-              <option value="2">Half Day</option>
-            </select>
+            <CustomDropdown
+              label="Status"
+              options={statusOptions}
+              selectedValue={statusOptions.indexOf(
+                Object.keys(statusOptionsMap).find(
+                  (key) => statusOptionsMap[key] === selectedStatus
+                ) || "All"
+              )}
+              onChange={(value) => {
+                handleStatusChange(statusOptionsMap[statusOptions[value]]);
+              }}
+            />
           </div>
 
           {filteredAttendance.length === 0 ? (
             <p>No attendance records found for {monthName}.</p>
           ) : (
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col sm:gap-2">
               {/* Grid View for larger screens */}
               <div className="hidden sm:grid sm:grid-cols-11 gap-4 bg-sky-100 dark:bg-neutral-800 p-2 rounded-md">
                 <div className="font-semibold">Sr. No.</div>
@@ -397,7 +433,7 @@ const AttendanceHistory = () => {
                     <div className="font-semibold text-lg hidden sm:flex">
                       Record {index + 1}
                     </div>
-                    <div className="mt-2">
+                    <div className="m">
                       <div className="flex justify-between">
                         <span className="font-semibold">Date:</span>
                         <span>{record.date}</span>
