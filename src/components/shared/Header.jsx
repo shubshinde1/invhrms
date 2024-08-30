@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+
 import { IoNotifications, IoPerson } from "react-icons/io5";
 import { RiSettingsFill } from "react-icons/ri";
 import { Popover, Transition, Menu } from "@headlessui/react";
@@ -10,14 +12,51 @@ import LogoutMenuItem from "./LogoutMenuItem"; // Import the LogoutMenuItem comp
 import { TbMoonFilled } from "react-icons/tb";
 import { MdLightMode } from "react-icons/md";
 import { motion } from "framer-motion";
-import userprofile from "../../assets/images/profilepic.png";
+import userprofile from "../../assets/images/clientAvatar.png";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import ApiendPonits from "../../api/APIEndPoints.json";
 
 export default function Header({ handleThemeSwitch, theme }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [rotate, setRotate] = React.useState(false);
   const [visible, setVisible] = useState(false);
+  const [profile, setProfile] = useState(null);
+  const [hasprofile, setHasProfile] = useState(null);
+  const [error, setError] = useState(null);
+
+  const { userData } = useContext(AuthContext);
+  const token = localStorage.getItem("accessToken");
+  const empid = userData?.employeeData._id;
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch(ApiendPonits.viewProfile, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ Employee_id: empid }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setProfile(data.data.profileUrl);
+          setHasProfile(true);
+        } else {
+          setProfile(demoprofile);
+          setHasProfile(false);
+        }
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchProfile();
+  }, [empid, token]);
 
   const getTitle = () => {
     const currentPath = location.pathname;
@@ -158,7 +197,7 @@ export default function Header({ handleThemeSwitch, theme }) {
                 <div className="flex items-center bg-sky-50 dark:bg-neutral-900 rounded-md ">
                   <BsThreeDotsVertical fontSize={22} className="m-0.5 " />
                   <img
-                    src={userprofile}
+                    src={profile ? profile : userprofile}
                     alt=""
                     className="h-9 w-9 rounded-md bg-top bg-no-repeat"
                   />

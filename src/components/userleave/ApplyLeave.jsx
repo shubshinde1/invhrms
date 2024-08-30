@@ -335,7 +335,7 @@ const ApplyLeave = () => {
                 </Select>
               </FormControl>
             </div>
-            <div className="flex flex-col md:flex-row gap-2 justify-between">
+            <div className="flex flex-col md:flex-row gap-2 justify-between z-0">
               <div className="w-full">
                 <label>From</label>
                 <Calendar

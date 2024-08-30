@@ -17,5 +17,9 @@
     "leaveapplication": "https://engineinv-production.up.railway.app/api/leaveapplication",
     "employeeleavehistory": "https://engineinv-production.up.railway.app/api/leaveapplicationhistory",
     "deleteleaveapplication": "https://engineinv-production.up.railway.app/api/deleteleaveapplication",
-    "getattendancehistory": "https://engineinv-production.up.railway.app/api/viewattendance"
+    "getattendancehistory": "https://engineinv-production.up.railway.app/api/viewattendance",
+    "uploadProfile": "https://engineinv-production.up.railway.app/api/uploadprofile",
+    "deleteProfile": "https://engineinv-production.up.railway.app/api/deleteprofile",
+    "updateProfile": "https://engineinv-production.up.railway.app/api/updateprofile",
+    "viewProfile": "https://engineinv-production.up.railway.app/api/viewprofile"
 }

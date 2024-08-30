@@ -13,6 +13,7 @@ import { TiMinus } from "react-icons/ti";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa6";
 import ApiendPonits from "../../api/APIEndPoints.json";
+import ProfilePic from "./ProfilePic";
 
 const UserProfile = () => {
   const { userData } = useContext(AuthContext);
@@ -363,23 +364,12 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-2 h-fit mb-20">
+    <div className="flex flex-col  gap-2 h-fit mb-20">
       <div className="flex flex-col lg:flex-row gap-2">
         <div className="lg:w-1/3 h-fit lg:sticky top-0 bg-white p-2 dark:bg-neutral-950 dark:text-white rounded-md flex flex-col gap-2">
           <div className="flex justify-between">
-            <div className="flex justify-center gap-3 flex-col items-start bg-sky-50 dark:bg-neutral-900 p-2 rounded-md w-1/2">
-              <img src={profile} alt="profile" className="rounded-xl" />
-              <div className="flex items-start ">
-                {userData.employeeData.status == 1 ? (
-                  <span className="bg-green-200 dark:bg-green-200/15 px-1.5 py-0.5 rounded-md text-green-600 font-bold flex items-center gap-1">
-                    Active
-                  </span>
-                ) : (
-                  <span className="bg-red-200 px-1.5 py-0.5 rounded-md text-red-600 font-bold flex items-center gap-1">
-                    InActive
-                  </span>
-                )}
-              </div>
+            <div className="">
+              <ProfilePic />
             </div>
             <div>
               {error && <p className="text-red-500 mb-2">{error}</p>}

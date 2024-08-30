@@ -117,39 +117,29 @@ export default function dashboard() {
       getLeaveRecord();
     }
   }, [employee_id, token]);
+
+  // <motion.div
+  //           initial={{ opacity: 0, y: 15 }}
+  //           animate={{ opacity: 1, y: 0 }}
+  //           transition={{ duration: 0.5 }}
+
   return (
     <div className="">
-      <div className="">
-        <div className="grid grid-cols-12 md:grid-rows-12 xl:h-screen gap-2 md:mb-28 mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className=" col-span-12 xl:col-span-9 h-fit bg-white dark:bg-neutral-950 dark:text-white p-4 rounded-md "
-          >
+      <div className="grid grid-cols-12 gap-2 ">
+        <div className="col-span-12 lg:col-span-9 flex flex-col gap-2">
+          <div className="bg-white dark:bg-neutral-950 rounded-md p-2 dark:text-white">
             <Greeting />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            // className=" col-span-12 xl:col-span-3 pb-4 md:pb-4 mb-16 sm:mt-0 md:-mt-9 lg:-mt-9 xl:mt-0 2xl:-mt-7 md:row-span-2 xl:row-span-12 bg-white dark:bg-neutral-950 dark:text-white rounded-md 2xl:fixed 2xl:right-2 2xl:top-24"
-            className="col-span-12  xl:col-span-3 -mt-2 md:-mt-20 lg:-mt-[5.7rem] xl:-mt-2"
-          >
-            <DashCalendar
-              mandatoryholiday={holidays.mandatoryholiday}
-              optionalholiday={holidays.optionalholiday}
-              weekendHoliday={holidays.weekendHoliday}
-            />
-          </motion.div>
-          {/* <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: -1 }}
-            transition={{ duration: 0.8 }}
-            className=" col-span-12 xl:col-span-9 row-span-12 mb-1 xl:mt-24 2xl:mt-[7.2rem] mt-16"
-          >
+          </div>
+          <div>
             <Bodycards />
-          </motion.div> */}
+          </div>
+        </div>
+        <div className="col-span-12 lg:col-span-3 ">
+          <DashCalendar
+            mandatoryholiday={holidays.mandatoryholiday}
+            optionalholiday={holidays.optionalholiday}
+            weekendHoliday={holidays.weekendHoliday}
+          />
         </div>
       </div>
     </div>

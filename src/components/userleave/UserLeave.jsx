@@ -317,7 +317,7 @@ const UserLeave = () => {
           </div>
 
           {/* Tab Content */}
-          <div className="">
+          <div className="z-0">
             {activeTab === "calendar" && (
               <OpenCalendar
                 mandatoryholiday={holidays.mandatoryholiday}

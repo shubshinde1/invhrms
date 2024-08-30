@@ -189,9 +189,7 @@ const DashCalendar = ({
   const handleDateClick = (day) => {
     const details = getHolidayDetails(day);
     setHolidayDetails(details);
-    setSelectedDate(
-      formatFullDate(new Date(currentYear, currentMonth, day))
-    );
+    setSelectedDate(formatFullDate(new Date(currentYear, currentMonth, day)));
     setDrawerOpen(true);
   };
 
@@ -200,10 +198,36 @@ const DashCalendar = ({
     setSelectedDate(null);
   };
 
+  const allHolidays = [
+    ...mandatoryholiday.map((h) => ({ ...h, type: "mandatory" })),
+    ...optionalholiday.map((h) => ({ ...h, type: "optional" })),
+    ...weekendHoliday.map((h) => ({ ...h, type: "weekend" })),
+  ];
+
+  const upcomingHolidays = allHolidays
+    .filter((holiday) => new Date(holiday.date) > new Date())
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .slice(0, 5);
+
+  const holidayColors = {
+    mandatory: "bg-pink-500",
+    optional: "bg-yellow-500",
+    weekend: "bg-red-500",
+  };
+
+  const formatFullDateindd = (date) => {
+    const options = { day: "numeric" };
+    return new Date(date).toLocaleDateString("en-US", options);
+  };
+  const formatFullDateinmm = (date) => {
+    const options = { month: "short" };
+    return new Date(date).toLocaleDateString("en-US", options);
+  };
+
   return (
-    <div className="select-none">
+    <div className="select-none mb-14 md:mb-0">
       {showCalendar && (
-        <div className="w-full z-10 mt-2 p-2 border dark:border-none border-gray-300 rounded-lg bg-white dark:text-white dark:bg-neutral-950 dark:border-neutral-700 shadow-lg flex flex-col gap-2">
+        <div className="w-full z-10 p-2   border dark:border-none border-gray-300 rounded-lg bg-white dark:text-white dark:bg-neutral-950 dark:border-neutral-700 shadow-lg flex flex-col gap-2">
           <div className="flex items-center justify-between gap-2">
             <button
               onClick={() => handleMonthChange(-1)}
@@ -316,6 +340,58 @@ const DashCalendar = ({
               </div>
             ))}
           </div>
+          <div className="mt-2 ">
+            <h3 className="text-base font-semibold mb-2">Upcoming Holidays</h3>
+            <div className="flex flex-col gap-2  h-80 overflow-y-scroll scrollbrhdn">
+              {upcomingHolidays.map((holiday, index) => (
+                <div
+                  key={index}
+                  className={classNames(
+                    "p-2 rounded-md dark:bg-neutral-900/45 bg-sky-50 hover:bg-sky-100 dark:hover:bg-neutral-900 group"
+                  )}
+                >
+                  <div className="flex gap-2 justify-between items-start">
+                    <div className="flex gap-3 items-center">
+                      <div className="dark:bg-neutral-950 bg-white group-hover:shadow-xl py-1 px-4 rounded-md flex flex-col items-center">
+                        <div className="text-xl font-bold">
+                          {formatFullDateindd(holiday.date)}
+                        </div>
+                        <div className="text-xs">
+                          {formatFullDateinmm(holiday.date)}
+                        </div>
+                        <div
+                          className={`w-2 group-hover:w-full duration-500 h-1 rounded-md my-1 ${
+                            holidayColors[holiday.type] || "bg-gray-500"
+                          }`}
+                        ></div>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <div className="text-sm font-semibold">
+                          {holiday.name}
+                        </div>
+                        <div className="text-xs">
+                          {formatFullDate(holiday.date)}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className={classNames({
+                        "bg-red-500/20 text-red-500 text-xs font-semibold px-1 rounded-md":
+                          holiday.type === "weekend",
+                        "bg-yellow-500/20 text-yellow-500 text-xs font-semibold px-1 rounded-md":
+                          holiday.type === "optional",
+                        "bg-pink-500/20 text-pink-500 text-xs font-semibold px-1 rounded-md":
+                          holiday.type === "mandatory",
+                        // Default or other conditions can be added here
+                      })}
+                    >
+                      {holiday.type}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
@@ -346,7 +422,7 @@ const DashCalendar = ({
                     holiday.type === "weekend",
                 })}
               >
-                <strong>{holiday.type}:</strong> {holiday.name}
+                <strong>{holiday.greeting || holiday.name}</strong>
               </div>
             ))
           ) : (

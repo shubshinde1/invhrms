@@ -134,22 +134,33 @@ export default function Greeting() {
     return `${hours}h ${minutes}m`;
   };
 
+  const getGreetingMessage = () => {
+    const hours = new Date().getHours();
+    if (hours < 12) return "Good Morning";
+    if (hours < 18) return "Good Afternoon";
+    return "Good Evening";
+  };
+
+  const getFirstName = (fullName) => {
+    return fullName?.split(" ")[0] || "User";
+  };
+
   const ProgressBar = ({ progress }) => {
     const progressBarWidth = (progress.elapsed / totalSeconds) * 100;
 
     return (
-      <div className="w-full sm:w-1/3 mt-4">
+      <div className="w-full md:w-2/3 mt-4">
         <div className="flex justify-between text-xs">
-          <span className="flex flex-col items-end">
+          <span className="flex flex-col items-end ">
             {formatTime(progress.elapsed)} Completed
           </span>
           <span className="flex flex-col items-end">
             {formatTime(progress.remaining)} Remaining
           </span>
         </div>
-        <div className="bg-sky-100 dark:bg-gray-800 mt-2 h-5 rounded-md flex justify-start relative overflow-hidden">
+        <div className="bg-sky-100 dark:bg-blue-200/10 mt-2 h-5 rounded-md flex justify-start relative overflow-hidden">
           <div
-            className="absolute h-full bg-[#4160f9]  transition-[width] duration-1000"
+            className="absolute h-full bg-indigo-600  transition-[width] duration-1000"
             style={{
               width: `${progressBarWidth}%`,
               borderRadius: "inherit",
@@ -165,7 +176,6 @@ export default function Greeting() {
                   {
                     hour: "2-digit",
                     minute: "2-digit",
-                    // second: "2-digit",
                   }
                 )
               : "--:--"}
@@ -197,16 +207,31 @@ export default function Greeting() {
   ]);
 
   return (
-    <div className="flex flex-col justify-end items-end">
-      <div className="flex items-center gap-2">
-        {loading ? null : hasTodaysAttendance ? (
-          isPunchedIn ? (
-            <button
-              className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-sky-50 text-red-500 bg-sky-100 dark:bg-gray-800 transition-all duration-1000"
-              onClick={handlePunchButtonClick}
-            >
-              Punch Out <IoLogOut fontSize={20} />
-            </button>
+    <div className="md:grid grid-cols-12 flex flex-col gap-10 md:gap-2">
+      <div className="col-span-12 md:col-span-6">
+        <h1 className="text-blue-500 text-2xl font-bold">
+          {getGreetingMessage()}, {getFirstName(userData?.employeeData.name)}!
+        </h1>
+      </div>
+
+      <div className="col-span-12 md:col-span-6 flex flex-col items-start md:items-end ">
+        <div className="flex items-center gap-2">
+          {loading ? null : hasTodaysAttendance ? (
+            isPunchedIn ? (
+              <button
+                className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-sky-50 text-red-500 bg-sky-100 dark:bg-gray-800 transition-all duration-1000"
+                onClick={handlePunchButtonClick}
+              >
+                Punch Out <IoLogOut fontSize={20} />
+              </button>
+            ) : (
+              <button
+                className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-sky-50 text-green-500 bg-sky-100 dark:bg-gray-800 transition-all duration-1000"
+                onClick={handlePunchButtonClick}
+              >
+                Punch In <IoLogIn fontSize={20} />
+              </button>
+            )
           ) : (
             <button
               className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-sky-50 text-green-500 bg-sky-100 dark:bg-gray-800 transition-all duration-1000"
@@ -214,24 +239,17 @@ export default function Greeting() {
             >
               Punch In <IoLogIn fontSize={20} />
             </button>
-          )
-        ) : (
-          <button
-            className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-sky-50 text-green-500 bg-sky-100 dark:bg-gray-800 transition-all duration-1000"
-            onClick={handlePunchButtonClick}
-          >
-            Punch In <IoLogIn fontSize={20} />
-          </button>
-        )}
+          )}
+        </div>
+        <Link
+          to="/Attendance"
+          className="flex items-center text-xs text-blue-500 py-0.5 hover:px-1 rounded-md cursor-pointer duration-300 mt-1 hover:bg-blue-500/15"
+        >
+          <h3>History</h3>
+          <FaCaretRight />
+        </Link>
+        <ProgressBar progress={progress} />
       </div>
-      <Link
-        to="/Attendance"
-        className="flex items-center text-xs text-blue-500 py-0.5 hover:px-1 rounded-md cursor-pointer duration-300 mt-1 hover:bg-blue-500/15"
-      >
-        <h3>History</h3>
-        <FaCaretRight />
-      </Link>
-      <ProgressBar progress={progress} />
 
       {message && (
         <div className="absolute bottom-4 right-4 bg-green-500 text-white p-3 rounded-md z-10">
