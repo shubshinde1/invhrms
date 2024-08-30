@@ -49,6 +49,7 @@ const ProfilePic = () => {
         }
       } catch (err) {
         setError(err.message);
+        setTimeout(() => setError(""), 4000);
       } finally {
         setLoading(false);
       }
@@ -85,9 +86,11 @@ const ProfilePic = () => {
         location.reload();
       } else {
         setError(data.msg);
+        setTimeout(() => setError(""), 4000);
       }
     } catch (err) {
       setError(err.message);
+      setTimeout(() => setError(""), 4000);
     }
   };
 
@@ -110,9 +113,11 @@ const ProfilePic = () => {
         location.reload();
       } else {
         setError(data.msg);
+        setTimeout(() => setError(""), 4000);
       }
     } catch (err) {
       setError(err.message);
+      setTimeout(() => setError(""), 4000);
     }
   };
 
@@ -139,16 +144,18 @@ const ProfilePic = () => {
         location.reload();
       } else {
         setError(data.msg);
+        setTimeout(() => setError(""), 4000);
       }
     } catch (err) {
       setError(err.message);
+      setTimeout(() => setError(""), 4000);
     }
   };
 
   return (
     <div className=" bg-sky-100 dark:bg-neutral-900 p-2 rounded-md flex flex-col gap-2">
       {loading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
+
       <div className="  flex flex-col gap-2">
         <div>
           {profile && (
@@ -258,6 +265,12 @@ const ProfilePic = () => {
             </>
           )}
         </>
+      )}
+
+      {error && (
+        <div className="absolute bottom-4 right-4 bg-red-500 text-white p-3 rounded-md z-10">
+          {error}
+        </div>
       )}
     </div>
   );
