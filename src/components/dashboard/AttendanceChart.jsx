@@ -80,7 +80,7 @@ const AttendanceChart = () => {
     <div className="">
       <div className="min-w-full text-sm">
         <div className="flex flex-row ">
-          {filteredAttendanceData.map((record) => {
+          {filteredAttendanceData.map((record, rowIndex) => {
             const totalHours = record.totalhrs / (1000 * 60 * 60); // Convert milliseconds to hours
             const percentage = (totalHours / maxHours) * 100;
 
@@ -98,10 +98,11 @@ const AttendanceChart = () => {
                     >
                       <motion.div
                         initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: -1 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{
-                          type: "tween",
+                          type: "spring",
                           duration: 0.8,
+                          delay: rowIndex * 0.1,
                         }}
                         className="bg-indigo-600 w-8 rounded-md flex justify-start"
                         style={{

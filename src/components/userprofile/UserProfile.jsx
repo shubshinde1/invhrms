@@ -2,10 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 import secureLocalStorage from "react-secure-storage";
-import profile from "../../../src/assets/images/profilepic.png";
 import { MdEdit } from "react-icons/md";
-import { FaDotCircle } from "react-icons/fa";
-import { useWindowScroll } from "react-use";
 import { IoClose } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa6";
 import Checkbox from "@mui/material/Checkbox";
@@ -404,9 +401,11 @@ const UserProfile = () => {
               )}
 
               {showPasswordModal && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                  <div className="bg-white dark:bg-neutral-700 p-6 rounded shadow-lg flex flex-col items-center z-50">
-                    <h2 className="text-xl font-bold mb-4">Enter Password</h2>
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                  <div className="bg-white dark:bg-neutral-900 p-6 rounded shadow-lg flex flex-col items-center z-50">
+                    <h2 className="text-lg font-bold mb-4">
+                      Confirm That it's You?
+                    </h2>
                     <form onSubmit={handlePasswordSubmit}>
                       <input
                         type="password"
@@ -446,7 +445,7 @@ const UserProfile = () => {
           <div className="flex flex-col gap-4">
             <div className=" flex gap-2 items-center">
               <label className="lable w-2/6">Name</label>
-              {isEditMode ? (
+              {/* {isEditMode ? (
                 <input
                   type="text"
                   name="name"
@@ -455,9 +454,9 @@ const UserProfile = () => {
                   required
                   className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
                 />
-              ) : (
-                <strong>{name}</strong>
-              )}
+              ) : ( */}
+              <strong>{name}</strong>
+              {/* )} */}
             </div>
             <div className=" flex gap-2 items-center">
               <label className="lable w-2/5">Employee ID</label>{" "}
@@ -473,7 +472,7 @@ const UserProfile = () => {
             </div>
             <div className=" flex gap-2 items-center">
               <label className="lable w-2/6">Phone </label>
-              {isEditMode ? (
+              {/* {isEditMode ? (
                 <input
                   type="text"
                   name="phone"
@@ -482,13 +481,13 @@ const UserProfile = () => {
                   required
                   className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
                 />
-              ) : (
-                <strong>
-                  <a href={`tell:${phone}`} target="_blank">
-                    {phone}
-                  </a>
-                </strong>
-              )}
+              ) : ( */}
+              <strong>
+                <a href={`tell:${phone}`} target="_blank">
+                  {phone}
+                </a>
+              </strong>
+              {/* )} */}
             </div>
           </div>
         </div>
@@ -579,12 +578,13 @@ const UserProfile = () => {
               </div>
             </div>
           </div>
-          <div className=" bg-sky-100 flex flex-col gap-2 dark:bg-neutral-900 rounded-md p-2">
+
+          <div className=" bg-sky-100 flex flex-col gap-2 dark:bg-neutral-900 rounded-md p-2 ">
             <h4 className="text-base font-bold">Employment Information</h4>
             <div className="grid grid-cols-12 items-start gap-2 bg-sky-50 dark:bg-neutral-950 rounded-md p-2">
               <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
                 <label className="w-1/3">Designation</label>
-                {isEditMode ? (
+                {/* {isEditMode ? (
                   <select
                     name="designation"
                     value={formData.designation}
@@ -601,13 +601,13 @@ const UserProfile = () => {
                     <option value="UI/UX Designer">UI/UX Designer</option>
                     <option value="Product Manager">Product Manager</option>
                   </select>
-                ) : (
-                  <strong>{formData.designation}</strong>
-                )}
+                ) : ( */}
+                <strong>{formData.designation}</strong>
+                {/* )} */}
               </div>
               <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
                 <label className="w-1/3">Date of Joining</label>
-                {isEditMode ? (
+                {/* {isEditMode ? (
                   <input
                     type="date"
                     name="dateofjoining"
@@ -616,14 +616,14 @@ const UserProfile = () => {
                     required
                     className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
                   />
-                ) : (
-                  <strong>{formData.dateofjoining}</strong>
-                )}
+                ) : ( */}
+                <strong>{formData.dateofjoining}</strong>
+                {/* )} */}
               </div>
               <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
                 <label className="w-1/3">Department</label>
 
-                {isEditMode ? (
+                {/* {isEditMode ? (
                   <select
                     name="department"
                     value={formData.department}
@@ -642,13 +642,13 @@ const UserProfile = () => {
                     <option value="IT">IT</option>
                     <option value="Administration">Administration</option>
                   </select>
-                ) : (
-                  <strong>{formData.department}</strong>
-                )}
+                ) : ( */}
+                <strong>{formData.department}</strong>
+                {/* )} */}
               </div>
               <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
                 <label className="w-1/3">Reporting To </label>
-                {isEditMode ? (
+                {/* {isEditMode ? (
                   <select
                     name="reportingto"
                     value={formData.reportingto}
@@ -663,13 +663,13 @@ const UserProfile = () => {
                     <option value="Nitin Ahire">Nitin Ahire</option>
                     <option value="Laxman Sahu">Laxman Sahu</option>
                   </select>
-                ) : (
-                  <strong>{formData.reportingto}</strong>
-                )}
+                ) : ( */}
+                <strong>{formData.reportingto}</strong>
+                {/* )} */}
               </div>
               <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
                 <label className="w-1/3">Team Leader</label>
-                {isEditMode ? (
+                {/* {isEditMode ? (
                   <select
                     name="teamleader"
                     value={formData.teamleader}
@@ -684,9 +684,9 @@ const UserProfile = () => {
                     <option value="Nitin Ahire">Nitin Ahire</option>
                     <option value="Laxman Sahu">Laxman Sahu</option>
                   </select>
-                ) : (
-                  <strong>{formData.teamleader}</strong>
-                )}
+                ) : ( */}
+                <strong>{formData.teamleader}</strong>
+                {/* )} */}
               </div>
               <div className="col-span-6 flex gap-2 justify-between items-center"></div>
               <div className="col-span-12 flex gap-2 flex-row justify-between items-start">
@@ -700,7 +700,7 @@ const UserProfile = () => {
                             type="checkbox"
                             checked={formData.techexperties.includes(tech)}
                             onChange={() => handleCheckboxChange(tech)}
-                            className="form-checkbox z-10"
+                            className="z-10"
                             sx={{ "& .MuiSvgIcon-root": { fontSize: 18 } }}
                           />
                           <span>{tech}</span>
@@ -744,7 +744,7 @@ const UserProfile = () => {
                     </ul>
                   </div>
                 ) : (
-                  <ul className="flex flex-row items-center gap-2 flex-wrap w-full">
+                  <ul className="flex flex-row items-center gap-2 flex-wrap w-full ml-5">
                     {formData.techexperties.map((tech, index) => (
                       <li
                         key={index}

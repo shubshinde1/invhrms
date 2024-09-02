@@ -9,14 +9,15 @@ const MenuTabs = () => {
       <ul className="flex gap-2">
         <li
           className={` text-sm px-3 py-1.5 rounded-md ${
-            location.pathname === "/pim/employeelist"
+            location.pathname === "/pim/employeelist" ||
+            location.pathname === "/pim"
               ? "bg-[#5336FD] text-white font-bold "
               : "bg-sky-50 dark:bg-neutral-800"
           }`}
         >
           <NavLink to="/pim/employeelist">Employee List</NavLink>
         </li>
-        <li
+        {/* <li
           className={` text-sm px-3 py-1.5 rounded-md ${
             location.pathname === "/pim/addemployee"
               ? "bg-[#5336FD] text-white font-bold"
@@ -24,7 +25,7 @@ const MenuTabs = () => {
           }`}
         >
           <NavLink to="/pim/addemployee">Add Employee</NavLink>
-        </li>
+        </li> */}
         <li
           className={` text-sm px-3 py-1.5 rounded-md ${
             location.pathname === "/pim/addholidays"

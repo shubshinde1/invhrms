@@ -4,6 +4,7 @@ import View from "./View";
 import Leave from "./Leave";
 import TimeSheets from "./TimeSheets";
 import { useParams } from "react-router-dom";
+import MenuTabs from "./Menutabs";
 
 export default function ViewEmployee() {
   const [activeTab, setActiveTab] = useState("view");
@@ -17,6 +18,7 @@ export default function ViewEmployee() {
 
   return (
     <div className="">
+      <MenuTabs />
       <div className="bg-white dark:bg-neutral-950 rounded-md p-2 sticky top-0 mb-2">
         <ul className="flex gap-2">
           <li
@@ -27,9 +29,7 @@ export default function ViewEmployee() {
             }`}
             onClick={() => handleTabChange("view")}
           >
-            <div className="cursor-pointer" >
-              View
-            </div>
+            <div className="cursor-pointer">View</div>
           </li>
           <li
             className={`text-sm px-3 py-1.5 rounded-md ${
@@ -39,9 +39,7 @@ export default function ViewEmployee() {
             }`}
             onClick={() => handleTabChange("leave")}
           >
-            <div className="cursor-pointer" >
-              Leave info
-            </div>
+            <div className="cursor-pointer">Leave info</div>
           </li>
           <li
             className={`text-sm px-3 py-1.5 rounded-md ${
@@ -51,9 +49,7 @@ export default function ViewEmployee() {
             }`}
             onClick={() => handleTabChange("timesheets")}
           >
-            <div className="cursor-pointer" >
-              Time Sheet
-            </div>
+            <div className="cursor-pointer">Time Sheet</div>
           </li>
         </ul>
       </div>

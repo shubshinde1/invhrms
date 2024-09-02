@@ -7,11 +7,14 @@ import { IoMdTrash } from "react-icons/io";
 import { FaUpload } from "react-icons/fa6";
 import { TiMinus } from "react-icons/ti";
 import ApiendPonits from "../../api/APIEndPoints.json";
+import { TiFlash } from "react-icons/ti";
+import { IoFlashOff } from "react-icons/io5";
 
 const ProfilePic = () => {
   const { userData } = useContext(AuthContext);
   const token = localStorage.getItem("accessToken");
   const empid = userData.employeeData._id;
+  const status = userData.employeeData.status;
 
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -159,28 +162,59 @@ const ProfilePic = () => {
       <div className="  flex flex-col gap-2">
         <div>
           {profile && (
-            <img
-              src={profile.profileUrl ? profile.profileUrl : profile}
-              alt="Profile"
-              className="w-40 h-auto rounded-lg"
-            />
+            <div className="relative">
+              <img
+                src={profile.profileUrl ? profile.profileUrl : profile}
+                alt="Profile"
+                className="w-40 h-auto rounded-lg"
+              />
+              <div className="absolute bottom-0.5 right-0.5 text-white">
+                {status === 1 ? (
+                  <span className="flex items-center gap-0.5 bg-green-300 text-green-700 font-semibold text-xs w-fit p-1 rounded-md">
+                    <TiFlash fontSize={18} />
+                    Active
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-0.5 bg-red-300 text-red-700 font-semibold text-xs w-fit p-1 rounded-md">
+                    <IoFlashOff fontSize={15} />
+                    Inactive
+                  </span>
+                )}
+              </div>
+            </div>
           )}
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-row  gap-2">
           <button onClick={() => setEditing(!editing)}>
             {editing ? (
-              <span className="flex items-center bg-red-500/20 py-1 px-1.5 rounded-md gap-1 text-sm text-red-500">
+              <span className="flex items-center bg-white dark:bg-neutral-800 justify-center hover:bg-red-500/20 py-1 px-1 rounded-md gap-0.5 text-sm text-red-500">
                 <IoClose fontSize={18} />
                 Cancel
               </span>
             ) : (
-              <span className="flex items-center bg-blue-500/20 py-1 px-1.5 rounded-md gap-1 text-sm text-blue-500">
+              <span className="flex items-center bg-white dark:bg-neutral-800 justify-center hover:bg-blue-500/20 py-1 px-1 rounded-md gap-0.5 text-sm text-blue-500">
                 <FaUserEdit fontSize={18} />
                 Edit
               </span>
             )}
           </button>
-          {editing && <div></div>}
+          {editing ? (
+            <span>
+              {hasProfile ? (
+                <button
+                  onClick={handleDelete}
+                  className="flex items-center bg-white dark:bg-neutral-800 justify-center hover:bg-red-500/20 py-1 px-1.5 rounded-md gap-0.5 text-sm text-red-500"
+                >
+                  <IoMdTrash fontSize={18} />
+                  Delete
+                </button>
+              ) : (
+                ""
+              )}
+            </span>
+          ) : (
+            ""
+          )}
         </div>
       </div>
 
@@ -196,7 +230,7 @@ const ProfilePic = () => {
                   accept="image/*"
                   ref={uploadFileInputRef}
                   onChange={(event) => handleFileChange(event, setSelectedFile)}
-                  className="bg-blue-500/15 w-32 py-1 px-2 rounded-md"
+                  className="bg-blue-500/15 w-28 py-1 px-2 rounded-md"
                 />
                 {selectedFile && (
                   <button
@@ -231,7 +265,7 @@ const ProfilePic = () => {
                     onChange={(event) =>
                       handleFileChange(event, setSelectedFile)
                     }
-                    className="bg-blue-500/15 w-32 py-1 px-2 rounded-md"
+                    className="bg-blue-500/15 w-28 py-1 px-2 rounded-md"
                   />
 
                   {selectedFile && (
@@ -250,18 +284,18 @@ const ProfilePic = () => {
                 <div className="bg-blue-500/15 text-blue-500 font-bold flex items-center bg-white dark:bg-neutral-800 justify-center hover:bg-blue-500/20 py-1 px-1.5 rounded-md gap-1 text-sm ">
                   <button type="submit" className="flex items-center gap-2">
                     <FaUpload size={16} />
-                    New Profile
+                    Upload New
                   </button>
                 </div>
                 {/* <button type="submit">New Profile</button> */}
               </form>
-              <button
+              {/* <button
                 onClick={handleDelete}
                 className="flex items-center bg-white dark:bg-neutral-800 justify-center hover:bg-red-500/20 py-1 px-1.5 rounded-md gap-1 text-sm text-red-500"
               >
                 <IoMdTrash fontSize={18} />
                 Delete Profile
-              </button>
+              </button> */}
             </>
           )}
         </>

@@ -17,11 +17,11 @@ export default function Pim() {
 
   return (
     <div className="">
-      {/* <Employeelist /> */}
-      <MenuTabs />
-      <Routes>
+      {/* <MenuTabs /> */}
+      {/* <Routes>
         <Route path="/pim" render={() => <Addemployee match={!!match} />} />
-      </Routes>
+      </Routes> */}
+      <Employeelist />
     </div>
   );
 }

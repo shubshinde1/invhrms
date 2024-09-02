@@ -105,7 +105,12 @@ const DashCalendar = ({
   }, [currentDate]);
 
   const formatFullDate = (date) => {
-    const options = { year: "numeric", month: "short", day: "2-digit" };
+    const options = {
+      weekday: "long",
+      // day: "2-digit",
+      // month: "short",
+      // year: "2-digit",
+    };
     return new Date(date).toLocaleDateString("en-US", options);
   };
 
@@ -341,7 +346,7 @@ const DashCalendar = ({
             ))}
           </div>
           <div className="mt-2 ">
-            <h3 className="text-base font-semibold mb-2">Upcoming Holidays</h3>
+            <h3 className="text-sm font-semibold mb-2">Upcoming Holidays</h3>
             <div className="flex flex-col gap-2  h-80 overflow-y-scroll scrollbrhdn">
               {upcomingHolidays.map((holiday, index) => (
                 <div

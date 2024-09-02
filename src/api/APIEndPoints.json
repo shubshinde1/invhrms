@@ -21,5 +21,6 @@
     "uploadProfile": "https://engineinv-production.up.railway.app/api/uploadprofile",
     "deleteProfile": "https://engineinv-production.up.railway.app/api/deleteprofile",
     "updateProfile": "https://engineinv-production.up.railway.app/api/updateprofile",
-    "viewProfile": "https://engineinv-production.up.railway.app/api/viewprofile"
+    "viewProfile": "https://engineinv-production.up.railway.app/api/viewprofile",
+    "employeeList": "https://engineinv-production.up.railway.app/admin/viewusers"
 }

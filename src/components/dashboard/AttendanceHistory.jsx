@@ -216,6 +216,8 @@ const AttendanceHistory = () => {
         return "bg-green-500/15 text-green-500"; // Present
       case 2:
         return "bg-yellow-500/15 text-yellow-500"; // Half Day
+      case 3:
+        return "bg-pink-500/15 text-pink-500"; // Half Day
       default:
         return "bg-gray-200/15 text-gray-500"; // Default
     }
@@ -417,7 +419,9 @@ const AttendanceHistory = () => {
                         ? "Absent"
                         : record.attendancestatus === 1
                         ? "Present"
-                        : "Half Day"}
+                        : record.attendancestatus === 2
+                        ? "Half Day"
+                        : "Week Off"}
                     </div>
                   </div>
                 ))}

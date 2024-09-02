@@ -13,8 +13,9 @@ import { TbMoonFilled } from "react-icons/tb";
 import { MdLightMode } from "react-icons/md";
 import { motion } from "framer-motion";
 import userprofile from "../../assets/images/clientAvatar.png";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { FaCaretDown } from "react-icons/fa6";
 import ApiendPonits from "../../api/APIEndPoints.json";
+import { Tooltip } from "@mui/material";
 
 export default function Header({ handleThemeSwitch, theme }) {
   const location = useLocation();
@@ -28,6 +29,7 @@ export default function Header({ handleThemeSwitch, theme }) {
   const { userData } = useContext(AuthContext);
   const token = localStorage.getItem("accessToken");
   const empid = userData?.employeeData._id;
+  const userName = userData?.employeeData.name;
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -90,7 +92,7 @@ export default function Header({ handleThemeSwitch, theme }) {
       <div className="font-bold">{getTitle()}</div>
       <div className="">
         <div className="flex items-center gap-2 text-sm">
-          <Popover className="relative">
+          {/* <Popover className="relative">
             {({ open }) => (
               <>
                 <Popover.Button
@@ -118,7 +120,7 @@ export default function Header({ handleThemeSwitch, theme }) {
                 </Transition>
               </>
             )}
-          </Popover>
+          </Popover> */}
 
           {/* dark/light mode toggle */}
           {/* <div className="flex md:hidden"> */}
@@ -194,15 +196,21 @@ export default function Header({ handleThemeSwitch, theme }) {
           <Menu as="div" className="relative">
             <div>
               <Menu.Button className="flex align-middle">
-                <div className="flex items-center bg-sky-50 dark:bg-neutral-900 rounded-md ">
-                  <BsThreeDotsVertical fontSize={22} className="m-0.5 " />
+                {/* <Tooltip title={userName} placement="bottom" className="" arrow> */}
+                <div className="flex items-center gap- bg-sky-50 dark:bg-neutral-900  rounded-md ">
+                  <div className="flex items-center gap-1 p-1 sm:pr-2">
+                    <FaCaretDown fontSize={18} />
+                    <span className=" hidden sm:flex font-semibold">
+                      {userName}
+                    </span>
+                  </div>
                   <img
                     src={profile ? profile : userprofile}
                     alt=""
-                    className="h-9 w-9 rounded-md bg-top bg-no-repeat"
+                    className="h-9 w-9 rounded-md bg-top bg-no-repeat "
                   />
-                  <span className="sr-only">Shubham Shinde</span>
                 </div>
+                {/* </Tooltip> */}
               </Menu.Button>
             </div>
             <Transition
