@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import MenuTabs from "./Menutabs";
 import { motion } from "framer-motion";
 import { FaFilterCircleXmark } from "react-icons/fa6";
@@ -6,6 +7,8 @@ import { TiFlash } from "react-icons/ti";
 import { IoFlashOff } from "react-icons/io5";
 import { HiUsers } from "react-icons/hi2";
 import ApiendPonits from "../../api/APIEndPoints.json";
+import { IoEye } from "react-icons/io5";
+import Tooltip from "@mui/material/Tooltip";
 
 const Employeelist = () => {
   const [loading, setLoading] = useState(false);
@@ -16,9 +19,10 @@ const Employeelist = () => {
     status: "",
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7; // Number of items per page
+  const itemsPerPage = 10; // Number of items per page
 
   const token = localStorage.getItem("accessToken");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEmployeeList = async () => {
@@ -33,7 +37,6 @@ const Employeelist = () => {
         });
 
         const data = await response.json();
-        console.log(data);
 
         if (response.ok) {
           setFetchEmployee(data.data);
@@ -93,11 +96,15 @@ const Employeelist = () => {
     (emp) => emp.status === 0
   ).length;
 
+  const handleViewClick = (employeeId) => {
+    navigate(`/pim/employee-details/${employeeId}`); // Navigate to employee details page
+  };
+
   return (
     <div className="dark:text-white">
       <MenuTabs />
 
-      <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2">
+      <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2 mb-14">
         <div className="grid grid-cols-4 sm:grid-cols-3 gap-2">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -153,50 +160,77 @@ const Employeelist = () => {
         </div>
 
         <div className="grid grid-cols-12 items-end gap-2">
-          <div className="col-span-full sm:col-span-6 lg:col-span-4 flex flex-col">
-            <label className="mb-1 font-semibold">
+          <div className="col-span-full sm:col-span-6 lg:col-span-4 flex flex-col ">
+            {/* <label className="mb-1 font-semibold">
               Search by Employee ID, Name, or Designation
-            </label>
+            </label> */}
             <input
               type="text"
               value={filters.searchQuery}
               onChange={(e) =>
                 setFilters({ ...filters, searchQuery: e.target.value })
               }
-              className="p-2 rounded-md shadow-sm bg-sky-50 dark:bg-neutral-800"
+              className="p-2 rounded-md shadow-md bg-sky-50 dark:bg-neutral-900"
+              placeholder="Search by Employee ID, Name, or Designation"
             />
           </div>
 
-          <div className="col-span-full sm:col-span-6 lg:col-span-1 flex flex-col">
-            <label className="mb-1 font-semibold">Status</label>
-            <select
-              value={filters.status}
-              onChange={(e) =>
-                setFilters({ ...filters, status: e.target.value })
-              }
-              className="p-2 rounded-md shadow-sm bg-sky-50 dark:bg-neutral-800 text-sm"
-            >
-              <option value="">All</option>
-              <option value="1">Active</option>
-              <option value="0">Inactive</option>
-            </select>
+          <div className="col-span-6 sm:col-span-3 lg:col-span-3 flex gap-2  ">
+            <div className="flex space-x-1 bg-sky-100 dark:bg-neutral-900 p-1.5 rounded-md w-fit">
+              <button
+                onClick={() => setFilters({ ...filters, status: "" })}
+                className={`p-1 rounded-md text-xs  flex items-center gap-0.5 font-semibold ${
+                  filters.status === ""
+                    ? "bg-indigo-500/20 text-indigo-500"
+                    : " dark:text-white"
+                }`}
+              >
+                <HiUsers fontSize={18} />
+                {filters.status === "" ? "All" : ""}
+                {/* All */}
+              </button>
+              <button
+                onClick={() => setFilters({ ...filters, status: "1" })}
+                className={`p-1 rounded-md text-xs  flex items-center gap-0.5 font-semibold ${
+                  filters.status === "1"
+                    ? "bg-green-500/20 text-green-500"
+                    : " dark:text-white"
+                }`}
+              >
+                <TiFlash fontSize={18} />
+                {filters.status === "1" ? "Active" : ""}
+                {/* Active */}
+              </button>
+              <button
+                onClick={() => setFilters({ ...filters, status: "0" })}
+                className={`p-1 rounded-md text-xs  flex items-center gap-0.5 font-semibold ${
+                  filters.status === "0"
+                    ? "bg-red-500/20 text-red-500 "
+                    : " dark:text-white"
+                }`}
+              >
+                <IoFlashOff fontSize={15} />
+                {filters.status === "0" ? "Inactive" : ""}
+                {/* Inactive */}
+              </button>
+            </div>
+
+            <div className="col-span-1 flex">
+              <button
+                onClick={handleClearFilters}
+                className="px-2 py-1.5 bg-sky-50 dark:bg-neutral-900 hover:dark:bg-neutral-800 rounded-md shadow-sm"
+              >
+                <FaFilterCircleXmark fontSize={18} />
+              </button>
+            </div>
           </div>
 
-          <div className="col-span-1 flex">
-            <button
-              onClick={handleClearFilters}
-              className="p-2 bg-sky-50 dark:bg-neutral-800 hover:dark:bg-neutral-900 rounded-md shadow-sm"
-            >
-              <FaFilterCircleXmark fontSize={20} />
-            </button>
-          </div>
-
-          <div className="col-span-11 lg:col-span-6 flex justify-end items-center gap-2">
+          <div className="col-span-6 sm:col-span-3 lg:col-span-5 flex justify-end items-center gap-2 ">
             {Array.from({ length: totalPages }, (_, index) => (
               <button
                 key={index + 1}
                 onClick={() => handlePageChange(index + 1)}
-                className={`px-4 py-2 rounded-md shadow-sm ${
+                className={`px-3 py-1.5 rounded-md shadow-sm ${
                   currentPage === index + 1
                     ? "bg-indigo-500/20 text-indigo-500"
                     : "bg-sky-50 dark:bg-neutral-800"
@@ -209,7 +243,7 @@ const Employeelist = () => {
         </div>
 
         {/* Table layout for larger screens */}
-        <div className="hidden md:block dark:text-white">
+        <div className="hidden md:block dark:text-white h-[30rem] overflow-y-scroll scrollbrhdn ">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -256,7 +290,20 @@ const Employeelist = () => {
                   )}
                 </div>
 
-                <div className="col-span-2">Action</div>
+                <div className="col-span-2">
+                  <Tooltip
+                    title={"View " + employee.name}
+                    placement="top"
+                    arrow
+                  >
+                    <button
+                      onClick={() => handleViewClick(employee._id)}
+                      className="hover:bg-blue-500/20 p-1.5 rounded-md text-blue-500 "
+                    >
+                      <IoEye fontSize={17} />
+                    </button>
+                  </Tooltip>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -307,7 +354,12 @@ const Employeelist = () => {
               </div>
 
               <div className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-                Action
+                <button
+                  onClick={() => handleViewClick(employee._id)}
+                  className="bg-blue-500/20 p-1.5 rounded-md text-blue-500"
+                >
+                  <IoEye fontSize={17} />
+                </button>
               </div>
             </motion.div>
           ))}

@@ -395,7 +395,7 @@ const UserProfile = () => {
                   onClick={() => setIsEditMode(true)}
                   className="bg-blue-200 dark:bg-blue-200/15 text-blue-500 font-bold px-2 py-1 rounded w-fit flex items-center gap-1.5 group"
                 >
-                  <MdEdit fontSize={18} />
+                  <MdEdit fontSize={15} />
                   Edit Profile
                 </button>
               )}
@@ -1021,7 +1021,13 @@ const UserProfile = () => {
               {formData.workexperience.map((experience, index) => (
                 <div key={index} className="flex gap-2 flex-col">
                   <div className=" flex gap-2 items-center bg-sky-50 dark:bg-neutral-950 rounded-t-md p-2 w-fit -mb-2">
-                    <strong>Experience {index + 1}</strong>
+                    {/* <strong>Experience {index + 1}</strong> */}
+                    <h4 className="bg-sky-50 dark:bg-neutral-950 rounded-t-md col-span-12 font-semibold w-fit flex gap-2 items-center text-sm">
+                      <span className="bg-neutral-800 px-2 py-0.5 rounded-md">
+                        {index + 1}
+                      </span>{" "}
+                      Experience
+                    </h4>
                     {isEditMode && (
                       <button
                         type="button"

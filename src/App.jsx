@@ -8,6 +8,7 @@ import Pim from "./components/Pim";
 import Clients from "./components/Clients";
 import Projects from "./components/Projects";
 import Employeelist from "./components/pim/Employeelist";
+import EmployeeDetails from "./components/pim/EmployeeDetails";
 import Addemployee from "./components/pim/Addemployee";
 import EditEmployee from "./components/pim/EditEmployee";
 import ViewEmployee from "./components/pim/ViewEmployee";
@@ -56,7 +57,11 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/Pim" element={<Pim />} />
           <Route path="/pim/employeelist" element={<Employeelist />} />
-          <Route path="/pim/addemployee" element={<Addemployee />} />
+          {/* <Route path="/pim/addemployee" element={<Addemployee />} /> */}
+          <Route
+            path="/pim/employee-details/:_id"
+            element={<EmployeeDetails />}
+          />
           <Route path="/pim/addholidays" element={<RefillLeaves />} />
           <Route
             path="/pim/edit/:empid/:ename/:designation/:jdate/:status"

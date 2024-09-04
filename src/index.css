@@ -101,9 +101,9 @@ option:focus {
     box-shadow: none;
 }
 
-input:placeholder-shown {
+/* input:placeholder-shown {
     font-size: 50rem;
-}
+} */
 
 
 input[type="date"]::-webkit-calendar-picker-indicator {

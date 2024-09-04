@@ -232,8 +232,8 @@ const RefillLeaves = () => {
     if (holidayData) {
       const total =
         holidayData.mandatoryholiday.length +
-        holidayData.optionalholiday.length +
-        holidayData.weekendHoliday.length;
+        holidayData.optionalholiday.length;
+      // holidayData.weekendHoliday.length;
       const totalMandatoryHolidays = holidayData.mandatoryholiday.length;
       const totalOptionalHolidays = holidayData.optionalholiday.length;
       const totalWeekendHolidays = holidayData.weekendHoliday.length;
