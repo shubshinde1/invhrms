@@ -137,17 +137,14 @@ const EmployeeDetails = () => {
         workexperience: formData.workexperience,
       };
 
-      const response = await fetch(
-        "http://localhost:3000/api/admin/updateemployeebyadmin",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch(ApiendPonits.updateemployeebyadmin, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
       const responseBody = await response.json();
       // console.log("Response body:", responseBody);
