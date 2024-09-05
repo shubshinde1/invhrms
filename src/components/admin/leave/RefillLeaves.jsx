@@ -18,6 +18,7 @@ import { FaCalculator } from "react-icons/fa6";
 import Tooltip from "@mui/material/Tooltip";
 import { BsEmojiHeartEyesFill } from "react-icons/bs";
 import { MdFestival } from "react-icons/md";
+import Loading from "../../Loading";
 
 const GlobalStyles = createGlobalStyle`
 .MuiPaper-root{
@@ -109,6 +110,7 @@ const RefillLeaves = () => {
   const [weekendHoliday, setWeekendHoliday] = useState([]);
   const [holidayData, setHolidayData] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("accessToken");
   const employee_id = userData.employeeData._id;
   const [showAddHolidays, setShowAddHolidays] = useState(false);
@@ -173,6 +175,7 @@ const RefillLeaves = () => {
 
   useEffect(() => {
     const getHolidaysList = async () => {
+      setLoading(true);
       try {
         const response = await fetch(ApiendPonits.viewholidays, {
           method: "POST",
@@ -206,6 +209,8 @@ const RefillLeaves = () => {
       } catch (error) {
         setError("Error fetching holidays. Please try again.");
         // console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -408,86 +413,99 @@ const RefillLeaves = () => {
                     </ul>
                   </div>
 
-                  {holidayData && (
-                    <>
-                      {combinedHolidays.length > 0 && (
-                        <div className="flex flex-col gap-1">
-                          {combinedHolidays.map((holiday) => (
-                            <div
-                              key={holiday._id}
-                              className="bg-sky-50 dark:bg-neutral-900 p-2 rounded-md"
-                            >
-                              <ul className="grid grid-cols-12">
-                                <li className="col-span-3">{holiday.type}</li>
-                                <li className="col-span-3">{holiday.name}</li>
-                                <li className="col-span-3">
-                                  {(() => {
-                                    const holidayDate = new Date(holiday.date); // Convert holiday.date to Date object
-                                    const today = new Date(); // Current date
-                                    const eventDateString =
-                                      holidayDate.toDateString(); // Convert holidayDate to a readable string
-                                    const todayString = today.toDateString(); // Convert today to a readable string
+                  {loading ? (
+                    <Loading />
+                  ) : (
+                    <div>
+                      {holidayData && (
+                        <>
+                          {combinedHolidays.length > 0 && (
+                            <div className="flex flex-col gap-1">
+                              {combinedHolidays.map((holiday) => (
+                                <div
+                                  key={holiday._id}
+                                  className="bg-sky-50 dark:bg-neutral-900 p-2 rounded-md"
+                                >
+                                  <ul className="grid grid-cols-12">
+                                    <li className="col-span-3">
+                                      {holiday.type}
+                                    </li>
+                                    <li className="col-span-3">
+                                      {holiday.name}
+                                    </li>
+                                    <li className="col-span-3">
+                                      {(() => {
+                                        const holidayDate = new Date(
+                                          holiday.date
+                                        ); // Convert holiday.date to Date object
+                                        const today = new Date(); // Current date
+                                        const eventDateString =
+                                          holidayDate.toDateString(); // Convert holidayDate to a readable string
+                                        const todayString =
+                                          today.toDateString(); // Convert today to a readable string
 
-                                    if (eventDateString === todayString) {
-                                      return (
-                                        <div className="flex items-center gap-2">
-                                          <div className="w-32">
-                                            {eventDateString}
-                                          </div>
-                                          <div
-                                            // className={`flex items-center gap-2 p-2 font-bold py-1 rounded-md text-xs bg-orange-500/15 text-orange-500 ${
-                                            //   holiday.type === "Mandatory"
-                                            //     ? "bg-orange-500/15 text-orange-500"
-                                            //     : "bg-orange-500/15 text-orange-500"
-                                            // }`}
-                                            className="flex items-center gap-2 p-2 font-bold py-1 rounded-md text-xs bg-orange-500/15 text-orange-500"
-                                          >
-                                            <span>Today</span>
-                                            <span className="relative flex h-1.5 w-1.5 items-center justify-center">
-                                              <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-orange-400"></span>
-                                              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-orange-500"></span>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      );
-                                    } else if (holidayDate > today) {
-                                      const daysDifference = daysRemaining(
-                                        holidayDate,
-                                        today
-                                      );
-                                      return (
-                                        <div className="flex items-center gap-2">
-                                          <div className="w-32">
-                                            {eventDateString}
-                                          </div>
-                                          <div className="bg-green-500/15 px-1.5 py-0.5 rounded-md text-green-500 text-xs">
-                                            In {daysDifference} d
-                                          </div>
-                                        </div>
-                                      );
-                                    } else {
-                                      return (
-                                        <div className="flex items-center gap-2">
-                                          <div className="w-32">
-                                            {eventDateString}
-                                          </div>
-                                          <span className="bg-red-500/15 px-1.5 py-0.5 rounded-md text-red-500 text-xs">
-                                            Old
-                                          </span>
-                                        </div>
-                                      ); // Show the date if it's not in the future
-                                    }
-                                  })()}
-                                </li>
-                                <li className="col-span-3">
-                                  {holiday.greeting || "NA"}
-                                </li>
-                              </ul>
+                                        if (eventDateString === todayString) {
+                                          return (
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-32">
+                                                {eventDateString}
+                                              </div>
+                                              <div
+                                                // className={`flex items-center gap-2 p-2 font-bold py-1 rounded-md text-xs bg-orange-500/15 text-orange-500 ${
+                                                //   holiday.type === "Mandatory"
+                                                //     ? "bg-orange-500/15 text-orange-500"
+                                                //     : "bg-orange-500/15 text-orange-500"
+                                                // }`}
+                                                className="flex items-center gap-2 p-2 font-bold py-1 rounded-md text-xs bg-orange-500/15 text-orange-500"
+                                              >
+                                                <span>Today</span>
+                                                <span className="relative flex h-1.5 w-1.5 items-center justify-center">
+                                                  <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-orange-400"></span>
+                                                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-orange-500"></span>
+                                                </span>
+                                              </div>
+                                            </div>
+                                          );
+                                        } else if (holidayDate > today) {
+                                          const daysDifference = daysRemaining(
+                                            holidayDate,
+                                            today
+                                          );
+                                          return (
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-32">
+                                                {eventDateString}
+                                              </div>
+                                              <div className="bg-green-500/15 px-1.5 py-0.5 rounded-md text-green-500 text-xs">
+                                                In {daysDifference} d
+                                              </div>
+                                            </div>
+                                          );
+                                        } else {
+                                          return (
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-32">
+                                                {eventDateString}
+                                              </div>
+                                              <span className="bg-red-500/15 px-1.5 py-0.5 rounded-md text-red-500 text-xs">
+                                                Old
+                                              </span>
+                                            </div>
+                                          ); // Show the date if it's not in the future
+                                        }
+                                      })()}
+                                    </li>
+                                    <li className="col-span-3">
+                                      {holiday.greeting || "NA"}
+                                    </li>
+                                  </ul>
+                                </div>
+                              ))}
                             </div>
-                          ))}
-                        </div>
+                          )}
+                        </>
                       )}
-                    </>
+                    </div>
                   )}
                 </div>
               </div>

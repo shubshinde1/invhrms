@@ -62,7 +62,6 @@ const Employeelist = () => {
     const fetchAttendanceEmployeeList = async () => {
       if (fetchemployee.length === 0) return; // Skip if employees are not loaded yet
 
-      setLoading(true);
       try {
         const response = await fetch(
           ApiendPonits.getAllEmployeeAttendanceRecords,
@@ -101,8 +100,6 @@ const Employeelist = () => {
       } catch (err) {
         setError(err.message);
         setTimeout(() => setError(""), 4000);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -299,6 +296,7 @@ const Employeelist = () => {
           </div>
         </div>
 
+        {/* Table layout for larger screens */}
         {loading ? (
           <Loading />
         ) : (
@@ -390,8 +388,6 @@ const Employeelist = () => {
             </div>
           </div>
         )}
-
-        {/* Table layout for larger screens */}
 
         {/* Card layout for smaller screens */}
         {loading ? (
