@@ -8,6 +8,7 @@ import { IoSave, IoClose, IoFlashOff, IoCaretBack } from "react-icons/io5";
 import defaultprofile from "../../../../src/assets/images/clientAvatar.png";
 import { TiFlash } from "react-icons/ti";
 import { Link } from "react-router-dom";
+import Loading from "../../Loading";
 
 const AdminInfo = () => {
   const { _id } = useParams(); // Get the employee ID from URL params
@@ -171,7 +172,7 @@ const AdminInfo = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading />;
   if (error) return <div className="text-red-500">{error}</div>;
   if (!employee) return <div>No employee data</div>;
 

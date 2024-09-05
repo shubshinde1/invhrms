@@ -10,6 +10,7 @@ import ApiendPonits from "../../api/APIEndPoints.json";
 import { IoEye } from "react-icons/io5";
 import Tooltip from "@mui/material/Tooltip";
 import AttendanceChart from "../dashboard/AttendanceChart";
+import Loading from "../Loading";
 
 const Employeelist = () => {
   const [loading, setLoading] = useState(false);
@@ -154,6 +155,8 @@ const Employeelist = () => {
     navigate(`/pim/employee-details/${employeeId}`); // Navigate to employee details page
   };
 
+  // if (loading) return <Loading />;
+
   return (
     <div className="dark:text-white">
       <MenuTabs />
@@ -296,130 +299,62 @@ const Employeelist = () => {
           </div>
         </div>
 
-        {/* Table layout for larger screens */}
-        <div className="hidden md:block dark:text-white h-[30rem] overflow-y-scroll scrollbrhdn ">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="grid grid-cols-12 bg-sky-100 dark:bg-neutral-800 px-2 py-3 rounded-md">
-              <div className="col-span-1 font-semibold">E_ID</div>
-              <div className="col-span-3 font-semibold">Employee Name</div>
-              <div className="col-span-2 font-semibold">Designation</div>
-              <div className="col-span-2 font-semibold">Joining Date</div>
-              <div className="col-span-2 font-semibold">Status</div>
-              <div className="col-span-2 font-semibold">Action</div>
-            </div>
-          </motion.div>
-
-          <div className="flex flex-col gap-2 mt-2">
-            {currentEmployees.map((employee, rowIndex) => (
-              <motion.div
-                key={employee._id}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
-                className="grid grid-cols-12 bg-sky-50 dark:bg-neutral-900 px-2 py-3 rounded-md gap-2"
-              >
-                <div className="col-span-1">{employee.empid}</div>
-                <div className="col-span-3 flex items-center gap-1">
-                  <div
-                    className={` px-2 py-1 text-center rounded-md w-fit h-fit text-xs font-semibold ${
-                      employee.attendancestatus === 1
-                        ? "bg-green-500/20 text-green-500"
-                        : employee.attendancestatus === 0
-                        ? "bg-red-500/20 text-red-500"
-                        : employee.attendancestatus === 2
-                        ? "bg-yellow-500/20 text-yellow-500"
-                        : "bg-red-500/20 text-red-500"
-                    }`}
-                  >
-                    {employee.attendancestatus === 1
-                      ? "P" // Present
-                      : employee.attendancestatus === 0 ||
-                        !employee.attendancestatus
-                      ? "A" // Absent
-                      : employee.attendancestatus === 2
-                      ? "H" // Half Day
-                      : "-"}{" "}
-                  </div>
-                  <div>{employee.name}</div>
-                </div>
-                <div className="col-span-2">{employee.designation}</div>
-                <div className="col-span-2">{employee.dateofjoining}</div>
-                <div
-                  className={`col-span-2 p-1 text-center rounded-md w-fit h-fit text-xs ${
-                    employee.status === 1
-                      ? "bg-green-500/20 text-green-500"
-                      : "bg-red-500/20 text-red-500"
-                  }`}
-                >
-                  {employee.status === 1 ? (
-                    <span className="flex items-center text-green-500">
-                      <TiFlash fontSize={18} /> Active
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-0.5 text-red-500">
-                      <IoFlashOff fontSize={15} /> Inactive
-                    </span>
-                  )}
-                </div>
-
-                <div className="col-span-2">
-                  <Tooltip
-                    title={"View " + employee.name}
-                    placement="top"
-                    arrow
-                  >
-                    <button
-                      onClick={() => handleViewClick(employee._id)}
-                      className="hover:bg-blue-500/20 p-1.5 rounded-md text-blue-500 "
-                    >
-                      <IoEye fontSize={17} />
-                    </button>
-                  </Tooltip>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Card layout for smaller screens */}
-        <div className="md:hidden flex flex-col gap-2 mt-2">
-          {currentEmployees.map((employee, rowIndex) => (
+        {loading ? (
+          <Loading />
+        ) : (
+          <div className="hidden md:block dark:text-white h-[30rem] overflow-y-scroll scrollbrhdn ">
             <motion.div
-              key={employee._id}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
-              className="bg-sky-50 dark:bg-neutral-900 px-4 py-6 rounded-md shadow-md"
+              transition={{ duration: 0.3 }}
             >
-              <div className="font-semibold text-lg flex items-center gap-1 justify-between">
-                <div>{employee.name}</div>
-                <div className="flex gap-2 items-center">
-                  <div
-                    className={`text-sm text-center py-1 px-2 rounded-md w-fit ${
-                      employee.attendancestatus === 1
-                        ? "bg-green-500/20 text-green-500"
-                        : employee.attendancestatus === 0
-                        ? "bg-red-500/20 text-red-500"
+              <div className="grid grid-cols-12 bg-sky-100 dark:bg-neutral-800 px-2 py-3 rounded-md">
+                <div className="col-span-1 font-semibold">E_ID</div>
+                <div className="col-span-3 font-semibold">Employee Name</div>
+                <div className="col-span-2 font-semibold">Designation</div>
+                <div className="col-span-2 font-semibold">Joining Date</div>
+                <div className="col-span-2 font-semibold">Status</div>
+                <div className="col-span-2 font-semibold">Action</div>
+              </div>
+            </motion.div>
+
+            <div className="flex flex-col gap-2 mt-2">
+              {currentEmployees.map((employee, rowIndex) => (
+                <motion.div
+                  key={employee._id}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
+                  className="grid grid-cols-12 bg-sky-50 dark:bg-neutral-900 px-2 py-3 rounded-md gap-2"
+                >
+                  <div className="col-span-1">{employee.empid}</div>
+                  <div className="col-span-3 flex items-center gap-1">
+                    <div
+                      className={` px-2 py-1 text-center rounded-md w-fit h-fit text-xs font-semibold ${
+                        employee.attendancestatus === 1
+                          ? "bg-green-500/20 text-green-500"
+                          : employee.attendancestatus === 0
+                          ? "bg-red-500/20 text-red-500"
+                          : employee.attendancestatus === 2
+                          ? "bg-yellow-500/20 text-yellow-500"
+                          : "bg-red-500/20 text-red-500"
+                      }`}
+                    >
+                      {employee.attendancestatus === 1
+                        ? "P" // Present
+                        : employee.attendancestatus === 0 ||
+                          !employee.attendancestatus
+                        ? "A" // Absent
                         : employee.attendancestatus === 2
-                        ? "bg-yellow-500/20 text-yellow-500"
-                        : "bg-red-500/20 text-red-500"
-                    }`}
-                  >
-                    {employee.attendancestatus === 1
-                      ? "P" // Present
-                      : employee.attendancestatus === 0 ||
-                        !employee.attendancestatus
-                      ? "A" // Absent
-                      : employee.attendancestatus === 2
-                      ? "H" // Half Day
-                      : "-"}{" "}
+                        ? "H" // Half Day
+                        : "-"}{" "}
+                    </div>
+                    <div>{employee.name}</div>
                   </div>
+                  <div className="col-span-2">{employee.designation}</div>
+                  <div className="col-span-2">{employee.dateofjoining}</div>
                   <div
-                    className={`text-sm text-center p-1 rounded-md w-fit ${
+                    className={`col-span-2 p-1 text-center rounded-md w-fit h-fit text-xs ${
                       employee.status === 1
                         ? "bg-green-500/20 text-green-500"
                         : "bg-red-500/20 text-red-500"
@@ -435,33 +370,110 @@ const Employeelist = () => {
                       </span>
                     )}
                   </div>
+
+                  <div className="col-span-2">
+                    <Tooltip
+                      title={"View " + employee.name}
+                      placement="top"
+                      arrow
+                    >
+                      <button
+                        onClick={() => handleViewClick(employee._id)}
+                        className="hover:bg-blue-500/20 p-1.5 rounded-md text-blue-500 "
+                      >
+                        <IoEye fontSize={17} />
+                      </button>
+                    </Tooltip>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Table layout for larger screens */}
+
+        {/* Card layout for smaller screens */}
+        {loading ? (
+          <Loading />
+        ) : (
+          <div className="md:hidden flex flex-col gap-2 mt-2">
+            {currentEmployees.map((employee, rowIndex) => (
+              <motion.div
+                key={employee._id}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
+                className="bg-sky-50 dark:bg-neutral-900 px-4 py-6 rounded-md shadow-md"
+              >
+                <div className="font-semibold text-lg flex items-center gap-1 justify-between">
+                  <div>{employee.name}</div>
+                  <div className="flex gap-2 items-center">
+                    <div
+                      className={`text-sm text-center py-1 px-2 rounded-md w-fit ${
+                        employee.attendancestatus === 1
+                          ? "bg-green-500/20 text-green-500"
+                          : employee.attendancestatus === 0
+                          ? "bg-red-500/20 text-red-500"
+                          : employee.attendancestatus === 2
+                          ? "bg-yellow-500/20 text-yellow-500"
+                          : "bg-red-500/20 text-red-500"
+                      }`}
+                    >
+                      {employee.attendancestatus === 1
+                        ? "P" // Present
+                        : employee.attendancestatus === 0 ||
+                          !employee.attendancestatus
+                        ? "A" // Absent
+                        : employee.attendancestatus === 2
+                        ? "H" // Half Day
+                        : "-"}{" "}
+                    </div>
+                    <div
+                      className={`text-sm text-center p-1 rounded-md w-fit ${
+                        employee.status === 1
+                          ? "bg-green-500/20 text-green-500"
+                          : "bg-red-500/20 text-red-500"
+                      }`}
+                    >
+                      {employee.status === 1 ? (
+                        <span className="flex items-center text-green-500">
+                          <TiFlash fontSize={18} /> Active
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-0.5 text-red-500">
+                          <IoFlashOff fontSize={15} /> Inactive
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div className="text-sm text-gray-700 dark:text-gray-300 flex gap-1 justify-between">
-                <div>Employee ID</div>
-                <div>{employee.empid}</div>
-              </div>
-              <div className="text-sm text-gray-700 dark:text-gray-300 flex gap-1 justify-between">
-                <div>Designation</div>
-                <div>{employee.designation}</div>
-              </div>
-              <div className="text-sm text-gray-700 dark:text-gray-300 flex gap-1 justify-between">
-                <div>Joining Date</div>
-                <div>{employee.dateofjoining}</div>
-              </div>
+                <div className="text-sm text-gray-700 dark:text-gray-300 flex gap-1 justify-between">
+                  <div>Employee ID</div>
+                  <div>{employee.empid}</div>
+                </div>
+                <div className="text-sm text-gray-700 dark:text-gray-300 flex gap-1 justify-between">
+                  <div>Designation</div>
+                  <div>{employee.designation}</div>
+                </div>
+                <div className="text-sm text-gray-700 dark:text-gray-300 flex gap-1 justify-between">
+                  <div>Joining Date</div>
+                  <div>{employee.dateofjoining}</div>
+                </div>
 
-              <div className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-                <button
-                  onClick={() => handleViewClick(employee._id)}
-                  className="bg-blue-500/20 p-1.5 rounded-md text-blue-500"
-                >
-                  <IoEye fontSize={17} />
-                </button>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                <div className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  <button
+                    onClick={() => handleViewClick(employee._id)}
+                    className="bg-blue-500/20 p-1.5 rounded-md text-blue-500"
+                  >
+                    <IoEye fontSize={17} />
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
