@@ -1,15 +1,15 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
-const MenuTabs = () => {
+const EmployeeMenuTabs = () => {
   const location = useLocation();
 
   return (
     <div className="bg-white dark:bg-neutral-950 dark:text-white rounded-md p-2 sticky top-0 mb-2 z-0">
       <ul className="flex gap-2">
         <li
-          className={` text-sm px-3 py-1 rounded-md ${
-            location.pathname === "/pim/employeelist" ||
+          className={` text-sm px-3 py-1.5 rounded-md ${
+            location.pathname === "/pim/employee-details" ||
             location.pathname === "/pim"
               ? "bg-[#5336FD] text-white font-bold "
               : "bg-sky-50 dark:bg-neutral-800"
@@ -27,7 +27,7 @@ const MenuTabs = () => {
           <NavLink to="/pim/addemployee">Add Employee</NavLink>
         </li> */}
         <li
-          className={` text-sm px-3 py-1 rounded-md ${
+          className={` text-sm px-3 py-1.5 rounded-md ${
             location.pathname === "/pim/addholidays"
               ? "bg-[#5336FD] text-white font-bold"
               : "bg-sky-50 dark:bg-neutral-800"
@@ -40,4 +40,4 @@ const MenuTabs = () => {
   );
 };
 
-export default MenuTabs;
+export default EmployeeMenuTabs;

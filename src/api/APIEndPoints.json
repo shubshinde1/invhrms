@@ -24,5 +24,6 @@
     "viewProfile": "https://engineinv-production.up.railway.app/api/viewprofile",
     "employeeList": "https://engineinv-production.up.railway.app/api/admin/viewusers",
     "employeedetails": "https://engineinv-production.up.railway.app/api/admin/employeedetails",
-    "updateemployeebyadmin": "https://engineinv-production.up.railway.app/api/admin/updateemployeebyadmin"
+    "updateemployeebyadmin": "https://engineinv-production.up.railway.app/api/admin/updateemployeebyadmin",
+    "getAllEmployeeAttendanceRecords": "https://engineinv-production.up.railway.app/api/admin/getallattendancerecords"
 }

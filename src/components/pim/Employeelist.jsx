@@ -9,6 +9,7 @@ import { HiUsers } from "react-icons/hi2";
 import ApiendPonits from "../../api/APIEndPoints.json";
 import { IoEye } from "react-icons/io5";
 import Tooltip from "@mui/material/Tooltip";
+import AttendanceChart from "../dashboard/AttendanceChart";
 
 const Employeelist = () => {
   const [loading, setLoading] = useState(false);
@@ -24,6 +25,7 @@ const Employeelist = () => {
   const token = localStorage.getItem("accessToken");
   const navigate = useNavigate();
 
+  // Fetch employee details
   useEffect(() => {
     const fetchEmployeeList = async () => {
       setLoading(true);
@@ -53,6 +55,58 @@ const Employeelist = () => {
 
     fetchEmployeeList();
   }, [token]);
+
+  // Fetch employee attendance records and update employee list
+  useEffect(() => {
+    const fetchAttendanceEmployeeList = async () => {
+      if (fetchemployee.length === 0) return; // Skip if employees are not loaded yet
+
+      setLoading(true);
+      try {
+        const response = await fetch(
+          ApiendPonits.getAllEmployeeAttendanceRecords,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Create a mapping of employee_id to attendancestatus
+          const attendanceStatusMap = data.attendance.reduce((map, record) => {
+            map[record.employee_id] = record.attendancestatus;
+            return map;
+          }, {});
+
+          // Update employee list with attendancestatus
+          const updatedEmployeeList = fetchemployee.map((employee) => ({
+            ...employee,
+            attendancestatus:
+              attendanceStatusMap[employee._id] ||
+              attendanceStatusMap[employee._id],
+          }));
+
+          console.log(updatedEmployeeList);
+
+          setFetchEmployee(updatedEmployeeList);
+        } else {
+          throw new Error("Failed to fetch attendance records");
+        }
+      } catch (err) {
+        setError(err.message);
+        setTimeout(() => setError(""), 4000);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAttendanceEmployeeList();
+  }, [token, fetchemployee.length]);
 
   const handleClearFilters = () => {
     setFilters({
@@ -114,8 +168,8 @@ const Employeelist = () => {
             flex-col gap-4 dark:bg-neutral-800 p-2 rounded-md"
           >
             <div className="flex items-center gap-2">
-              <div className="bg-green-500/20  rounded-md p-2">
-                <HiUsers fontSize={20} className="text-green-600" />
+              <div className="bg-indigo-500/20  rounded-md p-2">
+                <HiUsers fontSize={20} className="text-indigo-600" />
               </div>
               <h2 className="font-bold">Total Employees</h2>
             </div>
@@ -250,8 +304,8 @@ const Employeelist = () => {
             transition={{ duration: 0.3 }}
           >
             <div className="grid grid-cols-12 bg-sky-100 dark:bg-neutral-800 px-2 py-3 rounded-md">
-              <div className="col-span-2 font-semibold">Employee ID</div>
-              <div className="col-span-2 font-semibold">Employee Name</div>
+              <div className="col-span-1 font-semibold">E_ID</div>
+              <div className="col-span-3 font-semibold">Employee Name</div>
               <div className="col-span-2 font-semibold">Designation</div>
               <div className="col-span-2 font-semibold">Joining Date</div>
               <div className="col-span-2 font-semibold">Status</div>
@@ -268,8 +322,30 @@ const Employeelist = () => {
                 transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
                 className="grid grid-cols-12 bg-sky-50 dark:bg-neutral-900 px-2 py-3 rounded-md gap-2"
               >
-                <div className="col-span-2">{employee.empid}</div>
-                <div className="col-span-2">{employee.name}</div>
+                <div className="col-span-1">{employee.empid}</div>
+                <div className="col-span-3 flex items-center gap-1">
+                  <div
+                    className={` px-2 py-1 text-center rounded-md w-fit h-fit text-xs font-semibold ${
+                      employee.attendancestatus === 1
+                        ? "bg-green-500/20 text-green-500"
+                        : employee.attendancestatus === 0
+                        ? "bg-red-500/20 text-red-500"
+                        : employee.attendancestatus === 2
+                        ? "bg-yellow-500/20 text-yellow-500"
+                        : "bg-red-500/20 text-red-500"
+                    }`}
+                  >
+                    {employee.attendancestatus === 1
+                      ? "P" // Present
+                      : employee.attendancestatus === 0 ||
+                        !employee.attendancestatus
+                      ? "A" // Absent
+                      : employee.attendancestatus === 2
+                      ? "H" // Half Day
+                      : "-"}{" "}
+                  </div>
+                  <div>{employee.name}</div>
+                </div>
                 <div className="col-span-2">{employee.designation}</div>
                 <div className="col-span-2">{employee.dateofjoining}</div>
                 <div
@@ -321,22 +397,44 @@ const Employeelist = () => {
             >
               <div className="font-semibold text-lg flex items-center gap-1 justify-between">
                 <div>{employee.name}</div>
-                <div
-                  className={`text-sm text-center p-1 rounded-md w-fit ${
-                    employee.status === 1
-                      ? "bg-green-500/20 text-green-500"
-                      : "bg-red-500/20 text-red-500"
-                  }`}
-                >
-                  {employee.status === 1 ? (
-                    <span className="flex items-center text-green-500">
-                      <TiFlash fontSize={18} /> Active
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-0.5 text-red-500">
-                      <IoFlashOff fontSize={15} /> Inactive
-                    </span>
-                  )}
+                <div className="flex gap-2 items-center">
+                  <div
+                    className={`text-sm text-center py-1 px-2 rounded-md w-fit ${
+                      employee.attendancestatus === 1
+                        ? "bg-green-500/20 text-green-500"
+                        : employee.attendancestatus === 0
+                        ? "bg-red-500/20 text-red-500"
+                        : employee.attendancestatus === 2
+                        ? "bg-yellow-500/20 text-yellow-500"
+                        : "bg-red-500/20 text-red-500"
+                    }`}
+                  >
+                    {employee.attendancestatus === 1
+                      ? "P" // Present
+                      : employee.attendancestatus === 0 ||
+                        !employee.attendancestatus
+                      ? "A" // Absent
+                      : employee.attendancestatus === 2
+                      ? "H" // Half Day
+                      : "-"}{" "}
+                  </div>
+                  <div
+                    className={`text-sm text-center p-1 rounded-md w-fit ${
+                      employee.status === 1
+                        ? "bg-green-500/20 text-green-500"
+                        : "bg-red-500/20 text-red-500"
+                    }`}
+                  >
+                    {employee.status === 1 ? (
+                      <span className="flex items-center text-green-500">
+                        <TiFlash fontSize={18} /> Active
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-0.5 text-red-500">
+                        <IoFlashOff fontSize={15} /> Inactive
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 

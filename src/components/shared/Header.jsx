@@ -199,8 +199,8 @@ export default function Header({ handleThemeSwitch, theme }) {
                 {/* <Tooltip title={userName} placement="bottom" className="" arrow> */}
                 <div className="flex items-center gap- bg-sky-50 dark:bg-neutral-900  rounded-md ">
                   <div className="flex items-center gap-1 p-1 sm:pr-2">
-                    <FaCaretDown fontSize={18} />
-                    <span className=" hidden sm:flex font-semibold">
+                    <FaCaretDown fontSize={17} />
+                    <span className=" hidden sm:flex font-semibold text-xs">
                       {userName}
                     </span>
                   </div>
