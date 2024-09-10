@@ -387,11 +387,28 @@ const ApplyLeave = () => {
               >
                 <GlobalStyles />
                 <MenuItem value="">Choose holiday</MenuItem>
-                {holidayList.map((holiday) => (
+                {/* {holidayList.map((holiday) => (
                   <MenuItem key={holiday._id} value={holiday.name}>
                     {holiday.name}
                   </MenuItem>
-                ))}
+                ))} */}
+                {holidayList
+                  .filter((holiday) => {
+                    // Get today's date (without time)
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0); // Remove the time part
+
+                    // Convert the holiday date to a JavaScript Date object
+                    const holidayDate = new Date(holiday.date); // Assuming holiday.date is in a valid format like 'YYYY-MM-DD'
+
+                    // Return only holidays that are today or in the future
+                    return holidayDate >= today;
+                  })
+                  .map((holiday) => (
+                    <MenuItem key={holiday._id} value={holiday.name}>
+                      {holiday.name}
+                    </MenuItem>
+                  ))}
               </Select>
               {errors.holidayname && (
                 <span className="text-red-600">{errors.holidayname}</span>

@@ -60,9 +60,11 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
         setLeaveHistory(data.leavehistory);
       } else {
         setErrors(data.msg || "Failed to fetch leave history.");
+        setTimeout(() => setErrors(""), 4000);
       }
     } catch (error) {
       setErrors(error.message || "Error fetching leave history.");
+      setTimeout(() => setErrors(""), 4000);
     } finally {
       setLoading(false); // Stop loading
     }
