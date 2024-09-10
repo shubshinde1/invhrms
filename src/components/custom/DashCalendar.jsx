@@ -211,8 +211,8 @@ const DashCalendar = ({
 
   const upcomingHolidays = allHolidays
     .filter((holiday) => new Date(holiday.date) > new Date())
-    .sort((a, b) => new Date(a.date) - new Date(b.date))
-    .slice(0, 5);
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+  // .slice(0, 5);
 
   const holidayColors = {
     mandatory: "bg-pink-500",
