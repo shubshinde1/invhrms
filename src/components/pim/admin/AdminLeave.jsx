@@ -32,6 +32,7 @@ const AdminLeave = () => {
   const [allTotalLeaves, setAllTotalLeaves] = useState(0);
   const [allRemaining, setAllRemaining] = useState(0);
   const [loading, setLoading] = useState(false); // Track loading state
+  const [message, setMessage] = useState("");
 
   const [holidays, setHolidays] = useState({
     mandatoryholiday: [],
@@ -158,6 +159,7 @@ const AdminLeave = () => {
 
       if (data.success) {
         getLeaveRecord();
+        setMessage("Fetched");
       } else {
         // setErrors(data.msg || "Failed to fetch leave history.");
       }
@@ -204,7 +206,7 @@ const AdminLeave = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="col-span-6 lg:col-span-4 xl:col-span-1 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
+          className="col-span-6 lg:col-span-4 xl:col-span-1 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3 group"
         >
           <div className="flex items-center gap-2">
             <div className="bg-green-500/15 rounded-md p-2">
@@ -212,25 +214,37 @@ const AdminLeave = () => {
             </div>
             <h2 className="font-bold">Leaves</h2>
           </div>
-          <h2 className="flex items-end justify-end">
-            {/* <span className="text-4xl font-bold text-gray-300 cursor-pointer">
+          <div className="flex items-end justify-between">
+            <button
+              onClick={syncleavelabalce}
+              className="bg-sky-50 dark:bg-neutral-950 dark:hover:bg-neutral-800 hover:bg-sky-100 p-1.5 rounded-md group-hover:opacity-100 opacity-0 flex items-center gap-1 text-xs"
+            >
+              <RiRefreshLine
+                fontSize={15}
+                className={loading ? "animate-spin" : ""}
+              />
+              <span>Sync</span>
+            </button>
+            <h2 className="flex items-end justify-end">
+              {/* <span className="text-4xl font-bold text-gray-300 cursor-pointer">
               <Tooltip title="Consumed" placement="top" arrow>
                 <span>{consumedLeaves}</span>
               </Tooltip>
             </span>
             / */}
-            <span className="text-4xl font-bold text-gray-300 cursor-pointer">
-              <Tooltip title="Available" placement="top" arrow>
-                <span>{availableLeaves}</span>
-              </Tooltip>
-            </span>
-            /
-            <span className="cursor-pointer">
-              <Tooltip title="Total" placement="top" arrow>
-                <span>{totalLeaves}</span>
-              </Tooltip>
-            </span>
-          </h2>
+              <span className="text-4xl font-bold text-gray-300 cursor-pointer">
+                <Tooltip title="Available" placement="top" arrow>
+                  <span>{availableLeaves}</span>
+                </Tooltip>
+              </span>
+              /
+              <span className="cursor-pointer">
+                <Tooltip title="Total" placement="top" arrow>
+                  <span>{totalLeaves}</span>
+                </Tooltip>
+              </span>
+            </h2>
+          </div>
         </motion.div>
 
         {/* Mandatory Holidays */}
@@ -246,30 +260,19 @@ const AdminLeave = () => {
             </div>
             <h2 className="font-bold">Mandatory Holidays</h2>
           </div>
-          <div className="flex items-end justify-between">
-            <button
-              onClick={syncleavelabalce}
-              className="bg-sky-50 dark:bg-neutral-950 dark:hover:bg-neutral-800 hover:bg-sky-100 p-1.5 rounded-md"
-            >
-              <RiRefreshLine
-                fontSize={20}
-                className={loading ? "animate-spin" : ""}
-              />
-            </button>
-            <h2 className="flex items-end justify-end">
-              <span className="text-4xl font-bold text-gray-300 cursor-pointer">
-                <Tooltip title="Remaining" placement="top" arrow>
-                  <span>{remainingMandatoryHoliday}</span>
-                </Tooltip>
-              </span>
-              /
-              <span className="cursor-pointer">
-                <Tooltip title="Total" placement="top" arrow>
-                  <span>{totalMandatoryHoliday}</span>
-                </Tooltip>
-              </span>
-            </h2>
-          </div>
+          <h2 className="flex items-end justify-end">
+            <span className="text-4xl font-bold text-gray-300 cursor-pointer">
+              <Tooltip title="Remaining" placement="top" arrow>
+                <span>{remainingMandatoryHoliday}</span>
+              </Tooltip>
+            </span>
+            /
+            <span className="cursor-pointer">
+              <Tooltip title="Total" placement="top" arrow>
+                <span>{totalMandatoryHoliday}</span>
+              </Tooltip>
+            </span>
+          </h2>
         </motion.div>
 
         {/* Optional Holidays */}
@@ -330,7 +333,7 @@ const AdminLeave = () => {
       </div>
 
       <div className="">
-        <LeaveHistory />
+        <LeaveHistory getLeaveRecord={getLeaveRecord} />
       </div>
     </div>
   );

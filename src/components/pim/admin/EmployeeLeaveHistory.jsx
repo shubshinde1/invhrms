@@ -12,10 +12,16 @@ import ApiendPonits from "../../../../src/api/APIEndPoints.json";
 import { useParams } from "react-router-dom";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 import { FaFilterCircleXmark } from "react-icons/fa6";
+import { CgArrowsExchange } from "react-icons/cg";
+import { IoMdSave } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
+
+import AdminLeave from "./AdminLeave";
 
 import NotFound from "../../../assets/images/norecordfound.svg";
+import { button } from "@nextui-org/theme";
 
-const EmployeeLeaveHistory = (Id) => {
+const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
   const { _id } = useParams();
 
   const token = localStorage.getItem("accessToken");
@@ -28,6 +34,7 @@ const EmployeeLeaveHistory = (Id) => {
   const [selectedMonth, setSelectedMonth] = useState("all"); // Track selected month
   const [selectedStatus, setSelectedStatus] = useState("all"); // Track selected status
   const [message, setMessage] = useState("");
+  const [formOpen, setFormOpen] = useState(null); // Track which record's form is open
 
   const formatDate = (dateString) => {
     const options = { weekday: "short", day: "2-digit", month: "short" };
@@ -136,6 +143,48 @@ const EmployeeLeaveHistory = (Id) => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
+  const handleFormOpen = (index) => {
+    setFormOpen(index);
+  };
+
+  const handleSave = async (recordId, status) => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/admin/approveLeave",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            employee_id: employee_id,
+            application_id: recordId,
+            applicationstatus: status,
+          }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+
+      if (data.success) {
+        getLeaveHistory();
+        // location.reload();
+        setMessage("Status Changes Succefullly!");
+        setTimeout(() => setMessage(""), 4000);
+      } else {
+        setErrors(data.msg || "Failed to fetch leave history.");
+        setTimeout(() => setErrors(""), 4000);
+      }
+    } catch (error) {
+      setErrors(error.message || "Error fetching leave history.");
+      setTimeout(() => setErrors(""), 4000);
+    } finally {
+      setFormOpen(null);
+      setLoading(false); // Stop loading
+    }
+  };
+
   return (
     <div className="p-2 border dark:border-none dark:bg-neutral-900 rounded-md h-[67.5vh] overflow-hidden pb-12">
       <div className="flex gap-2 items-start justify-between mb-2">
@@ -195,7 +244,7 @@ const EmployeeLeaveHistory = (Id) => {
           <div className=" flex gap-1 items-center">
             <button
               onClick={handlePreviousMonth}
-              className="p-1.5 bg-sky-50 dark:bg-neutral-950 text-white rounded-md group"
+              className="p-1.5 bg-sky-100 dark:bg-neutral-950 text-white rounded-md group"
             >
               <FaCaretLeft
                 fontSize={20}
@@ -205,7 +254,7 @@ const EmployeeLeaveHistory = (Id) => {
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
-              className="px-1.5 py-2 rounded-md bg-white dark:bg-neutral-950 text-xs"
+              className="px-1.5 py-2 rounded-md bg-sky-100 dark:bg-neutral-950 text-xs"
             >
               <option value="all">All</option>
               <option value="1">January</option>
@@ -223,14 +272,14 @@ const EmployeeLeaveHistory = (Id) => {
             </select>
             <button
               onClick={handleNextMonth}
-              className="p-1.5 bg-sky-50 dark:bg-neutral-950 text-white rounded-md group"
+              className="p-1.5 bg-sky-100 dark:bg-neutral-950 text-white rounded-md group"
             >
               <FaCaretRight
                 fontSize={20}
                 className="group-hover:translate-x-1 duration-300 text-black dark:text-white"
               />
             </button>
-            <div className="col-span-12 md:col-span-4 w-fit bg-neutral-950 p-2 rounded-md flex items-center">
+            <div className="col-span-12 md:col-span-4 w-fit bg-sky-100 dark:bg-neutral-950 p-2 rounded-md flex items-center">
               <button onClick={clearFilters}>
                 <FaFilterCircleXmark fontSize={15} />
               </button>
@@ -279,35 +328,88 @@ const EmployeeLeaveHistory = (Id) => {
           className="w-full h-full relative overflow-auto scrollbrhdn rounded-lg flex flex-col gap-2"
         >
           {/* Custom grid layout for leave history */}
-          <div className="hidden md:grid grid-cols-12 gap-2 bg-neutral-800 px-2 py-3 rounded-md font-semibold">
+          <div className="hidden md:grid grid-cols-12 gap-2 bg-sky-100 dark:bg-neutral-800 px-2 py-3 rounded-md font-semibold">
             <div className="col-span-2">Leave Type</div>
             <div className="col-span-2">Reason</div>
             <div className="col-span-2">From</div>
             <div className="col-span-2">To</div>
-            <div className="col-span-2">No. of Leaves</div>
-            <div className="col-span-2">Status</div>
+            <div className="col-span-1">Total</div>
+            <div className="col-span-3">Status</div>
           </div>
           {[...filterHistory()].reverse().map((record, index) => (
             <div className="">
+              {/* desktop */}
               <div
                 key={index}
-                className="hidden md:grid col-span-12  grid-cols-12 gap-2 bg-neutral-950 px-2 py-3 rounded-md font-semibold"
+                className="hidden md:grid col-span-12  grid-cols-12 gap-2 bg-sky-50 dark:bg-neutral-950 px-2 py-3 rounded-md font-semibold group"
               >
                 <div className="col-span-2">{record.leavetype}</div>
                 <div className="col-span-2">{record.reason}</div>
                 <div className="col-span-2">{record.fromdate}</div>
                 <div className="col-span-2">{record.todate}</div>
-                <div className="col-span-2">{record.totaldays}</div>
-                <div className="col-span-2">
-                  <span className={getStatusClass(record.applicationstatus)}>
-                    {record.applicationstatus === 0
-                      ? "Awaiting"
-                      : record.applicationstatus === 1
-                      ? "Approved"
-                      : "Declined"}
-                  </span>
+                <div className="col-span-1">{record.totaldays}</div>
+                <div className="col-span-3 flex items-center gap-1 ">
+                  <div>
+                    {/* <span className={getStatusClass(record.applicationstatus)}>
+                      {record.applicationstatus === 0
+                        ? "Awaiting"
+                        : record.applicationstatus === 1
+                        ? "Approved"
+                        : "Declined"}
+                    </span> */}
+                    {formOpen === index ? (
+                      <div className=" flex flex- bg-sky-200 dark:bg-neutral-800 p-1  rounded-md items-center gap-1 text-xs ">
+                        <button
+                          onClick={() => handleSave(record._id, 0)}
+                          className="bg-yellow-600/15 text-yellow-500 hover:bg-yellow-500/25 py-1 px-2 rounded-md w-full"
+                        >
+                          Awaiting
+                        </button>
+                        <button
+                          onClick={() => handleSave(record._id, 1)}
+                          className="bg-green-500/15 text-green-500 hover:bg-green-500/25 py-1 px-2 rounded-md w-full"
+                        >
+                          Approved
+                        </button>
+                        <button
+                          onClick={() => handleSave(record._id, 2)}
+                          className="bg-red-500/15 text-red-500 hover:bg-red-500/25 py-1 px-2 rounded-md w-full"
+                        >
+                          Declined
+                        </button>
+                        <button
+                          onClick={() => setFormOpen(null)}
+                          className="p-1 bg-sky-100 dark:bg-neutral-900 text-red-500 rounded-md flex items-center"
+                        >
+                          <IoClose fontSize={16} />
+                        </button>
+                      </div>
+                    ) : (
+                      <span
+                        className={getStatusClass(record.applicationstatus)}
+                      >
+                        {record.applicationstatus === 0
+                          ? "Awaiting"
+                          : record.applicationstatus === 1
+                          ? "Approved"
+                          : "Declined"}
+                      </span>
+                    )}
+                  </div>
+
+                  {formOpen === index ? (
+                    ""
+                  ) : (
+                    <button
+                      onClick={() => handleFormOpen(index)}
+                      className="p-1 bg-sky-200 dark:bg-neutral-900 dark:text-white dark:hover:text-blue-500 hover:text-blue-500 rounded-md group-hover:opacity-100 opacity-0"
+                    >
+                      <CgArrowsExchange fontSize={15} />
+                    </button>
+                  )}
                 </div>
               </div>
+              {/* mobile */}
               <div className="">
                 <div
                   key={index}
@@ -410,6 +512,18 @@ const EmployeeLeaveHistory = (Id) => {
             </div>
           ))}
         </motion.div>
+      )}
+
+      {message && (
+        <div className="absolute bg-green-600 right-2 bottom-2 p-2 text-white rounded-md z-40">
+          {message}
+        </div>
+      )}
+
+      {errors && (
+        <div className="absolute bg-red-600 right-2 bottom-2 p-2 text-white rounded-md z-40">
+          {errors}
+        </div>
       )}
     </div>
   );
