@@ -161,7 +161,7 @@ const LeaveHistory = () => {
           },
           body: JSON.stringify({
             applicationId,
-            employee_id,
+            Employee_id: employee_id,
           }),
         }
       );
@@ -318,7 +318,8 @@ const LeaveHistory = () => {
               )}
             >
               <FaCalendarDays fontSize={15} />
-              {selectedStatus === "all" ? "All" : ""}
+              {/* {selectedStatus === "all" ? "All" : ""} */}
+              {selectedStatus === "all" ? `All ${statusCounts.all}` : ""}
               {/* <span className="text-xs">{statusCounts.all}</span> */}
             </button>
             <button
@@ -331,7 +332,8 @@ const LeaveHistory = () => {
               )}
             >
               <FaStopwatch fontSize={15} />
-              {selectedStatus == 0 ? "Awaiting" : ""}
+              {/* {selectedStatus == 0 ? "Awaiting" : ""} */}
+              {selectedStatus == 0 ? `Awaiting ${statusCounts.awaiting}` : ""}
               {/* <span className="text-xs">{statusCounts.awaiting}</span> */}
             </button>
             <button
@@ -344,7 +346,8 @@ const LeaveHistory = () => {
               )}
             >
               <FaCalendarCheck fontSize={15} />
-              {selectedStatus == 1 ? "Approved" : ""}
+              {/* {selectedStatus == 1 ? "Approved" : ""} */}
+              {selectedStatus == 1 ? `Approved ${statusCounts.approved}` : ""}
               {/* <span className="text-xs">{statusCounts.approved}</span> */}
             </button>
             <button
@@ -357,7 +360,8 @@ const LeaveHistory = () => {
               )}
             >
               <FaCalendarXmark fontSize={15} />
-              {selectedStatus == 2 ? "Declined" : ""}
+              {/* {selectedStatus == 2 ? "Declined" : ""} */}
+              {selectedStatus == 2 ? `Declined ${statusCounts.declined}` : ""}
               {/* <span className="text-xs">{statusCounts.declined}</span> */}
             </button>
           </div>
@@ -399,7 +403,7 @@ const LeaveHistory = () => {
           {[...filterHistory()].reverse().map((record, index) => (
             <div
               key={index}
-              className="bg-white flex flex-col gap-2 dark:bg-neutral-800 rounded-xl shadow-md p-2 border border-gray-200 dark:border-neutral-700 h-fit"
+              className="bg-white flex flex-col gap-2 dark:bg-neutral-800 rounded-xl  p-2 border border-gray-200 dark:border-neutral-700 h-fit"
             >
               <div className="flex items-center justify-between">
                 <h3 className="text-xs">

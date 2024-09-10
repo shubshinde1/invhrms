@@ -11,6 +11,7 @@ import { IoEye } from "react-icons/io5";
 import Tooltip from "@mui/material/Tooltip";
 import AttendanceChart from "../dashboard/AttendanceChart";
 import Loading from "../Loading";
+import { MdDelete } from "react-icons/md";
 
 const Employeelist = () => {
   const [loading, setLoading] = useState(false);
@@ -22,38 +23,42 @@ const Employeelist = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Number of items per page
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+  const [selectedEmployeeName, setSelectedEmployeeName] = useState("");
+  const [massage, setMassage] = useState(null);
 
   const token = localStorage.getItem("accessToken");
   const navigate = useNavigate();
 
   // Fetch employee details
-  useEffect(() => {
-    const fetchEmployeeList = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(ApiendPonits.employeeList, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+  const fetchEmployeeList = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(ApiendPonits.employeeList, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (response.ok) {
-          setFetchEmployee(data.data);
-        } else {
-          throw new Error("Failed to fetch employees");
-        }
-      } catch (err) {
-        setError(err.message);
-        setTimeout(() => setError(""), 4000);
-      } finally {
-        setLoading(false);
+      if (response.ok) {
+        setFetchEmployee(data.data);
+      } else {
+        throw new Error("Failed to fetch employees");
       }
-    };
+    } catch (err) {
+      setError(err.message);
+      setTimeout(() => setError(""), 4000);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchEmployeeList();
   }, [token]);
 
@@ -77,21 +82,27 @@ const Employeelist = () => {
         const data = await response.json();
 
         if (response.ok) {
-          // Create a mapping of employee_id to attendancestatus
-          const attendanceStatusMap = data.attendance.reduce((map, record) => {
+          // Get today's date in the format 'YYYY-MM-DD'
+          const today = new Date().toISOString().split("T")[0];
+
+          // Filter attendance records to keep only today's records
+          const todaysAttendance = data.attendance.filter(
+            (record) => record.date === today
+          );
+
+          // Create a mapping of employee_id to attendancestatus for today's records
+          const attendanceStatusMap = todaysAttendance.reduce((map, record) => {
             map[record.employee_id] = record.attendancestatus;
             return map;
           }, {});
 
-          // Update employee list with attendancestatus
+          // Update employee list with today's attendancestatus
           const updatedEmployeeList = fetchemployee.map((employee) => ({
             ...employee,
             attendancestatus:
               attendanceStatusMap[employee._id] ||
               attendanceStatusMap[employee._id],
           }));
-
-          console.log(updatedEmployeeList);
 
           setFetchEmployee(updatedEmployeeList);
         } else {
@@ -152,7 +163,63 @@ const Employeelist = () => {
     navigate(`/pim/employee-details/${employeeId}`); // Navigate to employee details page
   };
 
-  // if (loading) return <Loading />;
+  const deleteuser = async (id) => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/admin/deleteuser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            id,
+          }),
+        }
+      );
+      const data = await response.json();
+
+      if (data.success) {
+        setMassage("Employee Deleted"); // Refresh data after deletion
+        fetchEmployeeList();
+      } else {
+        console.error("Failed to delete user");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    } finally {
+      setLoading(false);
+      setShowPopup(false); // Close popup after action
+    }
+  };
+
+  const handleDeleteClick = (employeeId, employeeName) => {
+    setSelectedEmployeeId(employeeId); // Set selected employee ID
+    setSelectedEmployeeName(employeeName); // Set selected employee name
+    setShowPopup(true); // Show confirmation popup
+  };
+
+  const handleConfirmDelete = () => {
+    deleteuser(selectedEmployeeId); // Call the delete function with selected employee ID
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setShowPopup(false); // Close the popup when Esc is pressed
+      }
+    };
+
+    if (showPopup) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showPopup]); // Re-run the effect only when showPopup changes
 
   return (
     <div className="dark:text-white">
@@ -312,7 +379,7 @@ const Employeelist = () => {
                 <div className="col-span-2 font-semibold">Designation</div>
                 <div className="col-span-2 font-semibold">Joining Date</div>
                 <div className="col-span-2 font-semibold">Status</div>
-                <div className="col-span-2 font-semibold">Action</div>
+                <div className="col-span-2 font-semibold xl:ml-4">Action</div>
               </div>
             </motion.div>
 
@@ -327,27 +394,32 @@ const Employeelist = () => {
                 >
                   <div className="col-span-1">{employee.empid}</div>
                   <div className="col-span-3 flex items-center gap-1">
-                    <div
-                      className={` px-2 py-1 text-center rounded-md w-fit h-fit text-xs font-semibold ${
-                        employee.attendancestatus === 1
-                          ? "bg-green-500/20 text-green-500"
-                          : employee.attendancestatus === 0
-                          ? "bg-red-500/20 text-red-500"
-                          : employee.attendancestatus === 2
-                          ? "bg-yellow-500/20 text-yellow-500"
-                          : "bg-red-500/20 text-red-500"
-                      }`}
+                    <button
+                      onClick={() => handleViewClick(employee._id)}
+                      className="hover:bg-blue-500/5 p-1.5 rounded-md  flex items-center gap-1"
                     >
-                      {employee.attendancestatus === 1
-                        ? "P" // Present
-                        : employee.attendancestatus === 0 ||
-                          !employee.attendancestatus
-                        ? "A" // Absent
-                        : employee.attendancestatus === 2
-                        ? "H" // Half Day
-                        : "-"}{" "}
-                    </div>
-                    <div>{employee.name}</div>
+                      <div
+                        className={` px-2 py-1 text-center rounded-md w-fit h-fit text-xs font-semibold ${
+                          employee.attendancestatus === 1
+                            ? "bg-green-500/20 text-green-500"
+                            : employee.attendancestatus === 0
+                            ? "bg-red-500/20 text-red-500"
+                            : employee.attendancestatus === 2
+                            ? "bg-yellow-500/20 text-yellow-500"
+                            : "bg-red-500/20 text-red-500"
+                        }`}
+                      >
+                        {employee.attendancestatus === 1
+                          ? "P" // Present
+                          : employee.attendancestatus === 0 ||
+                            !employee.attendancestatus
+                          ? "A" // Absent
+                          : employee.attendancestatus === 2
+                          ? "H" // Half Day
+                          : "-"}{" "}
+                      </div>
+                      <div>{employee.name}</div>
+                    </button>
                   </div>
                   <div className="col-span-2">{employee.designation}</div>
                   <div className="col-span-2">{employee.dateofjoining}</div>
@@ -369,7 +441,7 @@ const Employeelist = () => {
                     )}
                   </div>
 
-                  <div className="col-span-2">
+                  <div className="col-span-2 flex items-center gap-2">
                     <Tooltip
                       title={"View " + employee.name}
                       placement="top"
@@ -382,6 +454,23 @@ const Employeelist = () => {
                         <IoEye fontSize={17} />
                       </button>
                     </Tooltip>
+                    <div>
+                      <Tooltip
+                        title={"Delete " + employee.name}
+                        placement="top"
+                        arrow
+                      >
+                        <button
+                          type="button" // Ensure this button doesn't trigger form submission
+                          onClick={() =>
+                            handleDeleteClick(employee._id, employee.name)
+                          } // Pass employee._id
+                          className="hover:bg-red-500/20 p-1.5 rounded-md text-red-500 "
+                        >
+                          <MdDelete fontSize={17} />
+                        </button>
+                      </Tooltip>
+                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -471,6 +560,45 @@ const Employeelist = () => {
           </div>
         )}
       </div>
+
+      {showPopup && (
+        <div className="fixed inset-0 bg-none bg-opacity-50 flex justify-center items-center z-50">
+          <div className="absolute inset-0 backdrop-blur-md bg-white/30 dark:bg-neutral-900/30"></div>{" "}
+          {/* Blurred background */}
+          <div className="bg-white dark:bg-neutral-900 p-4 rounded-lg shadow-lg max-w-sm w-full relative z-10">
+            <div className="flex justify-between">
+              <h3 className="text-lg font-semibold mb-4">Confirm Deletion</h3>
+              <span className="text-xs font-semibold bg-sky-200 dark:bg-neutral-700 h-fit px-1 py-0.5 rounded">
+                Esc
+              </span>
+            </div>
+            <p>
+              Are you sure you want to delete{" "}
+              <strong>{selectedEmployeeName}'s</strong> Profile?
+            </p>
+
+            <div className="flex justify-end space-x-4 mt-6">
+              <button
+                type="button"
+                onClick={() => setShowPopup(false)}
+                className="bg-gray-300 dark:bg-neutral-800 dark:hover:bg-neutral-700 px-4 py-2 rounded-md"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmDelete}
+                className={`bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500 ${
+                  loading ? "opacity-50" : ""
+                }`}
+                disabled={loading}
+              >
+                {loading ? "Deleting..." : "Yes I'm Sure"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
