@@ -27,11 +27,11 @@ const CustomDropdown = ({ label, options, selectedValue, onChange }) => {
   }, []);
 
   return (
-    <div className="relative inline-block text-left" ref={dropdownRef}>
+    <div className="relative inline-block text-left text-xs" ref={dropdownRef}>
       <div>
         <button
           type="button"
-          className="inline-flex justify-between w-fit p-2 text-sm font-medium bg-sky-50 rounded-md dark:bg-neutral-800"
+          className="inline-flex justify-between w-fit px-1.5 py-1 text-sm font-medium bg-sky-50 rounded-md dark:bg-neutral-900"
           onClick={() => setIsOpen(!isOpen)}
         >
           {options[selectedValue]}
@@ -45,7 +45,7 @@ const CustomDropdown = ({ label, options, selectedValue, onChange }) => {
       </div>
 
       {isOpen && (
-        <div className="absolute z-10 mt-2 w-fit origin-top-right bg-white shadow-xl dark:shadow-none border-2 dark:border-neutral-800 rounded-md dark:bg-neutral-950">
+        <div className="absolute z-10 mt-2 w-fit origin-top-right bg-white shadow-xl dark:shadow-none border-2 dark:border-neutral-900 rounded-md dark:bg-neutral-950">
           <div className="p-1">
             {options.map((option, index) => (
               <button

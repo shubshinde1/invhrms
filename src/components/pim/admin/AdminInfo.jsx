@@ -1003,7 +1003,7 @@ const AdminInfo = () => {
             <div className="flex flex-col gap-2  bg-sky-100 dark:bg-neutral-900  p-2 rounded-md">
               <h3 className=" font-semibold">Work Experience</h3>
               {formData.workexperience.map((exp, index) => (
-                <div className="">
+                <div className="" key={index}>
                   <h4 className="bg-sky-50 dark:bg-neutral-950 p-2 rounded-t-md col-span-12 font-semibold w-fit flex gap-2 items-center text-sm">
                     <span className="bg-sky-200 dark:bg-neutral-800 px-2 py-0.5 rounded-md">
                       {index + 1}

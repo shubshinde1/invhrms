@@ -326,10 +326,10 @@ const AttendanceHistory = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrevMonth}
-              className="p-1.5 bg-sky-50 dark:bg-neutral-800 text-white rounded-md group"
+              className="p-1 bg-sky-50 dark:bg-neutral-900 text-white rounded-md group"
             >
               <FaCaretLeft
-                fontSize={24}
+                fontSize={20}
                 className="group-hover:-translate-x-1 duration-300 text-black dark:text-white"
               />
             </button>
@@ -356,14 +356,14 @@ const AttendanceHistory = () => {
             </div>
             <button
               onClick={handleNextMonth}
-              className="p-1.5 bg-sky-50 dark:bg-neutral-800 text-white rounded-md group"
+              className="p-1 bg-sky-50 dark:bg-neutral-900 text-white rounded-md group"
             >
               <FaCaretRight
-                fontSize={24}
+                fontSize={20}
                 className="group-hover:translate-x-1 duration-300 text-black dark:text-white"
               />
             </button>
-            <CustomDropdown
+            {/* <CustomDropdown
               label="Status"
               options={statusOptions}
               selectedValue={statusOptions.indexOf(
@@ -374,7 +374,45 @@ const AttendanceHistory = () => {
               onChange={(value) => {
                 handleStatusChange(statusOptionsMap[statusOptions[value]]);
               }}
-            />
+            /> */}
+            <div className="flex flex-wrap gap-2 text-xs font-semibold bg-neutral-900 p-1 rounded-md">
+              <button
+                onClick={() => handleStatusChange("")}
+                className={`px-1.5 py-1 rounded-md flex items-center gap-1 ${
+                  selectedStatus === "" ? "bg-blue-500/15 text-blue-500" : ""
+                }`}
+              >
+                <FaCalendarDays fontSize={15} />
+                {selectedStatus === "" ? "All" : ""}
+              </button>
+              <button
+                onClick={() => handleStatusChange(1)}
+                className={`px-1.5 py-1 rounded-md flex items-center gap-1 ${
+                  selectedStatus === 1 ? "bg-green-500/15 text-green-500" : ""
+                }`}
+              >
+                <FaCircleCheck fontSize={15} />
+                {selectedStatus === 1 ? "Present" : ""}
+              </button>
+              <button
+                onClick={() => handleStatusChange(0)}
+                className={`px-1.5 py-1 rounded-md flex items-center gap-1 ${
+                  selectedStatus === 0 ? "bg-red-500/15 text-red-500" : ""
+                }`}
+              >
+                <FaCircleXmark fontSize={15} />
+                {selectedStatus === 0 ? "Absent" : ""}
+              </button>
+              <button
+                onClick={() => handleStatusChange(2)}
+                className={`px-1.5 py-1 rounded-md flex items-center gap-1 ${
+                  selectedStatus === 2 ? "bg-yellow-500/15 text-yellow-500" : ""
+                }`}
+              >
+                <FaCircleHalfStroke fontSize={15} />
+                {selectedStatus === 2 ? "Half Day" : ""}
+              </button>
+            </div>
           </div>
 
           {filteredAttendance.length === 0 ? (

@@ -166,19 +166,16 @@ const Employeelist = () => {
   const deleteuser = async (id) => {
     setLoading(true);
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/admin/deleteuser",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            id,
-          }),
-        }
-      );
+      const response = await fetch(ApiendPonits.deleteuserbyadmin, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id,
+        }),
+      });
       const data = await response.json();
 
       if (data.success) {

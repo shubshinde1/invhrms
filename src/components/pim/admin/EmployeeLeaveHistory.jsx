@@ -151,21 +151,18 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
 
   const handleSave = async (recordId, status) => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/admin/approveLeave",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            employee_id: employee_id,
-            application_id: recordId,
-            applicationstatus: status,
-          }),
-        }
-      );
+      const response = await fetch(ApiendPonits.approveleave, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          employee_id: employee_id,
+          application_id: recordId,
+          applicationstatus: status,
+        }),
+      });
       const data = await response.json();
       console.log(data);
 
@@ -339,7 +336,7 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
             <div className="col-span-3">Status</div>
           </div>
           {[...filterHistory()].reverse().map((record, index) => (
-            <div className="">
+            <div className="" key={index}>
               {/* desktop */}
               <div
                 key={index}

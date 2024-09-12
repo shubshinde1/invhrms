@@ -142,19 +142,16 @@ const AdminLeave = () => {
   const syncleavelabalce = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/admin/updateleavebalancefornewemployee",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            employee_id,
-          }),
-        }
-      );
+      const response = await fetch(ApiendPonits.updateleavebalancefornewemp, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          employee_id,
+        }),
+      });
       const data = await response.json();
 
       if (data.success) {
