@@ -21,9 +21,12 @@ const ResetPassword = ({ theme }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(ApiendPonits.forgotpassword, {
-        email,
-      });
+      const response = await axios.post(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.forgotpassword}`,
+        {
+          email,
+        }
+      );
 
       console.log(response.data);
 

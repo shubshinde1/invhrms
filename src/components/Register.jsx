@@ -23,12 +23,15 @@ const Register = ({ theme }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(ApiendPonits.registeruser, {
-        email,
-        password,
-        name,
-        phone,
-      });
+      const response = await axios.post(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.registeruser}`,
+        {
+          email,
+          password,
+          name,
+          phone,
+        }
+      );
 
       console.log(response.data);
 

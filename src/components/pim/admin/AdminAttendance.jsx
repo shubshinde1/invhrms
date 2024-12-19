@@ -105,14 +105,17 @@ const AdminAttendance = (Id) => {
   const getAttendanceHistory = async () => {
     setLoading(true); // Start loading
     try {
-      const response = await fetch(ApiendPonits.getattendancehistory, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ employee_id }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getattendancehistory}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ employee_id }),
+        }
+      );
       const data = await response.json();
 
       if (response.ok) {

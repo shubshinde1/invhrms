@@ -20,14 +20,17 @@ export default function Greeting() {
 
   const getAttendanceHistory = async () => {
     try {
-      const response = await fetch(ApiendPonits.getattendancehistory, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ employee_id }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getattendancehistory}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ employee_id }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch attendance history");
@@ -64,7 +67,7 @@ export default function Greeting() {
 
   const handlePunchButtonClick = async () => {
     const mark = isPunchedIn ? "Out" : "In";
-    const endpoint = ApiendPonits.attendance;
+    // const endpoint = `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.attendance}`;
 
     try {
       let inlocation = null;
@@ -84,19 +87,22 @@ export default function Greeting() {
         }
       }
 
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          employee_id: userData.employeeData._id,
-          mark,
-          inlocation,
-          outlocation,
-        }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.attendance}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            employee_id: userData.employeeData._id,
+            mark,
+            inlocation,
+            outlocation,
+          }),
+        }
+      );
 
       const data = await response.json();
       console.log(data.attendance);

@@ -114,16 +114,19 @@ const ApplyLeave = () => {
   // Fetch optional holiday list if needed
   const fetchHolidayList = async () => {
     try {
-      const response = await fetch(ApiendPonits.getoptionalholidaylist, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          employee_id,
-        }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getoptionalholidaylist}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            employee_id,
+          }),
+        }
+      );
       const data = await response.json();
       if (data.success) {
         setHolidayList(data.holidays.optionalholiday?.optionalholidaylist);
@@ -213,17 +216,20 @@ const ApplyLeave = () => {
     if (!validateForm()) return;
 
     try {
-      const response = await fetch(ApiendPonits.leaveapplication, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          ...formData,
-          employee_id,
-        }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.leaveapplication}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            ...formData,
+            employee_id,
+          }),
+        }
+      );
       const result = await response.json();
       if (result.success) {
         setFormData({

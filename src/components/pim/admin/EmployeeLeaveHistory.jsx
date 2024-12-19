@@ -44,16 +44,19 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
   const getLeaveHistory = async () => {
     setLoading(true); // Start loading
     try {
-      const response = await fetch(ApiendPonits.employeeleavehistory, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          employee_id,
-        }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.employeeleavehistory}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            employee_id,
+          }),
+        }
+      );
       const data = await response.json();
 
       if (data.success) {
@@ -151,18 +154,21 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
 
   const handleSave = async (recordId, status) => {
     try {
-      const response = await fetch(ApiendPonits.approveleave, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          employee_id: employee_id,
-          application_id: recordId,
-          applicationstatus: status,
-        }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.approveleave}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            employee_id: employee_id,
+            application_id: recordId,
+            applicationstatus: status,
+          }),
+        }
+      );
       const data = await response.json();
       console.log(data);
 

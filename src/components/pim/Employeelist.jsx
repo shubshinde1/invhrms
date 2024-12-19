@@ -35,13 +35,16 @@ const Employeelist = () => {
   const fetchEmployeeList = async () => {
     setLoading(true);
     try {
-      const response = await fetch(ApiendPonits.employeeList, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.employeeList}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await response.json();
 
@@ -69,7 +72,7 @@ const Employeelist = () => {
 
       try {
         const response = await fetch(
-          ApiendPonits.getAllEmployeeAttendanceRecords,
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getAllEmployeeAttendanceRecords}`,
           {
             method: "GET",
             headers: {
@@ -166,16 +169,19 @@ const Employeelist = () => {
   const deleteuser = async (id) => {
     setLoading(true);
     try {
-      const response = await fetch(ApiendPonits.deleteuserbyadmin, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          id,
-        }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.deleteuserbyadmin}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            id,
+          }),
+        }
+      );
       const data = await response.json();
 
       if (data.success) {

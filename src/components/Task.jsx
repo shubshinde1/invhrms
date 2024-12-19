@@ -33,16 +33,19 @@ export default function dashboard() {
 
   const getLeaveRecord = async () => {
     try {
-      const response = await fetch(ApiendPonits.viewleaverecords, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          employee_id,
-        }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewleaverecords}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            employee_id,
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();

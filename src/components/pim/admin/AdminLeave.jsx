@@ -47,16 +47,19 @@ const AdminLeave = () => {
 
   const getLeaveRecord = async () => {
     try {
-      const response = await fetch(ApiendPonits.viewleaverecords, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          employee_id,
-        }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewleaverecords}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            employee_id,
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -142,16 +145,19 @@ const AdminLeave = () => {
   const syncleavelabalce = async () => {
     setLoading(true);
     try {
-      const response = await fetch(ApiendPonits.updateleavebalancefornewemp, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          employee_id,
-        }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.updateleavebalancefornewemp}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            employee_id,
+          }),
+        }
+      );
       const data = await response.json();
 
       if (data.success) {

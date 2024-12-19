@@ -29,14 +29,17 @@ const AdminInfo = () => {
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
       try {
-        const response = await fetch(ApiendPonits.employeedetails, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ _id }),
-        });
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.employeedetails}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ _id }),
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
@@ -58,14 +61,17 @@ const AdminInfo = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(ApiendPonits.viewProfile, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ Employee_id: _id }),
-        });
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewProfile}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ Employee_id: _id }),
+          }
+        );
 
         const data = await response.json();
 
@@ -138,14 +144,17 @@ const AdminInfo = () => {
         workexperience: formData.workexperience,
       };
 
-      const response = await fetch(ApiendPonits.updateemployeebyadmin, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.updateemployeebyadmin}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       const responseBody = await response.json();
       // console.log("Response body:", responseBody);

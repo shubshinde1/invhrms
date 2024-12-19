@@ -24,10 +24,13 @@ const Login = ({ theme }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(ApiendPonits.login, {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.login}`,
+        {
+          email,
+          password,
+        }
+      );
 
       const data = response.data.data;
 

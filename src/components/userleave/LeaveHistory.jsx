@@ -119,16 +119,19 @@ const LeaveHistory = () => {
   const getLeaveHistory = async () => {
     setLoading(true); // Start loading
     try {
-      const response = await fetch(ApiendPonits.employeeleavehistory, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          employee_id,
-        }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.employeeleavehistory}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            employee_id,
+          }),
+        }
+      );
       const data = await response.json();
 
       if (data.success) {
@@ -152,7 +155,7 @@ const LeaveHistory = () => {
   const handleDelete = async (applicationId) => {
     try {
       const response = await fetch(
-        ApiendPonits.deleteleaveapplication, // Assuming this is your delete endpoint
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.deleteleaveapplication}`,
         {
           method: "POST",
           headers: {

@@ -34,14 +34,17 @@ export default function Header({ handleThemeSwitch, theme }) {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(ApiendPonits.viewProfile, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ Employee_id: empid }),
-        });
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewProfile}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ Employee_id: empid }),
+          }
+        );
 
         const data = await response.json();
 

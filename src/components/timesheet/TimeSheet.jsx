@@ -135,16 +135,19 @@ export default function TimeSheet({ record, index }) {
     const fetchTimesheetDates = async () => {
       try {
         setLoading(true);
-        const response = await fetch(ApiendPonits.gettimesheetday, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            employee_id: eid.toString(),
-          }),
-        });
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.gettimesheetday}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              employee_id: eid.toString(),
+            }),
+          }
+        );
         setLoading(false);
         const data = await response.json();
         if (data.success) {
@@ -237,18 +240,21 @@ export default function TimeSheet({ record, index }) {
     const fetchTimesheetData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(ApiendPonits.gettimesheet, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            employee_id: eid.toString(),
-            startDate: currentDate,
-            endDate: currentDate,
-          }),
-        });
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.gettimesheet}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              employee_id: eid.toString(),
+              startDate: currentDate,
+              endDate: currentDate,
+            }),
+          }
+        );
         setLoading(false);
         const data = await response.json();
         if (data.success) {
@@ -270,13 +276,16 @@ export default function TimeSheet({ record, index }) {
   useEffect(() => {
     const getProjectDetails = async () => {
       try {
-        const response = await fetch(ApiendPonits.getprojectdetails, {
-          method: "get",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getprojectdetails}`,
+          {
+            method: "get",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await response.json();
         if (data.success) {
           setProjects(data.data); // Store project data
@@ -353,14 +362,17 @@ export default function TimeSheet({ record, index }) {
       setLoading(true);
       const token = localStorage.getItem("accessToken");
 
-      const response = await fetch(ApiendPonits.filltimesheet, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.filltimesheet}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await response.json();
       if (data.success) {
         setTimesheetData((prevData) => ({
@@ -444,18 +456,21 @@ export default function TimeSheet({ record, index }) {
       setLoading(true);
       const token = localStorage.getItem("accessToken");
 
-      const response = await fetch(ApiendPonits.deletetimesheet, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          timesheetId: timesheetId,
-          taskId: buttonValue,
-          date: currentDate,
-        }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.deletetimesheet}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            timesheetId: timesheetId,
+            taskId: buttonValue,
+            date: currentDate,
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -516,19 +531,22 @@ export default function TimeSheet({ record, index }) {
       //   ...taskDetails,
       // });
 
-      const response = await fetch(ApiendPonits.updatetimesheet, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          timesheet_id: currentTask?.timesheet_id,
-          task_id: currentTask?._id,
-          date: checkDate,
-          ...taskDetails,
-        }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.updatetimesheet}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            timesheet_id: currentTask?.timesheet_id,
+            task_id: currentTask?._id,
+            date: checkDate,
+            ...taskDetails,
+          }),
+        }
+      );
 
       const data = await response.json();
 

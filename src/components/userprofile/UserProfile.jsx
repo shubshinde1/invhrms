@@ -168,48 +168,54 @@ const UserProfile = () => {
         workexperience,
       } = formData;
 
-      const response = await fetch(ApiendPonits.updateuser, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          id,
-          name,
-          phone,
-          status,
-          dob,
-          gender,
-          maritialstatus,
-          bloodgroup,
-          dateofjoining,
-          designation,
-          department,
-          reportingto,
-          teamleader,
-          techexperties,
-          address,
-          city,
-          state,
-          country,
-          zipcode,
-          emergencypersonname,
-          relation,
-          profession,
-          emergencypersonaddress,
-          emergencypersonemail,
-          emergencypersonphone,
-          workexperience,
-        }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.updateuser}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            id,
+            name,
+            phone,
+            status,
+            dob,
+            gender,
+            maritialstatus,
+            bloodgroup,
+            dateofjoining,
+            designation,
+            department,
+            reportingto,
+            teamleader,
+            techexperties,
+            address,
+            city,
+            state,
+            country,
+            zipcode,
+            emergencypersonname,
+            relation,
+            profession,
+            emergencypersonaddress,
+            emergencypersonemail,
+            emergencypersonphone,
+            workexperience,
+          }),
+        }
+      );
 
       if (response.status === 200) {
         try {
-          const loginResponse = await axios.post(ApiendPonits.login, {
-            email: userData.employeeData.email,
-            password: password,
-          });
+          const loginResponse = await axios.post(
+            `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.login}`,
+            {
+              email: userData.employeeData.email,
+              password: password,
+            }
+          );
 
           const data = loginResponse.data.data;
 

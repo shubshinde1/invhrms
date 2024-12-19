@@ -32,14 +32,17 @@ const ProfilePic = () => {
     const fetchProfile = async () => {
       setLoading(true);
       try {
-        const response = await fetch(ApiendPonits.viewProfile, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ Employee_id: empid }),
-        });
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewProfile}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ Employee_id: empid }),
+          }
+        );
 
         const data = await response.json();
 
@@ -72,13 +75,16 @@ const ProfilePic = () => {
     formData.append("Employee_id", empid);
 
     try {
-      const response = await fetch(ApiendPonits.uploadProfile, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.uploadProfile}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
 
       const data = await response.json();
       if (response.ok) {
@@ -99,14 +105,17 @@ const ProfilePic = () => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(ApiendPonits.deleteProfile, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ Employee_id: empid }),
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.deleteProfile}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ Employee_id: empid }),
+        }
+      );
 
       const data = await response.json();
       if (response.ok) {
@@ -131,13 +140,16 @@ const ProfilePic = () => {
     formData.append("Employee_id", empid);
 
     try {
-      const response = await fetch(ApiendPonits.updateProfile, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.updateProfile}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
 
       const data = await response.json();
       if (response.ok) {

@@ -152,7 +152,7 @@ const RefillLeaves = () => {
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
-        ApiendPonits.addholidays,
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.addholidays}`,
         {
           optionalholiday: optionalHoliday,
           mandatoryholiday: mandatoryHoliday,
@@ -177,16 +177,19 @@ const RefillLeaves = () => {
     const getHolidaysList = async () => {
       setLoading(true);
       try {
-        const response = await fetch(ApiendPonits.viewholidays, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            employee_id,
-          }),
-        });
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewholidays}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              employee_id,
+            }),
+          }
+        );
         const data = await response.json();
         if (data.success) {
           const currentYearHolidays = {
