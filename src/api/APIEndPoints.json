@@ -1,5 +1,5 @@
 {
-    "baseUrl": "http://localhost:3000/api/",
+    "baseUrl": "https://engineinv-production.up.railway.app/api/",
     "endpoints": {
         "registeruser": "createuser",
         "forgotpassword": "forgotpassword",
