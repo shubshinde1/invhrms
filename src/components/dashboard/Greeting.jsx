@@ -200,17 +200,20 @@ export default function Greeting() {
     );
   };
 
-  useEffect(() => {
-    if (employee_id && token) {
-      getAttendanceHistory();
-    }
-  }, [
-    employee_id,
-    token,
-    calculateProgress,
-    handlePunchButtonClick,
-    ProgressBar,
-  ]);
+  useEffect(
+    () => {
+      if (employee_id && token) {
+        getAttendanceHistory();
+      }
+    },
+    [
+      // employee_id,
+      // token,
+      // calculateProgress,
+      // handlePunchButtonClick,
+      // ProgressBar,
+    ]
+  );
 
   return (
     <div className="md:grid grid-cols-12 flex flex-col gap-10 md:gap-2">

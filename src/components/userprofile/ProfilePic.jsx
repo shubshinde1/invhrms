@@ -13,8 +13,10 @@ import { IoFlashOff } from "react-icons/io5";
 const ProfilePic = () => {
   const { userData } = useContext(AuthContext);
   const token = localStorage.getItem("accessToken");
-  const empid = userData.employeeData._id;
+  const empid = userData?.employeeData._id;
   const status = userData.employeeData.status;
+
+  console.log(empid);
 
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);

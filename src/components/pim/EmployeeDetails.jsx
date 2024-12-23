@@ -6,7 +6,7 @@ import AdminTimeSheet from "./admin/AdminTimeSheet";
 import AdminInfo from "./admin/AdminInfo";
 
 const EmployeeDetails = () => {
-  const [activeTab, setActiveTab] = useState("Info");
+  const [activeTab, setActiveTab] = useState("TimeSheet");
   const { _id } = useParams();
 
   const renderContent = () => {
@@ -29,14 +29,15 @@ const EmployeeDetails = () => {
       <div className="bg-white dark:bg-neutral-950 p-2 dark:text-white rounded-md sticky top-0 z-20 flex gap-2">
         <button
           className={`px-3 py-1  ${
-            activeTab === "Info"
+            activeTab === "TimeSheet"
               ? "bg-[#5336FD] text-white font-bold  rounded-md"
               : "hover:bg-sky-50 dark:hover:bg-neutral-900 rounded-md"
           }`}
-          onClick={() => setActiveTab("Info")}
+          onClick={() => setActiveTab("TimeSheet")}
         >
-          User Details
+          TimeSheet
         </button>
+
         <button
           className={`px-3 py-1  ${
             activeTab === "Attendance"
@@ -59,13 +60,13 @@ const EmployeeDetails = () => {
         </button>
         <button
           className={`px-3 py-1  ${
-            activeTab === "TimeSheet"
+            activeTab === "Info"
               ? "bg-[#5336FD] text-white font-bold  rounded-md"
               : "hover:bg-sky-50 dark:hover:bg-neutral-900 rounded-md"
           }`}
-          onClick={() => setActiveTab("TimeSheet")}
+          onClick={() => setActiveTab("Info")}
         >
-          TimeSheet
+          User Details
         </button>
       </div>
 
