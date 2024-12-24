@@ -32,36 +32,36 @@ const Employeelist = () => {
   const navigate = useNavigate();
 
   // Fetch employee details
-  const fetchEmployeeList = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(
-        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.employeeList}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setFetchEmployee(data.data);
-      } else {
-        throw new Error("Failed to fetch employees");
-      }
-    } catch (err) {
-      setError(err.message);
-      setTimeout(() => setError(""), 4000);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchEmployeeList = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.employeeList}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setFetchEmployee(data.data);
+        } else {
+          throw new Error("Failed to fetch employees");
+        }
+      } catch (err) {
+        setError(err.message);
+        setTimeout(() => setError(""), 4000);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchEmployeeList();
   }, [token]);
 
@@ -225,7 +225,7 @@ const Employeelist = () => {
   }, [showPopup]); // Re-run the effect only when showPopup changes
 
   return (
-    <div className="dark:text-white">
+    <div className="dark:text-white h-full">
       <MenuTabs />
 
       <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2 mb-14">

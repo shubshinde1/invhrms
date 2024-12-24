@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/shared/Layout";
 import Dashboard from "./components/Dashboard";
+import AdminDashboard from "./components/AdminDashboard";
 import User from "./components/User";
 import RefillLeaves from "./components/admin/leave/RefillLeaves";
 import Pim from "./components/Pim";
@@ -51,7 +52,7 @@ function App() {
       return (
         // Admin accessible routes
         <>
-          <Route index element={<Dashboard />} />
+          <Route index element={<AdminDashboard />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/projects" element={<Projects />} />

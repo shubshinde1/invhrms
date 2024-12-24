@@ -84,7 +84,7 @@ const Login = ({ theme }) => {
               <div className="flex flex-col gap-1">
                 <label>Email</label>
                 <input
-                  className="p-2 rounded-md dark:bg-neutral-700 bg-sky-100"
+                  className="p-2 rounded-md dark:bg-neutral-800 bg-sky-100"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -95,13 +95,13 @@ const Login = ({ theme }) => {
                 <label>Password</label>
                 <div className="flex gap-2">
                   <input
-                    className="p-2 rounded-md dark:bg-neutral-700 bg-sky-100 w-full"
+                    className="p-2 rounded-md dark:bg-neutral-800 bg-sky-100 w-full"
                     type={showPassword ? "password" : "text"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
-                  <div className="dark:bg-neutral-700 bg-sky-100 text-blue-400 p-2 rounded-md cursor-pointer">
+                  <div className="dark:bg-neutral-800 bg-sky-100 text-blue-400 p-2 rounded-md cursor-pointer">
                     {showPassword ? (
                       <IoEye fontSize={22} onClick={showpass} />
                     ) : (
@@ -123,15 +123,15 @@ const Login = ({ theme }) => {
               </button>
               <div className="flex flex-col md:flex-row justify-between">
                 <Link to="/resetpassword" className=" font-bold">
-                  <h5 className="hover:bg-blue-100 hover:dark:bg-neutral-700 w-fit hover:px-2 duration-500 py-1 rounded-md text-blue-500">
-                    Forgot Password
+                  <h5 className="hover:bg-blue-100 hover:dark:bg-neutral-8  00 w-fit hover:px-2 duration-500 py-1 rounded-md text-blue-500">
+                    Forgot/Reset Password
                   </h5>
                 </Link>
                 <h5>
                   Don't have an account?{" "}
                   <Link
                     to="/register"
-                    className="font-bold hover:bg-blue-100 hover:dark:bg-neutral-700 w-fit hover:px-2 duration-500 py-1 rounded-md text-blue-500"
+                    className="font-bold hover:bg-blue-100 hover:dark:bg-neutral-8  00 w-fit hover:px-2 duration-500 py-1 rounded-md text-blue-500"
                   >
                     Register
                   </Link>

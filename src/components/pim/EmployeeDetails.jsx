@@ -25,7 +25,7 @@ const EmployeeDetails = () => {
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 ">
       <div className="bg-white dark:bg-neutral-950 p-2 dark:text-white rounded-md sticky top-0 z-20 flex gap-2">
         <button
           className={`px-3 py-1  ${
@@ -70,7 +70,7 @@ const EmployeeDetails = () => {
         </button>
       </div>
 
-      <div>{renderContent()}</div>
+      <div className="">{renderContent()}</div>
     </div>
   );
 };

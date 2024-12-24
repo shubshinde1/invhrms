@@ -11,7 +11,7 @@ import ApiendPonits from "../api/APIEndPoints.json";
 
 const Register = ({ theme }) => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState(null);
@@ -27,7 +27,7 @@ const Register = ({ theme }) => {
         `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.registeruser}`,
         {
           email,
-          password,
+          // password,
           name,
           phone,
         }
@@ -78,7 +78,7 @@ const Register = ({ theme }) => {
               <div className="flex flex-col gap-1">
                 <label>Name</label>
                 <input
-                  className="p-2 rounded-md dark:bg-neutral-700 bg-sky-100"
+                  className="p-2 rounded-md dark:bg-neutral-800 bg-sky-100"
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -88,7 +88,7 @@ const Register = ({ theme }) => {
               <div className="flex flex-col gap-1">
                 <label>Email</label>
                 <input
-                  className="p-2 rounded-md dark:bg-neutral-700 bg-sky-100"
+                  className="p-2 rounded-md dark:bg-neutral-800 bg-sky-100"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -98,14 +98,14 @@ const Register = ({ theme }) => {
               <div className="flex flex-col gap-1">
                 <label>Phone No</label>
                 <input
-                  className="p-2 rounded-md dark:bg-neutral-700 bg-sky-100"
+                  className="p-2 rounded-md dark:bg-neutral-800 bg-sky-100"
                   type="number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   required
                 />
               </div>
-              <div className="flex flex-col gap-1">
+              {/* <div className="flex flex-col gap-1">
                 <label>Password</label>
                 <input
                   className="p-2 rounded-md dark:bg-neutral-700 bg-sky-100"
@@ -114,6 +114,11 @@ const Register = ({ theme }) => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+              </div> */}
+              <div className="flex flex-col gap-1 text-center p-2 rounded-md bg-sky-100 dark:bg-neutral-800">
+                We have generate random password for you. Please check your
+                email for password. After 1st time login you can change your
+                password.
               </div>
             </div>
             <div className="flex flex-col gap-3">

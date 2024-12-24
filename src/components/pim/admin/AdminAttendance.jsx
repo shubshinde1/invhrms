@@ -433,7 +433,7 @@ const AdminAttendance = (Id) => {
               />
             </button>
 
-            <div className="flex flex-wrap gap-2 text-xs font-semibold bg-neutral-900 p-1 rounded-md">
+            <div className="flex flex-wrap gap-2 text-xs font-semibold bg-sky-50 dark:bg-neutral-900 p-1 rounded-md">
               <button
                 onClick={() => handleStatusChange("")}
                 className={`px-1.5 py-1 rounded-md flex items-center gap-1 ${
