@@ -9,6 +9,7 @@ import defaultprofile from "../../../../src/assets/images/clientAvatar.png";
 import { TiFlash } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import Loading from "../../Loading";
+import { FaCheck } from "react-icons/fa6";
 
 const AdminInfo = () => {
   const { _id } = useParams(); // Get the employee ID from URL params
@@ -627,14 +628,18 @@ const AdminInfo = () => {
                 <div className="col-span-7 md:col-span-6 ml-5 flex flex-col gap-2">
                   <div className="flex flex-row flex-wrap gap-2  ">
                     {predefinedTech.map((tech) => (
-                      <label key={tech} className="flex items-center">
-                        <Checkbox
+                      <label key={tech} className="flex items-center gap-1">
+                        <input
                           type="checkbox"
                           checked={formData.techexperties.includes(tech)}
                           onChange={() => handleCheckboxChange(tech)}
-                          className="z-10"
-                          sx={{ "& .MuiSvgIcon-root": { fontSize: 18 } }}
+                          className="hidden"
                         />
+                        <span className="custom-checkbox">
+                          {formData.techexperties.includes(tech) && (
+                            <FaCheck className="text-white w-3.5 h-3.5 font-extrabold" />
+                          )}
+                        </span>
                         <span>{tech}</span>
                       </label>
                     ))}
