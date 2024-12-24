@@ -3,132 +3,121 @@
 @tailwind utilities;
 
 *::selection {
-    background-color: #00CBFF;
-    /* color: white; */
+  background-color: #00cbff;
+  /* color: white; */
 }
 
 @font-face {
-    font-family: Euclid;
-    src: url(./assets/font/EuclidRegular.ttf);
+  font-family: Euclid;
+  src: url(./assets/font/EuclidRegular.ttf);
 }
 
 @font-face {
-    font-family: Euclid-bold;
-    src: url(./assets/font/EuclidBold.ttf);
+  font-family: Euclid-bold;
+  src: url(./assets/font/EuclidBold.ttf);
 }
 
 @font-face {
-    font-family: Euclid-medium;
-    src: url(./assets/font/EuclidMedium.ttf);
+  font-family: Euclid-medium;
+  src: url(./assets/font/EuclidMedium.ttf);
 }
-
 
 .clor {
-    background-color: #DAF4FF;
+  background-color: #daf4ff;
 }
 
-
-
 .euclid {
-    font-family: Euclid;
+  font-family: Euclid;
 }
 
 .euclid-bold {
-    font-family: Euclid-bold;
+  font-family: Euclid-bold;
 }
 
 .euclid-medium {
-    font-family: Euclid-medium;
+  font-family: Euclid-medium;
 }
 
-
 input[type="file"]::file-selector-button {
-    border-radius: 4px;
-    padding: 0 5px;
-    font-size: 0.7rem;
-    /* height: 40px; */
-    cursor: pointer;
-    background-color: white;
-    border: 1.5px solid rgba(15, 79, 253, 0.968);
-    box-shadow: 0px 1px 0px rgba(15, 79, 253, 0.05);
-    margin-right: 7px;
-    transition: background-color 200ms;
-    display: none;
+  border-radius: 4px;
+  padding: 0 5px;
+  font-size: 0.7rem;
+  /* height: 40px; */
+  cursor: pointer;
+  background-color: white;
+  border: 1.5px solid rgba(15, 79, 253, 0.968);
+  box-shadow: 0px 1px 0px rgba(15, 79, 253, 0.05);
+  margin-right: 7px;
+  transition: background-color 200ms;
+  display: none;
 }
 
 /* file upload button hover state */
 input[type="file"]::file-selector-button:hover {
-    background-color: #f3f4f6;
+  background-color: #f3f4f6;
 }
 
 /* file upload button active state */
 input[type="file"]::file-selector-button:active {
-    background-color: #e5e7eb;
+  background-color: #e5e7eb;
 }
 
-
 body {
-    /* background-color: #D9D9D9; */
-    font-family: euclid;
-    font-size: 14px;
-    /* background-image: url('./assets/images/bg.png');
+  /* background-color: #D9D9D9; */
+  font-family: euclid;
+  font-size: 14px;
+  /* background-image: url('./assets/images/bg.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100vw; */
-    scroll-behavior: smooth;
-
+  scroll-behavior: smooth;
 }
 
 select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url('/src/assets/images/caret.png');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    padding-right: 30px;
-    font-size: 16px;
-    border: none;
-
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("/src/assets/images/caret.png");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+  font-size: 16px;
+  border: none;
 }
 
 MenuItem,
 input,
 select,
 option:focus {
-    outline: none;
-    border: none;
-    box-shadow: none;
+  outline: none;
+  border: none;
+  box-shadow: none;
 }
 
 /* input:placeholder-shown {
     font-size: 50rem;
 } */
 
-
 input[type="date"]::-webkit-calendar-picker-indicator {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url('/src/assets/images/calender.png');
-    background-repeat: no-repeat;
-    background-position: right center;
-    font-size: 16px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("/src/assets/images/calender.png");
+  background-repeat: no-repeat;
+  background-position: right center;
+  font-size: 16px;
 }
-
-
-
 
 /* Hide scrollbar for Chrome, Safari, IE, Edge and Firefox and Opera */
 
 .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  display: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .scrollbrhdn::-webkit-scrollbar {
-    @apply w-1
+  @apply w-1;
 }
 
 /* .scrollbrhdn::-webkit-scrollbar-track {
@@ -136,190 +125,201 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 } */
 
 .scrollbrhdn::-webkit-scrollbar-thumb {
-    @apply bg-gray-400 dark:bg-neutral-700 rounded-full
+  @apply bg-gray-400 dark:bg-neutral-700 rounded-full;
 }
 
 .scrollbrhdn::-webkit-scrollbar-thumb:hover {
-    @apply bg-sky-400 dark:bg-neutral-500 rounded-full
+  @apply bg-sky-400 dark:bg-neutral-500 rounded-full;
 }
 
 .custom-toolbar {
-    background-color: #7e0f0f;
-    position: absolute;
-    /* Your desired background color */
-    /* Add any other styling properties */
+  background-color: #7e0f0f;
+  position: absolute;
+  /* Your desired background color */
+  /* Add any other styling properties */
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-    width: 12px;
+  width: 12px;
 }
 
 /* Track */
 .custom-scrollbar::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 /* Handle */
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 6px;
+  background: #888;
+  border-radius: 6px;
 }
 
 /* Handle on hover */
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #555;
+  background: #555;
 }
-
 
 /* .day-calendar-weekday-label {
     @apply font-bold text-lg rounded cursor-pointer bg-red-600;
 } */
 
 .css-9emuhu-MuiPaper-root-MuiDrawer-paper {
-    @apply !bg-transparent
+  @apply !bg-transparent;
 }
 
 .MuiDayCalendar-weekDayLabel,
 .MuiPickersDay-root,
 .MuiPickersCalendarHeader-label,
 .MuiSvgIcon-root {
-    @apply dark:text-white;
+  @apply dark:text-white;
 }
 
 .searchInput {
-    @apply dark:text-white;
+  @apply dark:text-white;
 }
 
 .card {
-    @apply dark:bg-neutral-950;
+  @apply dark:bg-neutral-950;
 }
 
 .MuiTableCell-root {
-    @apply dark:text-white dark:bg-neutral-800;
+  @apply dark:text-white dark:bg-neutral-800;
 }
 
 .MuiTableHead-root {
-    @apply dark:bg-neutral-950;
+  @apply dark:bg-neutral-950;
 }
 
 .MuiInputLabel-root {
-    @apply dark:text-white;
+  @apply dark:text-white;
 }
 
 .MuiInputLabel-root.Mui-focused {
-    @apply dark:text-white;
+  @apply dark:text-white;
 }
 
 .MuiTableCell-root {
-    @apply dark:bg-neutral-900;
+  @apply dark:bg-neutral-900;
 }
 
 .MuiInputBase-root {
-    @apply dark:bg-neutral-900 dark:text-white bg-[#f0f9ff] rounded-md;
+  @apply dark:bg-neutral-900 dark:text-white bg-[#f0f9ff] rounded-md;
 }
 
 .MuiPaper-root {
-    @apply dark:bg-neutral-950 dark:text-white;
+  @apply dark:bg-neutral-950 dark:text-white;
 }
 
 .MuiList-root {
-    @apply max-h-60
+  @apply max-h-60;
 }
 
 .MuiMenuItem-root:hover {
-    @apply dark:bg-neutral-900;
+  @apply dark:bg-neutral-900;
 }
 
 .MuiButtonBase-root {
-    @apply dark:bg-neutral-950;
+  @apply dark:bg-neutral-950;
 }
 
 .searchInput {
-    @apply dark:bg-neutral-900;
+  @apply dark:bg-neutral-900;
 }
 
 .tablehead {
-    @apply dark:bg-neutral-900;
+  @apply dark:bg-neutral-900;
 }
 
 .MuiPickersSlideTransition-root,
 .MuiDayCalendar-header,
 .MuiPickersCalendarHeader-root {
-    @apply xl:w-[90%];
+  @apply xl:w-[90%];
 }
 
 .MuiPickersSlideTransition-root,
 .MuiDayCalendar-header,
 .MuiPickersCalendarHeader-root {
-    @apply 2xl:w-[100%];
+  @apply 2xl:w-[100%];
 }
 
 .MuiOutlinedInput-input {
-    @apply dark:bg-neutral-800;
+  @apply dark:bg-neutral-800;
 }
 
 .MuiDateCalendar-root {
-    @apply rounded-md;
+  @apply rounded-md;
 }
 
 .MuiInputLabel-root.Mui-disabled {
-    @apply dark:text-white;
+  @apply dark:text-white;
 }
 
 .Mui-disabled {
-    @apply dark:text-white;
+  @apply dark:text-white;
 }
 
 .MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
-    @apply text-red-500
+  @apply text-red-500;
 }
 
-
 @keyframes slide {
-    0% {
-        transform: translateX(-100%);
-    }
+  0% {
+    transform: translateX(-100%);
+  }
 
-    100% {
-        transform: translateX(200%);
-    }
+  100% {
+    transform: translateX(200%);
+  }
 }
 
 .animate-slide {
-    animation: slide 0.4s linear infinite;
+  animation: slide 0.4s linear infinite;
 }
 
 @keyframes meteor {
-    0% {
-        transform: translate(0, 0) rotate(215deg);
-        opacity: 1;
-    }
+  0% {
+    transform: translate(0, 0) rotate(215deg);
+    opacity: 1;
+  }
 
-    100% {
-        transform: translate(500px, 500px) rotate(215deg);
-        opacity: 0;
-    }
+  100% {
+    transform: translate(500px, 500px) rotate(215deg);
+    opacity: 0;
+  }
 }
 
 .meteor-animation {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background-color: #285999;
-    box-shadow: 0 0 10px #a0aec0;
-    border-radius: 50%;
-    pointer-events: none;
-    animation: meteor linear infinite;
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: #285999;
+  box-shadow: 0 0 10px #a0aec0;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: meteor linear infinite;
 }
 
 .meteor-tail {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100px;
-    height: 1px;
-    /* background: linear-gradient(to right, #a0aec0, transparent); */
-    transform-origin: 0 50%;
-    transform: translateX(-100%);
-    pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 1px;
+  /* background: linear-gradient(to right, #a0aec0, transparent); */
+  transform-origin: 0 50%;
+  transform: translateX(-100%);
+  pointer-events: none;
 }
+
+.custom-checkbox {
+  @apply flex items-center justify-center w-5 h-5 bg-sky-200 dark:bg-neutral-700  rounded-md transition-colors duration-200;
+}
+
+input[type="checkbox"]:checked + .custom-checkbox {
+  @apply bg-blue-600;
+}
+
+/* input[type="checkbox"]:checked + .custom-checkbox::after {
+  @apply block w-3 h-3 bg-blue-600 rounded;
+  content: "";
+} */

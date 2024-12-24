@@ -11,6 +11,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa6";
 import ApiendPonits from "../../api/APIEndPoints.json";
 import ProfilePic from "./ProfilePic";
+import { FaCheck } from "react-icons/fa6";
 
 const UserProfile = () => {
   const { userData } = useContext(AuthContext);
@@ -407,7 +408,7 @@ const UserProfile = () => {
               )}
 
               {showPasswordModal && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-lg z-50">
                   <div className="bg-white dark:bg-neutral-900 p-6 rounded shadow-lg flex flex-col items-center z-50">
                     <h2 className="text-lg font-bold mb-4">
                       Confirm That it's You?
@@ -699,16 +700,20 @@ const UserProfile = () => {
                 <label className="w-1/3 lg:w-1/6 ">Tech Experties</label>
                 {isEditMode ? (
                   <div className="w-3/4 lg:w-full lg:pl-2">
-                    <div className="flex flex-row flex-wrap mb-2  ">
+                    <div className="flex flex-row flex-wrap mb-2 gap-2 ">
                       {predefinedTech.map((tech) => (
-                        <label key={tech} className="flex items-center">
-                          <Checkbox
+                        <label key={tech} className="flex items-center gap-1">
+                          <input
                             type="checkbox"
                             checked={formData.techexperties.includes(tech)}
                             onChange={() => handleCheckboxChange(tech)}
-                            className="z-10"
-                            sx={{ "& .MuiSvgIcon-root": { fontSize: 18 } }}
+                            className="hidden"
                           />
+                          <span className="custom-checkbox">
+                            {formData.techexperties.includes(tech) && (
+                              <FaCheck className="text-white w-3.5 h-3.5 font-extrabold" />
+                            )}
+                          </span>
                           <span>{tech}</span>
                         </label>
                       ))}

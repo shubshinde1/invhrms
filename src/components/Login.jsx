@@ -123,7 +123,7 @@ const Login = ({ theme }) => {
               </button>
               <div className="flex flex-col md:flex-row justify-between">
                 <Link to="/resetpassword" className=" font-bold">
-                  <h5 className="hover:bg-blue-100 hover:dark:bg-neutral-8  00 w-fit hover:px-2 duration-500 py-1 rounded-md text-blue-500">
+                  <h5 className="hover:bg-blue-100 hover:dark:bg-neutral-800 w-fit hover:px-2 duration-500 py-1 rounded-md text-blue-500">
                     Forgot/Reset Password
                   </h5>
                 </Link>
@@ -131,7 +131,7 @@ const Login = ({ theme }) => {
                   Don't have an account?{" "}
                   <Link
                     to="/register"
-                    className="font-bold hover:bg-blue-100 hover:dark:bg-neutral-8  00 w-fit hover:px-2 duration-500 py-1 rounded-md text-blue-500"
+                    className="font-bold hover:bg-blue-100 hover:dark:bg-neutral-800 w-fit hover:px-2 duration-500 py-1 rounded-md text-blue-500"
                   >
                     Register
                   </Link>

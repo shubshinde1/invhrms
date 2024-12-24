@@ -27,6 +27,7 @@ import { FaFaceFrownOpen } from "react-icons/fa6";
 import Loading from "../Loading";
 import ApiendPonits from "../../api/APIEndPoints.json";
 import { IoToday } from "react-icons/io5";
+import TruncatedTextWithTooltip from "../custom/TruncatedTextWithTooltip";
 
 const GlobalStyles = createGlobalStyle`
 .MuiPaper-root{
@@ -1168,7 +1169,7 @@ export default function TimeSheet({ record, index }) {
                       <div className=" col-span-12 lg:col-span-2">
                         <TextField
                           className={classNames(
-                            "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                            "p-2 border rounded-lg dark:bg-red-800 dark:border-neutral-700",
                             classes.root
                           )}
                           id="taskName"
@@ -1380,15 +1381,30 @@ export default function TimeSheet({ record, index }) {
                     </div>
                     <div className="flex col-span-12 lg:col-span-2 justify-between items-center">
                       <h2 className="flex lg:hidden">Task - </h2>
-                      <h2>{record.taskName}</h2>
+                      <h2>
+                        <TruncatedTextWithTooltip
+                          text={record.taskName}
+                          maxLength={10}
+                        />
+                      </h2>
                     </div>
                     <div className="flex col-span-12 lg:col-span-2 justify-between items-center">
                       <h2 className="flex lg:hidden">Subtask - </h2>
-                      <h2>{record.subTaskName}</h2>
+                      <h2>
+                        <TruncatedTextWithTooltip
+                          text={record.subTaskName}
+                          maxLength={10}
+                        />
+                      </h2>
                     </div>
                     <div className="flex col-span-12 lg:col-span-3 justify-between items-center">
                       <h2 className="flex lg:hidden">Description - </h2>
-                      <h2>{record.description}</h2>
+                      <h2>
+                        <TruncatedTextWithTooltip
+                          text={record.description}
+                          maxLength={40}
+                        />
+                      </h2>
                     </div>
                     <div className="flex col-span-12 lg:col-span-1 justify-between items-center">
                       <h2 className="flex lg:hidden">Duration - </h2>

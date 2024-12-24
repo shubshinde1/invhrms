@@ -34,6 +34,7 @@ import { IoToday } from "react-icons/io5";
 import TimesheetCalendar from "./TimesheetCalendar";
 import { MdClose } from "react-icons/md";
 import { RiRefreshLine } from "react-icons/ri";
+import TruncatedTextWithTooltip from "../../custom/TruncatedTextWithTooltip";
 
 const GlobalStyles = createGlobalStyle`
 .MuiPaper-root{
@@ -850,16 +851,26 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                     </div>
                     <div className="flex col-span-12 lg:col-span-2 justify-between items-center">
                       <h2 className="flex lg:hidden">Task - </h2>
-                      <h2>{record.taskName}</h2>
+                      <h2>
+                        <TruncatedTextWithTooltip
+                          text={record.taskName}
+                          maxLength={10}
+                        />
+                      </h2>
                     </div>
                     <div className="flex col-span-12 lg:col-span-2 justify-between items-center">
                       <h2 className="flex lg:hidden">Subtask - </h2>
-                      <h2>{record.subTaskName}</h2>
+                      <h2>
+                        <TruncatedTextWithTooltip
+                          text={record.subTaskName}
+                          maxLength={10}
+                        />
+                      </h2>
                     </div>
                     <div className="flex col-span-12 lg:col-span-4 justify-between items-center">
                       <h2 className="flex lg:hidden">Description - </h2>
                       <h2>
-                        {showMore
+                        {/* {showMore
                           ? record.description
                           : record.description?.slice(0, 50)}
                         {record.description?.length > 50 && (
@@ -869,7 +880,11 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                           >
                             {showMore ? "Show Less" : "Show More"}
                           </button>
-                        )}
+                        )} */}
+                        <TruncatedTextWithTooltip
+                          text={record.description}
+                          maxLength={40}
+                        />
                       </h2>
                     </div>
                     <div className="flex col-span-12 lg:col-span-1 justify-between items-center">

@@ -91,7 +91,7 @@ export default function Header({ handleThemeSwitch, theme }) {
   };
 
   return (
-    <div className="my-2 mr-2 ml-16 md:m-2 py-2 pl-2 dark:bg-neutral-950 bg-white dark:text-white h-12 md:h-auto rounded-md flex justify-between items-center">
+    <div className=" my-2 mr-2 ml-16 md:m-2 py-2 pl-2 dark:bg-neutral-950 bg-white dark:text-white h-12 md:h-auto rounded-md flex justify-between items-center">
       <div className="font-bold">{getTitle()}</div>
       <div className="">
         <div className="flex items-center gap-2 text-sm">
@@ -226,7 +226,7 @@ export default function Header({ handleThemeSwitch, theme }) {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="origin-top-right absolute -right-5 z-10 m-2.5 w-52 md:mt-5 mt-4 bg-white dark:bg-neutral-950 dark:border rounded-md shadow-lg p-2">
+              <Menu.Items className="origin-top-right absolute -right-5 z-10 m-2.5 w-52 md:mt-5 mt-4 bg-white dark:bg-neutral-950 dark:border border-neutral-600 rounded-md shadow-lg p-2">
                 <Menu.Item>
                   {({ active }) => (
                     <div

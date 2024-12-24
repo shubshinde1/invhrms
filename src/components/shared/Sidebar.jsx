@@ -75,7 +75,7 @@ export default function Sidebar({ theme }) {
   const filteredLinks = getFilteredLinks(userData?.employeeData?.auth); // Filter links based on user auth
 
   return (
-    <div className="z-10 ">
+    <div className="z-0 ">
       <button
         className="md:hidden fixed top-2 left-2 p-3 dark:text-white bg-white dark:bg-neutral-950 rounded-md"
         onClick={() => {
