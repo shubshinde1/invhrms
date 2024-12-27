@@ -906,7 +906,7 @@ export default function TimeSheet({ record, index }) {
                 </Select>
               </FormControl>
             </div>
-            <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
+            <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
               <TextField
                 className={classNames(
                   "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
@@ -920,9 +920,13 @@ export default function TimeSheet({ record, index }) {
                 value={formData.taskName}
                 onChange={handleInputChange}
                 autoComplete="off"
+                inputProps={{ maxLength: 50 }}
               />
+              <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
+                {50 - formData.taskName.length}/50
+              </div>
             </div>
-            <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
+            <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
               <TextField
                 className={classNames(
                   "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
@@ -936,17 +940,25 @@ export default function TimeSheet({ record, index }) {
                 value={formData.subTaskName}
                 onChange={handleInputChange}
                 autoComplete="off"
+                inputProps={{ maxLength: 100 }}
               />
+              <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
+                {100 - formData.subTaskName.length}/100
+              </div>
             </div>
-            <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-6">
+            <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-6">
               <textarea
                 name="description"
                 value={formData.description}
                 rows={2}
                 placeholder="description"
                 onChange={handleInputChange}
+                inputProps={{ maxLength: 250 }}
                 className="px-2 py-1 mt-2 border rounded-lg bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700"
               />
+              <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
+                {250 - formData.description.length}/250
+              </div>
             </div>
             <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-2">
               {/* <TextField
