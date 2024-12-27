@@ -98,17 +98,38 @@ const AttendanceHistory = () => {
     setFilteredAttendance(filtered);
   };
 
+  // const calculateStats = () => {
+  //   const totalWorkingDays = filteredAttendance.length;
+  //   const presentDays = filteredAttendance.filter(
+  //     (record) => record.attendancestatus === 1
+  //   ).length;
+  //   const absentDays = filteredAttendance.filter(
+  //     (record) => record.attendancestatus === 0
+  //   ).length;
+  //   const halfDays = filteredAttendance.filter(
+  //     (record) => record.attendancestatus === 2
+  //   ).length;
+  //   return { totalWorkingDays, presentDays, absentDays, halfDays };
+  // };
   const calculateStats = () => {
-    const totalWorkingDays = filteredAttendance.length;
+    const totalFullDays = filteredAttendance.filter(
+      (record) => record.attendancestatus === 1 || record.attendancestatus === 0
+    ).length;
+
+    const totalHalfDays = filteredAttendance.filter(
+      (record) => record.attendancestatus === 2
+    ).length;
+
+    // Adjust total working days: full days + half days as 0.5
+    const totalWorkingDays = totalFullDays + totalHalfDays / 2;
+
     const presentDays = filteredAttendance.filter(
       (record) => record.attendancestatus === 1
     ).length;
     const absentDays = filteredAttendance.filter(
       (record) => record.attendancestatus === 0
     ).length;
-    const halfDays = filteredAttendance.filter(
-      (record) => record.attendancestatus === 2
-    ).length;
+    const halfDays = totalHalfDays;
 
     return { totalWorkingDays, presentDays, absentDays, halfDays };
   };

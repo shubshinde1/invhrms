@@ -1438,8 +1438,8 @@ export default function TimeSheet({ record, index }) {
                       <h2
                         className={`lg:text-xs py-1 font-bold lg:my-1.5 flex items-center justify-center px-2 rounded-md ${
                           record.remark === "0"
-                            ? "bg-red-200 text-red-600"
-                            : "bg-green-200 text-green-600"
+                            ? "bg-red-500/20 text-red-600"
+                            : "bg-green-500/20 text-green-600"
                         }`}
                       >
                         {record.remark === "0" ? "Pending" : "Completed"}

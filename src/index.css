@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 *::selection {
-  background-color: #00cbff;
-  /* color: white; */
+  @apply bg-orange-500/20 text-orange-500;
 }
 
 @font-face {

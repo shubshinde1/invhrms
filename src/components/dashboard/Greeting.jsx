@@ -57,9 +57,18 @@ export default function Greeting() {
 
     const record = attendanceRecords[0];
     const intime = new Date(record.intime).getTime();
+    const outtime = record.outtime ? new Date(record.outtime).getTime() : null;
     const now = new Date().getTime();
 
-    const elapsedSeconds = Math.max(0, Math.floor((now - intime) / 1000));
+    let elapsedSeconds;
+    if (outtime) {
+      // Use outtime for calculation if it exists
+      elapsedSeconds = Math.max(0, Math.floor((outtime - intime) / 1000));
+    } else {
+      // Use current time if outtime doesn't exist
+      elapsedSeconds = Math.max(0, Math.floor((now - intime) / 1000));
+    }
+
     const remainingSeconds = Math.max(0, totalSeconds - elapsedSeconds);
 
     setProgress({ elapsed: elapsedSeconds, remaining: remainingSeconds });
@@ -67,7 +76,6 @@ export default function Greeting() {
 
   const handlePunchButtonClick = async () => {
     const mark = isPunchedIn ? "Out" : "In";
-    // const endpoint = `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.attendance}`;
 
     try {
       let inlocation = null;
@@ -81,7 +89,6 @@ export default function Greeting() {
         const { latitude, longitude } = position.coords;
         if (mark === "In") {
           inlocation = { latitude, longitude };
-          // sessionStorage.setItem("intime", new Date().toISOString());
         } else {
           outlocation = { latitude, longitude };
         }
@@ -105,13 +112,26 @@ export default function Greeting() {
       );
 
       const data = await response.json();
-      console.log(data.attendance);
 
       if (response.ok) {
         setMessage(`${mark === "In" ? "Punch In" : "Punch Out"} Successfully`);
         setTimeout(() => setMessage(""), 4000);
+
+        // Refresh attendance data or toggle `isPunchedIn` explicitly
         if (mark === "In") {
-          getAttendanceHistory(); // Refresh attendance records
+          getAttendanceHistory(); // Refresh attendance records for Punch In
+        } else {
+          setCurrentDateAttendance((prev) =>
+            prev.map((record) =>
+              record.attendancestatus === 1
+                ? {
+                    ...record,
+                    attendancestatus: 0,
+                    outtime: new Date().toISOString(),
+                  }
+                : record
+            )
+          );
         }
       } else {
         if (!token) {
@@ -152,7 +172,10 @@ export default function Greeting() {
   };
 
   const ProgressBar = ({ progress }) => {
-    const progressBarWidth = (progress.elapsed / totalSeconds) * 100;
+    const progressBarWidth = Math.min(
+      100,
+      (progress.elapsed / totalSeconds) * 100
+    );
 
     return (
       <div className="w-full md:w-2/3 mt-4">
@@ -166,7 +189,7 @@ export default function Greeting() {
         </div>
         <div className="bg-sky-100 dark:bg-blue-200/10 mt-2 h-5 rounded-md flex justify-start relative overflow-hidden">
           <div
-            className="absolute h-full bg-indigo-600  transition-[width] duration-1000"
+            className="absolute h-full bg-indigo-600 transition-[width] duration-1000"
             style={{
               width: `${progressBarWidth}%`,
               borderRadius: "inherit",
@@ -191,7 +214,10 @@ export default function Greeting() {
             {currentDateAttendance[0]?.outtime
               ? new Date(currentDateAttendance[0].outtime).toLocaleTimeString(
                   [],
-                  { hour: "2-digit", minute: "2-digit" }
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
                 )
               : "--:--"}
           </span>
