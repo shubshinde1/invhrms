@@ -67,7 +67,10 @@ const UserLeave = () => {
       const today = new Date();
 
       const filterCurrentYear = (arr) =>
-        arr.filter((item) => new Date(item.date).getFullYear() === currentYear);
+        arr.filter(
+          (item) => new Date(item.date)
+          // .getFullYear() === currentYear
+        );
 
       const mandatoryHolidayCurrentYear = filterCurrentYear(
         holidays.mandatoryholiday || []
