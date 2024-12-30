@@ -280,7 +280,7 @@ const EmployeeAttendanceBrief = () => {
                 </div>
                 <h2 className="font-bold">Total Employees</h2>
               </div>
-              <div className="text-4xl font-bold text-blue-300 flex justify-end">
+              <div className="text-2xl font-bold text-blue-300 flex justify-end">
                 {totalEmployeeCount}
               </div>
             </div>
@@ -299,7 +299,7 @@ const EmployeeAttendanceBrief = () => {
                     </div>
                     <h2 className="font-bold">Active</h2>
                   </div>
-                  <div className="text-4xl font-bold text-green-300 flex justify-end">
+                  <div className="text-2xl font-bold text-green-300 flex justify-end">
                     {activeEmployeeCount}
                   </div>
                 </div>
@@ -319,7 +319,7 @@ const EmployeeAttendanceBrief = () => {
                     </div>
                     <h2 className="font-bold">Inactive</h2>
                   </div>
-                  <div className="text-4xl font-bold text-red-300 flex justify-end">
+                  <div className="text-2xl font-bold text-red-300 flex justify-end">
                     {inactiveEmployeeCount}
                   </div>
                 </div>
