@@ -111,12 +111,12 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
   const statusCounts = leavehistory.reduce(
     (acc, record) => {
       acc.all += 1;
-      if (record.applicationstatus === 0) acc.awaiting += 1;
+      if (record.applicationstatus === 0) acc.pending += 1;
       if (record.applicationstatus === 1) acc.approved += 1;
       if (record.applicationstatus === 2) acc.declined += 1;
       return acc;
     },
-    { all: 0, awaiting: 0, approved: 0, declined: 0 }
+    { all: 0, pending: 0, approved: 0, declined: 0 }
   );
 
   // Add functions to switch to next and previous months.
@@ -219,7 +219,7 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
               )}
             >
               <FaStopwatch fontSize={15} />
-              {selectedStatus == 0 ? `Awaiting ${statusCounts.awaiting}` : ""}
+              {selectedStatus == 0 ? `Pending ${statusCounts.pending}` : ""}
             </button>
             <button
               onClick={() => setSelectedStatus("1")}
@@ -357,7 +357,7 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
                   <div>
                     {/* <span className={getStatusClass(record.applicationstatus)}>
                       {record.applicationstatus === 0
-                        ? "Awaiting"
+                        ? "Pending"
                         : record.applicationstatus === 1
                         ? "Approved"
                         : "Declined"}
@@ -368,7 +368,7 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
                           onClick={() => handleSave(record._id, 0)}
                           className="bg-yellow-600/15 text-yellow-500 hover:bg-yellow-500/25 py-1 px-2 rounded-md w-full"
                         >
-                          Awaiting
+                          Pending
                         </button>
                         <button
                           onClick={() => handleSave(record._id, 1)}
@@ -394,7 +394,7 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
                         className={getStatusClass(record.applicationstatus)}
                       >
                         {record.applicationstatus === 0
-                          ? "Awaiting"
+                          ? "Pending"
                           : record.applicationstatus === 1
                           ? "Approved"
                           : "Declined"}
@@ -432,7 +432,7 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
                     </h3>
                     <p className={getStatusClass(record.applicationstatus)}>
                       {record.applicationstatus === 0
-                        ? "Awaiting"
+                        ? "Pending"
                         : record.applicationstatus === 1
                         ? "Approved"
                         : "Declined"}

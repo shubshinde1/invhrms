@@ -6,6 +6,7 @@ import Bodycards from "./dashboard/Bodycards";
 import { motion } from "framer-motion";
 import ApiendPonits from "../../src/api/APIEndPoints.json";
 import EmployeeAttendaceBrief from "./admin/admindashboard/EmployeeAttendaceBrief";
+import LeaveApplicationsCard from "./admin/admindashboard/LeaveApplicationsCard";
 
 const AdminDashboard = () => {
   const { userData } = useContext(AuthContext);
@@ -164,18 +165,17 @@ const AdminDashboard = () => {
     <div className="">
       <div className="grid grid-cols-12 gap-2 dark:text-white">
         <div className="col-span-12 lg:col-span-9 flex flex-col gap-2">
-          <div className="bg-white dark:bg-neutral-950 rounded-md p-2 ">
+          <div className="bg-white dark:bg-neutral-950 rounded-md p-2 flex flex-col gap-2">
             <EmployeeAttendaceBrief />
+            <LeaveApplicationsCard />
           </div>
-          <div className="bg-white dark:bg-neutral-950 rounded-md p-2 ">
-            Leave Applications
-          </div>
+          {/* <div className="bg-white dark:bg-neutral-950 rounded-md p-2 "></div>
           <div className="bg-white dark:bg-neutral-950 rounded-md p-2 ">
             Clients
           </div>
           <div className="bg-white dark:bg-neutral-950 rounded-md p-2 ">
             Projects
-          </div>
+          </div> */}
         </div>
         <div className="col-span-12 lg:col-span-3 ">
           <DashCalendar

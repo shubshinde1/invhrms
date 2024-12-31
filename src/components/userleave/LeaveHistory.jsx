@@ -221,12 +221,12 @@ const LeaveHistory = () => {
   const statusCounts = leavehistory.reduce(
     (acc, record) => {
       acc.all += 1;
-      if (record.applicationstatus === 0) acc.awaiting += 1;
+      if (record.applicationstatus === 0) acc.pending += 1;
       if (record.applicationstatus === 1) acc.approved += 1;
       if (record.applicationstatus === 2) acc.declined += 1;
       return acc;
     },
-    { all: 0, awaiting: 0, approved: 0, declined: 0 }
+    { all: 0, pending: 0, approved: 0, declined: 0 }
   );
 
   return (
@@ -305,7 +305,7 @@ const LeaveHistory = () => {
             >
               <GlobalStyles />
               <MenuItem value="all">All Statuses</MenuItem>
-              <MenuItem value="0">Awaiting</MenuItem>
+              <MenuItem value="0">pending</MenuItem>
               <MenuItem value="1">Approved</MenuItem>
               <MenuItem value="2">Declined</MenuItem>
             </Select>
@@ -335,9 +335,9 @@ const LeaveHistory = () => {
               )}
             >
               <FaStopwatch fontSize={15} />
-              {/* {selectedStatus == 0 ? "Awaiting" : ""} */}
-              {selectedStatus == 0 ? `Awaiting ${statusCounts.awaiting}` : ""}
-              {/* <span className="text-xs">{statusCounts.awaiting}</span> */}
+              {/* {selectedStatus == 0 ? "pending" : ""} */}
+              {selectedStatus == 0 ? `Pending ${statusCounts.pending}` : ""}
+              {/* <span className="text-xs">{statusCounts.pending}</span> */}
             </button>
             <button
               onClick={() => setSelectedStatus("1")}
@@ -419,7 +419,7 @@ const LeaveHistory = () => {
                 </h3>
                 <p className={getStatusClass(record.applicationstatus)}>
                   {record.applicationstatus === 0
-                    ? "Awaiting"
+                    ? "Pending"
                     : record.applicationstatus === 1
                     ? "Approved"
                     : "Declined"}

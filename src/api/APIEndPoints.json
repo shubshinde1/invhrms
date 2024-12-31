@@ -20,6 +20,7 @@
         "getoptionalholidaylist": "getoptionalholidaylist",
         "leaveapplication": "leaveapplication",
         "employeeleavehistory": "leaveapplicationhistory",
+        "allleaveapplications": "allleaveapplications",
         "deleteleaveapplication": "deleteleaveapplication",
         "getattendancehistory": "viewattendance",
         "uploadProfile": "uploadprofile",

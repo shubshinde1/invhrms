@@ -119,7 +119,7 @@ const EmployeeAttendanceBrief = () => {
         );
 
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         if (response.ok) {
           setEmployeeList(data.data);
