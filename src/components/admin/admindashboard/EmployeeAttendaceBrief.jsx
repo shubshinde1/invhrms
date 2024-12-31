@@ -154,6 +154,8 @@ const EmployeeAttendanceBrief = () => {
 
   const onleave = activeEmployeeCount - statusCounts[1];
 
+  const absent = activeEmployeeCount === statusCounts[1] + statusCounts[2];
+
   // Handle date change (previous or next)
   const handleChangeDate = (direction) => {
     const newDate = new Date(selectedDate);
@@ -184,7 +186,7 @@ const EmployeeAttendanceBrief = () => {
             flex-col gap-2 dark:bg-neutral-900 p-2 rounded-md"
         >
           <div className="flex items-center gap-2 justify-en">
-            <div className="flex items-center gap-2 bg-sky-50 dark:bg-neutral-800 p-1 h-full rounded-lg flex-col items-cente">
+            <div className="flex items-center gap-2 bg-sky-50 dark:bg-neutral-950 p-1 h-full rounded-lg flex-col items-cente">
               <div className="flex justify-between items-center gap-1">
                 <button
                   onClick={() => handleChangeDate("prev")}
@@ -228,17 +230,17 @@ const EmployeeAttendanceBrief = () => {
           <div className="h-full">
             <div className="bg-sky-5 dark:bg-neutral-80  h-full rounded-lg flex flex-col items-center justify-center gap-2">
               <ul className="flex items-center gap-2 justify-between w-full h-full">
-                <li className="flex justify-between w-full pl-2 pr-4 h-full gap-2 items-center font-medium bg-green-500/10  rounded-lg">
+                <li className="flex justify-between w-full pl-2 pr-4 py-2 h-full gap-2 items-center font-medium bg-green-500/10  rounded-lg">
                   <div className="flex items-center gap-2">
                     <FaCircleCheck fontSize={18} className="text-green-500" />
                     <span>Present </span>
                   </div>
-                  <span className="font-bold text-3xl text-green-500">
+                  <span className="font-bold text-xl md:text-3xl text-green-500">
                     {statusCounts[1]}
                   </span>
                 </li>
 
-                <li className="flex justify-between w-full pl-2 pr-4 h-full gap-2 items-center font-medium bg-red-500/10  rounded-lg">
+                <li className="flex justify-between w-full pl-2 pr-4 py-2 h-full gap-2 items-center font-medium bg-red-500/10  rounded-lg">
                   <div className="flex items-center gap-2">
                     <FaCircleHalfStroke
                       fontSize={18}
@@ -246,17 +248,18 @@ const EmployeeAttendanceBrief = () => {
                     />
                     <span>Absent</span>
                   </div>
-                  <span className="font-bold text-3xl text-red-500">
-                    {onleave}
+                  <span className="font-bold text-xl md:text-3xl text-red-500">
+                    {absent ? 0 : onleave}
                   </span>
                 </li>
 
-                <li className="flex justify-between w-full pl-2 pr-4 h-full gap-2 items-center font-medium bg-yellow-500/10  rounded-lg">
+                <li className="flex justify-between w-full pl-2 pr-4 py-2 h-full gap-2 items-center font-medium bg-yellow-500/10  rounded-lg">
                   <div className="flex items-center gap-2">
                     <FaCircleXmark fontSize={18} className="text-yellow-500" />
-                    <span>Half Day</span>
+                    <span className="hidden md:flex">Half Day</span>
+                    <span className="md:hidden flex">Half D</span>
                   </div>
-                  <span className="font-bold text-3xl text-yellow-500">
+                  <span className="font-bold text-xl md:text-3xl text-yellow-500">
                     {statusCounts[2]}
                   </span>
                 </li>
@@ -265,7 +268,7 @@ const EmployeeAttendanceBrief = () => {
           </div>
         </motion.div>
 
-        <div className="col-span-2 sm:col-span-1 flex flex-col gap-2 h-full">
+        <div className="col-span-4 sm:col-span-1 flex flex-col gap-2 h-full">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}

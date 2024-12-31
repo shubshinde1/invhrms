@@ -181,7 +181,7 @@ const AdminLeave = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
-          className="col-span-6 lg:col-span-4 xl:col-span-1 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
+          className="col-span-12 lg:col-span-4 xl:col-span-1 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
         >
           <div className="flex items-center gap-2">
             <div className="bg-sky-500/15 rounded-md p-2">

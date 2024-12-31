@@ -283,13 +283,13 @@ const RefillLeaves = () => {
       </div>
 
       <div className="bg-white dark:bg-neutral-950 shadow-md rounded-md p-2 dark:text-white flex flex-col gap-2 h-full mb-16 ">
-        <div className="grid grid-cols-11 sm:grid-cols-12 lg:grid-cols-12 gap-2">
+        <div className="grid grid-cols-12 gap-2">
           {/* total */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
-            className="col-span-12 sm:col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
+            className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
           >
             <div className="flex items-center gap-2">
               <div className="bg-sky-200  rounded-md p-2">
@@ -333,7 +333,7 @@ const RefillLeaves = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0 }}
-            className="col-span-12 sm:col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
+            className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
           >
             <div className="flex items-center gap-2">
               <div className="bg-green-100 rounded-md p-2">

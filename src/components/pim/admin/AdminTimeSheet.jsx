@@ -481,7 +481,7 @@ const AdminTimeSheet = ({ Id, record, index }) => {
             <div className="bg-sky-200 dark:bg-sky-500/15 rounded-lg p-2">
               <SiTask fontSize={20} className="text-sky-600" />
             </div>
-            <h2 className="font-bold text-lg">Total Tasks</h2>
+            <h2 className="font-bold text-sm md:text-lg">Total Tasks</h2>
           </div>
           <h2 className="flex items-end justify-end text-4xl font-bold text-gray-700 dark:text-gray-300">
             <Tooltip title="No of tasks" placement="top" arrow>
@@ -499,7 +499,7 @@ const AdminTimeSheet = ({ Id, record, index }) => {
             <div className="bg-green-200 dark:bg-green-500/15 rounded-lg p-2">
               <FaSquareCheck fontSize={20} className="text-green-500" />
             </div>
-            <h2 className="font-bold text-lg">Completed Tasks</h2>
+            <h2 className="font-bold text-sm md:text-lg">Completed Tasks</h2>
           </div>
           <h2 className="flex items-end justify-end text-4xl font-bold text-gray-700 dark:text-gray-300">
             <Tooltip title="No of tasks" placement="top" arrow>
@@ -520,7 +520,7 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                 className="text-orange-600"
               />
             </div>
-            <h2 className="font-bold text-lg">Pending Tasks</h2>
+            <h2 className="font-bold text-sm md:text-lg">Pending Tasks</h2>
           </div>
           <h2 className="flex items-end justify-end text-4xl font-bold text-gray-700 dark:text-gray-300">
             <Tooltip title="No of tasks" placement="top" arrow>
@@ -538,7 +538,7 @@ const AdminTimeSheet = ({ Id, record, index }) => {
             <div className="bg-pink-200 dark:bg-pink-500/15 rounded-lg p-2">
               <IoTimer fontSize={20} className="text-pink-600" />
             </div>
-            <h2 className="font-bold text-lg">Total Time</h2>
+            <h2 className="font-bold text-sm md:text-lg">Total Time</h2>
           </div>
           <h2 className="flex items-end justify-end text-4xl font-bold text-gray-700 dark:text-gray-300">
             <Tooltip title="Today's Time" placement="top" arrow>
@@ -673,7 +673,7 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                   Today
                 </button>
               </div>
-              <button
+              {/* <button
                 onClick={fetchTimesheetDurationByDate}
                 className="bg-sky-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 hover:bg-sky-100 p-1.5 rounded-md"
               >
@@ -681,7 +681,7 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                   fontSize={20}
                   className={loading ? "animate-spin" : ""}
                 />
-              </button>
+              </button> */}
             </div>
             <div className="grid grid-cols-7 gap-1  bg-sky-50 dark:bg-neutral-950 p-2 rounded-md overflow-y-scroll scrollbar-hide">
               {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
@@ -712,7 +712,7 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                     key={day}
                     onClick={() => handleDateClick(day)}
                     className={classNames(
-                      "p-2 cursor-pointer rounded-md h-[5.2rem] border dark:border-neutral-800 flex flex-col gap-2 justify-between",
+                      "p-1 md:p-2 cursor-pointer rounded-md h-14 md:h-[5.2rem] w-full border dark:border-neutral-800 flex flex-col gap-2 justify-between",
                       {
                         "bg-blue-500/20 text-blue-500 font-bold border border-blue-500/20":
                           isCurrentDate,
@@ -740,7 +740,7 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                           />
                           {duration}h
                         </div>
-                        <div className=" w-full ">
+                        <div className=" w-full hidden md:block">
                           <div className="flex my-2 items-center justify-between">
                             <div className="w-full bg-white rounded-lg h-2.5 dark:bg-neutral-700 ">
                               <div
@@ -756,14 +756,6 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                                   width: `${(duration / 10) * 100}%`,
                                 }}
                               ></div>
-                              {/* <div className="w-full flex items-center justify-between">
-                                <span className="text-xs text-gray-500">
-                                  0h
-                                </span>
-                                <span className="text-xs text-gray-500">
-                                  10h
-                                </span>
-                              </div> */}
                             </div>
                           </div>
                         </div>

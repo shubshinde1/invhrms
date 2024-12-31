@@ -314,12 +314,12 @@ const AdminAttendance = (Id) => {
       ) : (
         <div className="flex flex-col gap-2">
           {/* Grid Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.1 }}
-              className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md text-center flex flex-col gap-3"
+              className="col-span-1 md:col-span-1 border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md  flex flex-col gap-3"
             >
               <div className="flex items-center gap-2">
                 <div className="bg-orange-200 dark:bg-orange-500/15 rounded-lg p-2 w-fit">
@@ -337,7 +337,7 @@ const AdminAttendance = (Id) => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md text-center flex flex-col gap-3"
+              className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md  flex flex-col gap-3"
             >
               <div className="flex items-center gap-2">
                 <div className="bg-green-200 dark:bg-green-500/15 rounded-lg p-2 w-fit">
@@ -355,7 +355,7 @@ const AdminAttendance = (Id) => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md text-center flex flex-col gap-3"
+              className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md  flex flex-col gap-3"
             >
               <div className="flex items-center gap-2">
                 <div className="bg-red-200 dark:bg-red-500/15 rounded-lg p-2 w-fit">
@@ -373,7 +373,7 @@ const AdminAttendance = (Id) => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md text-center flex flex-col gap-3"
+              className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md  flex flex-col gap-3"
             >
               <div className="flex items-center gap-2">
                 <div className="bg-orange-200 dark:bg-orange-500/15 rounded-lg p-2 w-fit">
