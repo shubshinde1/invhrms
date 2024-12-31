@@ -11,6 +11,7 @@ import {
   FaCircleXmark,
   FaCircleHalfStroke,
 } from "react-icons/fa6";
+import LeaveApplicationsCard from "./LeaveApplicationsCard";
 
 import { motion } from "framer-motion";
 
@@ -183,7 +184,7 @@ const EmployeeAttendanceBrief = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
           className="col-span-full sm:col-span-2 bg-none border-2 dark:border-none flex
-            flex-col gap-2 dark:bg-neutral-900 p-2 rounded-md"
+            flex-col gap-2 dark:bg-neutral-900 p-2 rounded-md h-fit"
         >
           <div className="flex items-center gap-2 justify-en">
             <div className="flex items-center gap-2 bg-sky-50 dark:bg-neutral-950 p-1 h-full rounded-lg flex-col items-cente">
@@ -329,6 +330,7 @@ const EmployeeAttendanceBrief = () => {
               </motion.div>
             </div>
           </motion.div>
+          <LeaveApplicationsCard />
         </div>
       </div>
     </div>

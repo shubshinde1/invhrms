@@ -167,7 +167,7 @@ const AdminDashboard = () => {
         <div className="col-span-12 lg:col-span-9 flex flex-col gap-2">
           <div className="bg-white dark:bg-neutral-950 rounded-md p-2 flex flex-col gap-2">
             <EmployeeAttendaceBrief />
-            <LeaveApplicationsCard />
+            {/* <LeaveApplicationsCard /> */}
           </div>
           {/* <div className="bg-white dark:bg-neutral-950 rounded-md p-2 "></div>
           <div className="bg-white dark:bg-neutral-950 rounded-md p-2 ">

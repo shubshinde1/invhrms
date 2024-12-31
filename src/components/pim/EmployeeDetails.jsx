@@ -4,9 +4,13 @@ import AdminLeave from "./admin/AdminLeave";
 import AdminAttendance from "./admin/AdminAttendance";
 import AdminTimeSheet from "./admin/AdminTimeSheet";
 import AdminInfo from "./admin/AdminInfo";
+import { useLocation } from "react-router-dom";
 
 const EmployeeDetails = () => {
-  const [activeTab, setActiveTab] = useState("TimeSheet");
+  const location = useLocation();
+  const defaultTab = location.state?.activeTab || "TimeSheet"; // Default to "TimeSheet" if no state is passed
+
+  const [activeTab, setActiveTab] = useState(defaultTab);
   const { _id } = useParams();
 
   const renderContent = () => {
@@ -23,6 +27,8 @@ const EmployeeDetails = () => {
         return <AdminInfo Id={_id} />;
     }
   };
+
+  useEffect(() => {}, [activeTab]);
 
   return (
     <div className="flex flex-col gap-2 ">
