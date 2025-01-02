@@ -420,7 +420,6 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
                   key={index}
                   className="bg-white flex md:hidden flex-col gap-2 dark:bg-neutral-800 rounded-xl p-2 border border-gray-200 dark:border-neutral-700 h-fit"
                 >
-                  <div>{record.createdAt}</div>
                   <div className="flex items-center justify-between">
                     <h3 className="text-xs">
                       {record.totaldays === 0.5
@@ -430,13 +429,74 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
                         : record.totaldays}{" "}
                       Day
                     </h3>
-                    <p className={getStatusClass(record.applicationstatus)}>
+                    {/* <p className={getStatusClass(record.applicationstatus)}>
                       {record.applicationstatus === 0
                         ? "Pending"
                         : record.applicationstatus === 1
                         ? "Approved"
                         : "Declined"}
-                    </p>
+                    </p> */}
+
+                    <div className="col-span-3 flex items-center gap-1 ">
+                      <div>
+                        {/* <span className={getStatusClass(record.applicationstatus)}>
+                      {record.applicationstatus === 0
+                        ? "Pending"
+                        : record.applicationstatus === 1
+                        ? "Approved"
+                        : "Declined"}
+                    </span> */}
+                        {formOpen === index ? (
+                          <div className=" flex flex- bg-sky-100 dark:bg-neutral-900 p-1  rounded-md items-center gap-1 text-xs ">
+                            <button
+                              onClick={() => handleSave(record._id, 0)}
+                              className="bg-yellow-600/15 text-yellow-500 hover:bg-yellow-500/25 py-1 px-2 rounded-md w-full"
+                            >
+                              Pending
+                            </button>
+                            <button
+                              onClick={() => handleSave(record._id, 1)}
+                              className="bg-green-500/15 text-green-500 hover:bg-green-500/25 py-1 px-2 rounded-md w-full"
+                            >
+                              Approved
+                            </button>
+                            <button
+                              onClick={() => handleSave(record._id, 2)}
+                              className="bg-red-500/15 text-red-500 hover:bg-red-500/25 py-1 px-2 rounded-md w-full"
+                            >
+                              Declined
+                            </button>
+                            <button
+                              onClick={() => setFormOpen(null)}
+                              className="p-1 bg-sky-100 dark:bg-neutral-900 text-red-500 rounded-md flex items-center"
+                            >
+                              <IoClose fontSize={16} />
+                            </button>
+                          </div>
+                        ) : (
+                          <span
+                            className={getStatusClass(record.applicationstatus)}
+                          >
+                            {record.applicationstatus === 0
+                              ? "Pending"
+                              : record.applicationstatus === 1
+                              ? "Approved"
+                              : "Declined"}
+                          </span>
+                        )}
+                      </div>
+
+                      {formOpen === index ? (
+                        ""
+                      ) : (
+                        <button
+                          onClick={() => handleFormOpen(index)}
+                          className="p-1 bg-sky-100 dark:bg-neutral-900 dark:text-white dark:hover:text-blue-500 hover:text-blue-500 rounded-md "
+                        >
+                          <CgArrowsExchange fontSize={15} />
+                        </button>
+                      )}
+                    </div>
                   </div>
                   <div className="flex gap-2 items-end justify-between">
                     <div className="flex flex-col gap-1">
