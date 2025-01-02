@@ -12,6 +12,7 @@ import Tooltip from "@mui/material/Tooltip";
 import AttendanceChart from "../dashboard/AttendanceChart";
 import Loading from "../Loading";
 import { MdDelete } from "react-icons/md";
+import userprofile from "../../assets/images/clientAvatar.png";
 
 const Employeelist = () => {
   const [loading, setLoading] = useState(false);
@@ -48,6 +49,8 @@ const Employeelist = () => {
         );
 
         const data = await response.json();
+
+        console.log(data);
 
         if (response.ok) {
           setFetchEmployee(data.data);
@@ -393,7 +396,7 @@ const Employeelist = () => {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
-                  className="grid grid-cols-12 bg-sky-50 dark:bg-neutral-900 px-2 py-3 rounded-md gap-2"
+                  className="grid grid-cols-12 bg-sky-50 dark:bg-neutral-900 px-2 py-3 rounded-md gap-2 items-center"
                 >
                   <div className="col-span-1">{employee.empid}</div>
                   <div className="col-span-3 flex items-center gap-1">
@@ -401,26 +404,34 @@ const Employeelist = () => {
                       onClick={() => handleViewClick(employee._id)}
                       className="hover:bg-blue-500/5 p-1.5 rounded-md  flex items-center gap-1"
                     >
-                      <div
-                        className={` px-2 py-1 text-center rounded-md w-fit h-fit text-xs font-semibold ${
-                          employee.attendancestatus === 1
-                            ? "bg-green-500/20 text-green-500"
-                            : employee.attendancestatus === 0
-                            ? "bg-red-500/20 text-red-500"
+                      <div className="relative">
+                        <img
+                          src={employee.profileUrl || userprofile}
+                          alt={`${employee.name}'s profile`}
+                          className="w-6 rounded-md"
+                        />
+                        <div
+                          className={`absolute w-2.5 h-2.5 text-black bg-ne -bottom-1 -right-1 px-1 p0.5 text-center rounded-md  text-xs font-semibold ${
+                            employee.attendancestatus === 1
+                              ? "bg-green-500 ext-green-500"
+                              : employee.attendancestatus === 0
+                              ? "bg-red-500 ext-red-500"
+                              : employee.attendancestatus === 2
+                              ? "bg-yellow-500 ext-yellow-500"
+                              : "bg-red-500 ext-red-500"
+                          }`}
+                        >
+                          {/* {employee.attendancestatus === 1
+                            ? "P"
+                            : employee.attendancestatus === 0 ||
+                              !employee.attendancestatus
+                            ? "A"
                             : employee.attendancestatus === 2
-                            ? "bg-yellow-500/20 text-yellow-500"
-                            : "bg-red-500/20 text-red-500"
-                        }`}
-                      >
-                        {employee.attendancestatus === 1
-                          ? "P" // Present
-                          : employee.attendancestatus === 0 ||
-                            !employee.attendancestatus
-                          ? "A" // Absent
-                          : employee.attendancestatus === 2
-                          ? "H" // Half Day
-                          : "-"}{" "}
+                            ? "H"
+                            : "-"}{" "} */}
+                        </div>
                       </div>
+
                       <div>{employee.name}</div>
                     </button>
                   </div>
