@@ -225,10 +225,10 @@ const Employeelist = () => {
   }, [showPopup]); // Re-run the effect only when showPopup changes
 
   return (
-    <div className="dark:text-white h-full">
+    <div className="dark:text-white pb-32 h-full">
       <MenuTabs />
 
-      <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2 mb-14">
+      <div className="bg-white dark:bg-neutral-950 h-full p-2 rounded-md flex flex-col gap-2 mb-14">
         <div className="grid grid-cols-4 sm:grid-cols-3 gap-2">
           <motion.div
             initial={{ opacity: 0, y: 15 }}

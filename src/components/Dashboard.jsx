@@ -128,7 +128,7 @@ export default function dashboard() {
   //           transition={{ duration: 0.5 }}
 
   return (
-    <div className="">
+    <div className="h-full min-h-screen flex flex-col">
       <div className="grid grid-cols-12 gap-2 ">
         <div className="col-span-12 lg:col-span-9 flex flex-col gap-2">
           <div className="bg-white dark:bg-neutral-950 rounded-md p-2 dark:text-white">

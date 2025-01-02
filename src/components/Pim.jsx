@@ -16,7 +16,7 @@ export default function Pim() {
   const match = useRouteMatch("/pim");
 
   return (
-    <div className=" h-full ">
+    <div className=" h-full min-h-screen">
       {/* <MenuTabs /> */}
       {/* <Routes>
         <Route path="/pim" render={() => <Addemployee match={!!match} />} />

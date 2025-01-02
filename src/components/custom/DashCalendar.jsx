@@ -230,9 +230,9 @@ const DashCalendar = ({
   };
 
   return (
-    <div className="select-none mb-14 md:mb-0">
+    <div className="select-none h-screen overflow-y-scroll scrollbar-hide pb-20">
       {showCalendar && (
-        <div className="w-full z-10 p-2   border dark:border-none border-gray-300 rounded-lg bg-white dark:text-white dark:bg-neutral-950 dark:border-neutral-700 shadow-lg flex flex-col gap-2">
+        <div className="w-full z-10 p-2 h-full overflow-y-scroll scrollbar-hide  border dark:border-none border-gray-300 rounded-lg bg-white dark:text-white dark:bg-neutral-950 dark:border-neutral-700 shadow-lg flex flex-col gap-2">
           <div className="flex items-center justify-between gap-2">
             <button
               onClick={() => handleMonthChange(-1)}
@@ -345,9 +345,9 @@ const DashCalendar = ({
               </div>
             ))}
           </div>
-          <div className="mt-2 ">
+          <div className="mt-2 h-ful overflow-y-scroll scrollbar-hide">
             <h3 className="text-sm font-semibold mb-2">Upcoming Holidays</h3>
-            <div className="flex flex-col gap-2  h-80 overflow-y-scroll scrollbrhdn">
+            <div className="flex flex-col gap-2 mb h-fit overflow-y-scroll scrollbar-hide">
               {upcomingHolidays.map((holiday, index) => (
                 <div
                   key={index}

@@ -176,9 +176,9 @@ const EmployeeAttendanceBrief = () => {
   };
 
   return (
-    <div>
+    <div className="h-full">
       {/* Active inactive employee counts */}
-      <div className="grid grid-cols-4 sm:grid-cols-3 gap-2">
+      <div className="grid grid-cols-4 sm:grid-cols-3 gap-2 h-full ">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -275,7 +275,7 @@ const EmployeeAttendanceBrief = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="col-span-2 sm:col-span-1 bg-none border-2 dark:border-none flex flex-col
-                    gap-2 dark:bg-neutral-900 rounded-md h-full justify-center"
+                    gap-2 dark:bg-neutral-900 rounded-md h-fit justify-center"
           >
             <div className="flex items-center justify-between  px-2 pt-2">
               <div className="flex items-center gap-2">
