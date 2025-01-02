@@ -220,7 +220,7 @@ const AdminLeave = () => {
           <div className="flex items-end justify-between">
             <button
               onClick={syncleavelabalce}
-              className="bg-sky-50 dark:bg-neutral-950 dark:hover:bg-neutral-800 hover:bg-sky-100 p-1.5 rounded-md group-hover:opacity-100 opacity-0 flex items-center gap-1 text-xs"
+              className="bg-sky-50 dark:bg-neutral-950 dark:hover:bg-neutral-800 hover:bg-sky-100 p-1.5 rounded-md  flex items-center gap-1 text-xs"
             >
               <RiRefreshLine
                 fontSize={15}
