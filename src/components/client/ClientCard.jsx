@@ -204,7 +204,7 @@ const ClientCard = () => {
 
       {/* Add Client Button and Search Bar */}
       <div className="flex gap-2 items-center ">
-        <div className="w-96">
+        <div className="w-40 md:w-96">
           <input
             type="text"
             placeholder="Search by Company Name or Client Name/ID..."
