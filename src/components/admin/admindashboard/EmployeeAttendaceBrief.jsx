@@ -243,10 +243,7 @@ const EmployeeAttendanceBrief = () => {
 
                 <li className="flex justify-between w-full pl-2 pr-4 py-2 h-full gap-2 items-center font-medium bg-red-500/10  rounded-lg">
                   <div className="flex items-center gap-2">
-                    <FaCircleHalfStroke
-                      fontSize={18}
-                      className="text-red-500"
-                    />
+                    <FaCircleXmark fontSize={18} className="text-red-500" />
                     <span>Absent</span>
                   </div>
                   <span className="font-bold text-xl md:text-3xl text-red-500">
@@ -256,7 +253,10 @@ const EmployeeAttendanceBrief = () => {
 
                 <li className="flex justify-between w-full pl-2 pr-4 py-2 h-full gap-2 items-center font-medium bg-yellow-500/10  rounded-lg">
                   <div className="flex items-center gap-2">
-                    <FaCircleXmark fontSize={18} className="text-yellow-500" />
+                    <FaCircleHalfStroke
+                      fontSize={18}
+                      className="text-yellow-500"
+                    />
                     <span className="hidden md:flex">Half Day</span>
                     <span className="md:hidden flex">Half D</span>
                   </div>

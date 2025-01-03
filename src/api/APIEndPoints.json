@@ -34,6 +34,9 @@
         "getAttendanceRecordsbyDate": "admin/getattendancerecordsbydate",
         "deleteuserbyadmin": "admin/deleteuser",
         "updateleavebalancefornewemp": "admin/updateleavebalancefornewemployee",
-        "approveleave": "admin/approveLeave"
+        "approveleave": "admin/approveLeave",
+        "viewclient": "admin/viewclient",
+        "addclient": "admin/addclient",
+        "viewprojectbyclientid": "admin/viewprojectbyclientid"
     }
 }

@@ -6,7 +6,7 @@ import clientsData from "../dummydata/MasterClientsProjects.json"; // Import cli
 
 export default function Clients() {
   return (
-    <div>
+    <div className="h-full pb-20">
       <ClientCard />
     </div>
   );

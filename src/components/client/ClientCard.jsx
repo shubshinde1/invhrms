@@ -1,483 +1,373 @@
-import React, { useState } from "react";
-import clientsData from "../../dummydata/MasterClientsProjects.json";
-import { InputBase } from "@mui/material";
-import { Card, CardContent, Grid, Box } from "@mui/material";
-import clientAvatar from "../../assets/images/clientAvatar.png";
-import { motion } from "framer-motion";
-import { FaExternalLinkAlt } from "react-icons/fa";
-import { MdOutlineAddCircle } from "react-icons/md";
-import Tooltip from "@mui/material/Tooltip";
-import { Link, useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import { BsFillGrid3X3GapFill } from "react-icons/bs";
-import { FaThList } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import userprofile from "../../assets/images/clientAvatar.png";
 import { FaHospitalUser } from "react-icons/fa";
-// import { HiCodeBracketSquare } from "react-icons/hi2";
-import { FaBriefcase } from "react-icons/fa6";
-import { FaBusinessTime } from "react-icons/fa6";
-import { HiMiniRocketLaunch } from "react-icons/hi2";
-import Avatar from "@mui/joy/Avatar";
-import AvatarGroup from "@mui/joy/AvatarGroup";
-import { TbTimelineEventFilled } from "react-icons/tb";
+import { IoFlash, IoFlashOff } from "react-icons/io5";
+import { Drawer, TextField, Button } from "@mui/material";
+import { FaPlus } from "react-icons/fa6";
+import { makeStyles } from "@mui/styles";
+import classNames from "classnames";
+import { useNavigate } from "react-router-dom";
+import { FaExternalLinkAlt } from "react-icons/fa";
+import ApiendPonits from "../../api/APIEndPoints.json";
 
-function GenerateLink({ client, navigate }) {
-  const handleClick = () => {
-    navigate({
-      pathname: "/clients/viewclient",
-      search: `?client=${encodeURIComponent(JSON.stringify(client))}`,
-    });
+const useStyles = makeStyles({
+  root: {
+    "& .MuiInputLabel-root": {
+      fontFamily: "euclid",
+      fontSize: 14,
+      paddingTop: -2.5,
+      fontWeight: "bold",
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      fontWeight: "bold",
+      fontSize: 15,
+    },
+    "& .MuiInputBase-root": {
+      border: "0 none",
+      borderRadius: 7,
+      height: 50,
+      width: "100%",
+      overflow: "hidden",
+    },
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "gray",
+    },
+    "& .Muilplaceholder": {
+      fontFamily: "euclid",
+      fontSize: 10,
+    },
+    "& .MuiOutlinedInput-input": {
+      fontFamily: "euclid-medium",
+      fontSize: 14,
+    },
+    "& ::placeholder": {
+      fontSize: 12,
+    },
+    display: "block",
+    width: "100%",
+    fontFamily: "euclid-medium",
+  },
+});
+
+const ClientCard = () => {
+  const [clients, setClients] = useState([]); // Initialize as an empty array
+  const [filteredClients, setFilteredClients] = useState([]); // Filtered clients
+  const [searchQuery, setSearchQuery] = useState(""); // Search query
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [openDrawer, setOpenDrawer] = useState(false); // Control drawer visibility
+  const [newClient, setNewClient] = useState({
+    // State to hold new client data
+    clientname: "",
+    companyname: "",
+    email: "",
+    phone: "",
+  });
+
+  const classes = useStyles();
+
+  const token = localStorage.getItem("accessToken"); // Assuming the token is stored in localStorage
+
+  const navigate = useNavigate(); // Initialize navigate
+
+  const handleViewClient = (client) => {
+    // Navigate to the /clients/viewclient route and pass client data
+    navigate("/clients/viewclient", { state: { client } });
   };
 
-  return (
-    <div
-      onClick={handleClick}
-      className="rounded-md  group-hover:flex group-hover:items-start cursor-pointer"
-    >
-      <div className="hover:bg-sky-100 hover:dark:bg-neutral-950 rounded-md hidden group-hover:flex p-3">
-        <FaExternalLinkAlt />
-      </div>
-    </div>
-  );
-}
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewclient}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-function GenerateLinkForList({ client, navigate }) {
-  const handleClick = () => {
-    navigate({
-      pathname: "/clients/viewclient",
-      search: `?client=${encodeURIComponent(JSON.stringify(client))}`,
-    });
-  };
+        if (!response.ok) {
+          throw new Error(`Failed to fetch clients: ${response.statusText}`);
+        }
 
-  return (
-    <div onClick={handleClick} className="rounded-md   cursor-pointer">
-      <div className="hover:bg-sky-100 hover:dark:bg-neutral-950 rounded-md w-fit p-3">
-        <FaExternalLinkAlt />
-      </div>
-    </div>
-  );
-}
+        const result = await response.json();
+        setClients(result.data || []); // Use `result.data` as per the API response
+        setFilteredClients(result.data || []); // Initialize filtered clients
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-export default function ClientCard({ clients }) {
-  const [viewMode, setViewMode] = useState("grid");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredData, setFilteredData] = useState(clientsData);
-  const location = useLocation(); // useLocation hook to get current location
-  const navigate = useNavigate(); // Define the navigate function
+    fetchClients();
+  }, [token]);
 
-  const totalClients = clientsData.length;
-
-  const totalProjects = clientsData.reduce(
-    (total, client) => total + client.projects.length,
-    0
-  );
-
-  const totalPendingProjects = clientsData.reduce((total, client) => {
-    // Count the number of projects with status "2" for each client
-    const pendingProjects = client.projects.filter(
-      (project) => project.status === 0
-    ).length;
-    // Add the count of pending projects for the current client to the total count
-    return total + pendingProjects;
-  }, 0);
-
-  const totalCompleteProjects = clientsData.reduce((total, client) => {
-    // Count the number of projects with status "2" for each client
-    const pendingProjects = client.projects.filter(
-      (project) => project.status === 2
-    ).length;
-    // Add the count of pending projects for the current client to the total count
-    return total + pendingProjects;
-  }, 0);
-
-  const totalInprogressProjects = clientsData.reduce((total, client) => {
-    // Count the number of projects with status "2" for each client
-    const pendingProjects = client.projects.filter(
-      (project) => project.status === 1
-    ).length;
-    // Add the count of pending projects for the current client to the total count
-    return total + pendingProjects;
-  }, 0);
-
-  const toggleViewMode = () => {
-    setViewMode(viewMode === "grid" ? "list" : "grid");
-  };
-
-  const handleSearch = () => {
-    if (searchTerm.trim() === "") {
-      setFilteredData(clientsData);
-    } else {
-      const filtered = clientsData.filter(
-        (client) =>
-          client.clientid.toString().includes(searchTerm.toLowerCase()) ||
-          client.clientname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          client.businessname
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          client.email.toLowerCase().includes(searchTerm.toLowerCase())
+  // Filter clients whenever the search query changes
+  useEffect(() => {
+    const filtered = clients.filter((client) => {
+      const query = searchQuery.toLowerCase();
+      return (
+        client.companyname.toLowerCase().includes(query) ||
+        client.clientname.toLowerCase().includes(query) ||
+        client.clientid.toString().includes(query)
       );
-      setFilteredData(filtered);
+    });
+    setFilteredClients(filtered);
+  }, [searchQuery, clients]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+
+  // Handle form submission to add a new client
+  const handleAddClient = async () => {
+    try {
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.addclient}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newClient),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to add client: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      setClients((prevClients) => [...prevClients, result.data]);
+      setFilteredClients((prevClients) => [...prevClients, result.data]);
+      setOpenDrawer(false); // Close the drawer after adding client
+      setNewClient({
+        clientname: "",
+        companyname: "",
+        email: "",
+        phone: "",
+      }); // Reset form data
+    } catch (err) {
+      setError(err.message);
     }
   };
 
-  const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
-    if (event.target.value.trim() === "") {
-      setFilteredData(clientsData);
-    } else {
-      handleSearch(); // Call the handleSearch function to filter the data as the user types
-    }
-  };
+  // Calculate totals
+  const totalClients = clients.length;
+  const activeClients = clients.filter((client) => client.status === 1).length;
+  const inactiveClients = totalClients - activeClients;
 
   return (
-    <div className="">
-      <div className="bg-white dark:bg-neutral-950 dark:text-white rounded-md">
-        <div className="p-2">
-          <div className="grid grid-cols-12 lg:grid-cols-11 gap-2 ">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-              className="flex flex-col gap-5 col-span-12 lg:col-span-3 bg-sky-5 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2"
-            >
-              <div className="flex items-center gap-2">
-                <div className="bg-sky-100 rounded-md p-2">
-                  <FaHospitalUser fontSize={20} className="text-sky-600" />
-                </div>
-                <h2 className="text-sm">All Clients</h2>
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <AvatarGroup>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      size="sm"
-                    />
-                    <Avatar
-                      alt="Travis Howard"
-                      src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      size="sm"
-                    />
-                    <Avatar
-                      alt="Cindy Baker"
-                      src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
-                      size="sm"
-                    />
-                    <Avatar size="sm" sx={{ backgroundColor: "#f0f9ff" }}>
-                      +{totalClients - 3}
-                    </Avatar>
-                  </AvatarGroup>
-                </div>
-                {/* <div className="bg-sky-50 px-2 py-1.5 rounded-md"> */}
-                <h2 className="text-4xl font-bold text-gray-300">
-                  {totalClients}
-                </h2>
-                {/* </div> */}
-              </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="col-span-6 lg:col-span-2 bg-sky-5 border-2 dark:border-0 dark:bg-neutral-900 rounded-md"
-            >
-              <Link to={"/projects"} className="flex flex-col p-2">
-                <div className="flex items-center gap-2">
-                  <div className="bg-purple-100 rounded-md p-2">
-                    <FaBriefcase fontSize={18} className="text-purple-600" />
-                  </div>
-                  <h2 className="text-sm">All Projects</h2>
-                </div>
-                <div className="flex items-center justify-end relative top-4 scroll-m-0 ">
-                  {/* <div className="bg-sky-50 px-2 py-1.5 rounded-md "> */}
-                  <h2 className="text-4xl font-bold text-gray-300">
-                    {totalProjects}
-                  </h2>
-                  {/* </div> */}
-                </div>
-              </Link>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="flex flex-col gap-5 col-span-6 lg:col-span-2 bg-sky-5 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2"
-            >
-              <div className="flex items-center gap-2">
-                <div className="bg-green-100 rounded-md p-2">
-                  <HiMiniRocketLaunch
-                    fontSize={20}
-                    className="text-green-500"
-                  />
-                </div>
-                <h2 className="text-sm">Complete Projects</h2>
-              </div>
-              <div className="flex items-end justify-end">
-                {/* <div className="bg-sky-50 px-2 py-1.5 rounded-md"> */}
-                <h2 className="text-4xl font-bold text-gray-300">
-                  {totalCompleteProjects}
-                </h2>
-                {/* </div> */}
-              </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="flex flex-col gap-5 col-span-6 lg:col-span-2 bg-sky-5 border-2  dark:border-0 dark:bg-neutral-900 rounded-md p-2"
-            >
-              <div className="flex items-center gap-2">
-                <div className="bg-orange-100 rounded-md p-2">
-                  <TbTimelineEventFilled
-                    fontSize={20}
-                    className="text-orange-500"
-                  />
-                </div>
-                <h2 className="text-sm">In-Progress</h2>
-              </div>
-              <div className="flex items-center justify-end">
-                {/* <div className="bg-sky-50 px-2 py-1.5 rounded-md"> */}
-                <h2 className="text-4xl font-bold text-gray-300">
-                  {totalInprogressProjects}
-                </h2>
-                {/* </div> */}
-              </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-              className="flex flex-col gap-5 col-span-6 lg:col-span-2 bg-sky-5 border-2  dark:border-0 dark:bg-neutral-900 rounded-md p-2"
-            >
-              <div className="flex items-center gap-2">
-                <div className="bg-red-100 rounded-md p-2">
-                  <FaBusinessTime fontSize={20} className="text-red-500" />
-                </div>
-                <h2 className="text-sm">Pending Projects</h2>
-              </div>
-              <div className="flex items-center justify-end">
-                {/* <div className="bg-sky-50 px-2 py-1.5 rounded-md"> */}
-                <h2 className="text-4xl font-bold text-gray-300">
-                  {totalPendingProjects}
-                </h2>
-                {/* </div> */}
-              </div>
-            </motion.div>
+    <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2 text-black dark:text-white h-full min-h-full">
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <div className="p-2 dark:bg-neutral-900 bg-sky-50 flex flex-col gap-4 items-end rounded-md">
+          <div className="flex items-center gap-2 w-full">
+            <div className="bg-blue-500/20 rounded-md p-2">
+              <FaHospitalUser fontSize={20} className="text-blue-600" />
+            </div>
+            <h2 className="text-sm">Total Clients</h2>
           </div>
+          <p className="text-4xl font-bold text-blue-400">{totalClients}</p>
+        </div>
+
+        <div className="p-2 dark:bg-neutral-900 bg-sky-50 flex flex-col gap-4 items-end rounded-md">
+          <div className="flex items-center gap-2 w-full">
+            <div className="bg-green-500/20 rounded-md p-2">
+              <IoFlash fontSize={20} className="text-green-600" />
+            </div>
+            <h2 className="text-sm">Active Clients</h2>
+          </div>
+          <p className="text-4xl font-bold text-green-400">{activeClients}</p>
+        </div>
+
+        <div className="p-2 dark:bg-neutral-900 bg-sky-50 flex flex-col gap-4 items-end rounded-md">
+          <div className="flex items-center gap-2 w-full">
+            <div className="bg-red-500/20 rounded-md p-2">
+              <IoFlashOff fontSize={20} className="text-red-600" />
+            </div>
+            <h2 className="text-sm">Inactive Clients</h2>
+          </div>
+          <p className="text-4xl font-bold text-red-400">{inactiveClients}</p>
+        </div>
+      </div>
+
+      {/* Add Client Button and Search Bar */}
+      <div className="flex gap-2 items-center ">
+        <div className="w-96">
+          <input
+            type="text"
+            placeholder="Search by Company Name or Client Name/ID..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-md dark:bg-neutral-900 bg-sky-50"
+          />
         </div>
         <div
-          style={{ marginBottom: 10 }}
-          className=" pl-2 pb-2 flex justify-between items-center "
+          className="bg-sky-50 dark:bg-neutral-900 p-3 rounded-md cursor-pointer"
+          variant="contained"
+          color="primary"
+          onClick={() => setOpenDrawer(true)}
         >
-          <div className="flex items-center">
-            <div className="bg-sky-50 dark:bg-neutral-900 mr-2  flex  h-full py-1 rounded-md ">
-              <InputBase
-                placeholder="Search by Client Name, Id "
-                className="md:w-96 searchInput euclid ml-2 p-0.5"
-                value={searchTerm}
-                onChange={handleInputChange}
-                inputProps={{ style: { fontSize: 14 } }}
-              />
-            </div>
-            <Link
-              to="/clients/addclient"
-              className="bg-sky-50 dark:bg-neutral-900 rounded-md p-2.5 flex items-center gap-2"
-            >
-              <Tooltip title="Add New Client" placement="top" arrow>
-                <div>
-                  <MdOutlineAddCircle fontSize={20} />
-                </div>
-              </Tooltip>
-            </Link>
-          </div>
-          <div className="ml-2">
-            <div
-              onClick={toggleViewMode}
-              className="mr-2 bg-sky-100 dark:bg-neutral-900 dark:text-white p-3 rounded-md cursor-pointer"
-            >
-              {viewMode === "grid" ? (
-                <Tooltip title="Table View" placement="top" arrow>
-                  <div>
-                    <FaThList fontSize={16} />
-                  </div>
-                </Tooltip>
-              ) : (
-                <Tooltip title="Grid View" placement="top" arrow>
-                  <div>
-                    <BsFillGrid3X3GapFill fontSize={17} />
-                  </div>
-                </Tooltip>
-              )}
-            </div>
-          </div>
+          <FaPlus fontSize={20} />
         </div>
       </div>
-      {viewMode === "grid" ? (
-        <Grid container spacing={1.5} className="mb-20">
-          {filteredData.map((client, index) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              lg={3}
-              key={`${client.clientid}-${index}`}
+
+      {/* Client Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 h-full overflow-y-scroll scrollbar-hide">
+        {filteredClients.length > 0 ? (
+          filteredClients.map((client) => (
+            <div
+              key={client._id}
+              className="p-2 dark:bg-neutral-900 bg-sky-50 flex flex-col gap-1 rounded-md group"
             >
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Card className="">
-                  <CardContent className="flex flex-col gap-4 hover:shadow-xl group dark:bg-neutral-950 dark:shadow-none dark:text-white">
-                    <div className="flex  justify-between  group-hover:bg-sky-50 group-hover:dark:bg-neutral-900  py-2 group-hover:px-2 duration-300 group-hover:rounded-md">
-                      <div className="flex items-center gap-4">
-                        <img src={clientAvatar} width={50} alt="Clientlogo" />
-                        <div className="">
-                          <h4 className="font-bold">{client.businessname}</h4>
-                          <h4 className="text-xs">{client.clientname}</h4>
-                        </div>
-                      </div>
-                      <Tooltip
-                        title={`View ${client.clientname}`}
-                        placement="top"
-                        arrow
-                      >
-                        <div>
-                          <GenerateLink client={client} navigate={navigate} />
-                        </div>
-                      </Tooltip>
-                    </div>
-                    <hr className="w-full h-[1px] bg-gray-300 dark:bg-neutral-950" />
-                    <div className="flex flex-col gap-2 text-[.85rem]">
-                      <div className="flex ">
-                        <label className="w-20 font-semibold">Client ID </label>
-                        <p>- {client.clientid}</p>
-                      </div>
-                      <div className="flex ">
-                        <label className="w-20 font-semibold">Phone </label>
-                        <p>- {client.phone}</p>
-                      </div>
-                      <div className="flex ">
-                        <label className="w-20 font-semibold">Email </label>
-                        <p>- {client.email}</p>
-                      </div>
-                      {/* <div className="flex ">
-                        <label className="w-20 font-semibold">GSTN </label>
-                        <p>- {client.gstn}</p>
-                      </div> */}
-                      <div className="flex ">
-                        <label className="w-20 font-semibold">Projects </label>
-                        <p>- {client.projects.length}</p>
-                      </div>
-                      {/* <div className="flex">
-                        <label className="w-20 font-semibold">Project </label>
-                        <p>
-                          -
-                          {client.projects.length > 0 &&
-                            client.projects[0].projectname}
-                        </p>
-                      </div> */}
-                      <div className="flex">
-                        <label className="w-20 font-semibold">Status </label>
-                        <p>
-                          {" "}
-                          {client.status !== undefined && (
-                            <span
-                              style={{
-                                backgroundColor:
-                                  client.status === 0
-                                    ? "#fee2e2"
-                                    : client.status === 1
-                                    ? "#bbf7d0"
-                                    : "#fee2e2",
-                                color:
-                                  client.status === 0
-                                    ? "#f87171"
-                                    : client.status === 1
-                                    ? "#22c55e"
-                                    : "#f87171",
-                                fontWeight: "bold",
-                                fontSize: 11,
-                                padding: "3px 8px",
-                                borderRadius: "5px",
-                              }}
-                            >
-                              {client.status === 0
-                                ? "Inactive"
-                                : client.status === 1
-                                ? "Active"
-                                : "Completed"}
-                            </span>
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <div className="flex flex-col gap-2  bg-white dark:bg-neutral-950 p-2 rounded-md dark:text-white text-black ">
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ul className="grid grid-cols-12 gap-2 px-2 py-3 bg-sky-100 dark:bg-neutral-800 rounded-md font-bold">
-                <li className="col-span-2">Client Name</li>
-                <li className="col-span-1">Client ID </li>
-                <li className="col-span-3">Business Name </li>
-                <li className="col-span-2">Phone</li>
-                <li className="col-span-2">Email</li>
-                <li className="col-span-1">Projects</li>
-                <li className="col-span-1 items-center flex flex-col ">
-                  Action
-                </li>
-              </ul>
-            </motion.div>
-          </div>
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="flex flex-col gap-2"
-            >
-              {filteredData.map((client, index) => (
-                <div
-                  key={client.clientid}
-                  className="group grid grid-cols-12 gap-2 px-2 py-1 bg-sky-50 dark:bg-neutral-900 rounded-md items-center"
-                >
-                  <div className="col-span-2 ">{client.clientname}</div>
-                  <div className="col-span-1 ">{client.clientid}</div>
-                  <div className="col-span-3 ">{client.businessname}</div>
-                  <div className="col-span-2 ">{client.phone}</div>
-                  <div className="col-span-2 ">{client.email}</div>
-                  <div className="col-span-1 ">{client.projects.length}</div>
-                  <Tooltip
-                    title={`View ${client.clientname}`}
-                    placement="top"
-                    arrow
-                    className="col-span-1 items-center flex flex-col "
-                  >
-                    <div>
-                      <GenerateLinkForList
-                        client={client}
-                        navigate={navigate}
-                        className="flex items-center flex-col"
-                      />
-                    </div>
-                  </Tooltip>
+              <div className="flex justify-between gap-2 py-2 rounded-md group-hover:bg-blue-100 group-hover:dark:bg-neutral-950 group-hover:px-2 duration-300">
+                <div className="flex items-center gap-2">
+                  <img
+                    src={userprofile}
+                    className="w-10 h-10 rounded-md object-cover"
+                  />
+                  <p className="flex flex-col">
+                    <strong className="text-base"> {client.companyname}</strong>
+                    <span className="text-xs">{client.clientname}</span>
+                  </p>
                 </div>
-              ))}
-            </motion.div>
+                <div className="hidden group-hover:block">
+                  <button
+                    onClick={() => handleViewClient(client)} // Pass the clicked client data
+                    className="hover:bg-blue-500/20 hover:text-blue-500  p-2 rounded-md"
+                  >
+                    <FaExternalLinkAlt />
+                  </button>
+                </div>
+              </div>
+              <hr className="w-full h-[2px] border-none bg-gray-300 dark:bg-neutral-800 my-2" />
+              <div className="flex items-center gap-2">
+                <strong className="w-1/3">ID</strong>
+                <span className="w-2/3 overflow-x-hidden">
+                  {client.clientid}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <strong className="w-1/3 ">Email</strong>
+                <span className="w-2/3 overflow-x-scroll scrollbar-hide">
+                  {client.email}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <strong className="w-1/3">Phone</strong>
+                <span className="w-2/3 overflow-x-hidden">{client.phone}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <strong className="w-1/3">Status</strong>
+                <span
+                  className={`w-fit px-1.5 py-0.5 text-xs rounded-md font-bold ${
+                    client.status === 1
+                      ? "bg-green-500/20 text-green-500"
+                      : "bg-red-500/20 text-red-500"
+                  }`}
+                >
+                  {client.status === 1 ? "Active" : "Inactive"}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <strong className="w-1/3">Address</strong>
+                <span className="w-2/3">{client.officeaddress || "N/A"}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <strong className="w-1/3">Projects</strong>
+                <span className="w-2/3">{client.projectCount}</span>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No clients found.</p>
+        )}
+      </div>
+
+      {/* Add Client Drawer */}
+      <Drawer
+        anchor="right"
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+        className="backdrop-blur-sm euclid "
+      >
+        <div className="p-4 w-96 flex flex-col gap-2 dark:text-white bg-sky-100 dark:bg-neutral-900 h-full rounded-t-2xl ">
+          <h2 className="text-xl font-semibold ">Add Client</h2>
+          <div className="flex flex-col gap-5">
+            <TextField
+              label="Client Name"
+              value={newClient.clientname}
+              onChange={(e) =>
+                setNewClient({ ...newClient, clientname: e.target.value })
+              }
+              fullWidth
+              className={classNames(
+                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                classes.root
+              )}
+            />
+            <TextField
+              label="Company Name"
+              value={newClient.companyname}
+              onChange={(e) =>
+                setNewClient({ ...newClient, companyname: e.target.value })
+              }
+              fullWidth
+              className={classNames(
+                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                classes.root
+              )}
+            />
+            <TextField
+              label="Email"
+              value={newClient.email}
+              onChange={(e) =>
+                setNewClient({ ...newClient, email: e.target.value })
+              }
+              fullWidth
+              className={classNames(
+                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                classes.root
+              )}
+            />
+            <TextField
+              label="Phone"
+              value={newClient.phone}
+              onChange={(e) =>
+                setNewClient({ ...newClient, phone: e.target.value })
+              }
+              fullWidth
+              className={classNames(
+                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                classes.root
+              )}
+            />
+            <div
+              className="bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-3 rounded-md cursor-pointer"
+              variant="contained"
+              color="primary"
+              onClick={handleAddClient}
+              fullWidth
+            >
+              Add Client
+            </div>
           </div>
         </div>
-      )}
+      </Drawer>
     </div>
   );
-}
+};
+
+export default ClientCard;

@@ -503,10 +503,17 @@ const Employeelist = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
-                className="bg-sky-50 dark:bg-neutral-900 px-4 py-6 rounded-md shadow-md"
+                className="bg-sky-50 dark:bg-neutral-900 p-2 flex flex-col gap-3 rounded-md shadow-md"
               >
-                <div className="font-semibold text-lg flex items-center gap-1 justify-between">
-                  <div>{employee.name}</div>
+                <div className="font-semibold text-lg flex items-center gap-3 justify-between">
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={employee.profileUrl || userprofile}
+                      alt={`${employee.name}'s profile`}
+                      className="w-8 rounded-md"
+                    />
+                    {employee.name}
+                  </div>
                   <div className="flex gap-2 items-center">
                     <div
                       className={`text-sm text-center py-1 px-2 rounded-md w-fit ${
