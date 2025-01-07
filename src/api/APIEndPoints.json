@@ -36,7 +36,10 @@
         "updateleavebalancefornewemp": "admin/updateleavebalancefornewemployee",
         "approveleave": "admin/approveLeave",
         "viewclient": "admin/viewclient",
+        "viewclientbyid": "admin/viewclientbyid",
         "addclient": "admin/addclient",
-        "viewprojectbyclientid": "admin/viewprojectbyclientid"
+        "updateclient": "admin/updateclient",
+        "viewprojectbyclientid": "admin/viewprojectbyclientid",
+        "addProject": "admin/addproject"
     }
 }

@@ -23,7 +23,7 @@ const Employeelist = () => {
     status: "",
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Number of items per page
+  const itemsPerPage = 15; // Number of items per page
   const [showPopup, setShowPopup] = useState(false);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
   const [selectedEmployeeName, setSelectedEmployeeName] = useState("");
@@ -370,58 +370,59 @@ const Employeelist = () => {
         </div>
 
         {/* Table layout for larger screens */}
-        {loading ? (
-          <Loading />
-        ) : (
-          <div className="hidden md:block dark:text-white h-[30rem] overflow-y-scroll scrollbrhdn ">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="grid grid-cols-12 bg-sky-100 dark:bg-neutral-800 px-2 py-3 rounded-md">
-                <div className="col-span-1 font-semibold">E_ID</div>
-                <div className="col-span-3 font-semibold">Employee Name</div>
-                <div className="col-span-2 font-semibold">Designation</div>
-                <div className="col-span-2 font-semibold">Joining Date</div>
-                <div className="col-span-2 font-semibold">Status</div>
-                <div className="col-span-2 font-semibold xl:ml-4">Action</div>
-              </div>
-            </motion.div>
+        <div className="hidden md:block">
+          {loading ? (
+            <Loading />
+          ) : (
+            <div className="hidden md:block dark:text-white  h-full overflow-y-hidden scrollbrhdn">
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="grid grid-cols-12 bg-sky-100 dark:bg-neutral-800 px-2 py-3 rounded-md">
+                  <div className="col-span-1 font-semibold">E_ID</div>
+                  <div className="col-span-3 font-semibold">Employee Name</div>
+                  <div className="col-span-2 font-semibold">Designation</div>
+                  <div className="col-span-2 font-semibold">Joining Date</div>
+                  <div className="col-span-2 font-semibold">Status</div>
+                  <div className="col-span-2 font-semibold xl:ml-4">Action</div>
+                </div>
+              </motion.div>
 
-            <div className="flex flex-col gap-2 mt-2">
-              {currentEmployees.map((employee, rowIndex) => (
-                <motion.div
-                  key={employee._id}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
-                  className="grid grid-cols-12 bg-sky-50 dark:bg-neutral-900 px-2 py-3 rounded-md gap-2 items-center"
-                >
-                  <div className="col-span-1">{employee.empid}</div>
-                  <div className="col-span-3 flex items-center gap-1">
-                    <button
-                      onClick={() => handleViewClick(employee._id)}
-                      className="hover:bg-blue-500/5 p-1.5 rounded-md  flex items-center gap-1"
-                    >
-                      <div className="relative">
-                        <img
-                          src={employee.profileUrl || userprofile}
-                          alt={`${employee.name}'s profile`}
-                          className="w-6 rounded-md"
-                        />
-                        <div
-                          className={`absolute w-2.5 h-2.5 text-black bg-ne -bottom-1 -right-1 px-1 p0.5 text-center rounded-md  text-xs font-semibold ${
-                            employee.attendancestatus === 1
-                              ? "bg-green-500 ext-green-500"
-                              : employee.attendancestatus === 0
-                              ? "bg-red-500 ext-red-500"
-                              : employee.attendancestatus === 2
-                              ? "bg-yellow-500 ext-yellow-500"
-                              : "bg-red-500 ext-red-500"
-                          }`}
-                        >
-                          {/* {employee.attendancestatus === 1
+              <div className="flex flex-col gap-2 mt-2 h-full overflow-y-scroll scrollbrhdn">
+                {currentEmployees.map((employee, rowIndex) => (
+                  <motion.div
+                    key={employee._id}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
+                    className="grid grid-cols-12 bg-sky-50 dark:bg-neutral-900 px-2 py-1.5 rounded-md gap-2 items-center"
+                  >
+                    <div className="col-span-1">{employee.empid}</div>
+                    <div className="col-span-3 flex items-center gap-1">
+                      <button
+                        onClick={() => handleViewClick(employee._id)}
+                        className="hover:bg-blue-500/5 p-1.5 rounded-md  flex items-center gap-1"
+                      >
+                        <div className="relative">
+                          <img
+                            src={employee.profileUrl || userprofile}
+                            alt={`${employee.name}'s profile`}
+                            className="w-6 rounded-md"
+                          />
+                          <div
+                            className={`absolute w-2.5 h-2.5 text-black bg-ne -bottom-1 -right-1 px-1 p0.5 text-center rounded-md  text-xs font-semibold ${
+                              employee.attendancestatus === 1
+                                ? "bg-green-500 ext-green-500"
+                                : employee.attendancestatus === 0
+                                ? "bg-red-500 ext-red-500"
+                                : employee.attendancestatus === 2
+                                ? "bg-yellow-500 ext-yellow-500"
+                                : "bg-red-500 ext-red-500"
+                            }`}
+                          >
+                            {/* {employee.attendancestatus === 1
                             ? "P"
                             : employee.attendancestatus === 0 ||
                               !employee.attendancestatus
@@ -429,114 +430,16 @@ const Employeelist = () => {
                             : employee.attendancestatus === 2
                             ? "H"
                             : "-"}{" "} */}
+                          </div>
                         </div>
-                      </div>
 
-                      <div>{employee.name}</div>
-                    </button>
-                  </div>
-                  <div className="col-span-2">{employee.designation}</div>
-                  <div className="col-span-2">{employee.dateofjoining}</div>
-                  <div
-                    className={`col-span-2 p-1 text-center rounded-md w-fit h-fit text-xs ${
-                      employee.status === 1
-                        ? "bg-green-500/20 text-green-500"
-                        : "bg-red-500/20 text-red-500"
-                    }`}
-                  >
-                    {employee.status === 1 ? (
-                      <span className="flex items-center text-green-500">
-                        <TiFlash fontSize={18} /> Active
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-0.5 text-red-500">
-                        <IoFlashOff fontSize={15} /> Inactive
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="col-span-2 flex items-center gap-2">
-                    <Tooltip
-                      title={"View " + employee.name}
-                      placement="top"
-                      arrow
-                    >
-                      <button
-                        onClick={() => handleViewClick(employee._id)}
-                        className="hover:bg-blue-500/20 p-1.5 rounded-md text-blue-500 "
-                      >
-                        <IoEye fontSize={17} />
+                        <div>{employee.name}</div>
                       </button>
-                    </Tooltip>
-                    <div>
-                      <Tooltip
-                        title={"Delete " + employee.name}
-                        placement="top"
-                        arrow
-                      >
-                        <button
-                          type="button" // Ensure this button doesn't trigger form submission
-                          onClick={() =>
-                            handleDeleteClick(employee._id, employee.name)
-                          } // Pass employee._id
-                          className="hover:bg-red-500/20 p-1.5 rounded-md text-red-500 "
-                        >
-                          <MdDelete fontSize={17} />
-                        </button>
-                      </Tooltip>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Card layout for smaller screens */}
-        {loading ? (
-          <Loading />
-        ) : (
-          <div className="md:hidden flex flex-col gap-2 mt-2">
-            {currentEmployees.map((employee, rowIndex) => (
-              <motion.div
-                key={employee._id}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
-                className="bg-sky-50 dark:bg-neutral-900 p-2 flex flex-col gap-3 rounded-md shadow-md"
-              >
-                <div className="font-semibold text-lg flex items-center gap-3 justify-between">
-                  <div className="flex items-center gap-2">
-                    <img
-                      src={employee.profileUrl || userprofile}
-                      alt={`${employee.name}'s profile`}
-                      className="w-8 rounded-md"
-                    />
-                    {employee.name}
-                  </div>
-                  <div className="flex gap-2 items-center">
+                    <div className="col-span-2">{employee.designation}</div>
+                    <div className="col-span-2">{employee.dateofjoining}</div>
                     <div
-                      className={`text-sm text-center py-1 px-2 rounded-md w-fit ${
-                        employee.attendancestatus === 1
-                          ? "bg-green-500/20 text-green-500"
-                          : employee.attendancestatus === 0
-                          ? "bg-red-500/20 text-red-500"
-                          : employee.attendancestatus === 2
-                          ? "bg-yellow-500/20 text-yellow-500"
-                          : "bg-red-500/20 text-red-500"
-                      }`}
-                    >
-                      {employee.attendancestatus === 1
-                        ? "P" // Present
-                        : employee.attendancestatus === 0 ||
-                          !employee.attendancestatus
-                        ? "A" // Absent
-                        : employee.attendancestatus === 2
-                        ? "H" // Half Day
-                        : "-"}{" "}
-                    </div>
-                    <div
-                      className={`text-sm text-center p-1 rounded-md w-fit ${
+                      className={`col-span-2 p-1 text-center rounded-md w-fit h-fit text-xs ${
                         employee.status === 1
                           ? "bg-green-500/20 text-green-500"
                           : "bg-red-500/20 text-red-500"
@@ -552,34 +455,135 @@ const Employeelist = () => {
                         </span>
                       )}
                     </div>
+
+                    <div className="col-span-2 flex items-center gap-2">
+                      <Tooltip
+                        title={"View " + employee.name}
+                        placement="top"
+                        arrow
+                      >
+                        <button
+                          onClick={() => handleViewClick(employee._id)}
+                          className="hover:bg-blue-500/20 p-1.5 rounded-md text-blue-500 "
+                        >
+                          <IoEye fontSize={17} />
+                        </button>
+                      </Tooltip>
+                      <div>
+                        <Tooltip
+                          title={"Delete " + employee.name}
+                          placement="top"
+                          arrow
+                        >
+                          <button
+                            type="button" // Ensure this button doesn't trigger form submission
+                            onClick={() =>
+                              handleDeleteClick(employee._id, employee.name)
+                            } // Pass employee._id
+                            className="hover:bg-red-500/20 p-1.5 rounded-md text-red-500 "
+                          >
+                            <MdDelete fontSize={17} />
+                          </button>
+                        </Tooltip>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Card layout for smaller screens */}
+        <div className="md:hidden flex">
+          {loading ? (
+            <Loading />
+          ) : (
+            <div className="md:hidden flex flex-col gap-2 mt-2">
+              {currentEmployees.map((employee, rowIndex) => (
+                <motion.div
+                  key={employee._id}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
+                  className="bg-sky-50 dark:bg-neutral-900 p-2 flex flex-col gap-3 rounded-md shadow-md"
+                >
+                  <div className="font-semibold text-lg flex items-center gap-3 justify-between">
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={employee.profileUrl || userprofile}
+                        alt={`${employee.name}'s profile`}
+                        className="w-8 rounded-md"
+                      />
+                      {employee.name}
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <div
+                        className={`text-sm text-center py-1 px-2 rounded-md w-fit ${
+                          employee.attendancestatus === 1
+                            ? "bg-green-500/20 text-green-500"
+                            : employee.attendancestatus === 0
+                            ? "bg-red-500/20 text-red-500"
+                            : employee.attendancestatus === 2
+                            ? "bg-yellow-500/20 text-yellow-500"
+                            : "bg-red-500/20 text-red-500"
+                        }`}
+                      >
+                        {employee.attendancestatus === 1
+                          ? "P" // Present
+                          : employee.attendancestatus === 0 ||
+                            !employee.attendancestatus
+                          ? "A" // Absent
+                          : employee.attendancestatus === 2
+                          ? "H" // Half Day
+                          : "-"}{" "}
+                      </div>
+                      <div
+                        className={`text-sm text-center p-1 rounded-md w-fit ${
+                          employee.status === 1
+                            ? "bg-green-500/20 text-green-500"
+                            : "bg-red-500/20 text-red-500"
+                        }`}
+                      >
+                        {employee.status === 1 ? (
+                          <span className="flex items-center text-green-500">
+                            <TiFlash fontSize={18} /> Active
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-0.5 text-red-500">
+                            <IoFlashOff fontSize={15} /> Inactive
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
 
-                <div className="text-sm text-gray-700 dark:text-gray-300 flex gap-1 justify-between">
-                  <div>Employee ID</div>
-                  <div>{employee.empid}</div>
-                </div>
-                <div className="text-sm text-gray-700 dark:text-gray-300 flex gap-1 justify-between">
-                  <div>Designation</div>
-                  <div>{employee.designation}</div>
-                </div>
-                <div className="text-sm text-gray-700 dark:text-gray-300 flex gap-1 justify-between">
-                  <div>Joining Date</div>
-                  <div>{employee.dateofjoining}</div>
-                </div>
+                  <div className="text-sm text-gray-700 dark:text-gray-300 flex gap-1 justify-between">
+                    <div>Employee ID</div>
+                    <div>{employee.empid}</div>
+                  </div>
+                  <div className="text-sm text-gray-700 dark:text-gray-300 flex gap-1 justify-between">
+                    <div>Designation</div>
+                    <div>{employee.designation}</div>
+                  </div>
+                  <div className="text-sm text-gray-700 dark:text-gray-300 flex gap-1 justify-between">
+                    <div>Joining Date</div>
+                    <div>{employee.dateofjoining}</div>
+                  </div>
 
-                <div className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-                  <button
-                    onClick={() => handleViewClick(employee._id)}
-                    className="bg-blue-500/20 p-1.5 rounded-md text-blue-500"
-                  >
-                    <IoEye fontSize={17} />
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
+                  <div className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                    <button
+                      onClick={() => handleViewClick(employee._id)}
+                      className="bg-blue-500/20 p-1.5 rounded-md text-blue-500"
+                    >
+                      <IoEye fontSize={17} />
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {showPopup && (

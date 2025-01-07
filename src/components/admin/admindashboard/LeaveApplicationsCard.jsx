@@ -44,6 +44,9 @@ const LeaveApplicationsCard = () => {
 
       const data = await response.json();
 
+      console.log("data");
+      console.log(data);
+
       // Filter leaveHistory to only include applications with the selected date
       const filteredLeaveHistory = data.leaveHistory.filter((record) =>
         record.createdAt.startsWith(formatDate(selectedDate))

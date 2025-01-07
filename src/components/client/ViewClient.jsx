@@ -2,114 +2,433 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import userprofile from "../../assets/images/clientAvatar.png";
 import ApiendPonits from "../../api/APIEndPoints.json";
+import {
+  Drawer,
+  Button,
+  TextField,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
+  FormControl,
+  Autocomplete,
+} from "@mui/material";
+import classNames from "classnames";
+import { createGlobalStyle } from "styled-components";
+import { makeStyles } from "@mui/styles";
+import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
+import { IoClose } from "react-icons/io5";
+import { MdEditSquare } from "react-icons/md";
+import { IoFileTrayFull } from "react-icons/io5";
+import { FaExternalLinkAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-/*************  ✨ Codeium Command ⭐  *************/
-/**
- * ViewClient is a component that displays a client's details and all projects assigned to them.
- *
- * @param {object} location.state - The state object passed via the Link component that contains the client data.
- * @param {string} token - The access token used to authenticate the API request.
- *
- * @returns {JSX.Element} A JSX element that displays a client's details and projects.
+const GlobalStyles = createGlobalStyle`
+.MuiPaper-root{
+  // border-radius:10px;
+} 
+.MuiList-root {
+  
+} 
+  .MuiMenuItem-root {
+    font-family: Euclid;
+    font-size: 14px;
+    font-weight: bold;
+    margin: auto 8px;
+    border-radius: 7px;
+    margin-top:5px;
+  }
+  .MuiMenuItem-root:hover {
+    background-color:#e0f2fe;
+    padding-left: 14px;
+  }
+  .MuiMenuItem-root:hover {
+    transition-duration: 0.2s;
+  }
 
-/******  d758e886-176f-468f-98f2-0b0adfd87e51  *******/ const ViewClient =
-  () => {
-    const location = useLocation();
-    const { client } = location.state; // Destructure the client data passed via state
-    const token = localStorage.getItem("accessToken"); // Assuming the token is stored in localStorage
+  ::-webkit-scrollbar {
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+`;
 
-    const [projects, setProjects] = useState([]);
-    const selectedclientid = client._id;
+const useStyles = makeStyles({
+  root: {
+    "& .MuiInputLabel-root": {
+      fontFamily: "euclid",
+      fontSize: 14,
+      fontWeight: "bold",
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      fontWeight: "bold",
+      fontSize: 15,
+    },
+    "& .MuiInputBase-root": {
+      border: "0 none",
+      borderRadius: 7,
+      height: 52,
+      width: "100%",
+      overflow: "hidden",
+    },
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "gray",
+    },
+    "& .Muilplaceholder": {
+      fontFamily: "euclid",
+      fontSize: 10,
+    },
+    "& .MuiOutlinedInput-input": {
+      fontFamily: "euclid-medium",
+      fontSize: 14,
+    },
+    "& ::placeholder": {
+      fontSize: 12,
+    },
+    "& JoyCheckbox-input": {
+      backgroundColor: "red",
+    },
+    display: "block",
+    width: "100%",
+    fontFamily: "euclid-medium",
+  },
+});
 
-    useEffect(() => {
-      const viewProjects = async () => {
-        try {
-          const response = await fetch(
-            `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewprojectbyclientid}`,
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                clientid: selectedclientid, // Use selected date
-              }),
-            }
-          );
+const ViewClient = () => {
+  const navigate = useNavigate(); // Initialize navigate
 
-          const data = await response.json();
-          console.log(data);
+  const classes = useStyles();
+  const location = useLocation();
+  const { client } = location.state || {}; // Destructure client safely
+  const token = localStorage.getItem("accessToken"); // Retrieve token from localStorage
 
-          if (response.ok) {
-            setProjects(data.data); // Set the projects data
-          } else {
-            console.error(
-              "Error in Response:",
-              data.message || "Failed to fetch projects"
-            );
+  const [projects, setProjects] = useState([]);
+  const [clientData, setClient] = useState(client || {}); // Initialize with client from location.state
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [drawerOpen, setDrawerOpen] = useState(false); // drawer for update client
+  const [projectDrawerOpen, setProjectDrawerOpen] = useState(false);
+  const [projectForm, setProjectForm] = useState({
+    projectname: "",
+    assignto: "676b840d640bd93701ef55dc", // default assignee
+  });
+  const [activeEmployees, setActiveEmployees] = useState([]);
+
+  const selectedclientid = client?._id; // Use optional chaining for safety
+
+  useEffect(() => {
+    if (clientData) {
+      setFormData({
+        clientname: clientData.clientname || "",
+        companyname: clientData.companyname || "",
+        email: clientData.email || "",
+        phone: clientData.phone || "",
+        officeaddress: clientData.officeaddress || "",
+        status: clientData.status || 0,
+      });
+    }
+  }, [clientData]);
+
+  useEffect(() => {
+    const viewClient = async () => {
+      try {
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewclientbyid}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              clientid: selectedclientid, // Use selected date
+            }),
           }
-        } catch (err) {
-          console.error("Error fetching projects:", err.message || err);
+        );
+
+        const data = await response.json();
+        console.log("new data", data);
+
+        if (response.ok) {
+          setClient(data.data); // Set the projects data
+        } else {
+          console.error(
+            "Error in Response:",
+            data.message || "Failed to fetch projects"
+          );
         }
-      };
+      } catch (err) {
+        console.error("Error fetching projects:", err.message || err);
+      }
+    };
 
-      viewProjects();
-    }, [token, selectedclientid]);
+    viewClient();
+  }, [token, selectedclientid]);
 
-    return (
-      <div className="h-full pb-20">
-        <div className="bg-white dark:bg-neutral-950 p-2 rounded-md text-black dark:text-white h-full min-h-full">
-          {/* Client Details */}
-          <div className="flex items-center gap-4 mb-4">
-            <div className="flex items-end gap-2 justify-between h-fit w-full">
-              <div className="flex items-end gap-2 h-fit">
-                <img
-                  src={userprofile}
-                  className="w-28 h-2w-28 rounded-md object-cover"
-                />
-                <div className="flex flex-col">
-                  <strong className="text-xl"> {client.companyname}</strong>
-                  <span className="text">{client.clientname}</span>
-                </div>
+  useEffect(() => {
+    const viewProjects = async () => {
+      try {
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewprojectbyclientid}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              clientid: selectedclientid, // Use selected date
+            }),
+          }
+        );
+
+        const data = await response.json();
+        console.log(data);
+
+        if (response.ok) {
+          setProjects(data.data); // Set the projects data
+        } else {
+          console.error(
+            "Error in Response:",
+            data.message || "Failed to fetch projects"
+          );
+        }
+      } catch (err) {
+        console.error("Error fetching projects:", err.message || err);
+      }
+    };
+
+    viewProjects();
+  }, [token, selectedclientid]);
+
+  const handleEditToggle = () => setIsEditing(!isEditing);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const updateClient = async () => {
+    try {
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.updateclient}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: selectedclientid, // Use "id" as expected by the API
+            clientname: formData.clientname,
+            companyname: formData.companyname,
+            email: formData.email,
+            phone: formData.phone,
+            officeaddress: formData.officeaddress,
+            status: formData.status,
+            projectCount: formData.projectCount,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Client updated successfully:", data);
+        setClient(data.data);
+        setIsEditing(false); // Exit edit mode
+        setDrawerOpen(false);
+      } else {
+        console.error(
+          "Error in Response:",
+          data.message || "Failed to update client"
+        );
+      }
+    } catch (err) {
+      console.error("Error updating client:", err.message || err);
+    }
+  };
+
+  const handleProjectInputChange = (e) => {
+    const { name, value } = e.target;
+    setProjectForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const addProject = async () => {
+    try {
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.addProject}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...projectForm,
+            clientid: selectedclientid,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Project added successfully:", data);
+        setProjects((prev) => [...prev, data.data]); // Update project list
+        setProjectDrawerOpen(false);
+      } else {
+        console.error(
+          "Error in Response:",
+          data.message || "Failed to add project"
+        );
+      }
+    } catch (err) {
+      console.error("Error adding project:", err.message || err);
+    }
+  };
+
+  const employeeList = async () => {
+    try {
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.employeeList}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        const activeEmployees = data.data.filter(
+          (employee) => employee.status === 1
+        );
+        setActiveEmployees(activeEmployees);
+      } else {
+        console.error(
+          "Error in Response:",
+          data.message || "Failed to fetch employees"
+        );
+      }
+    } catch (err) {
+      console.error("Error fetching employees:", err.message || err);
+    }
+  };
+
+  useEffect(() => {
+    employeeList();
+  }, [projectDrawerOpen]);
+
+  const handleViewProject = (projectId) => {
+    navigate(`/projects/viewproject/${projectId}`);
+  };
+
+  return (
+    <div className="h-full pb-20">
+      <div className="bg-white dark:bg-neutral-950 p-2 rounded-md text-black dark:text-white h-full min-h-full">
+        {/* Client Details */}
+        <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
+          <div className="flex flex-col md:flex-row md:items-end gap-2 justify-between h-fit w-full">
+            <div className="flex items-end gap-2 h-fit">
+              <img
+                src={userprofile}
+                className="w-28 h-2w-28 rounded-md object-cover"
+              />
+
+              <div className="flex flex-col">
+                <strong className="text-xl">{clientData.companyname}</strong>
+                <span>{clientData.clientname}</span>
+                {/* <span>{clientData._id}</span> */}
               </div>
-              <div className="flex gap-4">
-                <div className="flex flex-col gap-2">
-                  <strong>Client ID</strong>
-                  <span>{client.clientid}</span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <strong>Phone</strong>
-                  <span>{client.phone}</span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <strong>Email</strong>
-                  <span>{client.email}</span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <strong>No Of Projects</strong>
-                  <span>{client.projectCount}</span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <strong>HeadQurter</strong>
-                  <span>{client.officeaddress || "N/A"}</span>
-                </div>
+            </div>
+            <div className="flex flex-col md:flex-row gap-2 md:gap-4">
+              <div className="flex justify-between md:flex-col gap-2">
+                <strong>Status</strong>
+                <span
+                  className={`w-fit px-1.5 py-0.5 text-xs rounded-md font-bold ${
+                    clientData.status === 1
+                      ? "bg-green-500/20 text-green-500"
+                      : "bg-red-500/20 text-red-500"
+                  }`}
+                >
+                  {clientData.status === 1 ? "Active" : "Inactive"}
+                </span>
               </div>
-              <div>Buttons</div>
+              <div className="flex justify-between md:flex-col gap-2">
+                <strong>Client ID</strong>
+                <span>{clientData.clientid}</span>
+              </div>
+              <div className="flex justify-between md:flex-col gap-2">
+                <strong>Phone</strong>
+                <span>{clientData.phone}</span>
+              </div>
+              <div className="flex justify-between md:flex-col gap-2">
+                <strong>Email</strong>
+                <span>{clientData.email}</span>
+              </div>
+              <div className="flex justify-between md:flex-col gap-2">
+                <strong>No Of Projects</strong>
+                <span>{clientData.projectCount}</span>
+              </div>
+              <div className="flex justify-between md:flex-col gap-2">
+                <strong>Office Address</strong>
+                <span>{clientData.officeaddress || "N/A"}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setDrawerOpen(true)}
+                className="bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-2 rounded-md cursor-pointer"
+              >
+                <MdEditSquare fontSize={20} />
+              </button>
+              <button
+                onClick={() => setProjectDrawerOpen(true)}
+                className="bg-green-500/50 dark:bg-green-500/20 text-white text-center dark:hover:bg-green-600/20 font-bold dark:text-green-500  p-2 text-sm rounded-md cursor-pointer"
+              >
+                Add Project
+              </button>
             </div>
           </div>
-          <hr className="w-full h-[2px] border-none bg-gray-300 dark:bg-neutral-800 my-2" />
+        </div>
+        <hr className="w-full h-[2px] border-none bg-gray-300 dark:bg-neutral-800 my-2" />
 
-          {/* Projects Table */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-            {projects.map((project) => (
+        {/* Projects Table */}
+        <div className="">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 h-fit overflow-y-scroll scrollbar-hide ">
+            {projects.map((project, index) => (
               <div
                 key={project._id}
-                className=" rounded-lg shadow-md p-3 bg-white dark:bg-neutral-900 hover:shadow-lg transition-shadow"
+                className=" rounded-lg shadow-md p-3 bg-gray-100 dark:bg-neutral-900 hover:shadow-lg transition-shadow group h-fit"
               >
-                <h3 className="text-lg font-semibold mb-2">
-                  {project.projectid}-{project.projectname}
-                </h3>
+                <div className="text-lg font-semibold mb-2 flex items-start justify-between gap-2 py-2 group-hover:px-2 group-hover:bg-neutral-950 rounded-md  duration-300">
+                  <div className="flex items-center gap-2 py-2 ">
+                    <span className="group-hover:hidden text-base">
+                      {index + 1}
+                    </span>
+                    <IoFileTrayFull className="hidden group-hover:flex text-blue-500" />
+                    <span className="text-base">{project.projectname}</span>
+                  </div>
+                  <div className="hidden group-hover:block">
+                    <button
+                      onClick={() => handleViewProject(project._id)} // Pass the clicked client data
+                      className="hover:bg-blue-500/20 hover:text-blue-500  p-2 rounded-md"
+                    >
+                      <FaExternalLinkAlt />
+                    </button>
+                  </div>
+                </div>
+                <hr className="w-full h-[2px] border-none bg-gray-300 dark:bg-neutral-800 my-2" />
+
                 <div className="text-sm text-gray-600 dark:text-gray-300  grid grid-cols-2 gap-2">
                   <div className="flex flex-col gap-1 w-1/2">
                     <strong>Project ID</strong>
@@ -136,15 +455,225 @@ import ApiendPonits from "../../api/APIEndPoints.json";
                   </div>
                   <div className="flex flex-col gap-1 w-1/2">
                     <strong>Status</strong>
-                    {project.status === 0 ? "Pending" : "Completed"}
+                    {project.status === 0 ? "Active" : "InActive"}
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
+
+        <Drawer
+          anchor="right"
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          className="backdrop-blur-sm euclid bg-transparent "
+        >
+          <div className="p-4 w-96 flex flex-col gap- dark:text-white bg-sky-100 dark:bg-neutral-900 h-full rounded-s-2xl ">
+            <div className="flex flex-row items-center justify-between">
+              <h2 className="text-xl font-semibold ">Edit Client</h2>
+              <div
+                className="w-fit bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-2 rounded-md cursor-pointer"
+                onClick={() => setDrawerOpen(false)}
+              >
+                <IoClose fontSize={20} />
+              </div>
+            </div>
+            <TextField
+              label="Company Name"
+              name="companyname"
+              value={formData.companyname}
+              onChange={handleInputChange}
+              fullWidth
+              margin="normal"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            />
+            <TextField
+              label="Client Name"
+              name="clientname"
+              value={formData.clientname}
+              onChange={handleInputChange}
+              fullWidth
+              margin="normal"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            />
+            <TextField
+              label="Email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              fullWidth
+              margin="normal"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            />
+            <TextField
+              label="Phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleInputChange}
+              fullWidth
+              margin="normal"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            />
+            <TextField
+              label="Office Address"
+              name="officeaddress"
+              id="officeaddress"
+              value={formData.officeaddress}
+              onChange={handleInputChange}
+              fullWidth
+              margin="normal"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            />
+            <FormControl
+              variant="outlined"
+              margin="dense"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            >
+              <InputLabel id="status-label" className="w-52">
+                Status
+              </InputLabel>
+              <Select
+                labelId="status-label"
+                id="status"
+                label="Status"
+                name="status"
+                value={formData.status}
+                onChange={handleInputChange}
+                IconComponent={(props) => (
+                  <ArrowDropDownRoundedIcon
+                    {...props}
+                    sx={{
+                      fontSize: 40,
+                      borderRadius: 1,
+                    }}
+                  />
+                )}
+                fullWidth
+                margin="normal"
+              >
+                <GlobalStyles />
+
+                <MenuItem value={1}>Active</MenuItem>
+                <MenuItem value={0}>Inactive</MenuItem>
+              </Select>
+            </FormControl>
+            <div className="mt-2 flex w-full gap-2">
+              <div
+                className="w-full bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-3 rounded-md cursor-pointer"
+                onClick={updateClient}
+              >
+                Save
+              </div>
+            </div>
+          </div>
+        </Drawer>
+
+        <Drawer
+          anchor="right"
+          open={projectDrawerOpen}
+          onClose={() => setProjectDrawerOpen(false)}
+          className="backdrop-blur-sm euclid "
+        >
+          <div className="p-4 w-96 flex flex-col gap-2 dark:text-white bg-sky-100 dark:bg-neutral-900 h-full rounded-s-2xl ">
+            <div className="flex flex-row items-center justify-between">
+              <h2 className="text-xl font-semibold ">Add Project</h2>
+              <div
+                className="w-fit bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-2 rounded-md cursor-pointer"
+                onClick={() => setProjectDrawerOpen(false)}
+              >
+                <IoClose fontSize={20} />
+              </div>
+            </div>
+            <TextField
+              label="Project Name"
+              name="projectname"
+              value={projectForm.projectname}
+              onChange={handleProjectInputChange}
+              fullWidth
+              margin="normal"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            />
+
+            <FormControl
+              variant="outlined"
+              margin="dense"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            >
+              <InputLabel id="assignto-label" className="w-52">
+                Assign To
+              </InputLabel>
+              <Select
+                labelId="assignto-label"
+                id="assignto"
+                label="Assign To"
+                name="assignto"
+                value={projectForm.assignto}
+                onChange={handleProjectInputChange}
+                fullWidth
+                IconComponent={(props) => (
+                  <ArrowDropDownRoundedIcon
+                    {...props}
+                    sx={{
+                      fontSize: 40,
+                      borderRadius: 1,
+                    }}
+                  />
+                )}
+                margin="normal"
+              >
+                <GlobalStyles />
+                {activeEmployees.map((employee) => (
+                  <MenuItem key={employee._id} value={employee._id}>
+                    <div className="flex items-center">
+                      <img
+                        src={employee.profileUrl || userprofile}
+                        alt={employee.name}
+                        className="w-6 h-6 rounded-md mr-2"
+                      />
+                      {employee.name}
+                    </div>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <div className="mt-2 flex w-full gap-2">
+              <div
+                className="w-full bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-3 rounded-md cursor-pointer"
+                onClick={addProject}
+              >
+                Save
+              </div>
+            </div>
+          </div>
+        </Drawer>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 export default ViewClient;

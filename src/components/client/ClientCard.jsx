@@ -9,6 +9,7 @@ import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import ApiendPonits from "../../api/APIEndPoints.json";
+import { IoClose } from "react-icons/io5";
 
 const useStyles = makeStyles({
   root: {
@@ -204,7 +205,7 @@ const ClientCard = () => {
 
       {/* Add Client Button and Search Bar */}
       <div className="flex gap-2 items-center ">
-        <div className="w-96">
+        <div className="w-1/2 md:w-96">
           <input
             type="text"
             placeholder="Search by Company Name or Client Name/ID..."
@@ -229,7 +230,7 @@ const ClientCard = () => {
           filteredClients.map((client) => (
             <div
               key={client._id}
-              className="p-2 dark:bg-neutral-900 bg-sky-50 flex flex-col gap-1 rounded-md group"
+              className="p-2 dark:bg-neutral-900 bg-sky-50 flex flex-col gap-1 rounded-md group h-fit"
             >
               <div className="flex justify-between gap-2 py-2 rounded-md group-hover:bg-blue-100 group-hover:dark:bg-neutral-950 group-hover:px-2 duration-300">
                 <div className="flex items-center gap-2">
@@ -303,8 +304,16 @@ const ClientCard = () => {
         onClose={() => setOpenDrawer(false)}
         className="backdrop-blur-sm euclid "
       >
-        <div className="p-4 w-96 flex flex-col gap-2 dark:text-white bg-sky-100 dark:bg-neutral-900 h-full rounded-t-2xl ">
-          <h2 className="text-xl font-semibold ">Add Client</h2>
+        <div className="p-4 w-96 flex flex-col gap-2 dark:text-white bg-sky-100 dark:bg-neutral-900 h-full rounded-s-2xl ">
+          <div className="flex flex-row items-center justify-between">
+            <h2 className="text-xl font-semibold ">Add Client</h2>
+            <div
+              className="w-fit bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-2 rounded-md cursor-pointer"
+              onClick={() => setOpenDrawer(false)}
+            >
+              <IoClose fontSize={20} />
+            </div>
+          </div>
           <div className="flex flex-col gap-5">
             <TextField
               label="Client Name"
