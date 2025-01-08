@@ -22,6 +22,7 @@ import { MdEditSquare } from "react-icons/md";
 import { IoFileTrayFull } from "react-icons/io5";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { Textarea } from "@chakra-ui/react";
 
 const GlobalStyles = createGlobalStyle`
 .MuiPaper-root{
@@ -116,11 +117,12 @@ const ViewClient = () => {
   const [projectDrawerOpen, setProjectDrawerOpen] = useState(false);
   const [projectForm, setProjectForm] = useState({
     projectname: "",
-    assignto: "676b840d640bd93701ef55dc", // default assignee
+    assignto: "",
+    description: "", // default assignee
   });
   const [activeEmployees, setActiveEmployees] = useState([]);
 
-  const selectedclientid = client?._id; // Use optional chaining for safety
+  const selectedclientid = client?._id || client; // Use optional chaining for safety
 
   useEffect(() => {
     if (clientData) {
@@ -404,18 +406,18 @@ const ViewClient = () => {
 
         {/* Projects Table */}
         <div className="">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 h-fit overflow-y-scroll scrollbar-hide ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 h-full overflow-y-scroll scrollbar-hide ">
             {projects.map((project, index) => (
               <div
                 key={project._id}
                 className=" rounded-lg shadow-md p-3 bg-gray-100 dark:bg-neutral-900 hover:shadow-lg transition-shadow group h-fit"
               >
-                <div className="text-lg font-semibold mb-2 flex items-start justify-between gap-2 py-2 group-hover:px-2 group-hover:bg-neutral-950 rounded-md  duration-300">
-                  <div className="flex items-center gap-2 py-2 ">
+                <div className="text-lg font-semibold mb-2 flex items-start justify-between gap-2 py-2 group-hover:px-2 group-hover:bg-blue-100 group-hover:dark:bg-neutral-950 rounded-md  duration-300">
+                  <div className="flex items-center gap-2 py-2 group-hover:text-blue-500">
                     <span className="group-hover:hidden text-base">
                       {index + 1}
                     </span>
-                    <IoFileTrayFull className="hidden group-hover:flex text-blue-500" />
+                    <IoFileTrayFull className="hidden group-hover:flex " />
                     <span className="text-base">{project.projectname}</span>
                   </div>
                   <div className="hidden group-hover:block">
@@ -593,7 +595,7 @@ const ViewClient = () => {
           onClose={() => setProjectDrawerOpen(false)}
           className="backdrop-blur-sm euclid "
         >
-          <div className="p-4 w-96 flex flex-col gap-2 dark:text-white bg-sky-100 dark:bg-neutral-900 h-full rounded-s-2xl ">
+          <div className="p-4 w-96 flex flex-col gap- dark:text-white bg-sky-100 dark:bg-neutral-900 h-full rounded-s-2xl ">
             <div className="flex flex-row items-center justify-between">
               <h2 className="text-xl font-semibold ">Add Project</h2>
               <div
@@ -611,11 +613,20 @@ const ViewClient = () => {
               fullWidth
               margin="normal"
               className={classNames(
-                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs ",
                 classes.root
               )}
             />
-
+            <textarea
+              name="description"
+              value={projectForm.description}
+              rows={4}
+              placeholder="description"
+              onChange={handleProjectInputChange}
+              fullWidth
+              margin="normal"
+              className="px-2 py-1 mt-1 mb-2 border  rounded-lg bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700"
+            />
             <FormControl
               variant="outlined"
               margin="dense"
