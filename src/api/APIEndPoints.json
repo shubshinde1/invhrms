@@ -39,8 +39,11 @@
         "viewclientbyid": "admin/viewclientbyid",
         "addclient": "admin/addclient",
         "updateclient": "admin/updateclient",
+        "viewproject": "admin/viewproject",
         "viewprojectbyclientid": "admin/viewprojectbyclientid",
         "viewprojectbyid": "admin/viewprojectbyid",
-        "addProject": "admin/addproject"
+        "addProject": "admin/addproject",
+        "updateproject": "admin/updateproject",
+        "deleteproject": "admin/deleteproject"
     }
 }

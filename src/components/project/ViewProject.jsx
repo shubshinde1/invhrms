@@ -21,6 +21,15 @@ import classNames from "classnames";
 import { createGlobalStyle } from "styled-components";
 import { makeStyles } from "@mui/styles";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
+import { MdEditSquare, MdDelete } from "react-icons/md";
+import { IoClose, IoFlashOff } from "react-icons/io5";
+import { TiFlash } from "react-icons/ti";
+import Loading from "../Loading";
+
+import {
+  TbLayoutAlignLeftFilled,
+  TbLayoutAlignRightFilled,
+} from "react-icons/tb";
 
 const GlobalStyles = createGlobalStyle`
 .MuiPaper-root{
@@ -121,61 +130,59 @@ const ViewProject = () => {
     assignto: "",
     description: "", // default assignee
   });
-  const [projectDrawerOpen, setProjectDrawerOpen] = useState(false);
   const [activeEmployees, setActiveEmployees] = useState([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [confirmationName, setConfirmationName] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const fetchProject = async () => {
+    try {
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewprojectbyid}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ projectid: projectId }),
+        }
+      );
+
+      const data = await response.json();
+      // console.log(data);
+
+      if (response.ok) {
+        setProject(data.data);
+        setFormData({
+          projectname: data.data.projectname || "",
+          description: data.data.description || "",
+          technologies: data.data.technologies || "",
+          reciveddate: data.data.reciveddate
+            ? new Date(data.data.reciveddate).toISOString().split("T")[0]
+            : "",
+          deadline: data.data.deadline
+            ? new Date(data.data.deadline).toISOString().split("T")[0]
+            : "",
+          status: data.data.status || 0,
+          assignto: data.data.assignto?._id || "",
+        });
+      } else {
+        console.error("Error fetching project:", data.msg);
+      }
+    } catch (err) {
+      console.error("Error:", err.message);
+    }
+  };
 
   useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const response = await fetch(
-          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewprojectbyid}`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ projectid: projectId }),
-          }
-        );
-
-        const data = await response.json();
-        if (response.ok) {
-          setProject(data.data);
-          setFormData({
-            projectname: data.data.projectname || "",
-            description: data.data.description || "",
-            technologies: data.data.technologies || "",
-            reciveddate: data.data.reciveddate || "",
-            deadline: data.data.deadline || "",
-            status: data.data.status || 0,
-            assignto: data.data.assignto?._id || "",
-          });
-        } else {
-          console.error("Error fetching project:", data.msg);
-        }
-      } catch (err) {
-        console.error("Error:", err.message);
-      }
-    };
-
     fetchProject();
   }, [projectId, token]);
-
-  const handleViewClient = (client) => {
-    navigate("/clients/viewclient", { state: { client } });
-  };
-
-  const handleViewClick = (employeeId) => {
-    navigate(`/pim/employee-details/${employeeId}`, {
-      state: { activeTab: "Info" },
-    });
-  };
 
   const handleUpdateProject = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3000/api/admin/updateproject",
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.updateproject}`,
         {
           method: "POST",
           headers: {
@@ -187,9 +194,10 @@ const ViewProject = () => {
       );
       const data = await response.json();
       if (response.ok) {
-        console.log("Project updated successfully:", data);
+        // console.log("Project updated successfully:", data);
         setDrawerOpen(false);
         setProject({ ...project, ...formData });
+        fetchProject();
       } else {
         console.error("Error updating project:", data.msg);
       }
@@ -198,8 +206,22 @@ const ViewProject = () => {
     }
   };
 
+  const handleViewClient = (client) => {
+    navigate("/clients/viewclient", { state: { client } });
+  };
+
+  const handleViewClick = (employeeId) => {
+    navigate(`/pim/employee-details/${employeeId}`, {
+      state: { activeTab: "Info" },
+    });
+  };
+
   if (!project) {
-    return <div>Loading project details...</div>;
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   }
 
   const employeeList = async () => {
@@ -233,16 +255,42 @@ const ViewProject = () => {
     }
   };
 
-  // useEffect(() => {
-  // }, [isDrawerOpen]);
-  if (isDrawerOpen) {
-    employeeList();
-  }
+  const deleteproject = async (pid) => {
+    try {
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.deleteproject}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ projectid: pid }),
+        }
+      );
+      const data = await response.json();
 
-  // const handleProjectInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setProjectForm((prev) => ({ ...prev, [name]: value }));
-  // };
+      if (response.ok) {
+        navigate("/clients");
+      } else {
+        console.error(
+          "Error in Response:",
+          data.message || "Failed to delete project"
+        );
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  const handleDeleteClick = () => {
+    if (confirmationName !== project.projectname) {
+      setErrorMessage("Please enter correct project name");
+      return;
+    }
+    setErrorMessage(""); // Clear the error message on success
+    deleteproject(project._id);
+  };
 
   return (
     <div className="dark:text-white p-2 bg-white dark:bg-neutral-950 rounded-md shadow-lg flex flex-col gap-2">
@@ -271,25 +319,93 @@ const ViewProject = () => {
           <div className="flex flex-col gap-10 w-full">
             <div className="flex flex-col gap-1 w-full">
               <div className="flex justify-between gap-2">
-                <img
-                  src={userprofile}
-                  alt="clientprofile"
-                  className="w-28 group-hover:w-8 duration-300 rounded-md shadow-md"
-                />
-                <div>
-                  {project.status === 0 ? (
-                    <span className="text-green-500 bg-green-500/20 px-2 py-0.5 rounded-md">
-                      Active
-                    </span>
-                  ) : (
-                    <span className="text-red-500 bg-red-500/20 px-2 py-0.5 rounded-md">
-                      Inactive
-                    </span>
+                <div className="relative">
+                  <img
+                    src={userprofile}
+                    alt="clientprofile"
+                    className="w-28 group-hover:w-8 duration-300 rounded-md shadow-md"
+                  />
+                  <div className="absolute bottom-1 right-1 text-xs font-bold">
+                    {project.status === 0 ? (
+                      <span className="text-green-600 bg-green-300 px-1 py-0.5 rounded-md flex items-center">
+                        <TiFlash fontSize={15} />
+                        Active
+                      </span>
+                    ) : (
+                      <span className="text-red-500 bg-red-300 px-1 py-0.5 rounded-md flex items-center">
+                        <IoFlashOff fontSize={13} />
+                        Inactive
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      setDrawerOpen(true);
+                      employeeList();
+                    }}
+                    className="bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-1.5 rounded-md cursor-pointer h-fit"
+                  >
+                    <MdEditSquare fontSize={18} />
+                  </button>
+                  <button
+                    onClick={() => setShowConfirmation(!showConfirmation)}
+                    className="bg-red-500/20 text-center text-base hover:bg-red-600/20 font-bold text-red-500 p-1.5 rounded-md cursor-pointer h-fit"
+                  >
+                    <MdDelete fontSize={18} />
+                  </button>
+                  {showConfirmation && (
+                    <div className="fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center z-50">
+                      <div className="bg-white dark:bg-neutral-800 p-6 rounded-lg shadow-lg flex flex-col gap-4 w-96">
+                        <h3 className="text-lg font-semibold text-center">
+                          Confirm Deletion
+                        </h3>
+                        <p>
+                          To delete the project{" "}
+                          <span className="font-extrabold">
+                            {project.projectname}
+                          </span>
+                          , type the name to confirm.
+                        </p>
+                        <input
+                          type="text"
+                          placeholder="Enter project name"
+                          value={confirmationName}
+                          onChange={(e) => setConfirmationName(e.target.value)}
+                          className={classNames(
+                            "border p-2 rounded-md w-full",
+                            errorMessage
+                              ? "border-red-500 ring-2 ring-red-500 dark:bg-neutral-900 bg-gray-200"
+                              : confirmationName === project.projectname
+                              ? "border-green-500 ring-2 ring-green-500 dark:bg-neutral-900 bg-gray-200"
+                              : "border-red-500 ring-2 ring-red-500 dark:bg-neutral-900 bg-gray-200"
+                          )}
+                        />
+                        <div className="flex justify-center gap-2 w-full">
+                          <button
+                            onClick={handleDeleteClick}
+                            className="bg-red-500/20 text-red-500 hover:font-bold px-4 py-2 rounded-md w-full"
+                          >
+                            Delete
+                          </button>
+                          <button
+                            onClick={() => setShowConfirmation(false)}
+                            className="bg-gray-300/20 hover:font-bold px-4 py-2 rounded-md w-ful"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
               <div className="mt-2 flex items-center gap-2 justify-between">
                 ID <span className="font-semibold">{project.projectid}</span>
+              </div>
+              <div className="mt-2 flex items-center gap-2 justify-between">
+                ID <span className="font-semibold">{project._id}</span>
               </div>
               <div className="flex items-center gap-2 justify-between">
                 Project Name{" "}
@@ -320,7 +436,7 @@ const ViewProject = () => {
                       {project.assignto?.name || "N/A"}
                     </p>
                     <p className="text-xs text-gray-400">
-                      {project.assignto?.email?.substring(0, 30) || "N/A"}
+                      {project.assignto?.email?.substring(0, 20) || "N/A"}
                     </p>
                   </div>
                 </div>
@@ -354,34 +470,50 @@ const ViewProject = () => {
         </div>
 
         <div className="bg-blue-50 dark:bg-neutral-900 p-2 rounded-md h-full col-span-12 md:col-span-9 flex flex-col gap-2 justify-between">
-          <p>{project.description || "N/A"}</p>
-          <div className="">
-            <p>
-              <span className="font-medium">Technologies:</span>{" "}
-              {project.technologies || "N/A"}
-            </p>
-            <p>
-              <span className="font-medium">Received Date:</span>{" "}
+          <div className="flex flex-col gap-2">
+            <p className="">{project.description || "N/A"}</p>
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className="font-base">Technologies :</span>
+              <div className="flex gap-2 items-center">
+                {project.technologies ? (
+                  project.technologies.split(" ").map((tech, index) => (
+                    <span
+                      key={index}
+                      className="px-2 py-1 bg-blue-500/20 text-blue-500 rounded-md text-xs"
+                    >
+                      {tech}
+                    </span>
+                  ))
+                ) : (
+                  <span>N/A</span>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 p-2 rounded-md bg-blue-100 dark:bg-neutral-800">
+              <TbLayoutAlignLeftFilled
+                className="text-green-500"
+                fontSize={18}
+              />
+              <span className="font-medium">Start Date:</span>{" "}
               {project.reciveddate
-                ? new Date(project.reciveddate).toLocaleString()
+                ? new Date(project.reciveddate).toDateString()
                 : "N/A"}
-            </p>
-            <p>
+            </div>
+            <div className="flex items-center gap-2 p-2 rounded-md bg-blue-100 dark:bg-neutral-800">
+              <TbLayoutAlignRightFilled
+                className="text-red-500"
+                fontSize={18}
+              />
               <span className="font-medium">Deadline:</span>{" "}
               {project.deadline
-                ? new Date(project.deadline).toLocaleString()
+                ? new Date(project.deadline).toDateString()
                 : "N/A"}
-            </p>
+            </div>
           </div>
         </div>
       </div>
-
-      <button
-        onClick={() => setDrawerOpen(true)}
-        className="bg-blue-500 text-white px-4 py-2 rounded-md mt-4"
-      >
-        Edit Project Details
-      </button>
 
       {/* Material-UI Drawer */}
       <Drawer
@@ -390,8 +522,16 @@ const ViewProject = () => {
         onClose={() => setDrawerOpen(false)}
         className="backdrop-blur-sm euclid "
       >
-        <div className="p-4 w-96 flex flex-col gap- dark:text-white bg-sky-100 dark:bg-neutral-900 h-full rounded-s-2xl ">
-          <h2 className="text-lg font-bold mb-4">Update Project</h2>
+        <div className="p-4 w-96 flex flex-col gap-4 dark:text-white bg-sky-100 dark:bg-neutral-900 h-full rounded-s-2xl ">
+          <div className="flex flex-row items-center justify-between">
+            <h2 className="text-xl font-semibold ">Update Project</h2>
+            <div
+              className="w-fit bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-2 rounded-md cursor-pointer"
+              onClick={() => setDrawerOpen(false)}
+            >
+              <IoClose fontSize={20} />
+            </div>
+          </div>
           <div className="flex flex-col gap-4">
             <TextField
               label="Project Name"
@@ -400,26 +540,29 @@ const ViewProject = () => {
               onChange={(e) =>
                 setFormData({ ...formData, projectname: e.target.value })
               }
-              fullWidth
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs ",
                 classes.root
               )}
             />
 
-            <textarea
-              name="description"
-              rows={4}
-              placeholder="description"
-              label="Description"
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-              fullWidth
-              margin="normal"
-              className="px-2 py-1 mt-1 mb-2 border  rounded-lg bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700"
-            />
+            <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-6">
+              <textarea
+                name="description"
+                rows={4}
+                placeholder="description"
+                label="Description"
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+                // inputProps={{ maxLength: 1000 }}
+                className="px-2 py-1 mt-1 mb-2 border  rounded-lg bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700 overflow-y-scroll scrollbar-hid scrollbrhdn"
+              />
+              <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
+                {1000 - formData.description.length}/1000
+              </div>
+            </div>
 
             <TextField
               label="Technologies"
@@ -427,7 +570,6 @@ const ViewProject = () => {
               onChange={(e) =>
                 setFormData({ ...formData, technologies: e.target.value })
               }
-              fullWidth
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs ",
                 classes.root
@@ -441,7 +583,6 @@ const ViewProject = () => {
               onChange={(e) =>
                 setFormData({ ...formData, reciveddate: e.target.value })
               }
-              fullWidth
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs ",
                 classes.root
@@ -456,7 +597,6 @@ const ViewProject = () => {
               onChange={(e) =>
                 setFormData({ ...formData, deadline: e.target.value })
               }
-              fullWidth
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs ",
                 classes.root
@@ -466,7 +606,6 @@ const ViewProject = () => {
 
             <FormControl
               variant="outlined"
-              margin="dense"
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
                 classes.root
@@ -479,12 +618,11 @@ const ViewProject = () => {
                 labelId="assignto-label"
                 id="assignto"
                 label="Assign To"
-                name="assignto"
+                // name="assignto"
                 value={formData.assignto}
                 onChange={(e) =>
                   setFormData({ ...formData, assignto: e.target.value })
                 }
-                fullWidth
                 IconComponent={(props) => (
                   <ArrowDropDownRoundedIcon
                     {...props}
@@ -513,7 +651,6 @@ const ViewProject = () => {
 
             <FormControl
               variant="outlined"
-              margin="dense"
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
                 classes.root
@@ -540,7 +677,6 @@ const ViewProject = () => {
                     }}
                   />
                 )}
-                fullWidth
               >
                 <GlobalStyles />
 
@@ -550,7 +686,7 @@ const ViewProject = () => {
             </FormControl>
           </div>
 
-          <div className="mt-2 flex w-full gap-2">
+          <div className="mt- flex w-full gap-2">
             <div
               className="w-full bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-3 rounded-md cursor-pointer"
               onClick={handleUpdateProject}

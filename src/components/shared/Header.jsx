@@ -30,6 +30,7 @@ export default function Header({ handleThemeSwitch, theme }) {
   const token = localStorage.getItem("accessToken");
   const empid = userData?.employeeData._id;
   const userName = userData?.employeeData.name;
+  const auth = userData?.employeeData.auth;
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -95,38 +96,6 @@ export default function Header({ handleThemeSwitch, theme }) {
       <div className="font-bold">{getTitle()}</div>
       <div className="">
         <div className="flex items-center gap-2 text-sm">
-          {/* <Popover className="relative">
-            {({ open }) => (
-              <>
-                <Popover.Button
-                  className={classNames(
-                    open && "bg-sky-50",
-                    "bg-sky-50 hover:dark:bg-neutral-900 dark:bg-neutral-900 duration-500 p-2 rounded-md cursor-pointer focus:outline-none"
-                  )}
-                >
-                  <IoNotifications fontSize={20} />
-                </Popover.Button>
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-200"
-                  enterFrom="opacity-0 translate-y-1"
-                  enterTo="opacity-100 translate-y-0"
-                  leave="transition ease-in duration-150"
-                  leaveFrom="opacity-100 translate-y-0"
-                  leaveTo="opacity-0 translate-y-1"
-                >
-                  <Popover.Panel className="absolute md:-right-2 right-0 z-10 md:m-2.5 md:w-52 w-[50vw] md:mt-5 mt-4">
-                    <div className="bg-white dark:bg-neutral-950 dark:border rounded-md shadow-lg p-3">
-                      this is the panel
-                    </div>
-                  </Popover.Panel>
-                </Transition>
-              </>
-            )}
-          </Popover> */}
-
-          {/* dark/light mode toggle */}
-          {/* <div className="flex md:hidden"> */}
           <div>
             <button
               className={classNames(
@@ -227,22 +196,25 @@ export default function Header({ handleThemeSwitch, theme }) {
               leaveTo="transform opacity-0 scale-95"
             >
               <Menu.Items className="origin-top-right absolute -right-5 z-10 m-2.5 w-52 md:mt-5 mt-4 bg-white dark:bg-neutral-950 dark:border border-neutral-600 rounded-md shadow-lg p-2">
-                <Menu.Item>
-                  {({ active }) => (
-                    <div
-                      className={classNames(
-                        active &&
-                          "bg-sky-50 dark:bg-neutral-900 cursor-pointer rounded-md flex items-center",
-                        "px-3 py-2 flex"
-                      )}
-                      onClick={() => navigate("/myprofile")}
-                    >
-                      <IoPerson fontSize={18} />
-                      <span className="ml-3">View Profile</span>
-                    </div>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
+                {auth === 0 && (
+                  <Menu.Item>
+                    {({ active }) => (
+                      <div
+                        className={classNames(
+                          active &&
+                            "bg-sky-50 dark:bg-neutral-900 cursor-pointer rounded-md flex items-center",
+                          "px-3 py-2 flex"
+                        )}
+                        onClick={() => navigate("/myprofile")}
+                      >
+                        <IoPerson fontSize={18} />
+                        <span className="ml-3">View Profile</span>
+                      </div>
+                    )}
+                  </Menu.Item>
+                )}
+
+                {/* <Menu.Item>
                   {({ active }) => (
                     <div
                       className={classNames(
@@ -256,7 +228,7 @@ export default function Header({ handleThemeSwitch, theme }) {
                       <span className="ml-3">Settings</span>
                     </div>
                   )}
-                </Menu.Item>
+                </Menu.Item> */}
                 <LogoutMenuItem />
               </Menu.Items>
             </Transition>

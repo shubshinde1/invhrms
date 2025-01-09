@@ -370,7 +370,7 @@ const Employeelist = () => {
         </div>
 
         {/* Table layout for larger screens */}
-        <div className="hidden md:block">
+        <div className="hidden md:block h-full  overflow-y-scroll scrollbrhdn">
           {loading ? (
             <Loading />
           ) : (
@@ -495,18 +495,18 @@ const Employeelist = () => {
         </div>
 
         {/* Card layout for smaller screens */}
-        <div className="md:hidden flex">
+        <div className="md:hidden flex h-full w-full  overflow-y-scroll scrollbrhdn">
           {loading ? (
             <Loading />
           ) : (
-            <div className="md:hidden flex flex-col gap-2 mt-2">
+            <div className="md:hidden flex flex-col gap-2 mt-2 w-full">
               {currentEmployees.map((employee, rowIndex) => (
                 <motion.div
                   key={employee._id}
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
-                  className="bg-sky-50 dark:bg-neutral-900 p-2 flex flex-col gap-3 rounded-md shadow-md"
+                  className="bg-blue-50 dark:bg-neutral-900 p-2 flex flex-col gap-3  w-full rounded-md shadow-md"
                 >
                   <div className="font-semibold text-lg flex items-center gap-3 justify-between">
                     <div className="flex items-center gap-2">

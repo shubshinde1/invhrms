@@ -155,7 +155,7 @@ const ViewClient = () => {
         );
 
         const data = await response.json();
-        console.log("new data", data);
+        // console.log("new data", data);
 
         if (response.ok) {
           setClient(data.data); // Set the projects data
@@ -191,7 +191,7 @@ const ViewClient = () => {
         );
 
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         if (response.ok) {
           setProjects(data.data); // Set the projects data
@@ -242,7 +242,7 @@ const ViewClient = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Client updated successfully:", data);
+        // console.log("Client updated successfully:", data);
         setClient(data.data);
         setIsEditing(false); // Exit edit mode
         setDrawerOpen(false);
@@ -281,7 +281,7 @@ const ViewClient = () => {
 
       const data = await response.json();
       if (response.ok) {
-        console.log("Project added successfully:", data);
+        // console.log("Project added successfully:", data);
         setProjects((prev) => [...prev, data.data]); // Update project list
         setProjectDrawerOpen(false);
       } else {
@@ -471,7 +471,7 @@ const ViewClient = () => {
           onClose={() => setDrawerOpen(false)}
           className="backdrop-blur-sm euclid bg-transparent "
         >
-          <div className="p-4 w-96 flex flex-col gap- dark:text-white bg-sky-100 dark:bg-neutral-900 h-full rounded-s-2xl ">
+          <div className="p-4 w-96 flex flex-col gap-4 dark:text-white bg-sky-100 dark:bg-neutral-900 h-full rounded-s-2xl ">
             <div className="flex flex-row items-center justify-between">
               <h2 className="text-xl font-semibold ">Edit Client</h2>
               <div
@@ -486,8 +486,6 @@ const ViewClient = () => {
               name="companyname"
               value={formData.companyname}
               onChange={handleInputChange}
-              fullWidth
-              margin="normal"
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
                 classes.root
@@ -498,8 +496,6 @@ const ViewClient = () => {
               name="clientname"
               value={formData.clientname}
               onChange={handleInputChange}
-              fullWidth
-              margin="normal"
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
                 classes.root
@@ -510,8 +506,6 @@ const ViewClient = () => {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              fullWidth
-              margin="normal"
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
                 classes.root
@@ -522,8 +516,6 @@ const ViewClient = () => {
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
-              fullWidth
-              margin="normal"
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
                 classes.root
@@ -535,8 +527,6 @@ const ViewClient = () => {
               id="officeaddress"
               value={formData.officeaddress}
               onChange={handleInputChange}
-              fullWidth
-              margin="normal"
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
                 classes.root
@@ -544,7 +534,6 @@ const ViewClient = () => {
             />
             <FormControl
               variant="outlined"
-              margin="dense"
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
                 classes.root
@@ -569,8 +558,6 @@ const ViewClient = () => {
                     }}
                   />
                 )}
-                fullWidth
-                margin="normal"
               >
                 <GlobalStyles />
 
@@ -578,7 +565,7 @@ const ViewClient = () => {
                 <MenuItem value={0}>Inactive</MenuItem>
               </Select>
             </FormControl>
-            <div className="mt-2 flex w-full gap-2">
+            <div className="mt- flex w-full gap-2">
               <div
                 className="w-full bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-3 rounded-md cursor-pointer"
                 onClick={updateClient}
@@ -595,7 +582,7 @@ const ViewClient = () => {
           onClose={() => setProjectDrawerOpen(false)}
           className="backdrop-blur-sm euclid "
         >
-          <div className="p-4 w-96 flex flex-col gap- dark:text-white bg-sky-100 dark:bg-neutral-900 h-full rounded-s-2xl ">
+          <div className="p-4 w-96 flex flex-col gap-2 dark:text-white bg-sky-100 dark:bg-neutral-900 h-full rounded-s-2xl ">
             <div className="flex flex-row items-center justify-between">
               <h2 className="text-xl font-semibold ">Add Project</h2>
               <div
@@ -610,26 +597,27 @@ const ViewClient = () => {
               name="projectname"
               value={projectForm.projectname}
               onChange={handleProjectInputChange}
-              fullWidth
-              margin="normal"
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs ",
                 classes.root
               )}
             />
-            <textarea
-              name="description"
-              value={projectForm.description}
-              rows={4}
-              placeholder="description"
-              onChange={handleProjectInputChange}
-              fullWidth
-              margin="normal"
-              className="px-2 py-1 mt-1 mb-2 border  rounded-lg bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700"
-            />
+            <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-6">
+              <textarea
+                name="description"
+                value={projectForm.description}
+                rows={4}
+                placeholder="description"
+                onChange={handleProjectInputChange}
+                // inputProps={{ maxLength: 1000 }}
+                className="px-2 py-1  border  rounded-lg bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700"
+              />
+              <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
+                {1000 - projectForm.description.length}/1000
+              </div>
+            </div>
             <FormControl
               variant="outlined"
-              margin="dense"
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
                 classes.root
@@ -645,7 +633,6 @@ const ViewClient = () => {
                 name="assignto"
                 value={projectForm.assignto}
                 onChange={handleProjectInputChange}
-                fullWidth
                 IconComponent={(props) => (
                   <ArrowDropDownRoundedIcon
                     {...props}
@@ -655,7 +642,6 @@ const ViewClient = () => {
                     }}
                   />
                 )}
-                margin="normal"
               >
                 <GlobalStyles />
                 {activeEmployees.map((employee) => (
@@ -672,7 +658,7 @@ const ViewClient = () => {
                 ))}
               </Select>
             </FormControl>
-            <div className="mt-2 flex w-full gap-2">
+            <div className="mt- flex w-full gap-2">
               <div
                 className="w-full bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-3 rounded-md cursor-pointer"
                 onClick={addProject}

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import ApiendPonits from "../../api/APIEndPoints.json";
 import { IoClose } from "react-icons/io5";
+import Loading from "../Loading";
 
 const useStyles = makeStyles({
   root: {
@@ -126,7 +127,13 @@ const ClientCard = () => {
     setFilteredClients(filtered);
   }, [searchQuery, clients]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <p>
+        {" "}
+        <Loading />
+      </p>
+    );
   if (error) return <p className="text-red-500">{error}</p>;
 
   // Handle form submission to add a new client
@@ -293,7 +300,9 @@ const ClientCard = () => {
             </div>
           ))
         ) : (
-          <p>No clients found.</p>
+          <p className="w-full h-full bg-blue-50 dark:bg-neutral-800 rounded-md items-center justify-center flex col-span-12">
+            No clients found for keyword "{searchQuery}"
+          </p>
         )}
       </div>
 
@@ -321,7 +330,6 @@ const ClientCard = () => {
               onChange={(e) =>
                 setNewClient({ ...newClient, clientname: e.target.value })
               }
-              fullWidth
               className={classNames(
                 "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
                 classes.root
@@ -333,7 +341,6 @@ const ClientCard = () => {
               onChange={(e) =>
                 setNewClient({ ...newClient, companyname: e.target.value })
               }
-              fullWidth
               className={classNames(
                 "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
                 classes.root
@@ -345,7 +352,6 @@ const ClientCard = () => {
               onChange={(e) =>
                 setNewClient({ ...newClient, email: e.target.value })
               }
-              fullWidth
               className={classNames(
                 "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
                 classes.root
@@ -357,7 +363,6 @@ const ClientCard = () => {
               onChange={(e) =>
                 setNewClient({ ...newClient, phone: e.target.value })
               }
-              fullWidth
               className={classNames(
                 "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
                 classes.root
@@ -368,7 +373,6 @@ const ClientCard = () => {
               variant="contained"
               color="primary"
               onClick={handleAddClient}
-              fullWidth
             >
               Add Client
             </div>

@@ -62,13 +62,13 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     icon: <HiMiniCodeBracketSquare />,
     allowedAuth: [1], // only admin can access
   },
-  {
-    key: "user",
-    label: "User",
-    path: "/user",
-    icon: <RiShieldUserFill />,
-    allowedAuth: [1], // only admin can access
-  },
+  // {
+  //   key: "user",
+  //   label: "User",
+  //   path: "/user",
+  //   icon: <RiShieldUserFill />,
+  //   allowedAuth: [1], // only admin can access
+  // },
   {
     key: "timesheet",
     label: "Timesheet",

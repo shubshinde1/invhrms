@@ -10,6 +10,8 @@ import { TiFlash } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import Loading from "../../Loading";
 import { FaCheck } from "react-icons/fa6";
+import teamsIcon from "../../../assets/images/Teams.png";
+import OutlookIcon from "../../../assets/images/Outlook.png";
 
 const AdminInfo = () => {
   const { _id } = useParams(); // Get the employee ID from URL params
@@ -258,13 +260,14 @@ const AdminInfo = () => {
             )}
           </div>
         </div>
-        <div className="flex gap-2 justify-between">
+        <div className="flex gap-2 items-end justify-between">
           <div className=" bg-sky-100 dark:bg-neutral-900 p-2 rounded-md relative">
             <img
               src={profile}
               className="rounded-md w-40 h-auto"
               alt={prfilealt}
             />
+
             <div className="absolute bottom-2.5 right-2.5 text-white">
               {formData.status === 1 ? (
                 <span className="flex items-center gap-0.5 bg-green-300 text-green-700 font-semibold text-xs w-fit p-1 rounded-md">
@@ -278,6 +281,30 @@ const AdminInfo = () => {
                 </span>
               )}
             </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <a
+              href={`mailto:${employee.email}`}
+              target="_blank"
+              className="bg-blue-500/20 p-1.5 group rounded-md"
+            >
+              <img
+                src={OutlookIcon}
+                alt="OutlookIcon"
+                className="w-7 group-hover:scale-110 duration-100 rounded-full shadow-md"
+              />
+            </a>
+            <a
+              href={`MSTeams:/l/chat/0/0?users=${employee.email}`}
+              target="_blank"
+              className="bg-blue-500/20 p-1.5 group rounded-md"
+            >
+              <img
+                src={teamsIcon}
+                alt="teamsIcon"
+                className="w-7 group-hover:scale-110 duration-100 rounded-full shadow-md"
+              />
+            </a>
           </div>
         </div>
         {/* info */}
