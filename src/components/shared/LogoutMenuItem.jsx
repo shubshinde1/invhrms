@@ -58,13 +58,13 @@ const LogoutMenuItem = ({ handleThemeSwitch }) => {
                 zIndex: 9998,
               }}
             >
-              <div className="absolute inset-0 opacity-50 backdrop-blur-lg bg-black"></div>
-              <div className="absolute  bg-white dark:bg-neutral-900 p-7 rounded-md shadow-lg">
+              <div className="absolute inset-0 opacity-50 backdrop-blur-xl bg-black"></div>
+              <div className="absolute  bg-white dark:bg-neutral-800/60 p-7 rounded-md shadow-lg">
                 <p>Are you sure you want to logout?</p>
                 <div className="flex justify-around mt-4 ">
                   <button
                     // to=""
-                    className="px-3 py-2 bg-red-500 text-white rounded-md mr-2 flex items-center hover:scale-105 duration-300"
+                    className="px-3 py-2 bg-red-500/20 text-red-500 rounded-md mr-2 flex items-center hover:scale-105 duration-300"
                     onClick={confirmlogout}
                   >
                     <FaPowerOff fontSize={18} className="mr-2" />

@@ -357,7 +357,7 @@ const ViewProject = () => {
                   </button>
                   {showConfirmation && (
                     <div className="fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center z-50">
-                      <div className="bg-white dark:bg-neutral-800 p-6 rounded-lg shadow-lg flex flex-col gap-4 w-96">
+                      <div className="bg-white/50 dark:bg-neutral-800/50  p-6 rounded-lg shadow-lg flex flex-col gap-4 w-96">
                         <h3 className="text-lg font-semibold text-center">
                           Confirm Deletion
                         </h3>
@@ -403,9 +403,6 @@ const ViewProject = () => {
               </div>
               <div className="mt-2 flex items-center gap-2 justify-between">
                 ID <span className="font-semibold">{project.projectid}</span>
-              </div>
-              <div className="mt-2 flex items-center gap-2 justify-between">
-                ID <span className="font-semibold">{project._id}</span>
               </div>
               <div className="flex items-center gap-2 justify-between">
                 Project Name{" "}

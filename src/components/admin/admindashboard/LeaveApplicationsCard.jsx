@@ -165,7 +165,7 @@ const LeaveApplicationsCard = () => {
               {leaveHistory.map((record) => (
                 <div
                   key={record._id}
-                  className="p-2 bg-sky-50 dark:bg-neutral-950 rounded-md flex flex-row gap-2 group "
+                  className="p-2 bg-sky-50 dark:bg-neutral-950 rounded-lg flex flex-row gap-2 group duration-300"
                 >
                   <div className="flex flex-col gap-3 w-full">
                     <div className="flex items-center gap-2 justify-between">
@@ -238,7 +238,7 @@ const LeaveApplicationsCard = () => {
 
                   <div
                     onClick={() => handleViewClick(record.employee_id)}
-                    className=" items-center justify-center gap-2 font-bold hidden group-hover:flex cursor-pointer duration-500 px-1 rounded-r-xl rounded-l-md dark:bg-neutral-900 dark:hover:bg-neutral-800 bg-sky-100 hover:bg-sky-200"
+                    className=" items-center justify-center gap-2 font-bold hidden group-hover:flex cursor-pointer duration-300 px-1 rounded-r-xl rounded-l-md dark:bg-neutral-900 dark:hover:bg-neutral-800 bg-sky-100 hover:bg-sky-200"
                   >
                     <BsFillCaretRightFill fontSize={20} />
                   </div>

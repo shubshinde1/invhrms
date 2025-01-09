@@ -6,6 +6,7 @@ import { IoFlash, IoFlashOff } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import Loading from "./Loading";
+import { motion } from "framer-motion";
 
 const Projects = () => {
   const token = localStorage.getItem("accessToken");
@@ -94,7 +95,12 @@ const Projects = () => {
       <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2 text-black dark:text-white h-full max-h-full">
         {/* Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-          <div className="p-2 dark:bg-neutral-900 bg-sky-50 flex flex-col gap-4 items-end rounded-md">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="p-2 dark:bg-neutral-900 bg-none border-2 dark:border-none flex flex-col gap-4 items-end rounded-md"
+          >
             <div className="flex items-center gap-2 w-full">
               <div className="bg-blue-500/20 rounded-md p-2">
                 <FaHospitalUser fontSize={20} className="text-blue-600" />
@@ -102,9 +108,14 @@ const Projects = () => {
               <h2 className="text-sm">Total Projects</h2>
             </div>
             <p className="text-4xl font-bold text-blue-400">{totalProjects}</p>
-          </div>
+          </motion.div>
 
-          <div className="p-2 dark:bg-neutral-900 bg-sky-50 flex flex-col gap-4 items-end rounded-md">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="p-2 dark:bg-neutral-900 bg-none border-2 dark:border-none flex flex-col gap-4 items-end rounded-md"
+          >
             <div className="flex items-center gap-2 w-full">
               <div className="bg-green-500/20 rounded-md p-2">
                 <IoFlash fontSize={20} className="text-green-600" />
@@ -114,9 +125,14 @@ const Projects = () => {
             <p className="text-4xl font-bold text-green-400">
               {activeProjects}
             </p>
-          </div>
+          </motion.div>
 
-          <div className="p-2 dark:bg-neutral-900 bg-sky-50 flex flex-col gap-4 items-end rounded-md">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="p-2 dark:bg-neutral-900 bg-none border-2 dark:border-none flex flex-col gap-4 items-end rounded-md"
+          >
             <div className="flex items-center gap-2 w-full">
               <div className="bg-red-500/20 rounded-md p-2">
                 <IoFlashOff fontSize={20} className="text-red-600" />
@@ -126,7 +142,7 @@ const Projects = () => {
             <p className="text-4xl font-bold text-red-400">
               {inactiveProjects}
             </p>
-          </div>
+          </motion.div>
         </div>
 
         <div className="flex gap-2 items-center ">

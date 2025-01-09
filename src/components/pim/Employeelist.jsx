@@ -571,13 +571,30 @@ const Employeelist = () => {
                     <div>{employee.dateofjoining}</div>
                   </div>
 
-                  <div className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  <div className="text-sm text-gray-700 dark:text-gray-300 mt-2 flex items-center gap-1">
                     <button
                       onClick={() => handleViewClick(employee._id)}
                       className="bg-blue-500/20 p-1.5 rounded-md text-blue-500"
                     >
                       <IoEye fontSize={17} />
                     </button>
+                    <div>
+                      <Tooltip
+                        title={"Delete " + employee.name}
+                        placement="top"
+                        arrow
+                      >
+                        <button
+                          type="button" // Ensure this button doesn't trigger form submission
+                          onClick={() =>
+                            handleDeleteClick(employee._id, employee.name)
+                          } // Pass employee._id
+                          className="bg-red-500/20 p-1.5 rounded-md text-red-500 "
+                        >
+                          <MdDelete fontSize={17} />
+                        </button>
+                      </Tooltip>
+                    </div>
                   </div>
                 </motion.div>
               ))}
