@@ -292,7 +292,7 @@ const RefillLeaves = () => {
             className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
           >
             <div className="flex items-center gap-2">
-              <div className="bg-sky-200  rounded-md p-2">
+              <div className="bg-sky-500/20  rounded-md p-2">
                 <FaCalculator fontSize={20} className="text-sky-600" />
               </div>
               <h2 className="font-bold">Total Holidays</h2>
@@ -314,7 +314,7 @@ const RefillLeaves = () => {
             className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
           >
             <div className="flex items-center gap-2">
-              <div className="bg-orange-100 rounded-md p-2">
+              <div className="bg-orange-500/20 rounded-md p-2">
                 <MdFestival fontSize={20} className="text-orange-500" />
               </div>
               <h2 className="font-bold">Mandatory Holidays</h2>
@@ -336,7 +336,7 @@ const RefillLeaves = () => {
             className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
           >
             <div className="flex items-center gap-2">
-              <div className="bg-green-100 rounded-md p-2">
+              <div className="bg-green-500/20 rounded-md p-2">
                 <BsEmojiHeartEyesFill
                   fontSize={20}
                   className="text-green-500"
@@ -361,7 +361,7 @@ const RefillLeaves = () => {
             className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
           >
             <div className="flex items-center gap-2">
-              <div className="bg-red-100 rounded-md p-2">
+              <div className="bg-red-500/20 rounded-md p-2">
                 <FaSadTear fontSize={20} className="text-red-500" />
               </div>
               <h2 className="font-bold">Weekend Holidays</h2>
