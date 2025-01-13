@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import ApiendPonits from "../../../api/APIEndPoints.json";
+import Loading from "../../Loading";
+import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
 
 const Settings = () => {
   const token = localStorage.getItem("accessToken");
   const [timesheetLimit, setTimesheetLimit] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     addtimesheetlimit: "",
     updatetimesheetlimit: "",
@@ -13,6 +16,7 @@ const Settings = () => {
 
   // Fetch timesheet limits
   useEffect(() => {
+    setLoading(true);
     const fetchTimesheetLimit = async () => {
       try {
         const response = await fetch(
@@ -35,6 +39,7 @@ const Settings = () => {
             updatetimesheetlimit: data.data.updatetimesheetlimit,
             deletetimesheetlimit: data.data.deletetimesheetlimit,
           });
+          setLoading(false);
         } else {
           throw new Error(data.msg || "Failed to fetch timesheet limits");
         }
@@ -86,188 +91,183 @@ const Settings = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  if (loading) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div className="h-full pb-20">
-      <div className="bg-gray-50 dark:bg-neutral-950 p-6 rounded-2xl shadow-lg text-black dark:text-white h-full max-h-full flex flex-col gap-6">
-        <h1 className="text-2xl font-bold border-b pb-3 text-gray-800 dark:text-white">
+      <div className="bg-gray-50 dark:bg-neutral-950 p-2 rounded-md shadow-lg text-black dark:text-white h-full max-h-full flex flex-col gap-2">
+        <h1 className="text-base font-bold border-b pb-3 text-gray-800 dark:text-white">
           Timesheet Limit Settings
         </h1>
-
         {/* Display error if any */}
         {error && (
           <div className="bg-red-200 dark:bg-red-800 text-red-700 dark:text-red-200 p-4 rounded-lg mb-4">
             {error}
           </div>
         )}
-
-        {/* Main content */}
-        {timesheetLimit ? (
-          <div className="flex flex-col gap-6">
-            {/* Last updated info */}
-            <p className="text-sm text-gray-500 dark:text-gray-300">
-              <strong>Last Updated At:</strong>{" "}
-              {new Date(timesheetLimit.updatedAt).toLocaleString()}
-            </p>
-
-            {/* Update form */}
-            <form onSubmit={handleUpdate} className="flex flex-col gap-8">
-              {/* Add Timesheet Limit */}
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="addtimesheetlimit"
-                  className="text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Add Timesheet Limit
-                </label>
-                <div className="flex items-center justify-between bg-gray-100 dark:bg-neutral-800 p-3 rounded-xl">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        addtimesheetlimit: Math.max(
-                          0,
-                          prev.addtimesheetlimit - 1
-                        ),
-                      }))
-                    }
-                    className="w-10 h-10 flex justify-center items-center rounded-full bg-gray-200 dark:bg-neutral-600 hover:bg-gray-300 dark:hover:bg-neutral-500 text-xl text-gray-700 dark:text-white"
-                  >
-                    −
-                  </button>
-                  <input
-                    type="number"
-                    id="addtimesheetlimit"
-                    name="addtimesheetlimit"
-                    value={formData.addtimesheetlimit}
-                    onChange={handleInputChange}
-                    className="w-24 border-2 border-gray-300 rounded-xl text-center py-2 dark:bg-neutral-900 dark:text-white"
-                  />
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        addtimesheetlimit: prev.addtimesheetlimit + 1,
-                      }))
-                    }
-                    className="w-10 h-10 flex justify-center items-center rounded-full bg-gray-200 dark:bg-neutral-600 hover:bg-gray-300 dark:hover:bg-neutral-500 text-xl text-gray-700 dark:text-white"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* Update Timesheet Limit */}
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="updatetimesheetlimit"
-                  className="text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Update Timesheet Limit
-                </label>
-                <div className="flex items-center justify-between bg-gray-100 dark:bg-neutral-800 p-3 rounded-xl">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        updatetimesheetlimit: Math.max(
-                          0,
-                          prev.updatetimesheetlimit - 1
-                        ),
-                      }))
-                    }
-                    className="w-10 h-10 flex justify-center items-center rounded-full bg-gray-200 dark:bg-neutral-600 hover:bg-gray-300 dark:hover:bg-neutral-500 text-xl text-gray-700 dark:text-white"
-                  >
-                    −
-                  </button>
-                  <input
-                    type="number"
-                    id="updatetimesheetlimit"
-                    name="updatetimesheetlimit"
-                    value={formData.updatetimesheetlimit}
-                    onChange={handleInputChange}
-                    className="w-24 border-2 border-gray-300 rounded-xl text-center py-2 dark:bg-neutral-900 dark:text-white"
-                  />
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        updatetimesheetlimit: prev.updatetimesheetlimit + 1,
-                      }))
-                    }
-                    className="w-10 h-10 flex justify-center items-center rounded-full bg-gray-200 dark:bg-neutral-600 hover:bg-gray-300 dark:hover:bg-neutral-500 text-xl text-gray-700 dark:text-white"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* Delete Timesheet Limit */}
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="deletetimesheetlimit"
-                  className="text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Delete Timesheet Limit
-                </label>
-                <div className="flex items-center justify-between bg-gray-100 dark:bg-neutral-800 p-3 rounded-xl">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        deletetimesheetlimit: Math.max(
-                          0,
-                          prev.deletetimesheetlimit - 1
-                        ),
-                      }))
-                    }
-                    className="w-10 h-10 flex justify-center items-center rounded-full bg-gray-200 dark:bg-neutral-600 hover:bg-gray-300 dark:hover:bg-neutral-500 text-xl text-gray-700 dark:text-white"
-                  >
-                    −
-                  </button>
-                  <input
-                    type="number"
-                    id="deletetimesheetlimit"
-                    name="deletetimesheetlimit"
-                    value={formData.deletetimesheetlimit}
-                    onChange={handleInputChange}
-                    className="w-24 border-2 border-gray-300 rounded-xl text-center py-2 dark:bg-neutral-900 dark:text-white"
-                  />
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        deletetimesheetlimit: prev.deletetimesheetlimit + 1,
-                      }))
-                    }
-                    className="w-10 h-10 flex justify-center items-center rounded-full bg-gray-200 dark:bg-neutral-600 hover:bg-gray-300 dark:hover:bg-neutral-500 text-xl text-gray-700 dark:text-white"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* Submit button */}
-              <button
-                type="submit"
-                className="bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition duration-300 ease-in-out mt-6"
+        <div className="flex flex-col  gap-2">
+          <p className="text-sm text-gray-500 dark:text-gray-300">
+            <strong>Last Updated At:</strong>{" "}
+            {new Date(timesheetLimit.updatedAt).toLocaleString()}
+          </p>
+          {/* Update form */}
+          <form onSubmit={handleUpdate} className="flex flex-col gap-4 w-fit">
+            {/* Add Timesheet Limit */}
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor="addtimesheetlimit"
+                className="text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Update Timesheet Limits
-              </button>
-            </form>
-          </div>
-        ) : (
-          !error && (
-            <p className="text-center text-gray-500 dark:text-gray-400">
-              Loading timesheet limits...
-            </p>
-          )
-        )}
+                Add Timesheet Limit
+              </label>
+              <div className="flex gap-2 items-center justify-between bg-gray-100 dark:bg-neutral-900 p-2 rounded-md">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      addtimesheetlimit: Math.max(
+                        0,
+                        prev.addtimesheetlimit - 1
+                      ),
+                    }))
+                  }
+                  className="w-10 h-10 flex justify-center items-center rounded-lg bg-gray-200 dark:bg-neutral-800 hover:bg-gray-300 dark:hover:bg-neutral-500 text-xl text-gray-700 dark:text-white"
+                >
+                  <FaCaretDown />
+                </button>
+                <input
+                  type="number"
+                  id="addtimesheetlimit"
+                  name="addtimesheetlimit"
+                  value={formData.addtimesheetlimit}
+                  onChange={handleInputChange}
+                  className="w-24 border-2 border-gray-300 rounded-md text-center py-2 dark:bg-neutral-800 dark:text-white"
+                />
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      addtimesheetlimit: prev.addtimesheetlimit + 1,
+                    }))
+                  }
+                  className="w-10 h-10 flex justify-center items-center rounded-lg bg-gray-200 dark:bg-neutral-800 hover:bg-gray-300 dark:hover:bg-neutral-500 text-xl text-gray-700 dark:text-white"
+                >
+                  <FaCaretUp />
+                </button>
+              </div>
+            </div>
+
+            {/* Update Timesheet Limit */}
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor="updatetimesheetlimit"
+                className="text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Update Timesheet Limit
+              </label>
+              <div className="flex items-center justify-between bg-gray-100 dark:bg-neutral-900 p-2 rounded-md">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      updatetimesheetlimit: Math.max(
+                        0,
+                        prev.updatetimesheetlimit - 1
+                      ),
+                    }))
+                  }
+                  className="w-10 h-10 flex justify-center items-center rounded-lg bg-gray-200 dark:bg-neutral-800 hover:bg-gray-300 dark:hover:bg-neutral-500 text-xl text-gray-700 dark:text-white"
+                >
+                  <FaCaretDown />
+                </button>
+                <input
+                  type="number"
+                  id="updatetimesheetlimit"
+                  name="updatetimesheetlimit"
+                  value={formData.updatetimesheetlimit}
+                  onChange={handleInputChange}
+                  className="w-24 border-2 border-gray-300 rounded-md text-center py-2 dark:bg-neutral-800 dark:text-white"
+                />
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      updatetimesheetlimit: prev.updatetimesheetlimit + 1,
+                    }))
+                  }
+                  className="w-10 h-10 flex justify-center items-center rounded-lg bg-gray-200 dark:bg-neutral-800 hover:bg-gray-300 dark:hover:bg-neutral-500 text-xl text-gray-700 dark:text-white"
+                >
+                  <FaCaretUp />
+                </button>
+              </div>
+            </div>
+
+            {/* Delete Timesheet Limit */}
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor="deletetimesheetlimit"
+                className="text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Delete Timesheet Limit
+              </label>
+              <div className="flex items-center justify-between bg-gray-100 dark:bg-neutral-900 p-2 rounded-md">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      deletetimesheetlimit: Math.max(
+                        0,
+                        prev.deletetimesheetlimit - 1
+                      ),
+                    }))
+                  }
+                  className="w-10 h-10 flex justify-center items-center rounded-lg bg-gray-200 dark:bg-neutral-800 hover:bg-gray-300 dark:hover:bg-neutral-500 text-xl text-gray-700 dark:text-white"
+                >
+                  <FaCaretDown />
+                </button>
+                <input
+                  type="number"
+                  id="deletetimesheetlimit"
+                  name="deletetimesheetlimit"
+                  value={formData.deletetimesheetlimit}
+                  onChange={handleInputChange}
+                  className="w-24 border-2 border-gray-300 rounded-md text-center py-2 dark:bg-neutral-800 dark:text-white"
+                />
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      deletetimesheetlimit: prev.deletetimesheetlimit + 1,
+                    }))
+                  }
+                  className="w-10 h-10 flex justify-center items-center rounded-lg bg-gray-200 dark:bg-neutral-800 hover:bg-gray-300 dark:hover:bg-neutral-500 text-xl text-gray-700 dark:text-white"
+                >
+                  <FaCaretUp />
+                </button>
+              </div>
+            </div>
+
+            {/* Submit button */}
+            <button
+              type="submit"
+              className="bg-blue-500/20 text-blue-500 py-3 rounded-lg hover:bg-blue-500/30 transition duration-300 ease-in-out"
+            >
+              Update Timesheet Limits
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
