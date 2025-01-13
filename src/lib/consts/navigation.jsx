@@ -5,6 +5,7 @@ import { FaCalendarCheck, FaCalendarDays } from "react-icons/fa6";
 import { RiServiceFill } from "react-icons/ri";
 import { HiMiniCodeBracketSquare } from "react-icons/hi2";
 import { RiShieldUserFill } from "react-icons/ri";
+import { RiSettings2Fill } from "react-icons/ri";
 import { BsPeopleFill } from "react-icons/bs";
 import { FaBusinessTime } from "react-icons/fa6";
 import { TbLayoutDashboardFilled } from "react-icons/tb";
@@ -62,13 +63,13 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     icon: <HiMiniCodeBracketSquare />,
     allowedAuth: [1], // only admin can access
   },
-  // {
-  //   key: "user",
-  //   label: "User",
-  //   path: "/user",
-  //   icon: <RiShieldUserFill />,
-  //   allowedAuth: [1], // only admin can access
-  // },
+  {
+    key: "settings",
+    label: "Settings",
+    path: "/settings",
+    icon: <RiSettings2Fill />,
+    allowedAuth: [1], // only admin can access
+  },
   {
     key: "timesheet",
     label: "Timesheet",

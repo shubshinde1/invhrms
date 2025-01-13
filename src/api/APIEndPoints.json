@@ -14,6 +14,8 @@
         "deletetimesheet": "deletetimesheet",
         "updatetimesheet": "updatetimesheet",
         "gettimesheetday": "gettimesheetdays",
+        "gettimesheetlimit": "admin/gettimesheetlimit",
+        "updatetimesheetlimit": "admin/updatetimesheetlimit",
         "addholidays": "admin/addholidays",
         "viewholidays": "admin/viewholidays",
         "viewleaverecords": "viewleaverecords",

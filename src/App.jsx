@@ -29,6 +29,7 @@ import Timesheet from "./components/timesheet/TimeSheet";
 import UserProfile from "../src/components/userprofile/UserProfile";
 import UserLeave from "./components/userleave/UserLeave";
 import AttendanceHistory from "./components/dashboard/AttendanceHistory";
+import Settings from "./components/admin/settings/Settings";
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -56,6 +57,7 @@ function App() {
           <Route path="/clients" element={<Clients />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="/Pim" element={<Pim />} />
           <Route path="/pim/employeelist" element={<Employeelist />} />
           {/* <Route path="/pim/addemployee" element={<Addemployee />} /> */}
