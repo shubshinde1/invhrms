@@ -108,6 +108,7 @@ const ApplyLeave = () => {
   });
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState("");
+  const [isoptionalholiday, setIsoptionalholiday] = useState(0);
 
   const employee_id = userData?.employeeData._id;
 
@@ -128,6 +129,10 @@ const ApplyLeave = () => {
         }
       );
       const data = await response.json();
+      setIsoptionalholiday(
+        data.holidays.optionalholiday?.optionalholidaylist.length
+      );
+
       if (data.success) {
         setHolidayList(data.holidays.optionalholiday?.optionalholidaylist);
       }
@@ -298,7 +303,9 @@ const ApplyLeave = () => {
               <GlobalStyles />
               <MenuItem value="">Choose value</MenuItem>
               <MenuItem value="leave">Leave</MenuItem>
-              <MenuItem value="Optional holiday">Optional holiday</MenuItem>
+              {isoptionalholiday > 0 && (
+                <MenuItem value="Optional holiday">Optional holiday</MenuItem>
+              )}
             </Select>
           </FormControl>
         </div>
