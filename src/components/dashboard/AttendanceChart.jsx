@@ -11,6 +11,7 @@ const AttendanceChart = () => {
   const employee_id = userData?.employeeData._id;
 
   const [attendanceData, setAttendanceData] = useState([]);
+  const [maxHours, setMaxHours] = useState(0);
 
   const getAttendanceHistory = async () => {
     try {
@@ -43,7 +44,6 @@ const AttendanceChart = () => {
     }
   }, [employee_id, token]);
 
-  // Utility function to convert milliseconds to hh:mm
   const formatMilliseconds = (milliseconds) => {
     const totalMinutes = Math.floor(milliseconds / (1000 * 60));
     const hours = Math.floor(totalMinutes / 60);
@@ -54,7 +54,6 @@ const AttendanceChart = () => {
     )}`;
   };
 
-  // Utility function to convert milliseconds to hh:mm:ss
   const formatMillisecondsToHMS = (milliseconds) => {
     const totalSeconds = Math.floor(milliseconds / 1000);
     const hours = Math.floor(totalSeconds / 3600);
@@ -66,36 +65,68 @@ const AttendanceChart = () => {
     )}:${String(seconds).padStart(2, "0")}`;
   };
 
-  // Get today's date in the same format as the date in the records
   const today = dayjs().format("YYYY-MM-DD");
 
-  // Filter the attendance data to exclude today's records, sort by date, and get the last 7 records
-  const filteredAttendanceData = attendanceData
-    .filter((record) => dayjs(record.date).format("YYYY-MM-DD") !== today)
-    .sort((a, b) => dayjs(b.date).diff(dayjs(a.date))) // Sort by date in descending order
-    .slice(0, 7); // Get the last 7 records
+  const filteredAttendanceData = Array.from(
+    new Map(
+      attendanceData
+        .filter((record) => dayjs(record.date).format("YYYY-MM-DD") !== today)
+        .map((record) => [dayjs(record.date).format("YYYY-MM-DD"), record])
+    ).values()
+  ).sort((a, b) => dayjs(a.date).diff(dayjs(b.date)));
 
-  // Max hours in milliseconds
-  const maxHours = 9.5;
-  const maxMilliseconds = maxHours * 60 * 60 * 1000; // Convert hours to milliseconds
+  // Fill missing attendance data for the last 15 days
+  const last15Days = Array.from({ length: 15 }, (_, index) => {
+    const date = dayjs().subtract(index, "day").format("YYYY-MM-DD");
+    const attendanceRecord = filteredAttendanceData.find(
+      (record) => dayjs(record.date).format("YYYY-MM-DD") === date
+    );
+
+    return {
+      date,
+      totalhrs: attendanceRecord?.totalhrs || 0, // 0 if no attendance record
+    };
+  });
+
+  useEffect(() => {
+    if (attendanceData.length > 0) {
+      const maxTotalHours = Math.max(
+        ...attendanceData.map((record) => record.totalhrs || 0)
+      );
+
+      const hours = Math.floor(maxTotalHours / (1000 * 60 * 60));
+      const minutes = Math.floor(
+        (maxTotalHours % (1000 * 60 * 60)) / (1000 * 60)
+      );
+
+      const maxHours = hours + 2;
+      setMaxHours(maxHours);
+    }
+  }, [attendanceData]);
 
   return (
-    <div className="">
+    <div className="overflow-x-scroll scrollbrhorhdn">
       <div className="min-w-full text-sm">
-        <div className="flex flex-row ">
-          {filteredAttendanceData.map((record, rowIndex) => {
-            const totalHours = record.totalhrs / (1000 * 60 * 60); // Convert milliseconds to hours
-            const percentage = (totalHours / maxHours) * 100;
+        <div className="flex flex-row">
+          {last15Days.map((record, rowIndex) => {
+            const totalHours = record.totalhrs / (1000 * 60 * 60);
+            const percentage =
+              totalHours > 0 ? (totalHours / maxHours) * 100 : 0;
+            const hasData = totalHours > 0;
 
             return (
               <div
-                key={record._id}
-                className="flex flex-col justify-end  items-center"
+                key={record.date}
+                className="flex flex-col justify-end items-center"
               >
-                <div className="relative flex my-2 ">
-                  <div className="bg-blue-200/10 h-44 rounded-md flex items-end">
+                <div className="relative flex my-2">
+                  <div
+                    className={`${
+                      hasData ? "bg-blue-200/10" : "bg-red-500/10"
+                    } h-44 rounded-md flex items-end`}
+                  >
                     <Tooltip
-                      title={formatMillisecondsToHMS(record.totalhrs)}
+                      title={hasData ? record.date : "No Data"}
                       placement="top"
                       arrow
                     >
@@ -114,9 +145,7 @@ const AttendanceChart = () => {
                         }}
                       >
                         <div className="flex w-full justify-center items-center font-semibold text-white text-[0.60rem] px-">
-                          {record.totalhrs > 9000000
-                            ? formatMilliseconds(record.totalhrs)
-                            : ""}
+                          {hasData ? formatMilliseconds(record.totalhrs) : ""}
                         </div>
                       </motion.div>
                     </Tooltip>

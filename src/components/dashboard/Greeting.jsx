@@ -47,17 +47,22 @@ export default function Greeting() {
       calculateProgress(todaysAttendance);
     } catch (error) {
       console.error("Error fetching attendance history:", error);
+      setError("Unable to fetch attendance history. Please try again later.");
+      setTimeout(() => setError(""), 4000);
     } finally {
       setLoading(false);
     }
   };
 
   const calculateProgress = (attendanceRecords) => {
-    if (attendanceRecords.length === 0) return;
+    if (attendanceRecords.length === 0 || !attendanceRecords[0]?.intime) {
+      setProgress({ elapsed: 0, remaining: totalSeconds });
+      return;
+    }
 
     const record = attendanceRecords[0];
     const intime = new Date(record.intime).getTime();
-    const now = new Date().getTime();
+    const now = Date.now();
 
     const elapsedSeconds = Math.max(0, Math.floor((now - intime) / 1000));
     const remainingSeconds = Math.max(0, totalSeconds - elapsedSeconds);
@@ -67,12 +72,12 @@ export default function Greeting() {
 
   const handlePunchButtonClick = async () => {
     const mark = isPunchedIn ? "Out" : "In";
-    // const endpoint = `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.attendance}`;
 
     try {
       let inlocation = null;
       let outlocation = null;
 
+      // Get geolocation data
       if (mark === "In" || mark === "Out") {
         const position = await new Promise((resolve, reject) => {
           navigator.geolocation.getCurrentPosition(resolve, reject);
@@ -81,12 +86,12 @@ export default function Greeting() {
         const { latitude, longitude } = position.coords;
         if (mark === "In") {
           inlocation = { latitude, longitude };
-          // sessionStorage.setItem("intime", new Date().toISOString());
         } else {
           outlocation = { latitude, longitude };
         }
       }
 
+      // Send request to mark attendance
       const response = await fetch(
         `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.attendance}`,
         {
@@ -105,15 +110,16 @@ export default function Greeting() {
       );
 
       const data = await response.json();
-      console.log(data.attendance);
 
       if (response.ok) {
+        // Success message
         setMessage(`${mark === "In" ? "Punch In" : "Punch Out"} Successfully`);
         setTimeout(() => setMessage(""), 4000);
-        if (mark === "In") {
-          getAttendanceHistory(); // Refresh attendance records
-        }
+
+        // Refresh attendance records
+        await getAttendanceHistory();
       } else {
+        // Handle errors
         if (!token) {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("@secure.s.userData");
@@ -124,6 +130,7 @@ export default function Greeting() {
         setTimeout(() => setError(""), 4000);
       }
     } catch (error) {
+      // Handle exceptions
       setError(error.message || "An error occurred. Please try again.");
       setTimeout(() => setError(""), 4000);
     }
@@ -147,9 +154,7 @@ export default function Greeting() {
     return "Good Evening";
   };
 
-  const getFirstName = (fullName) => {
-    return fullName?.split(" ")[0] || "User";
-  };
+  const getFirstName = (fullName) => fullName?.split(" ")[0] || "User";
 
   const ProgressBar = ({ progress }) => {
     const progressBarWidth = (progress.elapsed / totalSeconds) * 100;
@@ -157,19 +162,14 @@ export default function Greeting() {
     return (
       <div className="w-full md:w-2/3 mt-4">
         <div className="flex justify-between text-xs">
-          <span className="flex flex-col items-end ">
-            {formatTime(progress.elapsed)} Completed
-          </span>
-          <span className="flex flex-col items-end">
-            {formatTime(progress.remaining)} Remaining
-          </span>
+          <span>{formatTime(progress.elapsed)} Completed</span>
+          <span>{formatTime(progress.remaining)} Remaining</span>
         </div>
-        <div className="bg-sky-100 dark:bg-blue-200/10 mt-2 h-5 rounded-md flex justify-start relative overflow-hidden">
+        <div className="bg-sky-100 dark:bg-blue-200/10 mt-2 h-5 rounded-md flex relative overflow-hidden">
           <div
-            className="absolute h-full bg-indigo-600  transition-[width] duration-1000"
+            className="absolute h-full bg-indigo-600 transition-[width] duration-1000"
             style={{
               width: `${progressBarWidth}%`,
-              borderRadius: "inherit",
             }}
           ></div>
         </div>
@@ -191,7 +191,10 @@ export default function Greeting() {
             {currentDateAttendance[0]?.outtime
               ? new Date(currentDateAttendance[0].outtime).toLocaleTimeString(
                   [],
-                  { hour: "2-digit", minute: "2-digit" }
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
                 )
               : "--:--"}
           </span>
@@ -200,20 +203,11 @@ export default function Greeting() {
     );
   };
 
-  useEffect(
-    () => {
-      if (employee_id && token) {
-        getAttendanceHistory();
-      }
-    },
-    [
-      // employee_id,
-      // token,
-      // calculateProgress,
-      // handlePunchButtonClick,
-      // ProgressBar,
-    ]
-  );
+  useEffect(() => {
+    if (employee_id && token) {
+      getAttendanceHistory();
+    }
+  }, [employee_id, token]);
 
   return (
     <div className="md:grid grid-cols-12 flex flex-col gap-10 md:gap-2">
@@ -223,27 +217,27 @@ export default function Greeting() {
         </h1>
       </div>
 
-      <div className="col-span-12 md:col-span-6 flex flex-col items-start md:items-end ">
+      <div className="col-span-12 md:col-span-6 flex flex-col items-start md:items-end">
         <div className="flex items-center gap-2">
           {loading ? null : hasTodaysAttendance ? (
-            isPunchedIn ? (
-              <button
-                className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-sky-50 text-red-500 bg-sky-100 dark:bg-gray-800 transition-all duration-1000"
-                onClick={handlePunchButtonClick}
-              >
-                Punch Out <IoLogOut fontSize={20} />
-              </button>
-            ) : (
-              <button
-                className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-sky-50 text-green-500 bg-sky-100 dark:bg-gray-800 transition-all duration-1000"
-                onClick={handlePunchButtonClick}
-              >
-                Punch In <IoLogIn fontSize={20} />
-              </button>
-            )
+            <button
+              className={`px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold  ${
+                isPunchedIn
+                  ? "text-red-500 bg-red-500/20 hover:bg-red-500/30"
+                  : "text-green-500 bg-green-500/20 hover:bg-green-500/30"
+              }`}
+              onClick={handlePunchButtonClick}
+            >
+              {isPunchedIn ? "Punch Out" : "Punch In"}{" "}
+              {isPunchedIn ? (
+                <IoLogOut fontSize={20} />
+              ) : (
+                <IoLogIn fontSize={20} />
+              )}
+            </button>
           ) : (
             <button
-              className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-sky-50 text-green-500 bg-sky-100 dark:bg-gray-800 transition-all duration-1000"
+              className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-sky-50 text-green-500 bg-sky-100"
               onClick={handlePunchButtonClick}
             >
               Punch In <IoLogIn fontSize={20} />

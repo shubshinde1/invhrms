@@ -131,6 +131,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   @apply bg-sky-400 dark:bg-neutral-500 rounded-full;
 }
 
+
+
+.scrollbrhorhdn {
+  @apply pb-3;
+  /* Added margin-top */
+}
+
+.scrollbrhorhdn::-webkit-scrollbar {
+  @apply h-1;
+}
+
+/* .scrollbrhorhdn::-webkit-scrollbar-track {
+    @apply bg-sky-200 dark:bg-neutral-700 rounded-full
+} */
+
+.scrollbrhorhdn::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 dark:bg-neutral-800 rounded-full;
+}
+
+.scrollbrhorhdn::-webkit-scrollbar-thumb:hover {
+  @apply bg-sky-400 dark:bg-neutral-500 rounded-full;
+}
+
 .custom-toolbar {
   background-color: #7e0f0f;
   position: absolute;
@@ -311,10 +334,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .custom-checkbox {
-  @apply flex items-center justify-center w-5 h-5 bg-sky-200 dark:bg-neutral-700  rounded-md transition-colors duration-200;
+  @apply flex items-center justify-center w-5 h-5 bg-sky-200 dark:bg-neutral-700 rounded-md transition-colors duration-200;
 }
 
-input[type="checkbox"]:checked + .custom-checkbox {
+input[type="checkbox"]:checked+.custom-checkbox {
   @apply bg-blue-600;
 }
 

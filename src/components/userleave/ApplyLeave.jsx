@@ -129,9 +129,9 @@ const ApplyLeave = () => {
         }
       );
       const data = await response.json();
-      setIsoptionalholiday(
-        data.holidays.optionalholiday?.optionalholidaylist.length
-      );
+      console.log(data);
+
+      setIsoptionalholiday(data.holidays.optionalholiday.available);
 
       if (data.success) {
         setHolidayList(data.holidays.optionalholiday?.optionalholidaylist);
