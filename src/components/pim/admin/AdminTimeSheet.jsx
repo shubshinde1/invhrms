@@ -301,8 +301,7 @@ const AdminTimeSheet = ({ Id, record, index }) => {
             },
             body: JSON.stringify({
               employee_id: _id,
-              startDate: currentDate,
-              endDate: currentDate,
+              date: currentDate,
             }),
           }
         );

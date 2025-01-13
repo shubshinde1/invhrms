@@ -251,8 +251,7 @@ export default function TimeSheet({ record, index }) {
             },
             body: JSON.stringify({
               employee_id: eid.toString(),
-              startDate: currentDate,
-              endDate: currentDate,
+              date: currentDate,
             }),
           }
         );
