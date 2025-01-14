@@ -1,14 +1,3 @@
-// import React from "react";
-// import { useParams } from "react-router-dom";
-
-// const AdminAttendance = (Id) => {
-//   const { _id } = useParams(); // Get the employee ID from URL params
-
-//   return <div>Attendance{_id}</div>;
-// };
-
-// export default AdminAttendance;
-
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { useParams } from "react-router-dom";
@@ -23,46 +12,27 @@ import {
 import ApiendPonits from "../../../api/APIEndPoints.json";
 import CustomDropdown from "../../custom/CustomDropdown";
 
-const fetchLocationName = async (latitude, longitude) => {
-  try {
-    const API_KEY = process.env.REACT_APP_GOOGLE_GEOLOCATION_API_KEY;
-    const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${API_KEY}`
-    );
-    const data = await response.json();
+const locationBoxes = [
+  {
+    latMin: 18.523633,
+    latMax: 18.567377,
+    lngMin: 73.748145,
+    lngMax: 73.804826,
+    locationName: "Baner, Pune", // You can replace this with the actual name of the location.
+  },
+];
 
-    if (data.status === "OK" && data.results.length > 0) {
-      const addressComponents = data.results[0].address_components;
+function getLocationName(lat, lng) {
+  const location = locationBoxes.find(
+    (box) =>
+      lat >= box.latMin &&
+      lat <= box.latMax &&
+      lng >= box.lngMin &&
+      lng <= box.lngMax
+  );
 
-      // Find area (sublocality) and city (locality)
-      let area = "";
-      let city = "";
-
-      addressComponents.forEach((component) => {
-        if (
-          component.types.includes("sublocality") ||
-          component.types.includes("sublocality_level_1")
-        ) {
-          area = component.long_name;
-        }
-        if (component.types.includes("locality")) {
-          city = component.long_name;
-        }
-      });
-
-      if (area && city) {
-        return `${area}, ${city}`;
-      } else {
-        throw new Error("Could not extract area or city");
-      }
-    } else {
-      throw new Error("No address found");
-    }
-  } catch (error) {
-    console.error("Error fetching location:", error);
-    return "Location not available";
-  }
-};
+  return location ? location.locationName : "Out of Office";
+}
 
 function msToTime(duration) {
   let milliseconds = parseInt((duration % 1000) / 100),
@@ -137,13 +107,13 @@ const AdminAttendance = (Id) => {
             const inLocation = `${record.inlocation.latitude},${record.inlocation.longitude}`;
             const outLocation = `${record.outlocation.latitude},${record.outlocation.longitude}`;
             if (!locNames[inLocation]) {
-              locNames[inLocation] = await fetchLocationName(
+              locNames[inLocation] = await getLocationName(
                 record.inlocation.latitude,
                 record.inlocation.longitude
               );
             }
             if (!locNames[outLocation]) {
-              locNames[outLocation] = await fetchLocationName(
+              locNames[outLocation] = await getLocationName(
                 record.outlocation.latitude,
                 record.outlocation.longitude
               );
@@ -527,9 +497,17 @@ const AdminAttendance = (Id) => {
                         target="_blank"
                         className="text-blue-500"
                       >
-                        {locationNames[
-                          `${record.inlocation.latitude},${record.inlocation.longitude}`
-                        ] || "Loading..."}
+                        {record.inlocation.latitude &&
+                        record.inlocation.longitude ? (
+                          <span>
+                            {getLocationName(
+                              record.inlocation.latitude,
+                              record.inlocation.longitude
+                            )}
+                          </span>
+                        ) : (
+                          "N/A"
+                        )}
                       </a>
                     </div>
                     <div className="col-span-2">
@@ -538,9 +516,17 @@ const AdminAttendance = (Id) => {
                         target="_blank"
                         className="text-blue-500"
                       >
-                        {locationNames[
-                          `${record.outlocation.latitude},${record.outlocation.longitude}`
-                        ] || "Loading..."}
+                        {record.outlocation.latitude &&
+                        record.outlocation.longitude ? (
+                          <span>
+                            {getLocationName(
+                              record.outlocation.latitude,
+                              record.outlocation.longitude
+                            )}
+                          </span>
+                        ) : (
+                          "N/A"
+                        )}
                       </a>
                     </div>
                   </div>

@@ -221,7 +221,7 @@ export default function Greeting() {
         <div className="flex items-center gap-2">
           {loading ? null : hasTodaysAttendance ? (
             <button
-              className={`px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold  ${
+              className={`px-2 py-1.5 rounded-md  flex items-center gap-1 text-xs font-bold  ${
                 isPunchedIn
                   ? "text-red-500 bg-red-500/20 hover:bg-red-500/30"
                   : "text-green-500 bg-green-500/20 hover:bg-green-500/30"
@@ -237,7 +237,7 @@ export default function Greeting() {
             </button>
           ) : (
             <button
-              className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-sky-50 text-green-500 bg-sky-100"
+              className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-green-500/30 text-green-500 bg-green-500/20"
               onClick={handlePunchButtonClick}
             >
               Punch In <IoLogIn fontSize={20} />
