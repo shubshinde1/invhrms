@@ -899,10 +899,16 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                         className={`lg:text-xs py-1 font-bold lg:my-1.5 flex items-center justify-center px-2 rounded-md ${
                           record.remark === "0"
                             ? "bg-red-500/20 text-red-600"
+                            : record.remark === "1"
+                            ? "bg-orange-500/20 text-orange-600"
                             : "bg-green-500/20 text-green-600"
                         }`}
                       >
-                        {record.remark === "0" ? "Pending" : "Completed"}
+                        {record.remark === "0"
+                          ? "Pending"
+                          : record.remark === "1"
+                          ? "In Progress"
+                          : "Completed"}
                       </h2>
                     </div>
                   </motion.div>

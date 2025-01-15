@@ -128,6 +128,7 @@ const AdminInfo = () => {
         maritialstatus: formData.maritialstatus,
         bloodgroup: formData.bloodgroup,
         dateofjoining: formData.dateofjoining,
+        status: formData.status,
         designation: formData.designation,
         department: formData.department,
         reportingto: formData.reportingto,
@@ -268,19 +269,47 @@ const AdminInfo = () => {
               alt={prfilealt}
             />
 
-            <div className="absolute bottom-2.5 right-2.5 text-white">
-              {formData.status === 1 ? (
-                <span className="flex items-center gap-0.5 bg-green-300 text-green-700 font-semibold text-xs w-fit p-1 rounded-md">
-                  <TiFlash fontSize={18} />
-                  Active
-                </span>
-              ) : (
-                <span className="flex items-center gap-0.5 bg-red-300 text-red-700 font-semibold text-xs w-fit p-1 rounded-md">
-                  <IoFlashOff fontSize={15} />
-                  Inactive
-                </span>
-              )}
-            </div>
+            {editMode ? (
+              <div className="absolute bottom-2.5 right-2.5 text-white">
+                <select
+                  className={`${
+                    formData.status === 0
+                      ? " text-red-500"
+                      : formData.status === 1
+                      ? "text-green-500"
+                      : "bg-gray-200 dark:bg-neutral-700"
+                  } w-20 font-semibold text-xs px-2 py-1 rounded-md bg-blue-100 dark:bg-neutral-800`}
+                  value={formData.status}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      status: parseInt(e.target.value), // Update the status
+                    }))
+                  }
+                >
+                  <option value={1} className="text-green-700">
+                    Active
+                  </option>
+                  <option value={0} className="text-red-700">
+                    Inactive
+                  </option>
+                </select>
+              </div>
+            ) : (
+              <div className="absolute bottom-2.5 right-2.5 text-white">
+                {formData.status === 1 ? (
+                  <span className="flex items-center gap-0.5 bg-green-300 text-green-700 font-semibold text-xs w-fit p-1 rounded-md">
+                    <TiFlash fontSize={18} />
+                    Active
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-0.5 bg-red-300 text-red-700 font-semibold text-xs w-fit p-1 rounded-md">
+                    <IoFlashOff fontSize={15} />
+                    Inactive
+                  </span>
+                )}
+              </div>
+            )}
           </div>
           <div className="flex items-center gap-2">
             <a
@@ -535,27 +564,6 @@ const AdminInfo = () => {
             </div>
 
             <div className="grid grid-cols-12 items-center gap-2 col-span-12 md:col-span-6 justify-between">
-              <label className=" col-span-4 ">Date of Joining</label>
-              {editMode ? (
-                <div className="col-span-8">
-                  <input
-                    type="date"
-                    name="dateofjoining"
-                    value={formData.dateofjoining || ""}
-                    onChange={handleInputChange}
-                    className="bg-sky-100 w-full px-2 py-1 border  dark:bg-neutral-800 rounded-md"
-                  />
-                </div>
-              ) : (
-                <div className="col-span-8">
-                  <h3 className="px-2 py-1 font-semibold">
-                    {employee.dateofjoining}
-                  </h3>
-                </div>
-              )}
-            </div>
-
-            <div className="grid grid-cols-12 items-center gap-2 col-span-12 md:col-span-6 justify-between">
               <label className="  col-span-4">Department</label>
               {editMode ? (
                 <div className="col-span-8">
@@ -587,6 +595,46 @@ const AdminInfo = () => {
                   </h3>
                 </div>
               )}
+            </div>
+
+            <div className="grid grid-cols-12 items-center gap-2 col-span-12 md:col-span-6 justify-between">
+              <label className=" col-span-4 ">Date of Joining</label>
+              {editMode ? (
+                <div className="col-span-8">
+                  <input
+                    type="date"
+                    name="dateofjoining"
+                    value={formData.dateofjoining || ""}
+                    onChange={handleInputChange}
+                    className="bg-sky-100 w-full px-2 py-1 border  dark:bg-neutral-800 rounded-md"
+                  />
+                </div>
+              ) : (
+                <div className="col-span-8">
+                  <h3 className="px-2 py-1 font-semibold">
+                    {employee.dateofjoining}
+                  </h3>
+                </div>
+              )}
+            </div>
+
+            <div className="grid grid-cols-12 items-center gap-2 col-span-12 md:col-span-6 justify-between">
+              <label className=" col-span-4 ">Last Working date</label>
+              {/* {editMode ? (
+                <div className="col-span-8">
+                  <input
+                    type="date"
+                    name="lastwd"
+                    value={formData.lastwd || ""}
+                    onChange={handleInputChange}
+                    className="bg-sky-100 w-full px-2 py-1 border  dark:bg-neutral-800 rounded-md"
+                  />
+                </div>
+              ) : ( */}
+              <div className="col-span-8">
+                <h3 className="px-2 py-1 font-semibold">{employee.lastwd}</h3>
+              </div>
+              {/* )} */}
             </div>
 
             <div className="grid grid-cols-12 items-center gap-2 col-span-12 md:col-span-6 justify-between">
