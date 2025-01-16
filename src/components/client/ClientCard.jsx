@@ -71,6 +71,8 @@ const ClientCard = () => {
     companyname: "",
     email: "",
     phone: "",
+    country: "",
+    industry: "",
   });
 
   const classes = useStyles();
@@ -165,6 +167,8 @@ const ClientCard = () => {
         companyname: "",
         email: "",
         phone: "",
+        country: "",
+        industry: "",
       }); // Reset form data
     } catch (err) {
       setError(err.message);
@@ -347,7 +351,7 @@ const ClientCard = () => {
                 setNewClient({ ...newClient, clientname: e.target.value })
               }
               className={classNames(
-                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
                 classes.root
               )}
             />
@@ -358,7 +362,7 @@ const ClientCard = () => {
                 setNewClient({ ...newClient, companyname: e.target.value })
               }
               className={classNames(
-                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
                 classes.root
               )}
             />
@@ -369,7 +373,7 @@ const ClientCard = () => {
                 setNewClient({ ...newClient, email: e.target.value })
               }
               className={classNames(
-                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
                 classes.root
               )}
             />
@@ -380,7 +384,29 @@ const ClientCard = () => {
                 setNewClient({ ...newClient, phone: e.target.value })
               }
               className={classNames(
-                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                classes.root
+              )}
+            />
+            <TextField
+              label="Country"
+              value={newClient.country}
+              onChange={(e) =>
+                setNewClient({ ...newClient, country: e.target.value })
+              }
+              className={classNames(
+                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                classes.root
+              )}
+            />
+            <TextField
+              label="Industry"
+              value={newClient.industry}
+              onChange={(e) =>
+                setNewClient({ ...newClient, industry: e.target.value })
+              }
+              className={classNames(
+                "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
                 classes.root
               )}
             />

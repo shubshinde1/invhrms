@@ -23,6 +23,7 @@ import { IoFileTrayFull } from "react-icons/io5";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Textarea } from "@chakra-ui/react";
+import { FaLinkedin } from "react-icons/fa";
 
 const GlobalStyles = createGlobalStyle`
 .MuiPaper-root{
@@ -133,6 +134,14 @@ const ViewClient = () => {
         phone: clientData.phone || "",
         officeaddress: clientData.officeaddress || "",
         status: clientData.status || 0,
+        linkedinurl: clientData.linkedinurl || "",
+        // paymentcycle: clientData.paymentcycle || 0,
+        industry: clientData.industry || "",
+        country: clientData.country || "",
+        // primarytechnology: clientData.primarytechnology || 0,
+        // futurepotential: clientData.futurepotential || 0,
+        // agreementduration: clientData.agreementduration || 0,
+        // gstno: clientData.gstno || 0,
       });
     }
   }, [clientData]);
@@ -235,6 +244,14 @@ const ViewClient = () => {
             officeaddress: formData.officeaddress,
             status: formData.status,
             projectCount: formData.projectCount,
+            linkedinurl: formData.linkedinurl,
+            // paymentcycle: formData.paymentcycle,
+            industry: formData.industry,
+            country: formData.country,
+            // primarytechnology: formData.primarytechnology,
+            // futurepotential: formData.futurepotential,
+            // agreementduration: formData.agreementduration,
+            // gstno: formData.gstno,
           }),
         }
       );
@@ -338,8 +355,8 @@ const ViewClient = () => {
     <div className="h-full pb-20">
       <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2 text-black dark:text-white h-full min-h-full">
         {/* Client Details */}
-        <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
-          <div className="flex flex-col md:flex-row md:items-end gap-2 justify-between h-fit w-full">
+        <div className="flex flex-col md:flex-row items-center gap-4">
+          <div className="flex flex-col md:flex-row md:items-end gap-2 md:gap-44 justify- h-full w-full">
             <div className="flex items-end gap-2 h-fit">
               <img
                 src={userprofile}
@@ -352,53 +369,76 @@ const ViewClient = () => {
                 {/* <span>{clientData._id}</span> */}
               </div>
             </div>
-            <div className="flex flex-col md:flex-row gap-2 md:gap-4">
-              <div className="flex justify-between md:flex-col gap-2">
-                <strong>Status</strong>
-                <span
-                  className={`w-fit px-1.5 py-0.5 text-xs rounded-md font-bold ${
-                    clientData.status === 1
-                      ? "bg-green-500/20 text-green-500"
-                      : "bg-red-500/20 text-red-500"
-                  }`}
-                >
-                  {clientData.status === 1 ? "Active" : "Inactive"}
-                </span>
-              </div>
-              <div className="flex justify-between md:flex-col gap-2">
-                <strong>Client ID</strong>
-                <span>{clientData.clientid}</span>
-              </div>
-              <div className="flex justify-between md:flex-col gap-2">
-                <strong>Phone</strong>
-                <span>{clientData.phone}</span>
-              </div>
-              <div className="flex justify-between md:flex-col gap-2">
-                <strong>Email</strong>
-                <span>{clientData.email}</span>
-              </div>
-              <div className="flex justify-between md:flex-col gap-2">
-                <strong>No Of Projects</strong>
-                <span>{clientData.projectCount}</span>
-              </div>
-              <div className="flex justify-between md:flex-col gap-2">
-                <strong>Office Address</strong>
-                <span>{clientData.officeaddress || "N/A"}</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setDrawerOpen(true)}
-                className="bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-2 rounded-md cursor-pointer"
+            <div className="flex flex-col gap-2 w-full h-full justify-between items-end">
+              {/* <div className=""> */}
+
+              <a
+                href={clientData.linkedinurl}
+                target="_blank"
+                className={`text-[#0073b1] -mt-10 md:m-0 bg-blue-500/20 p-2 rounded-md group ${
+                  clientData.linkedinurl ? "opacity-100" : "opacity-0"
+                }`}
               >
-                <MdEditSquare fontSize={20} />
-              </button>
-              <button
-                onClick={() => setProjectDrawerOpen(true)}
-                className="bg-green-500/50 dark:bg-green-500/20 text-white text-center dark:hover:bg-green-600/20 font-bold dark:text-green-500  p-2 text-sm rounded-md cursor-pointer"
-              >
-                Add Project
-              </button>
+                <FaLinkedin
+                  fontSize={22}
+                  className="group-hover:scale-110 duration-100"
+                />
+              </a>
+              {/* </div> */}
+              <div className="flex flex-col gap-1 md:flex-row w-full justify-between">
+                <div className="flex flex-col md:flex-row gap-2 md:gap-4">
+                  <div className="flex justify-between md:flex-col gap-2">
+                    <strong>Status</strong>
+                    <span
+                      className={`w-fit px-1.5 py-0.5 text-xs rounded-md font-bold ${
+                        clientData.status === 1
+                          ? "bg-green-500/20 text-green-500"
+                          : "bg-red-500/20 text-red-500"
+                      }`}
+                    >
+                      {clientData.status === 1 ? "Active" : "Inactive"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between md:flex-col gap-2">
+                    <strong>Client ID</strong>
+                    <span>{clientData.clientid}</span>
+                  </div>
+                  <div className="flex justify-between md:flex-col gap-2">
+                    <strong>Phone</strong>
+                    <span>{clientData.phone}</span>
+                  </div>
+                  <div className="flex justify-between md:flex-col gap-2">
+                    <strong>Email</strong>
+                    <span>{clientData.email}</span>
+                  </div>
+                  <div className="flex justify-between md:flex-col gap-2">
+                    <strong>No Of Projects</strong>
+                    <span>{clientData.projectCount}</span>
+                  </div>
+                  <div className="flex justify-between md:flex-col gap-2">
+                    <strong>Country</strong>
+                    <span>{clientData.country || "N/A"}</span>
+                  </div>
+                  <div className="flex justify-between md:flex-col gap-2">
+                    <strong>Industry</strong>
+                    <span>{clientData.industry || "N/A"}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setDrawerOpen(true)}
+                    className="bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-2 rounded-md cursor-pointer"
+                  >
+                    <MdEditSquare fontSize={20} />
+                  </button>
+                  <button
+                    onClick={() => setProjectDrawerOpen(true)}
+                    className="bg-green-500/50 dark:bg-green-500/20 text-white text-center dark:hover:bg-green-600/20 font-bold dark:text-green-500  p-2 text-sm rounded-md cursor-pointer"
+                  >
+                    Add Project
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -501,6 +541,7 @@ const ViewClient = () => {
                 classes.root
               )}
             />
+
             <TextField
               label="Email"
               name="email"
@@ -526,6 +567,39 @@ const ViewClient = () => {
               name="officeaddress"
               id="officeaddress"
               value={formData.officeaddress}
+              onChange={handleInputChange}
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            />
+            <TextField
+              label="Industry"
+              name="industry"
+              id="industry"
+              value={formData.industry}
+              onChange={handleInputChange}
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            />
+            <TextField
+              label="Country"
+              name="country"
+              id="country"
+              value={formData.country}
+              onChange={handleInputChange}
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            />
+            <TextField
+              label="linkedi Profile"
+              name="linkedinurl"
+              id="linkedinurl"
+              value={formData.linkedinurl}
               onChange={handleInputChange}
               className={classNames(
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
