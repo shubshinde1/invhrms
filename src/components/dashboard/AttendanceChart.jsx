@@ -122,7 +122,7 @@ const AttendanceChart = () => {
                 <div className="relative flex my-2">
                   <div
                     className={`${
-                      hasData ? "bg-blue-200/10" : "bg-red-500/10"
+                      hasData ? "bg-blue-200/10" : "bg-red-300/10 "
                     } h-44 rounded-md flex items-end`}
                   >
                     <Tooltip
@@ -138,13 +138,19 @@ const AttendanceChart = () => {
                           duration: 0.8,
                           delay: rowIndex * 0.1,
                         }}
-                        className="bg-indigo-600 w-8 rounded-md flex justify-start"
+                        className={`${
+                          totalHours >= 7
+                            ? "bg-green-500/30 text-green-500"
+                            : totalHours >= 5
+                            ? "bg-orange-500/30 text-orange-500"
+                            : "bg-red-500/30 text-red-500"
+                        } w-9 rounded-md flex justify-start`}
                         style={{
                           height: `${percentage}%`,
-                          transition: "height 0.3s ease",
+                          transition: "height 0.5s ease",
                         }}
                       >
-                        <div className="flex w-full justify-center items-center font-semibold text-white text-[0.60rem] px-">
+                        <div className="flex w-full justify-center items-start font-semibold text-whi text-[0.7rem] mt-1">
                           {hasData ? formatMilliseconds(record.totalhrs) : ""}
                         </div>
                       </motion.div>

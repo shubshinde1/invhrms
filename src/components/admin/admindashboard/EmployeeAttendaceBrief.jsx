@@ -14,6 +14,7 @@ import {
 import LeaveApplicationsCard from "./LeaveApplicationsCard";
 
 import { motion } from "framer-motion";
+import AniversaryCard from "./AniversaryCard";
 
 // Helper function to format the date in the required format
 const formatDate = (date) => {
@@ -179,95 +180,98 @@ const EmployeeAttendanceBrief = () => {
     <div className="h-full">
       {/* Active inactive employee counts */}
       <div className="grid grid-cols-4 sm:grid-cols-3 gap-2 h-full ">
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-          className="col-span-full sm:col-span-2 bg-none border-2 dark:border-none flex
+        <div className="col-span-4 sm:col-span-2 flex flex-col gap-2 h-full">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="col-span-full sm:col-span-2 bg-none border-2 dark:border-none flex
             flex-col gap-2 dark:bg-neutral-900 p-2 rounded-md h-fit"
-        >
-          <div className="flex items-center gap-2 justify-en">
-            <div className="flex items-center gap-2 bg-sky-50 dark:bg-neutral-950 p-1 h-full rounded-lg flex-col items-cente">
-              <div className="flex justify-between items-center gap-1">
-                <button
-                  onClick={() => handleChangeDate("prev")}
-                  className="p-1 bg-sky-100 hover:bg-sky-200 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 group"
-                >
-                  <FaCaretLeft
-                    fontSize={23}
-                    className="group-hover:-translate-x-1 duration-300"
-                  />
-                </button>
+          >
+            <div className="flex items-center gap-2 justify-en">
+              <div className="flex items-center gap-2 bg-sky-50 dark:bg-neutral-950 p-1 h-full rounded-lg flex-col items-cente">
+                <div className="flex justify-between items-center gap-1">
+                  <button
+                    onClick={() => handleChangeDate("prev")}
+                    className="p-1 bg-sky-100 hover:bg-sky-200 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 group"
+                  >
+                    <FaCaretLeft
+                      fontSize={23}
+                      className="group-hover:-translate-x-1 duration-300"
+                    />
+                  </button>
 
-                <h3 className="w-32 text-sm text-center font-semibold py-1.5 px-2 bg-sky-100 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 group">
-                  {getFormattedDate(selectedDate)}
-                </h3>
+                  <h3 className="w-32 text-sm text-center font-semibold py-1.5 px-2 bg-sky-100 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 group">
+                    {getFormattedDate(selectedDate)}
+                  </h3>
 
-                <button
-                  onClick={() => handleChangeDate("next")}
-                  disabled={isToday}
-                  className="p-1 bg-sky-100 hover:bg-sky-200 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 group"
-                >
-                  <FaCaretRight
-                    fontSize={23}
-                    className="group-hover:translate-x-1 duration-300"
-                  />
-                </button>
+                  <button
+                    onClick={() => handleChangeDate("next")}
+                    disabled={isToday}
+                    className="p-1 bg-sky-100 hover:bg-sky-200 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 group"
+                  >
+                    <FaCaretRight
+                      fontSize={23}
+                      className="group-hover:translate-x-1 duration-300"
+                    />
+                  </button>
 
-                {/* {!isToday && ( */}
-                <button
-                  onClick={() => ResetFiletr()}
-                  className="p-1 bg-sky-100 hover:bg-sky-200 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 group"
-                >
-                  <RiRefreshLine
-                    fontSize={23}
-                    className="group-hover:-rotate-90 duration-300"
-                  />
-                </button>
-                {/* // )} */}
+                  {/* {!isToday && ( */}
+                  <button
+                    onClick={() => ResetFiletr()}
+                    className="p-1 bg-sky-100 hover:bg-sky-200 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 group"
+                  >
+                    <RiRefreshLine
+                      fontSize={23}
+                      className="group-hover:-rotate-90 duration-300"
+                    />
+                  </button>
+                  {/* // )} */}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="h-full">
-            <div className="bg-sky-5 dark:bg-neutral-80  h-full rounded-lg flex flex-col items-center justify-center gap-2">
-              <ul className="flex items-center gap-2 justify-between w-full h-full">
-                <li className="flex justify-between w-full pl-2 pr-4 py-2 h-full gap-2 items-center font-medium bg-green-500/10  rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <FaCircleCheck fontSize={18} className="text-green-500" />
-                    <span>Present </span>
-                  </div>
-                  <span className="font-bold text-xl md:text-3xl text-green-500">
-                    {statusCounts[1]}
-                  </span>
-                </li>
+            <div className="h-full">
+              <div className="bg-sky-5 dark:bg-neutral-80  h-full rounded-lg flex flex-col items-center justify-center gap-2">
+                <ul className="flex items-center gap-2 justify-between w-full h-full">
+                  <li className="flex justify-between w-full pl-2 pr-4 py-2 h-full gap-2 items-center font-medium bg-green-500/10  rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <FaCircleCheck fontSize={18} className="text-green-500" />
+                      <span>Present </span>
+                    </div>
+                    <span className="font-bold text-xl md:text-3xl text-green-500">
+                      {statusCounts[1]}
+                    </span>
+                  </li>
 
-                <li className="flex justify-between w-full pl-2 pr-4 py-2 h-full gap-2 items-center font-medium bg-red-500/10  rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <FaCircleXmark fontSize={18} className="text-red-500" />
-                    <span>Absent</span>
-                  </div>
-                  <span className="font-bold text-xl md:text-3xl text-red-500">
-                    {absent ? 0 : onleave}
-                  </span>
-                </li>
+                  <li className="flex justify-between w-full pl-2 pr-4 py-2 h-full gap-2 items-center font-medium bg-red-500/10  rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <FaCircleXmark fontSize={18} className="text-red-500" />
+                      <span>Absent</span>
+                    </div>
+                    <span className="font-bold text-xl md:text-3xl text-red-500">
+                      {absent ? 0 : onleave}
+                    </span>
+                  </li>
 
-                <li className="flex justify-between w-full pl-2 pr-4 py-2 h-full gap-2 items-center font-medium bg-yellow-500/10  rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <FaCircleHalfStroke
-                      fontSize={18}
-                      className="text-yellow-500"
-                    />
-                    <span className="hidden md:flex">Half Day</span>
-                    <span className="md:hidden flex">Half D</span>
-                  </div>
-                  <span className="font-bold text-xl md:text-3xl text-yellow-500">
-                    {statusCounts[2]}
-                  </span>
-                </li>
-              </ul>
+                  <li className="flex justify-between w-full pl-2 pr-4 py-2 h-full gap-2 items-center font-medium bg-yellow-500/10  rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <FaCircleHalfStroke
+                        fontSize={18}
+                        className="text-yellow-500"
+                      />
+                      <span className="hidden md:flex">Half Day</span>
+                      <span className="md:hidden flex">Half D</span>
+                    </div>
+                    <span className="font-bold text-xl md:text-3xl text-yellow-500">
+                      {statusCounts[2]}
+                    </span>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+          <AniversaryCard employeeList={employeeList} />
+        </div>
 
         <div className="col-span-4 sm:col-span-1 flex flex-col gap-2 h-full">
           <motion.div
