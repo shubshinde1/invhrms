@@ -364,12 +364,12 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
                     </span> */}
                     {formOpen === index ? (
                       <div className=" flex flex- bg-sky-200 dark:bg-neutral-800 p-1  rounded-md items-center gap-1 text-xs ">
-                        <button
+                        {/* <button
                           onClick={() => handleSave(record._id, 0)}
                           className="bg-yellow-600/15 text-yellow-500 hover:bg-yellow-500/25 py-1 px-2 rounded-md w-full"
                         >
                           Pending
-                        </button>
+                        </button> */}
                         <button
                           onClick={() => handleSave(record._id, 1)}
                           className="bg-green-500/15 text-green-500 hover:bg-green-500/25 py-1 px-2 rounded-md w-full"

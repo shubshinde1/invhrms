@@ -336,7 +336,7 @@ const ViewClient = () => {
 
   return (
     <div className="h-full pb-20">
-      <div className="bg-white dark:bg-neutral-950 p-2 rounded-md text-black dark:text-white h-full min-h-full">
+      <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2 text-black dark:text-white h-full min-h-full">
         {/* Client Details */}
         <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
           <div className="flex flex-col md:flex-row md:items-end gap-2 justify-between h-fit w-full">
@@ -405,65 +405,65 @@ const ViewClient = () => {
         <hr className="w-full h-[2px] border-none bg-gray-300 dark:bg-neutral-800 my-2" />
 
         {/* Projects Table */}
-        <div className="">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 h-full overflow-y-scroll scrollbar-hide ">
-            {projects.map((project, index) => (
-              <div
-                key={project._id}
-                className=" rounded-lg shadow-md p-3 bg-gray-100 dark:bg-neutral-900 hover:shadow-lg transition-shadow group h-fit"
-              >
-                <div className="text-lg font-semibold mb-2 flex items-start justify-between gap-2 py-2 group-hover:px-2 group-hover:bg-blue-100 group-hover:dark:bg-neutral-950 rounded-md  duration-300">
-                  <div className="flex items-center gap-2 py-2 group-hover:text-blue-500">
-                    <span className="group-hover:hidden text-base">
-                      {index + 1}
-                    </span>
-                    <IoFileTrayFull className="hidden group-hover:flex " />
-                    <span className="text-base">{project.projectname}</span>
-                  </div>
-                  <div className="hidden group-hover:block">
-                    <button
-                      onClick={() => handleViewProject(project._id)} // Pass the clicked client data
-                      className="hover:bg-blue-500/20 hover:text-blue-500  p-2 rounded-md"
-                    >
-                      <FaExternalLinkAlt />
-                    </button>
-                  </div>
+        {/* <div className=""> */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 h-full overflow-y-scroll scrollbar-hide">
+          {projects.map((project, index) => (
+            <div
+              key={project._id}
+              className=" rounded-lg shadow-md p-3 bg-gray-100 dark:bg-neutral-900 hover:shadow-lg transition-shadow group h-full"
+            >
+              <div className="text-lg font-semibold mb-2 flex items-start justify-between gap-2 py-2 group-hover:px-2 group-hover:bg-blue-100 group-hover:dark:bg-neutral-950 rounded-md  duration-300">
+                <div className="flex items-center gap-2 py-2 group-hover:text-blue-500">
+                  <span className="group-hover:hidden text-base">
+                    {index + 1}
+                  </span>
+                  <IoFileTrayFull className="hidden group-hover:flex " />
+                  <span className="text-base">{project.projectname}</span>
                 </div>
-                <hr className="w-full h-[2px] border-none bg-gray-300 dark:bg-neutral-800 my-2" />
-
-                <div className="text-sm text-gray-600 dark:text-gray-300  grid grid-cols-2 gap-2">
-                  <div className="flex flex-col gap-1 w-1/2">
-                    <strong>Project ID</strong>
-                    {project.projectid}
-                  </div>
-                  <div className="flex flex-col gap-1 w-full">
-                    <strong>Assigned To</strong>
-                    <div className="flex items-center gap-2 ">
-                      <img
-                        src={
-                          project.assignto?.profile
-                            ? project.assignto?.profile
-                            : userprofile
-                        }
-                        alt={`${project.assignto?.name}'s profile`}
-                        className="w-6 h-6 rounded-lg object-cover"
-                      />
-                      {project.assignto ? project.assignto.name : "Unassigned"}
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-1 w-1/2">
-                    <strong>Start Date</strong>
-                    {new Date(project.createdAt).toLocaleDateString()}
-                  </div>
-                  <div className="flex flex-col gap-1 w-1/2">
-                    <strong>Status</strong>
-                    {project.status === 0 ? "Active" : "InActive"}
-                  </div>
+                <div className="hidden group-hover:block">
+                  <button
+                    onClick={() => handleViewProject(project._id)} // Pass the clicked client data
+                    className="hover:bg-blue-500/20 hover:text-blue-500  p-2 rounded-md"
+                  >
+                    <FaExternalLinkAlt />
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
+              <hr className="w-full h-[2px] border-none bg-gray-300 dark:bg-neutral-800 my-2" />
+
+              <div className="text-sm text-gray-600 dark:text-gray-300  grid grid-cols-2 gap-2">
+                <div className="flex flex-col gap-1 w-1/2">
+                  <strong>Project ID</strong>
+                  {project.projectid}
+                </div>
+                <div className="flex flex-col gap-1 w-full">
+                  <strong>Assigned To</strong>
+                  <div className="flex items-center gap-2 ">
+                    <img
+                      src={
+                        project.assignto?.profile
+                          ? project.assignto?.profile
+                          : userprofile
+                      }
+                      alt={`${project.assignto?.name}'s profile`}
+                      className="w-6 h-6 rounded-lg object-cover"
+                    />
+                    {project.assignto ? project.assignto.name : "Unassigned"}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1 w-1/2">
+                  <strong>Start Date</strong>
+                  {new Date(project.createdAt).toLocaleDateString()}
+                </div>
+                <div className="flex flex-col gap-1 w-1/2">
+                  <strong>Status</strong>
+                  {project.status === 0 ? "Active" : "InActive"}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
+        {/* </div> */}
 
         <Drawer
           anchor="right"

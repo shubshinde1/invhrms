@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import ApiendPonits from "../../../api/APIEndPoints.json";
 import Loading from "../../Loading";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
+import { motion } from "framer-motion";
 
 const Settings = () => {
   const token = localStorage.getItem("accessToken");
   const [timesheetLimit, setTimesheetLimit] = useState(null);
   const [error, setError] = useState(null);
+  const [massage, setMessage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     addtimesheetlimit: "",
@@ -76,6 +78,8 @@ const Settings = () => {
 
       if (response.ok) {
         setTimesheetLimit(data.data); // Update the state with the new values
+        setMessage("Timesheet limits updated successfully");
+        setTimeout(() => setMessage(""), 3000);
       } else {
         throw new Error(data.msg || "Failed to update timesheet limits");
       }
@@ -269,6 +273,19 @@ const Settings = () => {
           </form>
         </div>
       </div>
+
+      {massage ? (
+        <motion.div
+          initial={{ opacity: 0, x: 5 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="absolute bottom-2 right-2 bg-green-500/20 text-green-500 py-2 px-4 rounded-lg "
+        >
+          {massage}
+        </motion.div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
