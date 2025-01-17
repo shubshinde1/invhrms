@@ -108,7 +108,7 @@ const ViewClient = () => {
 
   const classes = useStyles();
   const location = useLocation();
-  const { client } = location.state || {}; // Destructure client safely
+  const { client, noofactiveprojects } = location.state || {}; // Destructure client safely
   const token = localStorage.getItem("accessToken"); // Retrieve token from localStorage
 
   const [projects, setProjects] = useState([]);
@@ -464,7 +464,7 @@ const ViewClient = () => {
                   </div>
                   <div className="flex justify-between md:flex-col gap-2">
                     <strong>No Of Projects</strong>
-                    <span>{clientData.projectCount}</span>
+                    <span>{noofactiveprojects}</span>
                   </div>
                   <div className="flex justify-between md:flex-col gap-2">
                     <strong>Country</strong>

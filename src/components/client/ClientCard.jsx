@@ -81,9 +81,9 @@ const ClientCard = () => {
 
   const navigate = useNavigate(); // Initialize navigate
 
-  const handleViewClient = (client) => {
+  const handleViewClient = (client, noofactiveprojects) => {
     // Navigate to the /clients/viewclient route and pass client data
-    navigate("/clients/viewclient", { state: { client } });
+    navigate("/clients/viewclient", { state: { client, noofactiveprojects } });
   };
 
   useEffect(() => {
@@ -277,7 +277,9 @@ const ClientCard = () => {
                 </div>
                 <div className="hidden group-hover:block">
                   <button
-                    onClick={() => handleViewClient(client)} // Pass the clicked client data
+                    onClick={() =>
+                      handleViewClient(client, client.noOfActiveProjects)
+                    } // Pass the clicked client data
                     className="hover:bg-blue-500/20 hover:text-blue-500  p-2 rounded-md"
                   >
                     <FaExternalLinkAlt />
