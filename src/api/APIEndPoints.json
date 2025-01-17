@@ -41,11 +41,12 @@
         "viewclientbyid": "api/admin/viewclientbyid",
         "addclient": "api/admin/addclient",
         "updateclient": "api/admin/updateclient",
+        "softdeleteclient": "api/admin/softdeleteclient",
         "viewproject": "api/admin/viewproject",
         "viewprojectbyclientid": "api/admin/viewprojectbyclientid",
         "viewprojectbyid": "api/admin/viewprojectbyid",
         "addProject": "api/admin/addproject",
         "updateproject": "api/admin/updateproject",
-        "deleteproject": "api/admin/deleteproject"
+        "softdeleteproject": "api/admin/softdeleteproject"
     }
 }

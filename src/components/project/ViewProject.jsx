@@ -258,7 +258,7 @@ const ViewProject = () => {
   const deleteproject = async (pid) => {
     try {
       const response = await fetch(
-        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.deleteproject}`,
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.softdeleteproject}`,
         {
           method: "POST",
           headers: {

@@ -105,8 +105,13 @@ const ClientCard = () => {
         }
 
         const result = await response.json();
-        setClients(result.data || []); // Use `result.data` as per the API response
-        setFilteredClients(result.data || []); // Initialize filtered clients
+        // Filter clients where isdeleted === false
+        const activeClients = (result.data || []).filter(
+          (client) => !client.isdeleted
+        );
+
+        setClients(activeClients); // Set filtered clients
+        setFilteredClients(activeClients); // Initialize filtered clients
       } catch (err) {
         setError(err.message);
       } finally {
@@ -315,7 +320,7 @@ const ClientCard = () => {
               </div>
               <div className="flex items-center gap-2">
                 <strong className="w-1/3">Projects</strong>
-                <span className="w-2/3">{client.projectCount}</span>
+                <span className="w-2/3">{client.noOfActiveProjects}</span>
               </div>
             </div>
           ))

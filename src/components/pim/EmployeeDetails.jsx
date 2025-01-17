@@ -76,7 +76,7 @@ const EmployeeDetails = () => {
         </button>
       </div>
 
-      <div className="">{renderContent()}</div>
+      <div className="h-full pb-20">{renderContent()}</div>
     </div>
   );
 };

@@ -276,13 +276,13 @@ const AdminAttendance = (Id) => {
   const yearOptions = [currentYear.toString(), (currentYear - 1).toString()];
 
   return (
-    <div className="dark:text-white bg-white dark:bg-neutral-950 p-2 rounded-md">
+    <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2 text-black dark:text-white h-full min-h-full">
       {loading ? (
         <p>Loading...</p>
       ) : errors ? (
         <p className="text-red-500">{errors}</p>
       ) : (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 h-full">
           {/* Grid Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             <motion.div
@@ -446,9 +446,9 @@ const AdminAttendance = (Id) => {
           {filteredAttendance.length === 0 ? (
             <p>No attendance records found for {monthName}.</p>
           ) : (
-            <div className="flex flex-col sm:gap-2">
+            <div className="flex flex-col sm:gap-2 h-full">
               {/* Grid View for larger screens */}
-              <div className="hidden sm:grid sm:grid-cols-11 gap-4 bg-sky-100 dark:bg-neutral-800 p-2 rounded-md">
+              <div className="hidden sm:grid sm:grid-cols-11 gap-4 bg-sky-100 dark:bg-neutral-800 p-2 rounded-md ">
                 <div className="font-semibold">Sr. No.</div>
                 <div className="col-span-1 font-semibold">Date</div>
                 <div className="col-span-1 font-semibold">In Time</div>
@@ -459,7 +459,7 @@ const AdminAttendance = (Id) => {
                 <div className="col-span-2 font-semibold">out location</div>
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 h-96 overflow-y-scroll scrollbar-hide">
                 {filteredAttendance.map((record, index) => (
                   <div
                     key={record._id}
@@ -538,7 +538,7 @@ const AdminAttendance = (Id) => {
                 {filteredAttendance.map((record, index) => (
                   <div
                     key={record._id}
-                    className="sm:hidden bg-white dark:bg-neutral-900 p-2 rounded-md"
+                    className="sm:hidden bg-white border-2 dark:border-none dark:bg-neutral-900 p-2 rounded-md"
                   >
                     <div className="font-semibold text-lg hidden sm:flex">
                       Record {index + 1}
@@ -583,6 +583,51 @@ const AdminAttendance = (Id) => {
                             ? "Present"
                             : "Half Day"}
                         </span>
+                      </div>
+
+                      <div className="flex justify-between mt-1">
+                        <span className="font-semibold">In Location</span>
+                        <div className="col-span-2">
+                          <a
+                            href={`https://www.google.com/maps?q=${record.inlocation.latitude},${record.inlocation.longitude}`}
+                            target="_blank"
+                            className="text-blue-500"
+                          >
+                            {record.inlocation.latitude &&
+                            record.inlocation.longitude ? (
+                              <span>
+                                {getLocationName(
+                                  record.inlocation.latitude,
+                                  record.inlocation.longitude
+                                )}
+                              </span>
+                            ) : (
+                              "N/A"
+                            )}
+                          </a>
+                        </div>
+                      </div>
+                      <div className="flex justify-between mt-1">
+                        <span className="font-semibold">Out Location</span>
+                        <div className="col-span-2">
+                          <a
+                            href={`https://www.google.com/maps?q=${record.outlocation.latitude},${record.outlocation.longitude}`}
+                            target="_blank"
+                            className="text-blue-500"
+                          >
+                            {record.outlocation.latitude &&
+                            record.outlocation.longitude ? (
+                              <span>
+                                {getLocationName(
+                                  record.outlocation.latitude,
+                                  record.outlocation.longitude
+                                )}
+                              </span>
+                            ) : (
+                              "N/A"
+                            )}
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>

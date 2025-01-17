@@ -19,6 +19,7 @@ import { makeStyles } from "@mui/styles";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import { IoClose } from "react-icons/io5";
 import { MdEditSquare } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import { IoFileTrayFull } from "react-icons/io5";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -116,6 +117,11 @@ const ViewClient = () => {
   const [formData, setFormData] = useState({});
   const [drawerOpen, setDrawerOpen] = useState(false); // drawer for update client
   const [projectDrawerOpen, setProjectDrawerOpen] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [confirmationName, setConfirmationName] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState("");
+
   const [projectForm, setProjectForm] = useState({
     projectname: "",
     assignto: "",
@@ -200,10 +206,12 @@ const ViewClient = () => {
         );
 
         const data = await response.json();
-        // console.log(data);
 
         if (response.ok) {
-          setProjects(data.data); // Set the projects data
+          const activeProjects = (data.data || []).filter(
+            (project) => !project.isdeleted
+          );
+          setProjects(activeProjects); // Set the projects data
         } else {
           console.error(
             "Error in Response:",
@@ -351,6 +359,49 @@ const ViewClient = () => {
     navigate(`/projects/viewproject/${projectId}`);
   };
 
+  const deleteproject = async (cid) => {
+    try {
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.softdeleteclient}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`, // Ensure token is valid and not null
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ clientid: cid }), // Send client ID in the body
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Successfully deleted client
+        console.log(data.msg); // Optional: Log success message from the server
+        navigate("/clients"); // Redirect to clients page
+      } else {
+        // Set error message for UI
+        setError(data.msg || "Failed to delete the client");
+      }
+    } catch (error) {
+      // Set error message for network or client-side issues
+      setError(
+        "An error occurred while deleting the client. Please try again."
+      );
+      console.error("Error:", error.message);
+    }
+  };
+
+  const handleDeleteClick = () => {
+    if (confirmationName !== clientData.clientname) {
+      setErrorMessage("Please enter correct project name");
+      return;
+    }
+    setErrorMessage(""); // Clear the error message on success
+    deleteproject(clientData._id);
+    // console.log(clientData._id);
+  };
+
   return (
     <div className="h-full pb-20">
       <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2 text-black dark:text-white h-full min-h-full">
@@ -426,6 +477,62 @@ const ViewClient = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <button
+                    onClick={() => setShowConfirmation(!showConfirmation)}
+                    className="bg-red-500/20 text-center text-base hover:bg-red-600/20 font-bold text-red-500  p-2 rounded-md cursor-pointer"
+                  >
+                    <MdDelete fontSize={20} />
+                  </button>
+
+                  {showConfirmation && (
+                    <div className="z-50 fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center">
+                      <div className="bg-white/50 dark:bg-neutral-800/50  p-6 rounded-lg shadow-lg flex flex-col gap-4 w-96">
+                        <h3 className="text-lg font-semibold text-center">
+                          Confirm Deletion
+                        </h3>
+                        <p>
+                          To delete the project{" "}
+                          <span className="font-extrabold">
+                            {clientData.clientname}
+                          </span>
+                          , type the name to confirm.
+                        </p>
+                        <input
+                          type="text"
+                          placeholder="Enter project name"
+                          value={confirmationName}
+                          onChange={(e) => setConfirmationName(e.target.value)}
+                          className={classNames(
+                            "border p-2 rounded-md w-full",
+                            errorMessage
+                              ? "border-red-500 ring-2 ring-red-500 dark:bg-neutral-900 bg-gray-200"
+                              : confirmationName === clientData.clientname
+                              ? "border-green-500 ring-2 ring-green-500 dark:bg-neutral-900 bg-gray-200"
+                              : "border-red-500 ring-2 ring-red-500 dark:bg-neutral-900 bg-gray-200"
+                          )}
+                        />
+                        {error && (
+                          <div className=" text-red-500 bg-red-500/20 p-2 rounded-md">
+                            {error}
+                          </div>
+                        )}
+                        <div className="flex justify-center gap-2 w-full">
+                          <button
+                            onClick={handleDeleteClick}
+                            className="bg-red-500/20 text-red-500 hover:font-bold px-4 py-2 rounded-md w-full"
+                          >
+                            Delete
+                          </button>
+                          <button
+                            onClick={() => setShowConfirmation(false)}
+                            className="bg-gray-300/20 hover:font-bold px-4 py-2 rounded-md w-ful"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <button
                     onClick={() => setDrawerOpen(true)}
                     className="bg-blue-500/20 text-center text-base hover:bg-blue-600/20 font-bold text-blue-500  p-2 rounded-md cursor-pointer"
                   >
@@ -446,7 +553,7 @@ const ViewClient = () => {
 
         {/* Projects Table */}
         {/* <div className=""> */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 h-full overflow-y-scroll scrollbar-hide">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 h-full max-h-fit overflow-y-scroll scrollbar-hide">
           {projects.map((project, index) => (
             <div
               key={project._id}

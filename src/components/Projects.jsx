@@ -34,8 +34,11 @@ const Projects = () => {
 
         const data = await response.json();
         if (response.ok) {
-          setProjects(data.data);
-          setFilteredProjects(data.data); // Initialize filtered projects
+          const activeProjects = (data.data || []).filter(
+            (project) => !project.isdeleted
+          );
+          setProjects(activeProjects);
+          setFilteredProjects(activeProjects); // Initialize filtered projects
         } else {
           console.error("Error fetching project:", data.msg);
           setError(data.msg);
@@ -92,7 +95,7 @@ const Projects = () => {
 
   return (
     <div className="h-full pb-20">
-      <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2 text-black dark:text-white h-full max-h-full">
+      <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2 text-black dark:text-white h-full min-h-full">
         {/* Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           <motion.div
@@ -239,7 +242,7 @@ const Projects = () => {
                 </div>
               ))
             ) : (
-              <p className="mt-2 h-full bg-blue-50 dark:bg-neutral-800 rounded-md items-center justify-center flex">
+              <p className="mt-2 h-full bg-blue-50 dark:bg-neutral-800 rounded-md items-center justify-center flex ">
                 No projects found for keyword "{searchQuery}"
               </p>
             )}
