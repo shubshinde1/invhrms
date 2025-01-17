@@ -405,7 +405,7 @@ const DashCalendar = ({
                           );
 
                           if (remainingDays === 0) {
-                            return "px-1.5 py-0.5 bg-green-500/20 rounded-md text-green-500 font-bold text-sm "; // Today: Green
+                            return "px-2 py-1 bg-green-500/20 rounded-md text-green-500 font-bold text-sm "; // Today: Green
                           } else if (remainingDays > 0) {
                             return "px-1.5 py-0.5 bg-orange-500/20 rounded-md text-orange-500"; // Future: Orange
                           } else {
@@ -421,11 +421,19 @@ const DashCalendar = ({
                             timeDiff / (1000 * 60 * 60 * 24)
                           );
 
-                          return remainingDays > 0
-                            ? `In ${remainingDays} d`
-                            : remainingDays === 0
-                            ? "Today"
-                            : "Passed";
+                          return remainingDays > 0 ? (
+                            `In ${remainingDays} d`
+                          ) : remainingDays === 0 ? (
+                            <div className="flex items-center gap-2 font-bold">
+                              <span>Today</span>
+                              <span className="relative flex h-1.5 w-1.5 items-center justify-center">
+                                <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-green-400"></span>
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+                              </span>
+                            </div>
+                          ) : (
+                            "Passed"
+                          );
                         })()}
                       </div>
 

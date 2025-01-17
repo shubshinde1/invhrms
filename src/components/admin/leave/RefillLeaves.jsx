@@ -459,12 +459,12 @@ const RefillLeaves = () => {
                                                 //     ? "bg-orange-500/15 text-orange-500"
                                                 //     : "bg-orange-500/15 text-orange-500"
                                                 // }`}
-                                                className="flex items-center gap-2 p-2 font-bold py-1 rounded-md text-xs bg-orange-500/15 text-orange-500"
+                                                className="flex items-center gap-2 p-2 font-bold py-1 rounded-md text-xs bg-green-500/15 text-green-500"
                                               >
                                                 <span>Today</span>
                                                 <span className="relative flex h-1.5 w-1.5 items-center justify-center">
-                                                  <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-orange-400"></span>
-                                                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-orange-500"></span>
+                                                  <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-green-400"></span>
+                                                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
                                                 </span>
                                               </div>
                                             </div>
@@ -479,7 +479,7 @@ const RefillLeaves = () => {
                                               <div className="w-32">
                                                 {eventDateString}
                                               </div>
-                                              <div className="bg-green-500/15 px-1.5 py-0.5 rounded-md text-green-500 text-xs">
+                                              <div className="bg-orange-500/15 px-1.5 py-0.5 rounded-md text-orange-500 text-xs">
                                                 In {daysDifference} d
                                               </div>
                                             </div>
