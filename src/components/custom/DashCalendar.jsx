@@ -12,6 +12,7 @@ import { makeStyles } from "@mui/styles";
 import classNames from "classnames";
 import { BsInfoSquareFill } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
+import Tooltip from "@mui/material/Tooltip";
 
 const GlobalStyles = createGlobalStyle`
 .MuiPaper-root {
@@ -210,9 +211,17 @@ const DashCalendar = ({
   ];
 
   const upcomingHolidays = allHolidays
-    .filter((holiday) => new Date(holiday.date) > new Date())
+    .filter((holiday) => {
+      const holidayDate = new Date(holiday.date);
+      const today = new Date();
+
+      // Ensure comparison ignores the time part
+      return (
+        holidayDate >=
+        new Date(today.getFullYear(), today.getMonth(), today.getDate())
+      );
+    })
     .sort((a, b) => new Date(a.date) - new Date(b.date));
-  // .slice(0, 5);
 
   const holidayColors = {
     mandatory: "bg-pink-500",
@@ -316,7 +325,12 @@ const DashCalendar = ({
             {Array.from({ length: daysInMonth }).map((_, day) => (
               <div
                 key={day}
-                onClick={() => handleDateClick(day + 1)}
+                // only show if there is holiday
+                onClick={() => {
+                  if (getHolidayDetails(day + 1).length > 0) {
+                    handleDateClick(day + 1);
+                  }
+                }}
                 className={classNames(
                   "group p-2 rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800 relative border dark:border-neutral-900 border-sky-100 text-center",
                   {
@@ -355,6 +369,7 @@ const DashCalendar = ({
                     "p-2 rounded-md dark:bg-neutral-900/45 bg-sky-50 hover:bg-sky-100 dark:hover:bg-neutral-900 group"
                   )}
                 >
+                  {/* <Tooltip title={holiday.type} placement="top" arrow> */}
                   <div className="flex gap-2 justify-between items-start">
                     <div className="flex gap-3 items-center">
                       <div className="dark:bg-neutral-950 bg-white group-hover:shadow-xl py-1 px-4 rounded-md flex flex-col items-center">
@@ -379,20 +394,58 @@ const DashCalendar = ({
                         </div>
                       </div>
                     </div>
-                    <div
-                      className={classNames({
-                        "bg-red-500/20 text-red-500 text-xs font-semibold px-1 rounded-md":
-                          holiday.type === "weekend",
-                        "bg-yellow-500/20 text-yellow-500 text-xs font-semibold px-1 rounded-md":
-                          holiday.type === "optional",
-                        "bg-pink-500/20 text-pink-500 text-xs font-semibold px-1 rounded-md":
-                          holiday.type === "mandatory",
-                        // Default or other conditions can be added here
-                      })}
-                    >
-                      {holiday.type}
+                    <div className="flex gap-2 relative group">
+                      <div
+                        className={`text-xs ${(() => {
+                          const today = new Date();
+                          const holidayDate = new Date(holiday.date);
+                          const timeDiff = holidayDate - today;
+                          const remainingDays = Math.ceil(
+                            timeDiff / (1000 * 60 * 60 * 24)
+                          );
+
+                          if (remainingDays === 0) {
+                            return "px-1.5 py-0.5 bg-green-500/20 rounded-md text-green-500 font-bold text-sm "; // Today: Green
+                          } else if (remainingDays > 0) {
+                            return "px-1.5 py-0.5 bg-orange-500/20 rounded-md text-orange-500"; // Future: Orange
+                          } else {
+                            return "px-1.5 py-0.5 bg-gray-500/20 rounded-md text-gray-500"; // Passed: Gray
+                          }
+                        })()}`}
+                      >
+                        {(() => {
+                          const today = new Date();
+                          const holidayDate = new Date(holiday.date);
+                          const timeDiff = holidayDate - today;
+                          const remainingDays = Math.ceil(
+                            timeDiff / (1000 * 60 * 60 * 24)
+                          );
+
+                          return remainingDays > 0
+                            ? `In ${remainingDays} d`
+                            : remainingDays === 0
+                            ? "Today"
+                            : "Passed";
+                        })()}
+                      </div>
+
+                      <div className="absolute hidden group-hover:block group-hover:relative top-0 right-0">
+                        <div
+                          className={classNames({
+                            "bg-red-500/20 text-red-500 text-xs font-semibold px-1.5 py-0.5 rounded-md":
+                              holiday.type === "weekend",
+                            "bg-yellow-500/20 text-yellow-500 text-xs font-semibold px-1.5 py-0.5 rounded-md":
+                              holiday.type === "optional",
+                            "bg-pink-500/20 text-pink-500 text-xs font-semibold px-1.5 py-0.5 rounded-md":
+                              holiday.type === "mandatory",
+                          })}
+                        >
+                          {holiday.type}
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  {/* </Tooltip> */}
                 </div>
               ))}
             </div>

@@ -128,7 +128,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .scrollbrhdn::-webkit-scrollbar-thumb:hover {
-  @apply bg-sky-400 dark:bg-neutral-500 rounded-full;
+  @apply bg-blue-600 dark:bg-neutral-500 rounded-full;
 }
 
 
@@ -151,7 +151,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .scrollbrhorhdn::-webkit-scrollbar-thumb:hover {
-  @apply bg-sky-400 dark:bg-neutral-500 rounded-full;
+  @apply bg-blue-600 dark:bg-neutral-500 rounded-full;
 }
 
 .custom-toolbar {
