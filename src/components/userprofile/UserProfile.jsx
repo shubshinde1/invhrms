@@ -368,9 +368,9 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="flex flex-col  gap-2 h-fit mb-20">
-      <div className="flex flex-col lg:flex-row gap-2">
-        <div className="lg:w-1/3 h-fit lg:sticky top-0 bg-white p-2 dark:bg-neutral-950 dark:text-white rounded-md flex flex-col gap-2">
+    <div className="flex flex-col  gap-2 h-full min-h-full pb-20">
+      <div className="flex flex-col lg:flex-row gap-2 h-full">
+        <div className="lg:w-1/3 h-full lg:sticky top-0 bg-white p-2 dark:bg-neutral-950 dark:text-white rounded-md flex flex-col gap-2">
           <div className="flex justify-between">
             <div className="">
               <ProfilePic />
@@ -398,13 +398,31 @@ const UserProfile = () => {
                   </button>
                 </div>
               ) : (
-                <button
-                  onClick={() => setIsEditMode(true)}
-                  className="bg-blue-200 dark:bg-blue-200/15 text-blue-500 font-bold px-2 py-1 rounded w-fit flex items-center gap-1.5 group"
-                >
-                  <MdEdit fontSize={15} />
-                  Edit Profile
-                </button>
+                <div className="flex gap-2">
+                  <div className="py-2 px-3 rounded-md bg-blue-100 dark:bg-neutral-900 flex items-center gap-2 w-fit">
+                    <div>
+                      As {userData.employeeData.auth === 0 ? "an" : "a"}
+                    </div>
+                    <div className="font-bold">
+                      {userData.employeeData.auth === 0 ? (
+                        <div className="text-purple-700">Employee</div>
+                      ) : userData.employeeData.auth === 2 ? (
+                        <div className="text-blue-700">HR</div>
+                      ) : userData.employeeData.auth === 3 ? (
+                        <div className="text-orange-700">Manager</div>
+                      ) : (
+                        "Unknown"
+                      )}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setIsEditMode(true)}
+                    className="bg-blue-200 dark:bg-blue-200/15 text-blue-500 font-bold px-2 py-1 rounded w-fit flex items-center gap-1.5 group"
+                  >
+                    <MdEdit fontSize={15} />
+                    Edit Profile
+                  </button>
+                </div>
               )}
 
               {showPasswordModal && (
@@ -498,7 +516,7 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-        <div className="lg:w-2/3  bg-white p-2 dark:bg-neutral-950 dark:text-white rounded-md flex flex-col gap-4">
+        <div className="lg:w-2/3 h-full overflow-y-scroll scrollbrhdn bg-white p-2 dark:bg-neutral-950 dark:text-white rounded-md flex flex-col gap-2">
           <div className=" bg-sky-100 flex flex-col gap-2 dark:bg-neutral-900 rounded-md p-2">
             <h4 className="text-base font-bold">Personal Details</h4>
             <div className="grid grid-cols-12 gap-2 bg-sky-50 dark:bg-neutral-950 rounded-md p-2">

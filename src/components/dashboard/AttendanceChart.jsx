@@ -144,7 +144,7 @@ const AttendanceChart = () => {
                             : totalHours >= 5
                             ? "bg-orange-500/30 text-orange-500"
                             : "bg-red-500/30 text-red-500"
-                        } w-9 rounded-md flex justify-start`}
+                        } w-8 rounded-md flex justify-start`}
                         style={{
                           height: `${percentage}%`,
                           transition: "height 0.5s ease",

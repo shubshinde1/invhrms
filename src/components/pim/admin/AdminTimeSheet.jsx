@@ -467,9 +467,9 @@ const AdminTimeSheet = ({ Id, record, index }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-neutral-950 dark:text-white p-2 rounded-lg shadow-lg mb-14 flex flex-col gap-2 h-">
+    <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2 text-black dark:text-white h-full max-h-full">
       {/* Stats Sections */}
-      <div className="grid grid-cols-12 gap-2">
+      <div className="grid grid-cols-12 gap-2 h-fit">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -574,9 +574,9 @@ const AdminTimeSheet = ({ Id, record, index }) => {
       </div>
 
       {/* Date Navigation */}
-      <div className="flex items-center gap-2 h-full">
-        <div className="relative w-full">
-          <div className="w-full p-2 border border-gray-300 rounded-lg bg-white dark:bg-neutral-900 dark:border-neutral-700  shadow-lg flex flex-col gap-2">
+      <div className="flex items-cente gap-2 h-full">
+        <div className="relative w-full h-full">
+          <div className="w-full h-full p-2 border border-gray-300 rounded-lg bg-white dark:bg-neutral-900 dark:border-neutral-700  shadow-lg flex flex-col gap-2">
             <div className="flex items-center justify-between gap-2 ">
               <div className="flex items-center justify-betwee gap-2 ">
                 <button
@@ -682,11 +682,11 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                 />
               </button> */}
             </div>
-            <div className="grid grid-cols-7 gap-1  bg-sky-50 dark:bg-neutral-950 p-2 rounded-md overflow-y-scroll scrollbar-hide">
+            <div className="grid grid-cols-7 gap-1 bg-sky-50 dark:bg-neutral-950 p-2 rounded-md overflow-y-scroll scrollbar-hide h-full">
               {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
                 <div
                   key={day}
-                  className="font-semibold text-center pb-4 pt-1 hover:bg-sky-100 dark:hover:bg-neutral-800 rounded-md"
+                  className="font-semibold text-center p-1 hover:bg-sky-100 dark:hover:bg-neutral-800 rounded-md"
                 >
                   {day}
                 </div>
@@ -711,7 +711,7 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                     key={day}
                     onClick={() => handleDateClick(day)}
                     className={classNames(
-                      "p-1 md:p-2 cursor-pointer rounded-md h-14 md:h-[5.2rem] w-full border dark:border-neutral-800 flex flex-col gap-2 justify-between",
+                      "p-1 md:p-2 cursor-pointer rounded-md h-full w-full border dark:border-neutral-800 flex flex-col gap-2 justify-between",
                       {
                         "bg-blue-500/20 text-blue-500 font-bold border border-blue-500/20":
                           isCurrentDate,
@@ -803,7 +803,7 @@ const AdminTimeSheet = ({ Id, record, index }) => {
 
             {timesheetData[currentDate] &&
             timesheetData[currentDate].length > 0 ? (
-              <div className="flex flex-col overflow-scroll h-[78vh] md:h-fit scrollbar-hide">
+              <div className="flex flex-col overflow-scroll h-[78vh] md:h-full scrollbar-hide">
                 <motion.div
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -819,7 +819,6 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                   <div className="col-span-1">Remark</div>
                   {/* <div className="col-span-1">Action</div> */}
                 </motion.div>
-
                 {timesheetData[currentDate].map((record, index) => (
                   <motion.div
                     initial={{ opacity: 0, y: 15 }}

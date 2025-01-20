@@ -191,8 +191,8 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
   };
 
   return (
-    <div className="p-2 border dark:border-none dark:bg-neutral-900 rounded-md h-[67.5vh] overflow-hidden pb-12">
-      <div className="flex gap-2 items-start justify-between mb-2">
+    <div className="p-2 border dark:border-none dark:bg-neutral-900 rounded-md h- ">
+      <div className="flex gap-2 items-start justify-between mb-2  h-fit">
         <div className="flex flex-wrap gap-2 items-center">
           <div className=" flex gap-1 bg-sky-100 dark:bg-neutral-950 p-1 rounded-md text-xs w-fit">
             {/* Month Filter Dropdown */}
@@ -307,7 +307,7 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col md:flex-row gap-10 md:gap-0 items-center bg-sky-50 dark:bg-neutral-900 rounded-md p-5 h-full"
+          className="flex flex-col md:flex-row gap-10 md:gap-0 items-center bg-sky-50 dark:bg-neutral-900 rounded-md p-5 h-fit"
         >
           <div className="md:w-1/2 flex justify-center">
             <img
@@ -330,7 +330,7 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full h-full relative overflow-auto scrollbrhdn rounded-lg flex flex-col gap-2"
+          className="w-full h-full relative  rounded-lg flex flex-col gap-2"
         >
           {/* Custom grid layout for leave history */}
           <div className="hidden md:grid grid-cols-12 gap-2 bg-sky-100 dark:bg-neutral-800 px-2 py-3 rounded-md font-semibold">
@@ -346,7 +346,7 @@ const EmployeeLeaveHistory = (Id, getLeaveRecord) => {
               {/* desktop */}
               <div
                 key={index}
-                className="hidden md:grid col-span-12  grid-cols-12 gap-2 bg-sky-50 dark:bg-neutral-950 px-2 py-3 rounded-md font-semibold group"
+                className="hidden md:grid col-span-12 overflow-y-scroll scrollbrhdn  scrollbar-hide grid-cols-12 gap-2 bg-sky-50 dark:bg-neutral-950 px-2 py-3 rounded-md font-semibold group h-full "
               >
                 <div className="col-span-2">{record.leavetype}</div>
                 <div className="col-span-2">{record.reason}</div>

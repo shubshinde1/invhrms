@@ -120,7 +120,7 @@ export default function dashboard() {
     };
 
     getLeaveRecord();
-  }, [employee_id, token]);
+  }, [token]);
 
   // <motion.div
   //           initial={{ opacity: 0, y: 15 }}

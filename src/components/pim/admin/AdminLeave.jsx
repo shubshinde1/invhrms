@@ -176,9 +176,9 @@ const AdminLeave = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-neutral-950 rounded-md dark:text-white p-2 flex flex-col gap-2 mb-16">
+    <div className="bg-white dark:bg-neutral-950 p-2 rounded-md flex flex-col gap-2 text-black dark:text-white h-full min-h-full">
       <div
-        className={`grid gap-2 ${
+        className={`grid gap-2 h-fit sticky top-0 ${
           totalOptionalHoliday > 0
             ? "grid-cols-1 xl:grid-cols-5"
             : "grid-cols-2 xl:grid-cols-4"
@@ -347,7 +347,7 @@ const AdminLeave = () => {
         </motion.div>
       </div>
 
-      <div className="">
+      <div className="h-fit overflow-y-scroll scrollbar-hide">
         <LeaveHistory getLeaveRecord={getLeaveRecord} />
       </div>
     </div>

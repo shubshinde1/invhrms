@@ -16,8 +16,6 @@ const ProfilePic = () => {
   const empid = userData?.employeeData._id;
   const status = userData.employeeData.status;
 
-  console.log(empid);
-
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

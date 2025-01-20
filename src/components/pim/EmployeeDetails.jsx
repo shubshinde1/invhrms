@@ -23,6 +23,8 @@ const EmployeeDetails = () => {
         return <AdminTimeSheet Id={_id} />;
       case "Attendance":
         return <AdminAttendance Id={_id} />;
+      case "Info":
+        return <AdminInfo Id={_id} />;
       default:
         return <AdminInfo Id={_id} />;
     }
@@ -31,8 +33,8 @@ const EmployeeDetails = () => {
   useEffect(() => {}, [activeTab]);
 
   return (
-    <div className="flex flex-col gap-2 ">
-      <div className="bg-white dark:bg-neutral-950 p-2 dark:text-white rounded-md sticky top-0 z-20 flex justify-between md:justify-start gap-2">
+    <div className="flex flex-col gap-2 h-full ">
+      <div className="bg-white dark:bg-neutral-950 p-2 dark:text-white rounded-md sticky top-0 z-20 flex justify-between md:justify-start gap-2 h-fit ">
         <button
           className={`px-3 py-1  ${
             activeTab === "TimeSheet"
@@ -76,7 +78,17 @@ const EmployeeDetails = () => {
         </button>
       </div>
 
-      <div className="h-full pb-20">{renderContent()}</div>
+      <div
+        className={`h-full   ${
+          activeTab === "TimeSheet"
+            ? "pb-20"
+            : activeTab === "Info"
+            ? "pb-20"
+            : "pb-32"
+        }`}
+      >
+        {renderContent()}
+      </div>
     </div>
   );
 };

@@ -129,6 +129,7 @@ const AdminInfo = () => {
         bloodgroup: formData.bloodgroup,
         dateofjoining: formData.dateofjoining,
         status: formData.status,
+        auth: formData.auth,
         designation: formData.designation,
         department: formData.department,
         reportingto: formData.reportingto,
@@ -311,7 +312,57 @@ const AdminInfo = () => {
               </div>
             )}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 h-full">
+            {editMode ? (
+              <div className="bottom-2.5 right-2.5 text-white p-2 rounded-md bg-blue-100 dark:bg-neutral-900">
+                <select
+                  className={`${
+                    formData.auth === 0
+                      ? "text-red-500"
+                      : formData.auth === 1
+                      ? "text-green-500"
+                      : formData.auth === 2
+                      ? "text-blue-500"
+                      : formData.auth === 3
+                      ? "text-purple-500"
+                      : "bg-gray-200 dark:bg-neutral-700"
+                  } w-28 font-semibold text-xs px-2 py-1 rounded-md bg-blue-100 dark:bg-neutral-900`}
+                  value={formData.auth}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      auth: parseInt(e.target.value), // Update the auth
+                    }))
+                  }
+                >
+                  <option value={0} className="text-orange-700">
+                    Employee
+                  </option>
+                  <option value={2} className="text-blue-700">
+                    HR
+                  </option>
+                  <option value={3} className="text-purple-700">
+                    Manager
+                  </option>
+                </select>
+              </div>
+            ) : (
+              <div className="py-2 px-3 rounded-md bg-blue-100 dark:bg-neutral-900 flex items-center gap-2">
+                <div>As {employee.auth === 0 ? "an" : "a"}</div>
+                <div>
+                  {employee.auth === 0 ? (
+                    <div className="text-purple-700">Employee</div>
+                  ) : employee.auth === 2 ? (
+                    <div className="text-blue-700">HR</div>
+                  ) : employee.auth === 3 ? (
+                    <div className="text-orange-700">Manager</div>
+                  ) : (
+                    "Unknown"
+                  )}
+                </div>
+              </div>
+            )}
+
             <a
               href={`mailto:${employee.email}`}
               target="_blank"
@@ -407,7 +458,7 @@ const AdminInfo = () => {
         </div>
       </div>
 
-      <div className="col-span-12 lg:col-span-8 flex flex-col gap-4 md:overflow-y-scroll  md:h-[83vh]  scrollbrhdn bg-white dark:bg-neutral-950 p-2 rounded-md">
+      <div className="col-span-12 lg:col-span-8 flex flex-col gap-2 md:overflow-y-scroll  md:h-[83vh]  scrollbrhdn bg-white dark:bg-neutral-950 p-2 rounded-md">
         {/* personal info */}
         <div className=" bg-sky-100 dark:bg-neutral-900 p-2 rounded-md flex flex-col gap-2">
           <h2 className="text-base font-bold">Personal Details</h2>
@@ -547,7 +598,7 @@ const AdminInfo = () => {
                     </option>
                     <option value="Junior Developer">Junior Developer</option>
                     <option value="Senior Developer">Senior Developer</option>
-                    <option value="Team Lead">Team Lead</option>
+                    <option value="Manager">Manager</option>
                     <option value="Project Manager">Project Manager</option>
                     <option value="QA Engineer">QA Engineer</option>
                     <option value="UI/UX Designer">UI/UX Designer</option>

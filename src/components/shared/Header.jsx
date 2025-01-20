@@ -18,6 +18,7 @@ import ApiendPonits from "../../api/APIEndPoints.json";
 import { Tooltip } from "@mui/material";
 
 export default function Header({ handleThemeSwitch, theme }) {
+  const { userData } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const [rotate, setRotate] = React.useState(false);
@@ -25,15 +26,21 @@ export default function Header({ handleThemeSwitch, theme }) {
   const [profile, setProfile] = useState(null);
   const [hasprofile, setHasProfile] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const { userData } = useContext(AuthContext);
   const token = localStorage.getItem("accessToken");
-  const empid = userData?.employeeData._id;
   const userName = userData?.employeeData.name;
   const auth = userData?.employeeData.auth;
 
+  // const profileUrl = userData?.employeeData?.profile;
+
+  // setProfile(profileUrl);
+  const empid = userData?.employeeData._id;
+  // console.log(empid);
+
   useEffect(() => {
     const fetchProfile = async () => {
+      setLoading(true);
       try {
         const response = await fetch(
           `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewProfile}`,
@@ -58,11 +65,14 @@ export default function Header({ handleThemeSwitch, theme }) {
         }
       } catch (err) {
         setError(err.message);
+        setTimeout(() => setError(""), 4000);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchProfile();
-  }, [empid, token]);
+  }, [userData, token]);
 
   const getTitle = () => {
     const currentPath = location.pathname;
