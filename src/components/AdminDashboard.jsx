@@ -161,22 +161,22 @@ const AdminDashboard = () => {
     fetchEmployeeList();
   }, [token]);
   return (
-    // <div className="h-full min-h-full flex flex-col ">
-    <div className="grid grid-cols-12 gap-2 dark:text-white flex-1 h-full">
-      <div className="col-span-12 lg:col-span-9 flex flex-col gap-2 h-full min-h-full sm:pb-20 pb-0">
-        <div className="bg-white dark:bg-neutral-950 rounded-md p-2 flex flex-col gap-2 h-full">
-          <EmployeeAttendaceBrief />
+    <div className="h-full min-h-screen flex flex-col ">
+      <div className="grid grid-cols-12 gap-2 dark:text-white flex-1 h-full">
+        <div className="col-span-12 lg:col-span-9 flex flex-col gap-2 h-full sm:pb-20 pb-0">
+          <div className="bg-white dark:bg-neutral-950 rounded-md p-2 flex flex-col gap-2 h-full">
+            <EmployeeAttendaceBrief />
+          </div>
+        </div>
+        <div className="col-span-12 lg:col-span-3 h-full">
+          <DashCalendar
+            mandatoryholiday={holidays.mandatoryholiday}
+            optionalholiday={holidays.optionalholiday}
+            weekendHoliday={holidays.weekendHoliday}
+          />
         </div>
       </div>
-      <div className="col-span-12 lg:col-span-3 h-full">
-        <DashCalendar
-          mandatoryholiday={holidays.mandatoryholiday}
-          optionalholiday={holidays.optionalholiday}
-          weekendHoliday={holidays.weekendHoliday}
-        />
-      </div>
     </div>
-    // {/* </div> */}
   );
 };
 
