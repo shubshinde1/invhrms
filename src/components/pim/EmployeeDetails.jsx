@@ -23,8 +23,6 @@ const EmployeeDetails = () => {
         return <AdminTimeSheet Id={_id} />;
       case "Attendance":
         return <AdminAttendance Id={_id} />;
-      case "Info":
-        return <AdminInfo Id={_id} />;
       default:
         return <AdminInfo Id={_id} />;
     }
@@ -83,7 +81,9 @@ const EmployeeDetails = () => {
           activeTab === "TimeSheet"
             ? "pb-20"
             : activeTab === "Info"
-            ? "pb-20"
+            ? "mb-20"
+            : activeTab === "Leave"
+            ? "mb-20"
             : "pb-32"
         }`}
       >

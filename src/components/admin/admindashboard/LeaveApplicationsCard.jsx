@@ -106,7 +106,7 @@ const LeaveApplicationsCard = () => {
   const isToday = formatDate(selectedDate) === formatDate(new Date());
 
   return (
-    <div className="w-full bg-white border-2 dark:border-none dark:bg-neutral-900 p-2 h-full rounded-md flex flex-col gap-2">
+    <div className="w-full bg-white border-2 dark:border-none dark:bg-neutral-900 p-2 h-full max-h-full rounded-md flex flex-col gap-2 justify-between">
       {/* new btn */}
       <div className="flex gap-2 bg-sky-50 dark:bg-neutral-950 p-1 h-fit rounded-lg flex-col w-full items-center justify-between">
         <h3 className="ml-2 font-extrabold">Leave Applications</h3>
@@ -150,18 +150,19 @@ const LeaveApplicationsCard = () => {
         </div>
       </div>
 
+      {/* <div className="h-full max-h-full"> */}
       {loading ? (
-        <div className="flex flex-col justify-center items-center gap-2 h-full overflow-y-scroll scrollbar-hide">
+        <div className="flex flex-col justify-center items-center gap-2 h-full ">
           <l-leapfrog size="40" speed="2.5" color="#285999"></l-leapfrog>
         </div>
       ) : (
-        <div className="h-full">
+        <div className="h-full ">
           {error || leaveHistory.length === 0 ? (
-            <div className="flex flex-col justify-center items-center gap-2 h-full overflow-y-scroll scrollbar-hide">
+            <div className="flex flex-col justify-center items-center gap-2 h-full">
               No Leave Applications Found for {formatDate(selectedDate)}
             </div>
           ) : (
-            <div className="flex flex-col gap-2 h-full overflow-y-scroll scrollbar-hide">
+            <div className="flex flex-col gap-2 h-[calc(85vh-200px)] overflow-y-scroll scrollbar-hide ">
               {leaveHistory.map((record) => (
                 <div
                   key={record._id}
@@ -248,6 +249,7 @@ const LeaveApplicationsCard = () => {
           )}
         </div>
       )}
+      {/* </div> */}
     </div>
   );
 };

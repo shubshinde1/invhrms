@@ -219,8 +219,8 @@ const AdminInfo = () => {
   };
 
   return (
-    <div className=" dark:text-white mb-14 lg:mb-0 grid grid-cols-12 gap-2">
-      <div className="col-span-12 lg:col-span-4 flex flex-col gap-2  bg-white dark:bg-neutral-950 p-2 rounded-md h-fit">
+    <div className=" dark:text-white mb-14 lg:mb-0 grid grid-cols-12 gap-2 h-full min-h-full">
+      <div className="col-span-12 h-full  lg:col-span-4 flex flex-col gap-2  bg-white dark:bg-neutral-950 p-2 rounded-md">
         <div className="flex gap-2 items-start justify-between ">
           <Link
             to="/pim/employeelist"
@@ -262,7 +262,7 @@ const AdminInfo = () => {
             )}
           </div>
         </div>
-        <div className="flex gap-2 items-end justify-between">
+        <div className="flex gap-2 items-end  justify-between">
           <div className=" bg-sky-100 dark:bg-neutral-900 p-2 rounded-md relative">
             <img
               src={profile}
@@ -312,15 +312,13 @@ const AdminInfo = () => {
               </div>
             )}
           </div>
-          <div className="flex items-center gap-2 h-full">
+          <div className="flex items-end gap-2 h-full">
             {editMode ? (
               <div className="bottom-2.5 right-2.5 text-white p-2 rounded-md bg-blue-100 dark:bg-neutral-900">
                 <select
                   className={`${
                     formData.auth === 0
-                      ? "text-red-500"
-                      : formData.auth === 1
-                      ? "text-green-500"
+                      ? "text-orange-500"
                       : formData.auth === 2
                       ? "text-blue-500"
                       : formData.auth === 3
@@ -347,15 +345,15 @@ const AdminInfo = () => {
                 </select>
               </div>
             ) : (
-              <div className="py-2 px-3 rounded-md bg-blue-100 dark:bg-neutral-900 flex items-center gap-2">
+              <div className="py-2 px-3 rounded-md bg-blue-100 dark:bg-neutral-900 flex items-center gap-1">
                 <div>As {employee.auth === 0 ? "an" : "a"}</div>
-                <div>
+                <div className="font-bold">
                   {employee.auth === 0 ? (
-                    <div className="text-purple-700">Employee</div>
+                    <div className="text-orange-700">Employee</div>
                   ) : employee.auth === 2 ? (
                     <div className="text-blue-700">HR</div>
                   ) : employee.auth === 3 ? (
-                    <div className="text-orange-700">Manager</div>
+                    <div className="text-purple-700">Manager</div>
                   ) : (
                     "Unknown"
                   )}
@@ -458,7 +456,7 @@ const AdminInfo = () => {
         </div>
       </div>
 
-      <div className="col-span-12 lg:col-span-8 flex flex-col gap-2 md:overflow-y-scroll  md:h-[83vh]  scrollbrhdn bg-white dark:bg-neutral-950 p-2 rounded-md">
+      <div className="col-span-12 h-full overflow-y-scroll scrollbrhdn lg:col-span-8 flex flex-col gap-2 md:overflow-y-scroll    scrollbrhdn bg-white dark:bg-neutral-950 p-2 rounded-md">
         {/* personal info */}
         <div className=" bg-sky-100 dark:bg-neutral-900 p-2 rounded-md flex flex-col gap-2">
           <h2 className="text-base font-bold">Personal Details</h2>
@@ -596,13 +594,18 @@ const AdminInfo = () => {
                     <option value="" disabled>
                       Select Designation
                     </option>
-                    <option value="Junior Developer">Junior Developer</option>
-                    <option value="Senior Developer">Senior Developer</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Project Manager">Project Manager</option>
-                    <option value="QA Engineer">QA Engineer</option>
-                    <option value="UI/UX Designer">UI/UX Designer</option>
-                    <option value="Product Manager">Product Manager</option>
+                    <option value="Software Engineer-PHP">
+                      Software Engineer-PHP
+                    </option>
+                    <option value="Software Engineer- Trainee (Python)">
+                      Software Engineer- Trainee (Python)
+                    </option>
+                    <option value="Software Engineer- Trainee (PHP-Laravel)">
+                      Software Engineer- Trainee (PHP-Laravel)
+                    </option>
+                    <option value="Senior Technical Lead">
+                      Senior Technical Lead
+                    </option>
                   </select>
                 </div>
               ) : (

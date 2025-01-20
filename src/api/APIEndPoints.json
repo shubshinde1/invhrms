@@ -1,5 +1,5 @@
 {
-    "baseUrl": "https://engineinv-production.up.railway.app/",
+    "baseUrl": "https://engineinv.vercel.app/",
     "endpoints": {
         "registeruser": "api/createuser",
         "forgotpassword": "api/forgotpassword",
