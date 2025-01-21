@@ -3,6 +3,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import Greeting from "./dashboard/Greeting";
 import DashCalendar from "../components/custom/DashCalendar";
 import Bodycards from "./dashboard/Bodycards";
+import ProjectBrief from "./dashboard/ProjectBriefforemp";
 import { motion } from "framer-motion";
 import ApiendPonits from "../../src/api/APIEndPoints.json";
 
@@ -138,6 +139,9 @@ export default function dashboard() {
             <div className=" md:w-1/2">
               <Bodycards />
             </div>
+          </div>
+          <div className="bg-white dark:bg-neutral-950 p-2 rounded-md dark:text-white h-full max-h-full lg:mb-20">
+            <ProjectBrief />
           </div>
         </div>
         <div className="col-span-12 lg:col-span-3 ">
