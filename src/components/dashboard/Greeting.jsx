@@ -19,41 +19,45 @@ export default function Greeting() {
 
   const totalSeconds = 9 * 3600; // 9 hours in seconds
 
-  const getAttendanceHistory = async () => {
-    try {
-      const response = await fetch(
-        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getattendancehistory}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ employee_id }),
+  useEffect(() => {
+    const getAttendanceHistory = async () => {
+      try {
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getattendancehistory}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ employee_id }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch attendance history");
         }
-      );
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch attendance history");
+        const data = await response.json();
+        const today = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+
+        const todaysAttendance = data.attendance.filter(
+          (record) => record.date === today
+        );
+
+        setCurrentDateAttendance(todaysAttendance);
+        calculateProgress(todaysAttendance);
+      } catch (error) {
+        console.error("Error fetching attendance history:", error);
+        setError("Unable to fetch attendance history. Please try again later.");
+        setTimeout(() => setError(""), 4000);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const data = await response.json();
-      const today = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
-
-      const todaysAttendance = data.attendance.filter(
-        (record) => record.date === today
-      );
-
-      setCurrentDateAttendance(todaysAttendance);
-      calculateProgress(todaysAttendance);
-    } catch (error) {
-      console.error("Error fetching attendance history:", error);
-      setError("Unable to fetch attendance history. Please try again later.");
-      setTimeout(() => setError(""), 4000);
-    } finally {
-      setLoading(false);
-    }
-  };
+    getAttendanceHistory();
+  }, [employee_id, token]);
 
   const calculateProgress = (attendanceRecords) => {
     if (attendanceRecords.length === 0 || !attendanceRecords[0]?.intime) {
@@ -171,7 +175,7 @@ export default function Greeting() {
             className="absolute h-full bg-indigo-600"
             initial={{ width: 0 }}
             animate={{ width: `${progressBarWidth}%` }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            transition={{ duration: 2, type: "spring", ease: "easeOut" }}
           ></motion.div>
         </div>
         <div className="flex justify-between text-xs mt-2">
@@ -203,12 +207,6 @@ export default function Greeting() {
       </div>
     );
   };
-
-  useEffect(() => {
-    if (employee_id && token) {
-      getAttendanceHistory();
-    }
-  }, [employee_id, token]);
 
   return (
     <div className="  flex flex-col gap-10 md:gap-2 h-full">
