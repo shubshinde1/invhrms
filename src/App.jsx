@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/shared/Layout";
 import Dashboard from "./components/Dashboard";
 import AdminDashboard from "./components/AdminDashboard";
+import HRDashboard from "./components/HRDashboard";
 import User from "./components/User";
 import RefillLeaves from "./components/admin/leave/RefillLeaves";
 import Pim from "./components/Pim";
@@ -50,11 +51,10 @@ function App() {
 
   const renderRoutes = () => {
     if (userData?.employeeData?.auth === 1) {
+      // Admin accessible routes
       return (
-        // Admin accessible routes
         <>
           <Route index element={<AdminDashboard />} />
-          <Route path="/clients" element={<Clients />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/settings" element={<Settings />} />
@@ -83,8 +83,50 @@ function App() {
           />
         </>
       );
+    } else if (userData?.employeeData?.auth === 2) {
+      // HR accessible routes (auth === 2)
+      return (
+        <>
+          <Route index element={<HRDashboard />} />
+          <Route path="/Pim" element={<Pim />} />
+          <Route path="/pim/employeelist" element={<Employeelist />} />
+          <Route
+            path="/pim/employee-details/:_id"
+            element={<EmployeeDetails />}
+          />
+          <Route path="/pim/addholidays" element={<RefillLeaves />} />
+          <Route
+            path="/pim/view/:empid/:ename/:designation/:jdate/:status"
+            element={<ViewEmployee />}
+          />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/myprofile" element={<UserProfile />} />
+          <Route path="/leave" element={<UserLeave />} />
+          <Route path="/Attendance" element={<AttendanceHistory />} />
+        </>
+      );
+    } else if (userData?.employeeData?.auth === 3) {
+      // Manager accessible routes (auth === 3)
+      return (
+        <>
+          <Route index element={<SupervisorDashboard />} />
+          <Route path="/clients" element={<Clients />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/Pim" element={<Pim />} />
+          <Route path="/pim/employeelist" element={<Employeelist />} />
+          <Route
+            path="/pim/employee-details/:_id"
+            element={<EmployeeDetails />}
+          />
+          <Route path="/clients/viewclient" element={<ViewClient />} />
+          <Route
+            path="/projects/viewproject/:projectId"
+            element={<ViewProject />}
+          />
+        </>
+      );
     } else {
-      // Employee accessible routes
+      // Employee accessible routes (auth === 0)
       return (
         <>
           <Route index element={<Dashboard />} />
@@ -92,7 +134,6 @@ function App() {
           <Route path="/timesheet" element={<Timesheet />} />
           <Route path="/leave" element={<UserLeave />} />
           <Route path="/Attendance" element={<AttendanceHistory />} />
-
           {/* <Route path="*" element={<NotFound />} /> */}
         </>
       );

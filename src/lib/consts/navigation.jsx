@@ -17,21 +17,21 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     label: "Dashboard",
     path: "/",
     icon: <TbLayoutDashboardFilled />,
-    allowedAuth: [0, 1], // both employee and admin can access
+    allowedAuth: [0, 1, 2], // both employee and admin can access
   },
   {
     key: "Pim",
     label: "PIM",
     path: "/pim",
     icon: <BsPeopleFill />,
-    allowedAuth: [1], // only admin can access
+    allowedAuth: [1, 2], // only admin can access
     subItems: [
       {
         key: "employeelist",
         label: "Employee List",
         path: "/pim/employeelist",
         icon: <FaAddressBook />,
-        allowedAuth: [1], // only admin can access
+        allowedAuth: [1, 2], // only admin can access
       },
       // {
       //   key: "employee",
@@ -45,7 +45,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
         label: "Add Holidays",
         path: "/pim/addholidays",
         icon: <IoPersonAdd />,
-        allowedAuth: [1], // only admin can access
+        allowedAuth: [1, 2], // only admin can access
       },
     ],
   },
@@ -63,13 +63,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     icon: <HiMiniCodeBracketSquare />,
     allowedAuth: [1], // only admin can access
   },
-  {
-    key: "settings",
-    label: "Settings",
-    path: "/settings",
-    icon: <RiSettings2Fill />,
-    allowedAuth: [1], // only admin can access
-  },
+
   {
     key: "timesheet",
     label: "Timesheet",
@@ -82,21 +76,28 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     label: "Attendance",
     path: "/Attendance",
     icon: <FaCalendarDays />,
-    allowedAuth: [0], // user only
+    allowedAuth: [0, 2], // user only
   },
   {
     key: "leave",
     label: "Leave",
     path: "/leave",
     icon: <FaCalendarCheck />,
-    allowedAuth: [0], // user only
+    allowedAuth: [0, 2], // user only
   },
   {
     key: "profile",
     label: "Profile",
     path: "/myprofile",
     icon: <HiUser />,
-    allowedAuth: [0], // user only
+    allowedAuth: [0, 2], // user only
+  },
+  {
+    key: "settings",
+    label: "Settings",
+    path: "/settings",
+    icon: <RiSettings2Fill />,
+    allowedAuth: [1, 2], // only admin can access
   },
 ];
 
