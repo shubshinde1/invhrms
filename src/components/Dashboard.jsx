@@ -130,12 +130,14 @@ export default function dashboard() {
   return (
     <div className="h-full min-h-screen flex flex-col">
       <div className="grid grid-cols-12 gap-2 ">
-        <div className="col-span-12 lg:col-span-9 flex flex-col gap-2">
-          <div className="bg-white dark:bg-neutral-950 rounded-md p-2 dark:text-white">
-            <Greeting />
-          </div>
-          <div>
-            <Bodycards />
+        <div className="col-span-12 lg:col-span-9 flex flex-col gap-2 w-full">
+          <div className="bg-white dark:bg-neutral-950 rounded-md p-2 dark:text-white flex flex-col md:flex-row w-full">
+            <div className=" md:w-1/2">
+              <Greeting />
+            </div>
+            <div className=" md:w-1/2">
+              <Bodycards />
+            </div>
           </div>
         </div>
         <div className="col-span-12 lg:col-span-3 ">

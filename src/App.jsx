@@ -109,20 +109,20 @@ function App() {
       // Manager accessible routes (auth === 3)
       return (
         <>
-          <Route index element={<SupervisorDashboard />} />
+          <Route index element={<Dashboard />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/projects" element={<Projects />} />
-          <Route path="/Pim" element={<Pim />} />
-          <Route path="/pim/employeelist" element={<Employeelist />} />
-          <Route
-            path="/pim/employee-details/:_id"
-            element={<EmployeeDetails />}
-          />
           <Route path="/clients/viewclient" element={<ViewClient />} />
+          <Route path="/clients/addclient" element={<Addclient />} />
+          <Route path="/projects/addproject" element={<Addproject />} />
           <Route
             path="/projects/viewproject/:projectId"
             element={<ViewProject />}
           />
+          <Route path="/myprofile" element={<UserProfile />} />
+          <Route path="/timesheet" element={<Timesheet />} />
+          <Route path="/leave" element={<UserLeave />} />
+          <Route path="/Attendance" element={<AttendanceHistory />} />
         </>
       );
     } else {

@@ -1221,7 +1221,7 @@ const UserProfile = () => {
                 <button
                   type="button"
                   onClick={handleAddExperience}
-                  className="bg-green-200 text-green-600 font-bold  p-2 rounded-md"
+                  className="bg-green-500/20 text-green-600 font-bold  p-2 rounded-md"
                 >
                   Add Experience
                 </button>

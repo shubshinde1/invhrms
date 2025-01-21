@@ -17,7 +17,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     label: "Dashboard",
     path: "/",
     icon: <TbLayoutDashboardFilled />,
-    allowedAuth: [0, 1, 2], // both employee and admin can access
+    allowedAuth: [0, 1, 2, 3], // both employee and admin can access
   },
   {
     key: "Pim",
@@ -50,47 +50,46 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     ],
   },
   {
-    key: "clients",
-    label: "Clients",
-    path: "/clients",
-    icon: <RiServiceFill />,
-    allowedAuth: [1], // only admin can access
-  },
-  {
-    key: "projects",
-    label: "Projects",
-    path: "/projects",
-    icon: <HiMiniCodeBracketSquare />,
-    allowedAuth: [1], // only admin can access
-  },
-
-  {
     key: "timesheet",
     label: "Timesheet",
     path: "/timesheet",
     icon: <FaBusinessTime />,
-    allowedAuth: [0], // user only
+    allowedAuth: [0, 3], // user only
   },
   {
     key: "Attendance",
     label: "Attendance",
     path: "/Attendance",
     icon: <FaCalendarDays />,
-    allowedAuth: [0, 2], // user only
+    allowedAuth: [0, 2, 3], // user only
   },
   {
     key: "leave",
     label: "Leave",
     path: "/leave",
     icon: <FaCalendarCheck />,
-    allowedAuth: [0, 2], // user only
+    allowedAuth: [0, 2, 3], // user only
   },
   {
     key: "profile",
     label: "Profile",
     path: "/myprofile",
     icon: <HiUser />,
-    allowedAuth: [0, 2], // user only
+    allowedAuth: [0, 2, 3], // user only
+  },
+  {
+    key: "clients",
+    label: "Clients",
+    path: "/clients",
+    icon: <RiServiceFill />,
+    allowedAuth: [1, 3], // only admin can access
+  },
+  {
+    key: "projects",
+    label: "Projects",
+    path: "/projects",
+    icon: <HiMiniCodeBracketSquare />,
+    allowedAuth: [1, 3], // only admin can access
   },
   {
     key: "settings",

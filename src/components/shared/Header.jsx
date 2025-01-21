@@ -196,7 +196,7 @@ export default function Header({ handleThemeSwitch, theme }) {
               </Menu.Button>
             </div>
             <Transition
-              className="z-50"
+              className="z-50 flex flex-col gap-1"
               as={Fragment}
               enter="transition ease-out duration-100"
               enterFrom="transform opacity-0 scale-95"
@@ -206,7 +206,7 @@ export default function Header({ handleThemeSwitch, theme }) {
               leaveTo="transform opacity-0 scale-95"
             >
               <Menu.Items className="origin-top-right absolute -right-5 z-10 m-2.5 w-52 md:mt-5 mt-4 bg-white dark:bg-neutral-950 dark:border border-neutral-600 rounded-md shadow-lg p-2">
-                {auth === 0 && (
+                {(auth === 0 || auth === 2 || auth === 3) && (
                   <Menu.Item>
                     {({ active }) => (
                       <div
@@ -240,6 +240,22 @@ export default function Header({ handleThemeSwitch, theme }) {
                   )}
                 </Menu.Item> */}
                 <LogoutMenuItem />
+                <Menu.Item>
+                  <div className="order-2 md:order-1 py-2 px-3 rounded-md bg-blue-100 dark:bg-neutral-900 flex items-center gap-1">
+                    <div>As {auth === 0 ? "an" : "a"}</div>
+                    <div className="font-bold">
+                      {auth === 0 ? (
+                        <div className="text-orange-700">Employee</div>
+                      ) : auth === 2 ? (
+                        <div className="text-blue-700">HR</div>
+                      ) : auth === 3 ? (
+                        <div className="text-purple-700">Manager</div>
+                      ) : (
+                        <div className="text-green-700">Admin</div>
+                      )}
+                    </div>
+                  </div>
+                </Menu.Item>
               </Menu.Items>
             </Transition>
           </Menu>

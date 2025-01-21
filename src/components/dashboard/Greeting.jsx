@@ -160,7 +160,7 @@ export default function Greeting() {
     const progressBarWidth = (progress.elapsed / totalSeconds) * 100;
 
     return (
-      <div className="w-full md:w-2/3 mt-4">
+      <div className="w-full mt-4">
         <div className="flex justify-between text-xs">
           <span>{formatTime(progress.elapsed)} Completed</span>
           <span>{formatTime(progress.remaining)} Remaining</span>
@@ -210,47 +210,47 @@ export default function Greeting() {
   }, [employee_id, token]);
 
   return (
-    <div className="md:grid grid-cols-12 flex flex-col gap-10 md:gap-2">
-      <div className="col-span-12 md:col-span-6">
-        <h1 className="text-blue-500 text-2xl font-bold">
-          {getGreetingMessage()}, {getFirstName(userData?.employeeData.name)}!
-        </h1>
-      </div>
-
-      <div className="col-span-12 md:col-span-6 flex flex-col items-start md:items-end">
-        <div className="flex items-center gap-2">
-          {loading ? null : hasTodaysAttendance ? (
-            <button
-              className={`px-2 py-1.5 rounded-md  flex items-center gap-1 text-xs font-bold  ${
-                isPunchedIn
-                  ? "text-red-500 bg-red-500/20 hover:bg-red-500/30"
-                  : "text-green-500 bg-green-500/20 hover:bg-green-500/30"
-              }`}
-              onClick={handlePunchButtonClick}
+    <div className="  flex flex-col gap-10 md:gap-2 h-full">
+      <div className="  flex flex-col items-start justify-between h-full md:items-end md:p-2">
+        <div className="flex items-start gap-2 w-full justify-between">
+          <h1 className="text-blue-500 md:text-2xl text-base  font-bold">
+            {getGreetingMessage()}, {getFirstName(userData?.employeeData.name)}!
+          </h1>
+          <div className="flex flex-col items-end">
+            {loading ? null : hasTodaysAttendance ? (
+              <button
+                className={`px-2 py-1.5 rounded-md  flex items-center gap-1 text-xs font-bold  ${
+                  isPunchedIn
+                    ? "text-red-500 bg-red-500/20 hover:bg-red-500/30"
+                    : "text-green-500 bg-green-500/20 hover:bg-green-500/30"
+                }`}
+                onClick={handlePunchButtonClick}
+              >
+                {isPunchedIn ? "Punch Out" : "Punch In"}{" "}
+                {isPunchedIn ? (
+                  <IoLogOut fontSize={20} />
+                ) : (
+                  <IoLogIn fontSize={20} />
+                )}
+              </button>
+            ) : (
+              <button
+                className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-green-500/30 text-green-500 bg-green-500/20"
+                onClick={handlePunchButtonClick}
+              >
+                Punch In <IoLogIn fontSize={20} />
+              </button>
+            )}
+            <Link
+              to="/Attendance"
+              className="flex w-fit items-center text-xs text-blue-500 py-0.5 hover:px-1 rounded-md cursor-pointer duration-300 mt-1 hover:bg-blue-500/15"
             >
-              {isPunchedIn ? "Punch Out" : "Punch In"}{" "}
-              {isPunchedIn ? (
-                <IoLogOut fontSize={20} />
-              ) : (
-                <IoLogIn fontSize={20} />
-              )}
-            </button>
-          ) : (
-            <button
-              className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-green-500/30 text-green-500 bg-green-500/20"
-              onClick={handlePunchButtonClick}
-            >
-              Punch In <IoLogIn fontSize={20} />
-            </button>
-          )}
+              <h3>History</h3>
+              <FaCaretRight />
+            </Link>
+          </div>
         </div>
-        <Link
-          to="/Attendance"
-          className="flex items-center text-xs text-blue-500 py-0.5 hover:px-1 rounded-md cursor-pointer duration-300 mt-1 hover:bg-blue-500/15"
-        >
-          <h3>History</h3>
-          <FaCaretRight />
-        </Link>
+
         <ProgressBar progress={progress} />
       </div>
 

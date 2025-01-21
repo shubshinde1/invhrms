@@ -165,10 +165,14 @@ const HRDashboard = () => {
     <div className="h-full min-h-screen flex flex-col ">
       <div className="grid grid-cols-12 gap-2 dark:text-white flex-1 h-full">
         <div className="col-span-12 lg:col-span-9 flex flex-col gap-2 h-full sm:pb-20 pb-0">
-          <div className="bg-white dark:bg-neutral-950 rounded-md p-2 flex flex-col gap-2 h-full">
-            <div>
-              <Greeting />
-              <AttendanceChart />
+          <div className="bg-white dark:bg-neutral-950 rounded-md p-2 flex flex-col gap-4 h-full">
+            <div className="flex flex-col md:flex-row gap-2 justify-between w-full">
+              <div className="md:w-1/2">
+                <Greeting />
+              </div>
+              <div className="md:w-1/2">
+                <AttendanceChart />
+              </div>
             </div>
             <EmployeeAttendaceBrief />
           </div>
