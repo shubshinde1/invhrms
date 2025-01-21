@@ -312,9 +312,9 @@ const AdminInfo = () => {
               </div>
             )}
           </div>
-          <div className="flex items-end gap-2 h-full">
+          <div className="flex flex-col md:flex-row items-end justify-end gap-2 h-full">
             {editMode ? (
-              <div className="bottom-2.5 right-2.5 text-white p-2 rounded-md bg-blue-100 dark:bg-neutral-900">
+              <div className="order-2 md:order-1 bottom-2.5 right-2.5 text-white p-2 rounded-md bg-blue-100 dark:bg-neutral-900">
                 <select
                   className={`${
                     formData.auth === 0
@@ -345,7 +345,7 @@ const AdminInfo = () => {
                 </select>
               </div>
             ) : (
-              <div className="py-2 px-3 rounded-md bg-blue-100 dark:bg-neutral-900 flex items-center gap-1">
+              <div className="order-2 md:order-1 py-2 px-3 rounded-md bg-blue-100 dark:bg-neutral-900 flex items-center gap-1">
                 <div>As {employee.auth === 0 ? "an" : "a"}</div>
                 <div className="font-bold">
                   {employee.auth === 0 ? (
@@ -361,28 +361,30 @@ const AdminInfo = () => {
               </div>
             )}
 
-            <a
-              href={`mailto:${employee.email}`}
-              target="_blank"
-              className="bg-blue-500/20 p-1.5 group rounded-md"
-            >
-              <img
-                src={OutlookIcon}
-                alt="OutlookIcon"
-                className="w-7 group-hover:scale-110 duration-100 rounded-full shadow-md"
-              />
-            </a>
-            <a
-              href={`MSTeams:/l/chat/0/0?users=${employee.email}`}
-              target="_blank"
-              className="bg-blue-500/20 p-1.5 group rounded-md"
-            >
-              <img
-                src={teamsIcon}
-                alt="teamsIcon"
-                className="w-7 group-hover:scale-110 duration-100 rounded-full shadow-md"
-              />
-            </a>
+            <div className="order-1 md:order-2 flex items-center justify-end gap-2">
+              <a
+                href={`mailto:${employee.email}`}
+                target="_blank"
+                className="bg-blue-500/20 p-1.5 group rounded-md"
+              >
+                <img
+                  src={OutlookIcon}
+                  alt="OutlookIcon"
+                  className="w-7 group-hover:scale-110 duration-100 rounded-full shadow-md"
+                />
+              </a>
+              <a
+                href={`MSTeams:/l/chat/0/0?users=${employee.email}`}
+                target="_blank"
+                className="bg-blue-500/20 p-1.5 group rounded-md"
+              >
+                <img
+                  src={teamsIcon}
+                  alt="teamsIcon"
+                  className="w-7 group-hover:scale-110 duration-100 rounded-full shadow-md"
+                />
+              </a>
+            </div>
           </div>
         </div>
         {/* info */}

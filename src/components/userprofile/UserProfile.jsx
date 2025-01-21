@@ -398,7 +398,15 @@ const UserProfile = () => {
                   </button>
                 </div>
               ) : (
-                <div className="flex gap-2">
+                <div className="flex flex-col items-end md:items-stretch md:flex-row gap-2">
+                  <button
+                    onClick={() => setIsEditMode(true)}
+                    className="bg-blue-200 dark:bg-blue-200/15 text-blue-500 font-bold px-2 py-1 rounded w-fit flex items-center gap-1.5 group"
+                  >
+                    <MdEdit fontSize={15} />
+                    Edit Profile
+                  </button>
+
                   <div className="py-2 px-3 rounded-md bg-blue-100 dark:bg-neutral-900 flex items-center gap-2 w-fit">
                     <div>
                       As {userData.employeeData.auth === 0 ? "an" : "a"}
@@ -415,13 +423,6 @@ const UserProfile = () => {
                       )}
                     </div>
                   </div>
-                  <button
-                    onClick={() => setIsEditMode(true)}
-                    className="bg-blue-200 dark:bg-blue-200/15 text-blue-500 font-bold px-2 py-1 rounded w-fit flex items-center gap-1.5 group"
-                  >
-                    <MdEdit fontSize={15} />
-                    Edit Profile
-                  </button>
                 </div>
               )}
 
