@@ -90,8 +90,17 @@ const AttendanceChart = () => {
 
   useEffect(() => {
     if (attendanceData.length > 0) {
+      // Sort attendanceData by date (assuming record.date exists)
+      const sortedData = [...attendanceData].sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );
+
+      // Take the last 15 records
+      const recentRecords = sortedData.slice(0, 15);
+
+      // Calculate maxTotalHours from the last 15 records
       const maxTotalHours = Math.max(
-        ...attendanceData.map((record) => record.totalhrs || 0)
+        ...recentRecords.map((record) => record.totalhrs || 0)
       );
 
       const hours = Math.floor(maxTotalHours / (1000 * 60 * 60));

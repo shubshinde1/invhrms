@@ -10,7 +10,9 @@ import AttendanceChart from "./AttendanceChart";
 export default function Bodycards() {
   return (
     <div className="bg-white dark:bg-neutral-950 p- rounded-md  ">
-      <h2 className="dark:text-white">Last 15 days Time at work</h2>
+      <h2 className="dark:text-white mt-2 md:mt-0">
+        Last 15 days Time at work
+      </h2>
       <AttendanceChart className="" />
     </div>
   );

@@ -4,6 +4,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import ApiendPonits from "../../api/APIEndPoints.json";
 import { Link } from "react-router-dom";
 import { FaCaretRight } from "react-icons/fa6";
+import { motion } from "framer-motion";
 
 export default function Greeting() {
   const token = localStorage.getItem("accessToken");
@@ -166,12 +167,12 @@ export default function Greeting() {
           <span>{formatTime(progress.remaining)} Remaining</span>
         </div>
         <div className="bg-sky-100 dark:bg-blue-200/10 mt-2 h-5 rounded-md flex relative overflow-hidden">
-          <div
-            className="absolute h-full bg-indigo-600 transition-[width] duration-1000"
-            style={{
-              width: `${progressBarWidth}%`,
-            }}
-          ></div>
+          <motion.div
+            className="absolute h-full bg-indigo-600"
+            initial={{ width: 0 }}
+            animate={{ width: `${progressBarWidth}%` }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+          ></motion.div>
         </div>
         <div className="flex justify-between text-xs mt-2">
           <span>
