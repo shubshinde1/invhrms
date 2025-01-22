@@ -743,14 +743,17 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                           <div className="flex my-2 items-center justify-between">
                             <div className="w-full bg-white rounded-lg h-2.5 dark:bg-neutral-700 ">
                               <div
-                                className={classNames("h-2.5 rounded-lg", {
-                                  "bg-red-500": duration < 2.5,
-                                  "bg-orange-500":
-                                    duration >= 2.5 && duration <= 5,
-                                  "bg-yellow-500":
-                                    duration > 5 && duration <= 7.5,
-                                  "bg-green-500": duration > 7.5,
-                                })}
+                                className={classNames(
+                                  "h-2.5 rounded-lg max-w-full",
+                                  {
+                                    "bg-red-500": duration < 2.5,
+                                    "bg-orange-500":
+                                      duration >= 2.5 && duration <= 5,
+                                    "bg-yellow-500":
+                                      duration > 5 && duration <= 7.5,
+                                    "bg-green-500": duration > 7.5,
+                                  }
+                                )}
                                 style={{
                                   width: `${(duration / 10) * 100}%`,
                                 }}
