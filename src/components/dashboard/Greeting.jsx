@@ -140,7 +140,7 @@ export default function Greeting() {
   const hasTodaysAttendance = currentDateAttendance.length > 0;
   const isPunchedIn =
     hasTodaysAttendance &&
-    currentDateAttendance.some((record) => record.attendancestatus === 1);
+    currentDateAttendance.some((record) => record.mark === "In");
 
   const formatTime = (timeInSeconds) => {
     const hours = Math.floor(timeInSeconds / 3600);

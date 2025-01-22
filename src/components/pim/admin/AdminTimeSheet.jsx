@@ -709,7 +709,7 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                 return (
                   <div
                     key={day}
-                    onClick={() => handleDateClick(day)}
+                    onClick={isGreenBg ? () => handleDateClick(day) : undefined}
                     className={classNames(
                       "p-1 md:p-2 cursor-pointer rounded-md h-full w-full border dark:border-neutral-800 flex flex-col gap-2 justify-between",
                       {
@@ -826,7 +826,7 @@ const AdminTimeSheet = ({ Id, record, index }) => {
                   <motion.div
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.5, delay: 0.2 * index }}
                     key={index}
                     className={`bg-sky-100 dark:bg-neutral-950 p-2 rounded-md grid grid-cols-12 gap-2 items-center ${
                       index !== 0 ? "mt-2" : ""
