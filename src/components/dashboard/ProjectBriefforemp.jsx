@@ -338,7 +338,7 @@ const ProjectBriefforemp = () => {
                     return (
                       <li key={project.projectname} className="flex w-full">
                         <div className="flex items-center justify-between w-full">
-                          <span className="flex items-center gap-2">
+                          <span className="flex items-center gap-2 font-extrabold">
                             <span
                               className="block w-3 h-3 rounded-sm"
                               style={{ backgroundColor: color }} // Display the color dot next to the project name

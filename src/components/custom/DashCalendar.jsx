@@ -314,7 +314,7 @@ const DashCalendar = ({
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
               <div
                 key={day}
-                className="font-semibold text-center hover:bg-neutral-800 py-0.5 rounded-md mb-2"
+                className="font-semibold text-center hover:bg-blue-100 dark:hover:bg-neutral-800 py-0.5 rounded-md mb-2"
               >
                 {day}
               </div>
