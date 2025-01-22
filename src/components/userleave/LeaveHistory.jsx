@@ -230,7 +230,7 @@ const LeaveHistory = () => {
   );
 
   return (
-    <div className="p-2 border dark:border-none dark:bg-neutral-900 rounded-md h-[67.5vh] overflow-hidden pb-12">
+    <div className="p-2 border dark:border-none dark:bg-neutral-900 rounded-md h-full overflow-hidden md:pb-12">
       <div className="flex gap-2 items-start justify-between mb-2">
         {/* <h2 className="text-lg font-bold">Leave History</h2> */}
 

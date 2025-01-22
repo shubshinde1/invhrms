@@ -268,7 +268,7 @@ const ApplyLeave = () => {
   };
 
   return (
-    <div className="container mx-auto p-2 bg-white border  dark:border-none dark:bg-neutral-900 rounded-md">
+    <div className="container mx-auto p-2 bg-white border  dark:border-none dark:bg-neutral-900 rounded-md h-full">
       {/* <h1 className="text-xl font-bold mb-4">Apply for Leave</h1> */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">

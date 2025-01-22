@@ -199,7 +199,7 @@ const OpenCalendar = ({
   };
 
   return (
-    <div className="select-none flex flex-col xl:flex-row justify-between xl:h-[67.5vh] items-start">
+    <div className="select-none flex flex-col xl:flex-row justify-between h-full items-start">
       {showCalendar && (
         <div className="justify-en w-full z-10 h-full p-2 border dark:border-none border-gray-300 rounded-lg bg-white dark:bg-neutral-900 dark:border-neutral-700 shadow-lg flex flex-col gap-2">
           <div className="flex items-center justify-between gap-2 h-ful">
@@ -311,59 +311,73 @@ const OpenCalendar = ({
             {Array.from({ length: firstDay }).map((_, index) => (
               <div key={index} />
             ))}
-            {Array.from({ length: daysInMonth }).map((_, day) => (
-              <div
-                key={day}
-                onClick={() => handleDateClick(day + 1)}
-                className={classNames(
-                  " group p-2 rounded-md hover:bg-sky-100 dark:hover:bg-neutral-800 relative border dark:border-neutral-800 border-sky-200 text-center lg:text-start",
-                  {
-                    "bg-blue-500/15 text-blue-600 font-bold":
-                      new Date(currentDate).getDate() === day + 1 &&
-                      new Date(currentDate).getMonth() === currentMonth &&
-                      new Date(currentDate).getFullYear() === currentYear,
-                    "bg-green-500/1 font-bold text-green-500 fontb":
-                      new Date(currentYear, currentMonth, day + 1).getDay() ===
-                        0 ||
-                      new Date(currentYear, currentMonth, day + 1).getDay() ===
-                        6,
+            {Array.from({ length: daysInMonth }).map((_, day) => {
+              const holidays = getHolidayDetails(day + 1);
+              return (
+                <div
+                  key={day}
+                  onClick={
+                    holidays.length > 0
+                      ? () => handleDateClick(day + 1)
+                      : undefined
                   }
-                )}
-              >
-                {day + 1}
-                <div className="hidden lg:flex gap-1 flex-wrap">
-                  {getHolidayDetails(day + 1).map((holiday, index) => (
-                    <div>
-                      <div
-                        key={index}
-                        className={classNames(
-                          "px-2 py-0.5 rounded-md text-xs",
-                          {
-                            "bg-pink-500/20 text-pink-500":
-                              holiday.type === "mandatory",
-                            "bg-yellow-500/20 text-yellow-500":
-                              holiday.type === "optional",
-                            "bg-red-500/20 text-red-500":
-                              holiday.type === "weekend",
-                          }
-                        )}
-                      >
-                        {holiday.name}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="lg:hidden flex items-center justify-center gap-1 ">
-                  {getHolidayDetails(day + 1).length > 0 && (
-                    <div className="w-1.5 h-1.5 group-hover:w-full duration-300 flex items-center justify-center bg-blue-500 text-white rounded-full">
-                      <span className="text-[0.5rem] font-bold hidden">
-                        {getHolidayDetails(day + 1).length}
-                      </span>
-                    </div>
+                  className={classNames(
+                    "group p-2 rounded-md hover:bg-sky-100 dark:hover:bg-neutral-800 relative border dark:border-neutral-800 border-sky-200 text-center lg:text-start",
+                    {
+                      "bg-blue-500/15 text-blue-600 font-bold":
+                        new Date(currentDate).getDate() === day + 1 &&
+                        new Date(currentDate).getMonth() === currentMonth &&
+                        new Date(currentDate).getFullYear() === currentYear,
+                      "bg-green-500/1 font-bold text-green-500 fontb":
+                        new Date(
+                          currentYear,
+                          currentMonth,
+                          day + 1
+                        ).getDay() === 0 ||
+                        new Date(
+                          currentYear,
+                          currentMonth,
+                          day + 1
+                        ).getDay() === 6,
+                      "cursor-pointer": holidays.length > 0, // Add pointer cursor if clickable
+                      "cursor-pointer": holidays.length === 0, // Show not-allowed cursor otherwise
+                    }
                   )}
+                >
+                  {day + 1}
+                  <div className="hidden lg:flex gap-1 flex-wrap">
+                    {holidays.map((holiday, index) => (
+                      <div key={index}>
+                        <div
+                          className={classNames(
+                            "px-2 py-0.5 rounded-md text-xs",
+                            {
+                              "bg-pink-500/20 text-pink-500":
+                                holiday.type === "mandatory",
+                              "bg-yellow-500/20 text-yellow-500":
+                                holiday.type === "optional",
+                              "bg-red-500/20 text-red-500":
+                                holiday.type === "weekend",
+                            }
+                          )}
+                        >
+                          {holiday.name}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="lg:hidden flex items-center justify-center gap-1 ">
+                    {holidays.length > 0 && (
+                      <div className="w-1.5 h-1.5 group-hover:w-full duration-300 flex items-center justify-center bg-blue-500 text-white rounded-full">
+                        <span className="text-[0.5rem] font-bold hidden">
+                          {holidays.length}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

@@ -577,393 +577,394 @@ export default function TimeSheet({ record, index }) {
   };
 
   return (
-    <div className="bg-white dark:bg-neutral-950 dark:text-white p-2 rounded-lg shadow-lg mb-14 flex flex-col gap-2">
-      {/* Stats Sections */}
-      <div className="grid grid-cols-12 gap-2">
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.1 }}
-          className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 flex flex-col gap-3"
-        >
-          <div className="flex items-center gap-2">
-            <div className="bg-sky-200 dark:bg-sky-500/15 rounded-lg p-2">
-              <SiTask fontSize={20} className="text-sky-600" />
-            </div>
-            <h2 className="font-bold text-lg">Total Tasks</h2>
-          </div>
-          <h2 className="flex items-end justify-end text-4xl font-bold text-gray-700 dark:text-gray-300">
-            <Tooltip title="No of tasks" placement="top" arrow>
-              <span>{totalTasks}</span>
-            </Tooltip>
-          </h2>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 flex flex-col gap-3"
-        >
-          <div className="flex items-center gap-2">
-            <div className="bg-green-200 dark:bg-green-500/15 rounded-lg p-2">
-              <FaSquareCheck fontSize={20} className="text-green-500" />
-            </div>
-            <h2 className="font-bold text-lg">Completed Tasks</h2>
-          </div>
-          <h2 className="flex items-end justify-end text-4xl font-bold text-gray-700 dark:text-gray-300">
-            <Tooltip title="No of tasks" placement="top" arrow>
-              <span>{totalCompletedTasks}</span>
-            </Tooltip>
-          </h2>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 flex flex-col gap-3"
-        >
-          <div className="flex items-center gap-2">
-            <div className="bg-orange-200 dark:bg-orange-500/15 rounded-lg p-2">
-              <TbTimelineEventFilled
-                fontSize={20}
-                className="text-orange-600"
-              />
-            </div>
-            <h2 className="font-bold text-lg">Pending Tasks</h2>
-          </div>
-          <h2 className="flex items-end justify-end text-4xl font-bold text-gray-700 dark:text-gray-300">
-            <Tooltip title="No of tasks" placement="top" arrow>
-              <span>{totalPendingTasks}</span>
-            </Tooltip>
-          </h2>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 flex flex-col gap-3"
-        >
-          <div className="flex items-center gap-2">
-            <div className="bg-pink-200 dark:bg-pink-500/15 rounded-lg p-2">
-              <IoTimer fontSize={20} className="text-pink-600" />
-            </div>
-            <h2 className="font-bold text-lg">Total Time</h2>
-          </div>
-          <h2 className="flex items-end justify-end text-4xl font-bold text-gray-700 dark:text-gray-300">
-            <Tooltip title="Today's Time" placement="top" arrow>
-              <div>
-                {totalDuration < 0.5 ? (
-                  totalDuration
-                ) : (
-                  <span>
-                    {totalDuration < 1 ? (
-                      <span>
-                        30<span className="text-sm"> Min</span>
-                      </span>
-                    ) : (
-                      <span>
-                        {totalDuration > 1 ? (
-                          <span>
-                            {totalDuration}
-                            <span className="text-sm "> Hours</span>
-                          </span>
-                        ) : (
-                          <span>
-                            {totalDuration}
-                            <span className="text-sm "> Hour</span>
-                          </span>
-                        )}
-                      </span>
-                    )}
-                  </span>
-                )}
-              </div>
-            </Tooltip>
-          </h2>
-        </motion.div>
-      </div>
-
-      {/* Date Navigation */}
-      <div className="flex items-center  gap-2 ">
-        <button
-          onClick={handlePrevDate}
-          className="p-2 bg-sky-100 rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
-        >
-          <FaCaretLeft fontSize={22} />
-        </button>
-        <div className="relative">
-          <div
-            onClick={() => setShowCalendar(!showCalendar)}
-            onChange={(e) => setCurrentDate(e.target.value)}
+    <div className="md:h-full md:min-h-full pb-20">
+      <div className="bg-white dark:bg-neutral-950 dark:text-white p-2 rounded-lg shadow-lg h-full flex flex-col gap-2 ">
+        {/* Stats Sections */}
+        <div className="grid grid-cols-12 gap-2">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.1 }}
+            className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 flex flex-col gap-3"
           >
-            <input
-              type="text"
-              value={formatDate(currentDate)}
-              className="p-2 border rounded-lg bg-sky-100 dark:bg-neutral-800 dark:border-neutral-700 cursor-pointer"
-              readOnly
-            />
-            <IoToday
-              className="text-blue-500 absolute top-2 right-1.5"
-              fontSize={20}
-            />
-          </div>
-
-          {showCalendar && (
-            <div className="absolute -ml-5 md:ml-0  z-10 mt-2 p-4 border border-gray-300 rounded-lg bg-sky-100 dark:bg-neutral-900 dark:border-neutral-700 shadow-lg">
-              <div className="flex items-center justify- mb-4 gap-2">
-                <button
-                  onClick={() => handleMonthChange(-1)}
-                  className="p-2 bg-sky-50 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 mt-1 group"
-                >
-                  <FaCaretLeft
-                    fontSize={23}
-                    className="group-hover:-translate-x-1 duration-300"
-                  />
-                </button>
-                <div className="flex  gap-2 ">
-                  <FormControl
-                    variant="outlined"
-                    margin="dense"
-                    className={classNames(
-                      "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
-                      classes.root
-                    )}
-                  >
-                    {/* <InputLabel id="month-label" className="w">
-                      Month
-                    </InputLabel> */}
-                    <Select
-                      labelId="month-label"
-                      id="month"
-                      name="month"
-                      // label="Month"
-                      IconComponent={(props) => (
-                        <ArrowDropDownRoundedIcon
-                          {...props}
-                          sx={{
-                            fontSize: 40,
-                            borderRadius: 1,
-                          }}
-                        />
-                      )}
-                      value={currentMonth}
-                      onChange={handleMonthSelectorChange}
-                    >
-                      <GlobalStyles />
-                      <MenuItem value="">Choose value</MenuItem>
-                      {months.map((month, index) => (
-                        <MenuItem key={index} value={index}>
-                          {month}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <FormControl
-                    variant="outlined"
-                    margin="dense"
-                    className={classNames(
-                      "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
-                      classes.root
-                    )}
-                  >
-                    {/* <InputLabel id="year-label" className="w-52">
-                      Year
-                    </InputLabel> */}
-                    <Select
-                      labelId="year-label"
-                      id="year"
-                      name="year"
-                      // label="Year"
-                      IconComponent={(props) => (
-                        <ArrowDropDownRoundedIcon
-                          {...props}
-                          sx={{
-                            fontSize: 40,
-                            borderRadius: 1,
-                          }}
-                        />
-                      )}
-                      value={currentYear}
-                      onChange={handleYearSelectorChange}
-                    >
-                      <GlobalStyles />
-                      <MenuItem value="">Choose value</MenuItem>
-                      {years.map((year) => (
-                        <MenuItem key={year} value={year}>
-                          {year}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </div>
-                <button
-                  onClick={() => handleMonthChange(1)}
-                  className="p-2 bg-sky-50 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 mt-1 group"
-                >
-                  <FaCaretRight
-                    fontSize={23}
-                    className="group-hover:translate-x-1 duration-300"
-                  />
-                </button>
+            <div className="flex items-center gap-2">
+              <div className="bg-sky-200 dark:bg-sky-500/15 rounded-lg p-2">
+                <SiTask fontSize={20} className="text-sky-600" />
               </div>
-              <div className="grid grid-cols-7 gap-1 text-center mb-2">
-                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                  (day) => (
-                    <div key={day} className="font-semibold">
-                      {day}
-                    </div>
-                  )
-                )}
-                {Array.from({ length: firstDay }).map((_, index) => (
-                  <div key={index} />
-                ))}
-                {Array.from({ length: daysInMonth }).map((_, day) => (
-                  <div
-                    key={day}
-                    onClick={() => handleDateClick(day)}
-                    className={classNames(
-                      "p-2 cursor-pointer rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800",
-                      {
-                        "bg-blue-500/15 text-blue-600 font-bold":
-                          new Date(currentDate).getDate() === day + 1 &&
-                          new Date(currentDate).getMonth() === currentMonth &&
-                          new Date(currentDate).getFullYear() === currentYear,
-                        "bg-green-300 dark:bg-green-600/15 text-green-600 font-bold":
-                          datesFromApi.has(
-                            new Date(
-                              currentYear,
-                              currentMonth,
-                              day + 1
-                            ).toDateString()
-                          ),
-                      }
-                    )}
-                  >
-                    {day + 1}
-                  </div>
-                ))}
-              </div>
+              <h2 className="font-bold text-lg">Total Tasks</h2>
             </div>
-          )}
-        </div>
-        <button
-          onClick={handleNextDate}
-          className="p-2 bg-sky-100 rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
-        >
-          <FaCaretRight fontSize={22} />
-        </button>
-        <button
-          onClick={handleToday}
-          className="p-2 bg-sky-100 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 flex items-center gap-2 "
-        >
-          Today
-        </button>
-      </div>
-
-      {/* Add Record Section */}
-      <form onSubmit={handleSubmit}>
-        <div className="">
+            <h2 className="flex items-end justify-end text-4xl font-bold text-gray-700 dark:text-gray-300">
+              <Tooltip title="No of tasks" placement="top" arrow>
+                <span>{totalTasks}</span>
+              </Tooltip>
+            </h2>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 flex flex-col gap-3"
+          >
+            <div className="flex items-center gap-2">
+              <div className="bg-green-200 dark:bg-green-500/15 rounded-lg p-2">
+                <FaSquareCheck fontSize={20} className="text-green-500" />
+              </div>
+              <h2 className="font-bold text-lg">Completed Tasks</h2>
+            </div>
+            <h2 className="flex items-end justify-end text-4xl font-bold text-gray-700 dark:text-gray-300">
+              <Tooltip title="No of tasks" placement="top" arrow>
+                <span>{totalCompletedTasks}</span>
+              </Tooltip>
+            </h2>
+          </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="grid grid-cols-12 gap-2 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 items-start"
+            className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 flex flex-col gap-3"
           >
-            <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
-              <FormControl
-                variant="outlined"
-                margin="dense"
-                className={classNames(
-                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                  classes.root
-                )}
-              >
-                <InputLabel id="project-label" className="w-52">
-                  Project
-                </InputLabel>
-                <Select
-                  labelId="project-label"
-                  id="project"
-                  name="project"
-                  label="Project"
-                  IconComponent={(props) => (
-                    <ArrowDropDownRoundedIcon
-                      {...props}
-                      sx={{
-                        fontSize: 40,
-                        borderRadius: 1,
-                      }}
-                    />
+            <div className="flex items-center gap-2">
+              <div className="bg-orange-200 dark:bg-orange-500/15 rounded-lg p-2">
+                <TbTimelineEventFilled
+                  fontSize={20}
+                  className="text-orange-600"
+                />
+              </div>
+              <h2 className="font-bold text-lg">Pending Tasks</h2>
+            </div>
+            <h2 className="flex items-end justify-end text-4xl font-bold text-gray-700 dark:text-gray-300">
+              <Tooltip title="No of tasks" placement="top" arrow>
+                <span>{totalPendingTasks}</span>
+              </Tooltip>
+            </h2>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="col-span-6 lg:col-span-3 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 flex flex-col gap-3"
+          >
+            <div className="flex items-center gap-2">
+              <div className="bg-pink-200 dark:bg-pink-500/15 rounded-lg p-2">
+                <IoTimer fontSize={20} className="text-pink-600" />
+              </div>
+              <h2 className="font-bold text-lg">Total Time</h2>
+            </div>
+            <h2 className="flex items-end justify-end text-4xl font-bold text-gray-700 dark:text-gray-300">
+              <Tooltip title="Today's Time" placement="top" arrow>
+                <div>
+                  {totalDuration < 0.5 ? (
+                    totalDuration
+                  ) : (
+                    <span>
+                      {totalDuration < 1 ? (
+                        <span>
+                          30<span className="text-sm"> Min</span>
+                        </span>
+                      ) : (
+                        <span>
+                          {totalDuration > 1 ? (
+                            <span>
+                              {totalDuration}
+                              <span className="text-sm "> Hours</span>
+                            </span>
+                          ) : (
+                            <span>
+                              {totalDuration}
+                              <span className="text-sm "> Hour</span>
+                            </span>
+                          )}
+                        </span>
+                      )}
+                    </span>
                   )}
-                  value={formData.project}
-                  onChange={handleInputChange}
-                >
-                  <GlobalStyles />
-                  <MenuItem value="">Choose value</MenuItem>
-                  {projects.map((project) => (
-                    <MenuItem key={project._id} value={project._id}>
-                      {project.projectname}
-                    </MenuItem>
+                </div>
+              </Tooltip>
+            </h2>
+          </motion.div>
+        </div>
+
+        {/* Date Navigation */}
+        <div className="flex items-center  gap-2 ">
+          <button
+            onClick={handlePrevDate}
+            className="p-2 bg-sky-100 rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
+          >
+            <FaCaretLeft fontSize={22} />
+          </button>
+          <div className="relative">
+            <div
+              onClick={() => setShowCalendar(!showCalendar)}
+              onChange={(e) => setCurrentDate(e.target.value)}
+            >
+              <input
+                type="text"
+                value={formatDate(currentDate)}
+                className="p-2 border rounded-lg bg-sky-100 dark:bg-neutral-800 dark:border-neutral-700 cursor-pointer"
+                readOnly
+              />
+              <IoToday
+                className="text-blue-500 absolute top-2 right-1.5"
+                fontSize={20}
+              />
+            </div>
+
+            {showCalendar && (
+              <div className="absolute -ml-5 md:ml-0  z-10 mt-2 p-4 border border-gray-300 rounded-lg bg-sky-100 dark:bg-neutral-900 dark:border-neutral-700 shadow-lg">
+                <div className="flex items-center justify- mb-4 gap-2">
+                  <button
+                    onClick={() => handleMonthChange(-1)}
+                    className="p-2 bg-sky-50 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 mt-1 group"
+                  >
+                    <FaCaretLeft
+                      fontSize={23}
+                      className="group-hover:-translate-x-1 duration-300"
+                    />
+                  </button>
+                  <div className="flex  gap-2 ">
+                    <FormControl
+                      variant="outlined"
+                      margin="dense"
+                      className={classNames(
+                        "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                        classes.root
+                      )}
+                    >
+                      {/* <InputLabel id="month-label" className="w">
+                      Month
+                    </InputLabel> */}
+                      <Select
+                        labelId="month-label"
+                        id="month"
+                        name="month"
+                        // label="Month"
+                        IconComponent={(props) => (
+                          <ArrowDropDownRoundedIcon
+                            {...props}
+                            sx={{
+                              fontSize: 40,
+                              borderRadius: 1,
+                            }}
+                          />
+                        )}
+                        value={currentMonth}
+                        onChange={handleMonthSelectorChange}
+                      >
+                        <GlobalStyles />
+                        <MenuItem value="">Choose value</MenuItem>
+                        {months.map((month, index) => (
+                          <MenuItem key={index} value={index}>
+                            {month}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <FormControl
+                      variant="outlined"
+                      margin="dense"
+                      className={classNames(
+                        "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700 h-10",
+                        classes.root
+                      )}
+                    >
+                      {/* <InputLabel id="year-label" className="w-52">
+                      Year
+                    </InputLabel> */}
+                      <Select
+                        labelId="year-label"
+                        id="year"
+                        name="year"
+                        // label="Year"
+                        IconComponent={(props) => (
+                          <ArrowDropDownRoundedIcon
+                            {...props}
+                            sx={{
+                              fontSize: 40,
+                              borderRadius: 1,
+                            }}
+                          />
+                        )}
+                        value={currentYear}
+                        onChange={handleYearSelectorChange}
+                      >
+                        <GlobalStyles />
+                        <MenuItem value="">Choose value</MenuItem>
+                        {years.map((year) => (
+                          <MenuItem key={year} value={year}>
+                            {year}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
+                  <button
+                    onClick={() => handleMonthChange(1)}
+                    className="p-2 bg-sky-50 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 mt-1 group"
+                  >
+                    <FaCaretRight
+                      fontSize={23}
+                      className="group-hover:translate-x-1 duration-300"
+                    />
+                  </button>
+                </div>
+                <div className="grid grid-cols-7 gap-1 text-center mb-2">
+                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                    (day) => (
+                      <div key={day} className="font-semibold">
+                        {day}
+                      </div>
+                    )
+                  )}
+                  {Array.from({ length: firstDay }).map((_, index) => (
+                    <div key={index} />
                   ))}
-                </Select>
-              </FormControl>
-            </div>
-            <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
-              <TextField
-                className={classNames(
-                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                  classes.root
-                )}
-                id="taskName"
-                name="taskName"
-                label="Task Name"
-                variant="outlined"
-                margin="dense"
-                value={formData.taskName}
-                onChange={handleInputChange}
-                autoComplete="off"
-                inputProps={{ maxLength: 50 }}
-              />
-              <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
-                {50 - formData.taskName.length}/50
+                  {Array.from({ length: daysInMonth }).map((_, day) => (
+                    <div
+                      key={day}
+                      onClick={() => handleDateClick(day)}
+                      className={classNames(
+                        "p-2 cursor-pointer rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800",
+                        {
+                          "bg-blue-500/15 text-blue-600 font-bold":
+                            new Date(currentDate).getDate() === day + 1 &&
+                            new Date(currentDate).getMonth() === currentMonth &&
+                            new Date(currentDate).getFullYear() === currentYear,
+                          "bg-green-300 dark:bg-green-600/15 text-green-600 font-bold":
+                            datesFromApi.has(
+                              new Date(
+                                currentYear,
+                                currentMonth,
+                                day + 1
+                              ).toDateString()
+                            ),
+                        }
+                      )}
+                    >
+                      {day + 1}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
-              <TextField
-                className={classNames(
-                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                  classes.root
-                )}
-                id="subTaskName"
-                name="subTaskName"
-                label="Sub Task Name"
-                variant="outlined"
-                margin="dense"
-                value={formData.subTaskName}
-                onChange={handleInputChange}
-                autoComplete="off"
-                inputProps={{ maxLength: 100 }}
-              />
-              <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
-                {100 - formData.subTaskName.length}/100
+            )}
+          </div>
+          <button
+            onClick={handleNextDate}
+            className="p-2 bg-sky-100 rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
+          >
+            <FaCaretRight fontSize={22} />
+          </button>
+          <button
+            onClick={handleToday}
+            className="p-2 bg-sky-100 rounded-lg dark:bg-neutral-800 dark:border-neutral-700 flex items-center gap-2 "
+          >
+            Today
+          </button>
+        </div>
+
+        {/* Add Record Section */}
+        <form onSubmit={handleSubmit}>
+          <div className="">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="grid grid-cols-12 gap-2 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 items-start"
+            >
+              <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
+                <FormControl
+                  variant="outlined"
+                  margin="dense"
+                  className={classNames(
+                    "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                    classes.root
+                  )}
+                >
+                  <InputLabel id="project-label" className="w-52">
+                    Project
+                  </InputLabel>
+                  <Select
+                    labelId="project-label"
+                    id="project"
+                    name="project"
+                    label="Project"
+                    IconComponent={(props) => (
+                      <ArrowDropDownRoundedIcon
+                        {...props}
+                        sx={{
+                          fontSize: 40,
+                          borderRadius: 1,
+                        }}
+                      />
+                    )}
+                    value={formData.project}
+                    onChange={handleInputChange}
+                  >
+                    <GlobalStyles />
+                    <MenuItem value="">Choose value</MenuItem>
+                    {projects.map((project) => (
+                      <MenuItem key={project._id} value={project._id}>
+                        {project.projectname}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
-            </div>
-            <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-6">
-              <textarea
-                name="description"
-                value={formData.description}
-                rows={2}
-                placeholder="description"
-                onChange={handleInputChange}
-                inputProps={{ maxLength: 250 }}
-                className="px-2 py-1 mt-2 border rounded-lg bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700"
-              />
-              <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
-                {250 - formData.description.length}/250
+              <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
+                <TextField
+                  className={classNames(
+                    "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                    classes.root
+                  )}
+                  id="taskName"
+                  name="taskName"
+                  label="Task Name"
+                  variant="outlined"
+                  margin="dense"
+                  value={formData.taskName}
+                  onChange={handleInputChange}
+                  autoComplete="off"
+                  inputProps={{ maxLength: 50 }}
+                />
+                <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
+                  {50 - formData.taskName.length}/50
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-2">
-              {/* <TextField
+              <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
+                <TextField
+                  className={classNames(
+                    "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                    classes.root
+                  )}
+                  id="subTaskName"
+                  name="subTaskName"
+                  label="Sub Task Name"
+                  variant="outlined"
+                  margin="dense"
+                  value={formData.subTaskName}
+                  onChange={handleInputChange}
+                  autoComplete="off"
+                  inputProps={{ maxLength: 100 }}
+                />
+                <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
+                  {100 - formData.subTaskName.length}/100
+                </div>
+              </div>
+              <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-6">
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  rows={2}
+                  placeholder="description"
+                  onChange={handleInputChange}
+                  inputProps={{ maxLength: 250 }}
+                  className="px-2 py-1 mt-2 border rounded-lg bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700"
+                />
+                <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
+                  {250 - formData.description.length}/250
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-2">
+                {/* <TextField
                 className={classNames(
                   "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
                   classes.root
@@ -977,277 +978,278 @@ export default function TimeSheet({ record, index }) {
                 onChange={handleInputChange}
                 autoComplete="off"
               /> */}
-              <FormControl
-                variant="outlined"
-                margin="dense"
-                className={classNames(
-                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                  classes.root
-                )}
-              >
-                <InputLabel id="duration-label" className="w-52">
-                  Duration
-                </InputLabel>
-                <Select
-                  labelId="duration-label"
-                  id="duration"
-                  name="duration"
-                  label="Duration"
-                  IconComponent={(props) => (
-                    <ArrowDropDownRoundedIcon
-                      {...props}
-                      sx={{
-                        fontSize: 40,
-                        borderRadius: 1,
-                      }}
-                    />
+                <FormControl
+                  variant="outlined"
+                  margin="dense"
+                  className={classNames(
+                    "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                    classes.root
                   )}
-                  value={formData.duration}
-                  onChange={handleInputChange}
                 >
-                  <GlobalStyles />
-                  <MenuItem value="0.5">30 Min</MenuItem>
-                  <MenuItem value="1">1 Hour</MenuItem>
-                  <MenuItem value="1.5">1 Hour 30 Min</MenuItem>
-                  <MenuItem value="2">2 Hour</MenuItem>
-                  <MenuItem disabled>Duration Limit is 2hr max</MenuItem>
-                  {/* <MenuItem value="2.5">2 Hour 30 Min</MenuItem>
+                  <InputLabel id="duration-label" className="w-52">
+                    Duration
+                  </InputLabel>
+                  <Select
+                    labelId="duration-label"
+                    id="duration"
+                    name="duration"
+                    label="Duration"
+                    IconComponent={(props) => (
+                      <ArrowDropDownRoundedIcon
+                        {...props}
+                        sx={{
+                          fontSize: 40,
+                          borderRadius: 1,
+                        }}
+                      />
+                    )}
+                    value={formData.duration}
+                    onChange={handleInputChange}
+                  >
+                    <GlobalStyles />
+                    <MenuItem value="0.5">30 Min</MenuItem>
+                    <MenuItem value="1">1 Hour</MenuItem>
+                    <MenuItem value="1.5">1 Hour 30 Min</MenuItem>
+                    <MenuItem value="2">2 Hour</MenuItem>
+                    <MenuItem disabled>Duration Limit is 2hr max</MenuItem>
+                    {/* <MenuItem value="2.5">2 Hour 30 Min</MenuItem>
                   <MenuItem value="3">3 Hour</MenuItem> */}
-                </Select>
-              </FormControl>
-            </div>
-            <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-2">
-              <FormControl
-                variant="outlined"
-                margin="dense"
-                className={classNames(
-                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                  classes.root
-                )}
-              >
-                <InputLabel id="remark-label" className="w-52">
-                  Remark
-                </InputLabel>
-                <Select
-                  labelId="remark-label"
-                  id="remark"
-                  name="remark"
-                  label="Remark"
-                  IconComponent={(props) => (
-                    <ArrowDropDownRoundedIcon
-                      {...props}
-                      sx={{
-                        fontSize: 40,
-                        borderRadius: 1,
-                      }}
-                    />
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-2">
+                <FormControl
+                  variant="outlined"
+                  margin="dense"
+                  className={classNames(
+                    "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                    classes.root
                   )}
-                  value={formData.remark}
-                  onChange={handleInputChange}
                 >
-                  <GlobalStyles />
-                  <MenuItem value="">Choose Status</MenuItem>
-                  <MenuItem value="0" className="flex gap-2">
-                    <span className="w-3 h-2 bg-red-500 rounded-md"></span>
-                    Pending
-                  </MenuItem>
-                  <MenuItem value="1" className="flex gap-2">
-                    <span className="w-3 h-2 bg-orange-500 rounded-md"></span>
-                    In Progress
-                  </MenuItem>
-                  <MenuItem value="2" className="flex gap-2">
-                    <span className="w-3 h-2 bg-green-500 rounded-md"></span>
-                    Completed
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-            <button
-              className="col-span-12 sm:col-span-12 lg:col-span-2 mt-1.5 px-2 py-3.5 bg-blue-500/15 text-blue-500 font-bold text-[1rem] rounded-lg   flex items-center justify-center gap-2"
-              type="submit"
-            >
-              <FaSave fontSize={20} />
-              Save
-            </button>
-          </motion.div>
-        </div>
-      </form>
-
-      {/* Timesheet Records */}
-      <div className="">
-        {error && (
-          <div className="absolute bottom-0 right-0 m-4 flex flex-col gap-2 z-50">
-            {(Array.isArray(error) ? error : [error]).map((err, index) => (
-              <motion.div
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 6000,
-                  damping: 30,
-                  duration: 0.3,
-                }}
-                key={index}
-                className="font-bold bg-red-300 dark:bg-black dark:border-2 border-red-950/45 p-3 rounded-lg flex items-center gap-2"
+                  <InputLabel id="remark-label" className="w-52">
+                    Remark
+                  </InputLabel>
+                  <Select
+                    labelId="remark-label"
+                    id="remark"
+                    name="remark"
+                    label="Remark"
+                    IconComponent={(props) => (
+                      <ArrowDropDownRoundedIcon
+                        {...props}
+                        sx={{
+                          fontSize: 40,
+                          borderRadius: 1,
+                        }}
+                      />
+                    )}
+                    value={formData.remark}
+                    onChange={handleInputChange}
+                  >
+                    <GlobalStyles />
+                    <MenuItem value="">Choose Status</MenuItem>
+                    <MenuItem value="0" className="flex gap-2">
+                      <span className="w-3 h-2 bg-red-500 rounded-md"></span>
+                      Pending
+                    </MenuItem>
+                    <MenuItem value="1" className="flex gap-2">
+                      <span className="w-3 h-2 bg-orange-500 rounded-md"></span>
+                      In Progress
+                    </MenuItem>
+                    <MenuItem value="2" className="flex gap-2">
+                      <span className="w-3 h-2 bg-green-500 rounded-md"></span>
+                      Completed
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <button
+                className="col-span-12 sm:col-span-12 lg:col-span-2 mt-1.5 px-2 py-3.5 bg-blue-500/15 text-blue-500 font-bold text-[1rem] rounded-lg   flex items-center justify-center gap-2"
+                type="submit"
               >
-                <div className="text-red-600 p-1 rounded-lg">
-                  <FaFaceFrownOpen fontSize={22} />
-                </div>
-                {err.msg || err}
-              </motion.div>
-            ))}
-          </div>
-        )}
-
-        {timesheetData[currentDate] && timesheetData[currentDate].length > 0 ? (
-          <div className="flex flex-col overflow-scroll h-[78vh] md:h-fit scrollbar-hide">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="hidden lg:grid grid-cols-12 mb-2 gap-2 px-2 py-3 bg-sky-100 dark:bg-neutral-800 rounded-md font-bold"
-            >
-              <div className="col-span-1">Sr.No</div>
-              <div className="col-span-1">Project Name</div>
-              <div className="col-span-2">Task</div>
-              <div className="col-span-2">Subtask</div>
-              <div className="col-span-3">Description</div>
-              <div className="col-span-1">Duration</div>
-              <div className="col-span-1">Remark</div>
-              <div className="col-span-1">Action</div>
+                <FaSave fontSize={20} />
+                Save
+              </button>
             </motion.div>
+          </div>
+        </form>
 
-            {timesheetData[currentDate].map((record, index) => (
+        {/* Timesheet Records */}
+        <div className="overflow-y-scroll scrollbar-hide">
+          {error && (
+            <div className="absolute bottom-0 right-0 m-4 flex flex-col gap-2 z-50">
+              {(Array.isArray(error) ? error : [error]).map((err, index) => (
+                <motion.div
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 6000,
+                    damping: 30,
+                    duration: 0.3,
+                  }}
+                  key={index}
+                  className="font-bold bg-red-300 dark:bg-black dark:border-2 border-red-950/45 p-3 rounded-lg flex items-center gap-2"
+                >
+                  <div className="text-red-600 p-1 rounded-lg">
+                    <FaFaceFrownOpen fontSize={22} />
+                  </div>
+                  {err.msg || err}
+                </motion.div>
+              ))}
+            </div>
+          )}
+
+          {timesheetData[currentDate] &&
+          timesheetData[currentDate].length > 0 ? (
+            <div className="flex flex-col  h-[78vh]   md:h-fit">
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                key={index}
-                className={`bg-sky-100 dark:bg-neutral-900 p-2 rounded-md grid grid-cols-12 gap-2 items-center ${
-                  index !== 0 ? "mt-2" : ""
-                }`}
+                transition={{ duration: 0.3 }}
+                className="hidden lg:grid grid-cols-12 mb-2 gap-2 px-2 py-3 bg-sky-100 dark:bg-neutral-800 rounded-md font-bold sticky top-0"
               >
-                {isEditing && currentTask?._id === record?._id ? (
-                  // Render the form if editing the current record
-                  <form onSubmit={handleFormSubmit} className="col-span-12">
-                    <div className="grid grid-cols-12 gap-2">
-                      <div className="flex col-span-12 lg:col-span-1 justify-between items-center">
-                        <h2 className="flex lg:hidden">Sr.No - </h2>
-                        <h2 className="py-1.5 px-3 rounded-md bg-sky-100 dark:bg-neutral-950">
-                          {index + 1}
-                        </h2>
-                      </div>
+                <div className="col-span-1">Sr.No</div>
+                <div className="col-span-1">Project Name</div>
+                <div className="col-span-2">Task</div>
+                <div className="col-span-2">Subtask</div>
+                <div className="col-span-3">Description</div>
+                <div className="col-span-1">Duration</div>
+                <div className="col-span-1">Remark</div>
+                <div className="col-span-1">Action</div>
+              </motion.div>
 
-                      <div className=" col-span-12 lg:col-span-1">
-                        <FormControl
-                          variant="outlined"
-                          margin="dense"
-                          className={classNames(
-                            "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                            classes.root
-                          )}
-                        >
-                          <InputLabel id="project-label" className="w-52">
-                            Project
-                          </InputLabel>
-                          <Select
-                            labelId="project-label"
-                            id="project"
-                            name="project"
-                            label="Project"
-                            IconComponent={(props) => (
-                              <ArrowDropDownRoundedIcon
-                                {...props}
-                                sx={{
-                                  fontSize: 40,
-                                  borderRadius: 1,
-                                }}
-                              />
+              {timesheetData[currentDate].map((record, index) => (
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  key={index}
+                  className={`md:bg-sky-100 border-2 dark:border-none md:border-none dark:bg-neutral-900 p-2 rounded-md grid grid-cols-12 gap-2 items-center  ${
+                    index !== 0 ? "mt-2" : ""
+                  }`}
+                >
+                  {isEditing && currentTask?._id === record?._id ? (
+                    // Render the form if editing the current record
+                    <form onSubmit={handleFormSubmit} className="col-span-12 ">
+                      <div className="grid grid-cols-12 gap-2">
+                        <div className="flex col-span-12 lg:col-span-1 justify-between items-center">
+                          <h2 className="flex lg:hidden">Sr.No - </h2>
+                          <h2 className="py-1.5 px-3 rounded-md bg-sky-100 dark:bg-neutral-950">
+                            {index + 1}
+                          </h2>
+                        </div>
+
+                        <div className=" col-span-12 lg:col-span-1">
+                          <FormControl
+                            variant="outlined"
+                            margin="dense"
+                            className={classNames(
+                              "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                              classes.root
                             )}
-                            value={taskDetails.project}
+                          >
+                            <InputLabel id="project-label" className="w-52">
+                              Project
+                            </InputLabel>
+                            <Select
+                              labelId="project-label"
+                              id="project"
+                              name="project"
+                              label="Project"
+                              IconComponent={(props) => (
+                                <ArrowDropDownRoundedIcon
+                                  {...props}
+                                  sx={{
+                                    fontSize: 40,
+                                    borderRadius: 1,
+                                  }}
+                                />
+                              )}
+                              value={taskDetails.project}
+                              onChange={(e) =>
+                                setTaskDetails({
+                                  ...taskDetails,
+                                  project: e.target.value,
+                                })
+                              }
+                              required
+                            >
+                              <GlobalStyles />
+                              <MenuItem value="">Choose value</MenuItem>
+                              {projects.map((project) => (
+                                <MenuItem key={project._id} value={project._id}>
+                                  {project.projectname}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </div>
+
+                        <div className=" col-span-12 lg:col-span-2">
+                          <TextField
+                            className={classNames(
+                              "p-2 border rounded-lg dark:bg-red-800 dark:border-neutral-700",
+                              classes.root
+                            )}
+                            id="taskName"
+                            name="taskName"
+                            label="Task Name"
+                            variant="outlined"
+                            margin="dense"
+                            value={taskDetails.taskName}
                             onChange={(e) =>
                               setTaskDetails({
                                 ...taskDetails,
-                                project: e.target.value,
+                                taskName: e.target.value,
                               })
                             }
                             required
-                          >
-                            <GlobalStyles />
-                            <MenuItem value="">Choose value</MenuItem>
-                            {projects.map((project) => (
-                              <MenuItem key={project._id} value={project._id}>
-                                {project.projectname}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </div>
+                            autoComplete="off"
+                          />
+                        </div>
 
-                      <div className=" col-span-12 lg:col-span-2">
-                        <TextField
-                          className={classNames(
-                            "p-2 border rounded-lg dark:bg-red-800 dark:border-neutral-700",
-                            classes.root
-                          )}
-                          id="taskName"
-                          name="taskName"
-                          label="Task Name"
-                          variant="outlined"
-                          margin="dense"
-                          value={taskDetails.taskName}
-                          onChange={(e) =>
-                            setTaskDetails({
-                              ...taskDetails,
-                              taskName: e.target.value,
-                            })
-                          }
-                          required
-                          autoComplete="off"
-                        />
-                      </div>
+                        <div className=" col-span-12 lg:col-span-2">
+                          <TextField
+                            className={classNames(
+                              "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                              classes.root
+                            )}
+                            id="subTaskName"
+                            name="subTaskName"
+                            label="Sub Task Name"
+                            variant="outlined"
+                            margin="dense"
+                            value={taskDetails.subTaskName}
+                            onChange={(e) =>
+                              setTaskDetails({
+                                ...taskDetails,
+                                subTaskName: e.target.value,
+                              })
+                            }
+                            autoComplete="off"
+                          />
+                        </div>
 
-                      <div className=" col-span-12 lg:col-span-2">
-                        <TextField
-                          className={classNames(
-                            "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                            classes.root
-                          )}
-                          id="subTaskName"
-                          name="subTaskName"
-                          label="Sub Task Name"
-                          variant="outlined"
-                          margin="dense"
-                          value={taskDetails.subTaskName}
-                          onChange={(e) =>
-                            setTaskDetails({
-                              ...taskDetails,
-                              subTaskName: e.target.value,
-                            })
-                          }
-                          autoComplete="off"
-                        />
-                      </div>
+                        <div className=" col-span-12 lg:col-span-3">
+                          <textarea
+                            name="description"
+                            rows={2}
+                            placeholder="description"
+                            value={taskDetails.description}
+                            onChange={(e) =>
+                              setTaskDetails({
+                                ...taskDetails,
+                                description: e.target.value,
+                              })
+                            }
+                            required
+                            className="px-2 py-1 mt-2 w-full border rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
+                          />
+                        </div>
 
-                      <div className=" col-span-12 lg:col-span-3">
-                        <textarea
-                          name="description"
-                          rows={2}
-                          placeholder="description"
-                          value={taskDetails.description}
-                          onChange={(e) =>
-                            setTaskDetails({
-                              ...taskDetails,
-                              description: e.target.value,
-                            })
-                          }
-                          required
-                          className="px-2 py-1 mt-2 w-full border rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
-                        />
-                      </div>
-
-                      <div className=" col-span-12 lg:col-span-1">
-                        {/* <TextField
+                        <div className=" col-span-12 lg:col-span-1">
+                          {/* <TextField
                           className={classNames(
                             "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
                             classes.root
@@ -1267,247 +1269,248 @@ export default function TimeSheet({ record, index }) {
                           required
                           autoComplete="off"
                         /> */}
-                        <FormControl
-                          variant="outlined"
-                          margin="dense"
-                          className={classNames(
-                            "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                            classes.root
-                          )}
-                        >
-                          <InputLabel id="duration-label" className="w-52">
-                            Duration
-                          </InputLabel>
-                          <Select
-                            labelId="duration-label"
-                            id="duration"
-                            name="duration"
-                            label="Duration"
-                            IconComponent={(props) => (
-                              <ArrowDropDownRoundedIcon
-                                {...props}
-                                sx={{
-                                  fontSize: 40,
-                                  borderRadius: 1,
-                                }}
-                              />
+                          <FormControl
+                            variant="outlined"
+                            margin="dense"
+                            className={classNames(
+                              "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                              classes.root
                             )}
-                            value={taskDetails.duration}
-                            onChange={(e) =>
-                              setTaskDetails({
-                                ...taskDetails,
-                                duration: e.target.value,
-                              })
-                            }
-                            required
                           >
-                            <GlobalStyles />
-                            <MenuItem value="0.5">30 Min</MenuItem>
-                            <MenuItem value="1">1 Hour</MenuItem>
-                            <MenuItem value="1.5">1 Hour 30 Min</MenuItem>
-                            <MenuItem value="2">2 Hour</MenuItem>
-                            <MenuItem disabled>
-                              Duration Limit is 2hr max
-                            </MenuItem>
-                            {/* <MenuItem value="2.5">2 Hour 30 Min</MenuItem>
+                            <InputLabel id="duration-label" className="w-52">
+                              Duration
+                            </InputLabel>
+                            <Select
+                              labelId="duration-label"
+                              id="duration"
+                              name="duration"
+                              label="Duration"
+                              IconComponent={(props) => (
+                                <ArrowDropDownRoundedIcon
+                                  {...props}
+                                  sx={{
+                                    fontSize: 40,
+                                    borderRadius: 1,
+                                  }}
+                                />
+                              )}
+                              value={taskDetails.duration}
+                              onChange={(e) =>
+                                setTaskDetails({
+                                  ...taskDetails,
+                                  duration: e.target.value,
+                                })
+                              }
+                              required
+                            >
+                              <GlobalStyles />
+                              <MenuItem value="0.5">30 Min</MenuItem>
+                              <MenuItem value="1">1 Hour</MenuItem>
+                              <MenuItem value="1.5">1 Hour 30 Min</MenuItem>
+                              <MenuItem value="2">2 Hour</MenuItem>
+                              <MenuItem disabled>
+                                Duration Limit is 2hr max
+                              </MenuItem>
+                              {/* <MenuItem value="2.5">2 Hour 30 Min</MenuItem>
                             <MenuItem value="3">3 Hour</MenuItem> */}
-                          </Select>
-                        </FormControl>
-                      </div>
+                            </Select>
+                          </FormControl>
+                        </div>
 
-                      <div className=" col-span-12 lg:col-span-1">
-                        <FormControl
-                          variant="outlined"
-                          margin="dense"
-                          className={classNames(
-                            "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                            classes.root
-                          )}
-                        >
-                          <InputLabel id="remark-label" className="w-52">
-                            Remark
-                          </InputLabel>
-                          <Select
-                            labelId="remark-label"
-                            id="remark"
-                            name="remark"
-                            label="Remark"
-                            IconComponent={(props) => (
-                              <ArrowDropDownRoundedIcon
-                                {...props}
-                                sx={{
-                                  fontSize: 40,
-                                  borderRadius: 1,
-                                }}
-                              />
+                        <div className=" col-span-12 lg:col-span-1">
+                          <FormControl
+                            variant="outlined"
+                            margin="dense"
+                            className={classNames(
+                              "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                              classes.root
                             )}
-                            value={taskDetails.remark}
-                            onChange={(e) =>
-                              setTaskDetails({
-                                ...taskDetails,
-                                remark: e.target.value,
-                              })
-                            }
-                            required
                           >
-                            <GlobalStyles />
-                            <MenuItem value="">Choose Status</MenuItem>
-                            <MenuItem value="0" className="flex gap-2">
-                              <span className="w-3 h-2 bg-red-500 rounded-md"></span>
-                              Pending
-                            </MenuItem>
-                            <MenuItem value="1" className="flex gap-2">
-                              <span className="w-3 h-2 bg-orange-500 rounded-md"></span>
-                              In Progress
-                            </MenuItem>
-                            <MenuItem value="2" className="flex gap-2">
-                              <span className="w-3 h-2 bg-green-500 rounded-md"></span>
-                              Completed
-                            </MenuItem>
-                          </Select>
-                        </FormControl>
-                      </div>
+                            <InputLabel id="remark-label" className="w-52">
+                              Remark
+                            </InputLabel>
+                            <Select
+                              labelId="remark-label"
+                              id="remark"
+                              name="remark"
+                              label="Remark"
+                              IconComponent={(props) => (
+                                <ArrowDropDownRoundedIcon
+                                  {...props}
+                                  sx={{
+                                    fontSize: 40,
+                                    borderRadius: 1,
+                                  }}
+                                />
+                              )}
+                              value={taskDetails.remark}
+                              onChange={(e) =>
+                                setTaskDetails({
+                                  ...taskDetails,
+                                  remark: e.target.value,
+                                })
+                              }
+                              required
+                            >
+                              <GlobalStyles />
+                              <MenuItem value="">Choose Status</MenuItem>
+                              <MenuItem value="0" className="flex gap-2">
+                                <span className="w-3 h-2 bg-red-500 rounded-md"></span>
+                                Pending
+                              </MenuItem>
+                              <MenuItem value="1" className="flex gap-2">
+                                <span className="w-3 h-2 bg-orange-500 rounded-md"></span>
+                                In Progress
+                              </MenuItem>
+                              <MenuItem value="2" className="flex gap-2">
+                                <span className="w-3 h-2 bg-green-500 rounded-md"></span>
+                                Completed
+                              </MenuItem>
+                            </Select>
+                          </FormControl>
+                        </div>
 
+                        <div className="flex gap-2 col-span-12 lg:col-span-1 items-center">
+                          <button
+                            type="submit"
+                            className="bg-blue-500/15 text-blue-500 font-bold p-1.5 h-fit rounded-md "
+                          >
+                            <FaSave />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setIsEditing(false);
+                              // Optionally reset taskDetails to its initial state if needed
+                            }}
+                            className="bg-red-500/15 text-red-500 font-bold p-1.5 h-fit rounded-md "
+                          >
+                            <IoClose />
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  ) : (
+                    // Render the existing content if not editing
+                    <>
+                      <div className="flex col-span-12 lg:col-span-1 justify-between items-center">
+                        <h2 className="flex lg:hidden">Sr.No - </h2>
+                        <h2 className="py-1.5 px-3 rounded-md bg-sky-100 dark:bg-neutral-950">
+                          {index + 1}
+                        </h2>
+                      </div>
+                      <div className="flex col-span-12 lg:col-span-1 justify-between items-center">
+                        <h2 className="flex lg:hidden">Project Name - </h2>
+                        <h2>{record.project.projectname}</h2>
+                      </div>
+                      <div className="flex col-span-12 lg:col-span-2 justify-between items-center">
+                        <h2 className="flex lg:hidden">Task - </h2>
+                        <h2>
+                          <TruncatedTextWithTooltip
+                            text={record.taskName}
+                            maxLength={10}
+                          />
+                        </h2>
+                      </div>
+                      <div className="flex col-span-12 lg:col-span-2 justify-between items-center">
+                        <h2 className="flex lg:hidden">Subtask - </h2>
+                        <h2>
+                          <TruncatedTextWithTooltip
+                            text={record.subTaskName}
+                            maxLength={10}
+                          />
+                        </h2>
+                      </div>
+                      <div className="flex col-span-12 lg:col-span-3 justify-between items-center">
+                        <h2 className="flex lg:hidden">Description - </h2>
+                        <h2>
+                          <TruncatedTextWithTooltip
+                            text={record.description}
+                            maxLength={40}
+                          />
+                        </h2>
+                      </div>
+                      <div className="flex col-span-12 lg:col-span-1 justify-between items-center">
+                        <h2 className="flex lg:hidden">Duration - </h2>
+                        <h2>
+                          {record.duration < 1 ? (
+                            <span>
+                              30 <span className="text-sm">Min</span>
+                            </span>
+                          ) : (
+                            <span>
+                              {record.duration}
+                              <span className="text-sm"> Hour</span>
+                            </span>
+                          )}
+                        </h2>
+                      </div>
+                      <div className="flex col-span-12 lg:col-span-1 justify-between items-center">
+                        <h2 className="flex lg:hidden">Remark - </h2>
+                        <h2
+                          className={`lg:text-xs py-1 font-bold lg:my-1.5 flex items-center justify-center px-2 rounded-md ${
+                            record.remark === "0"
+                              ? "bg-red-500/20 text-red-600"
+                              : record.remark === "1"
+                              ? "bg-orange-500/20 text-orange-600"
+                              : "bg-green-500/20 text-green-600"
+                          }`}
+                        >
+                          {record.remark === "0"
+                            ? "Pending"
+                            : record.remark === "1"
+                            ? "In Progress"
+                            : "Completed"}
+                        </h2>
+                      </div>
                       <div className="flex gap-2 col-span-12 lg:col-span-1 items-center">
                         <button
-                          type="submit"
-                          className="bg-blue-500/15 text-blue-500 font-bold p-1.5 h-fit rounded-md "
+                          value={record?._id} // Ensure record._id is not undefined
+                          onClick={handleEditClick}
+                          className="bg-blue-500/15 text-blue-500 font-bold p-1.5 rounded-md"
                         >
-                          <FaSave />
+                          <MdEdit />
                         </button>
                         <button
-                          type="button"
-                          onClick={() => {
-                            setIsEditing(false);
-                            // Optionally reset taskDetails to its initial state if needed
-                          }}
-                          className="bg-red-500/15 text-red-500 font-bold p-1.5 h-fit rounded-md "
+                          value={record?._id} // Ensure record._id is not undefined
+                          onClick={handleDeleteClick}
+                          className="bg-red-500/15 text-red-500 font-bold p-1.5 rounded-md"
                         >
-                          <IoClose />
+                          <MdDelete />
                         </button>
                       </div>
-                    </div>
-                  </form>
-                ) : (
-                  // Render the existing content if not editing
-                  <>
-                    <div className="flex col-span-12 lg:col-span-1 justify-between items-center">
-                      <h2 className="flex lg:hidden">Sr.No - </h2>
-                      <h2 className="py-1.5 px-3 rounded-md bg-sky-100 dark:bg-neutral-950">
-                        {index + 1}
-                      </h2>
-                    </div>
-                    <div className="flex col-span-12 lg:col-span-1 justify-between items-center">
-                      <h2 className="flex lg:hidden">Project Name - </h2>
-                      <h2>{record.project.projectname}</h2>
-                    </div>
-                    <div className="flex col-span-12 lg:col-span-2 justify-between items-center">
-                      <h2 className="flex lg:hidden">Task - </h2>
-                      <h2>
-                        <TruncatedTextWithTooltip
-                          text={record.taskName}
-                          maxLength={10}
-                        />
-                      </h2>
-                    </div>
-                    <div className="flex col-span-12 lg:col-span-2 justify-between items-center">
-                      <h2 className="flex lg:hidden">Subtask - </h2>
-                      <h2>
-                        <TruncatedTextWithTooltip
-                          text={record.subTaskName}
-                          maxLength={10}
-                        />
-                      </h2>
-                    </div>
-                    <div className="flex col-span-12 lg:col-span-3 justify-between items-center">
-                      <h2 className="flex lg:hidden">Description - </h2>
-                      <h2>
-                        <TruncatedTextWithTooltip
-                          text={record.description}
-                          maxLength={40}
-                        />
-                      </h2>
-                    </div>
-                    <div className="flex col-span-12 lg:col-span-1 justify-between items-center">
-                      <h2 className="flex lg:hidden">Duration - </h2>
-                      <h2>
-                        {record.duration < 1 ? (
-                          <span>
-                            30 <span className="text-sm">Min</span>
-                          </span>
-                        ) : (
-                          <span>
-                            {record.duration}
-                            <span className="text-sm"> Hour</span>
-                          </span>
-                        )}
-                      </h2>
-                    </div>
-                    <div className="flex col-span-12 lg:col-span-1 justify-between items-center">
-                      <h2 className="flex lg:hidden">Remark - </h2>
-                      <h2
-                        className={`lg:text-xs py-1 font-bold lg:my-1.5 flex items-center justify-center px-2 rounded-md ${
-                          record.remark === "0"
-                            ? "bg-red-500/20 text-red-600"
-                            : record.remark === "1"
-                            ? "bg-orange-500/20 text-orange-600"
-                            : "bg-green-500/20 text-green-600"
-                        }`}
-                      >
-                        {record.remark === "0"
-                          ? "Pending"
-                          : record.remark === "1"
-                          ? "In Progress"
-                          : "Completed"}
-                      </h2>
-                    </div>
-                    <div className="flex gap-2 col-span-12 lg:col-span-1 items-center">
-                      <button
-                        value={record?._id} // Ensure record._id is not undefined
-                        onClick={handleEditClick}
-                        className="bg-blue-500/15 text-blue-500 font-bold p-1.5 rounded-md"
-                      >
-                        <MdEdit />
-                      </button>
-                      <button
-                        value={record?._id} // Ensure record._id is not undefined
-                        onClick={handleDeleteClick}
-                        className="bg-red-500/15 text-red-500 font-bold p-1.5 rounded-md"
-                      >
-                        <MdDelete />
-                      </button>
-                    </div>
-                  </>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col md:flex-row gap-10 md:gap-0 items-center bg-sky-50 dark:bg-neutral-900 rounded-md p-5 "
-          >
-            <div className="md:w-1/2 flex justify-center flex-col items-center gap-4">
-              <h2 className="text-lg font-bold">
-                No Records for {currentDate}
-              </h2>
-              <div className="flex items-center gap-3">
-                <h2>Try For</h2>
-                <button
-                  onClick={handleToday}
-                  className="bg-sky-800 text-white font-bold py-2 px-4 rounded-md"
-                >
-                  Today
-                </button>
+                    </>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col md:flex-row gap-10 md:gap-0 items-center bg-sky-50 dark:bg-neutral-900 rounded-md p-5 "
+            >
+              <div className="md:w-1/2 flex justify-center flex-col items-center gap-4">
+                <h2 className="text-lg font-bold">
+                  No Records for {currentDate}
+                </h2>
+                <div className="flex items-center gap-3">
+                  <h2>Try For</h2>
+                  <button
+                    onClick={handleToday}
+                    className="bg-sky-800 text-white font-bold py-2 px-4 rounded-md"
+                  >
+                    Today
+                  </button>
+                </div>
               </div>
-            </div>
-            <div className="md:w-1/2 flex justify-center">
-              <img src={NotFound} className="w-1/2" alt="No Records Found" />
-            </div>
-          </motion.div>
-        )}
+              <div className="md:w-1/2 flex justify-center">
+                <img src={NotFound} className="w-1/2" alt="No Records Found" />
+              </div>
+            </motion.div>
+          )}
+        </div>
       </div>
     </div>
   );

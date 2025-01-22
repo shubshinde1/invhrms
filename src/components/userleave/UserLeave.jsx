@@ -145,208 +145,213 @@ const UserLeave = () => {
   }, [employee_id]);
 
   return (
-    <div className="bg-white dark:bg-neutral-950 rounded-md dark:text-white p-2 flex flex-col gap-2 mb-16">
-      <div
-        className={`grid gap-2 ${
-          totalOptionalHoliday > 0
-            ? "grid-cols-2 xl:grid-cols-5"
-            : "grid-cols-2 xl:grid-cols-4"
-        }`}
-      >
-        {/* Total Leaves */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-          className=" border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
+    <div className="md:h-full md:min-h-full pb-20">
+      <div className="bg-white dark:bg-neutral-950 rounded-md dark:text-white p-2 flex flex-col gap-2 h-full">
+        <div
+          className={`grid gap-2 ${
+            totalOptionalHoliday > 0
+              ? "grid-cols-2 xl:grid-cols-5"
+              : "grid-cols-2 xl:grid-cols-4"
+          }`}
         >
-          <div className="flex items-center gap-2">
-            <div className="bg-sky-500/15 rounded-md p-2">
-              <FaCalculator fontSize={20} className="text-sky-600" />
-            </div>
-            <h2 className="font-bold">Total Leaves</h2>
-          </div>
-          <h2 className="flex items-end justify-end">
-            <span className="text-4xl font-bold text-gray-300 cursor-pointer">
-              <Tooltip title="Available" placement="top" arrow>
-                <span>{allRemaining}</span>
-              </Tooltip>
-            </span>
-            /
-            <span className="cursor-pointer">
-              <Tooltip title="Total" placement="top" arrow>
-                <span>{allTotalLeaves}</span>
-              </Tooltip>
-            </span>
-          </h2>
-        </motion.div>
-
-        {/* Leaves Holidays */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className=" border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
-        >
-          <div className="flex items-center gap-2">
-            <div className="bg-green-500/15 rounded-md p-2">
-              <BiSolidHappyHeartEyes fontSize={20} className="text-green-500" />
-            </div>
-            <h2 className="font-bold">Leaves</h2>
-          </div>
-          <h2 className="flex items-end justify-end">
-            {/* <span className="text-4xl font-bold text-gray-300 cursor-pointer">
-              <Tooltip title="Consumed" placement="top" arrow>
-                <span>{consumedLeaves}</span>
-              </Tooltip>
-            </span>
-            / */}
-            <span className="text-4xl font-bold text-gray-300 cursor-pointer">
-              <Tooltip title="Available" placement="top" arrow>
-                <span>{availableLeaves}</span>
-              </Tooltip>
-            </span>
-            /
-            <span className="cursor-pointer">
-              <Tooltip title="Total" placement="top" arrow>
-                <span>{totalLeaves}</span>
-              </Tooltip>
-            </span>
-          </h2>
-        </motion.div>
-
-        {/* Mandatory Holidays */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className=" border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
-        >
-          <div className="flex items-center gap-2">
-            <div className="bg-pink-500/15 rounded-md p-2">
-              <MdFestival fontSize={20} className="text-pink-500" />
-            </div>
-            <h2 className="font-bold">Mandatory Holidays</h2>
-          </div>
-          <h2 className="flex items-end justify-end">
-            <span className="text-4xl font-bold text-gray-300 cursor-pointer">
-              <Tooltip title="Remaining" placement="top" arrow>
-                <span>{remainingMandatoryHoliday}</span>
-              </Tooltip>
-            </span>
-            /
-            <span className="cursor-pointer">
-              <Tooltip title="Total" placement="top" arrow>
-                <span>{totalMandatoryHoliday}</span>
-              </Tooltip>
-            </span>
-          </h2>
-        </motion.div>
-
-        {/* Optional Holidays */}
-        {availableOptionalHoliday > 0 ? (
+          {/* Total Leaves */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 0.2 }}
             className=" border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
           >
             <div className="flex items-center gap-2">
-              <div className="bg-yellow-500/15 rounded-md p-2">
-                <FaCalculator fontSize={20} className="text-yellow-500" />
+              <div className="bg-sky-500/15 rounded-md p-2">
+                <FaCalculator fontSize={20} className="text-sky-600" />
               </div>
-              <h2 className="font-bold">Optional Holidays</h2>
+              <h2 className="font-bold">Total Leaves</h2>
             </div>
             <h2 className="flex items-end justify-end">
               <span className="text-4xl font-bold text-gray-300 cursor-pointer">
                 <Tooltip title="Available" placement="top" arrow>
-                  <span>{availableOptionalHoliday}</span>
+                  <span>{allRemaining}</span>
                 </Tooltip>
               </span>
               /
               <span className="cursor-pointer">
                 <Tooltip title="Total" placement="top" arrow>
-                  <span>{totalOptionalHoliday}</span>
+                  <span>{allTotalLeaves}</span>
                 </Tooltip>
               </span>
             </h2>
           </motion.div>
-        ) : (
-          ""
-        )}
 
-        {/* Weekend Holidays */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2 }}
-          className=" border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
-        >
-          <div className="flex items-center gap-2">
-            <div className="bg-red-500/15 rounded-md p-2">
-              <FaSadTear fontSize={20} className="text-red-500" />
+          {/* Leaves Holidays */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className=" border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
+          >
+            <div className="flex items-center gap-2">
+              <div className="bg-green-500/15 rounded-md p-2">
+                <BiSolidHappyHeartEyes
+                  fontSize={20}
+                  className="text-green-500"
+                />
+              </div>
+              <h2 className="font-bold">Leaves</h2>
             </div>
-            <h2 className="font-bold">Weekend Holidays</h2>
-          </div>
-          <h2 className="flex items-end justify-end">
-            <span className="text-4xl font-bold text-gray-300 cursor-pointer">
-              <Tooltip title="Remaining" placement="top" arrow>
-                <span>{remainingWeekendHoliday}</span>
+            <h2 className="flex items-end justify-end">
+              {/* <span className="text-4xl font-bold text-gray-300 cursor-pointer">
+              <Tooltip title="Consumed" placement="top" arrow>
+                <span>{consumedLeaves}</span>
               </Tooltip>
             </span>
-            /
-            <span className="cursor-pointer">
-              <Tooltip title="Total" placement="top" arrow>
-                <span>{totalWeekendHoliday}</span>
-              </Tooltip>
-            </span>
-          </h2>
-        </motion.div>
-      </div>
+            / */}
+              <span className="text-4xl font-bold text-gray-300 cursor-pointer">
+                <Tooltip title="Available" placement="top" arrow>
+                  <span>{availableLeaves}</span>
+                </Tooltip>
+              </span>
+              /
+              <span className="cursor-pointer">
+                <Tooltip title="Total" placement="top" arrow>
+                  <span>{totalLeaves}</span>
+                </Tooltip>
+              </span>
+            </h2>
+          </motion.div>
 
-      <div className="xl:grid grid-cols-12 gap-2">
-        <div className="col-span-4 ">
-          <ApplyLeave />
+          {/* Mandatory Holidays */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className=" border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
+          >
+            <div className="flex items-center gap-2">
+              <div className="bg-pink-500/15 rounded-md p-2">
+                <MdFestival fontSize={20} className="text-pink-500" />
+              </div>
+              <h2 className="font-bold">Mandatory Holidays</h2>
+            </div>
+            <h2 className="flex items-end justify-end">
+              <span className="text-4xl font-bold text-gray-300 cursor-pointer">
+                <Tooltip title="Remaining" placement="top" arrow>
+                  <span>{remainingMandatoryHoliday}</span>
+                </Tooltip>
+              </span>
+              /
+              <span className="cursor-pointer">
+                <Tooltip title="Total" placement="top" arrow>
+                  <span>{totalMandatoryHoliday}</span>
+                </Tooltip>
+              </span>
+            </h2>
+          </motion.div>
+
+          {/* Optional Holidays */}
+          {availableOptionalHoliday > 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+              className=" border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
+            >
+              <div className="flex items-center gap-2">
+                <div className="bg-yellow-500/15 rounded-md p-2">
+                  <FaCalculator fontSize={20} className="text-yellow-500" />
+                </div>
+                <h2 className="font-bold">Optional Holidays</h2>
+              </div>
+              <h2 className="flex items-end justify-end">
+                <span className="text-4xl font-bold text-gray-300 cursor-pointer">
+                  <Tooltip title="Available" placement="top" arrow>
+                    <span>{availableOptionalHoliday}</span>
+                  </Tooltip>
+                </span>
+                /
+                <span className="cursor-pointer">
+                  <Tooltip title="Total" placement="top" arrow>
+                    <span>{totalOptionalHoliday}</span>
+                  </Tooltip>
+                </span>
+              </h2>
+            </motion.div>
+          ) : (
+            ""
+          )}
+
+          {/* Weekend Holidays */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2 }}
+            className=" border-2 dark:border-0 dark:bg-neutral-900 rounded-md p-2 flex flex-col gap-3"
+          >
+            <div className="flex items-center gap-2">
+              <div className="bg-red-500/15 rounded-md p-2">
+                <FaSadTear fontSize={20} className="text-red-500" />
+              </div>
+              <h2 className="font-bold">Weekend Holidays</h2>
+            </div>
+            <h2 className="flex items-end justify-end">
+              <span className="text-4xl font-bold text-gray-300 cursor-pointer">
+                <Tooltip title="Remaining" placement="top" arrow>
+                  <span>{remainingWeekendHoliday}</span>
+                </Tooltip>
+              </span>
+              /
+              <span className="cursor-pointer">
+                <Tooltip title="Total" placement="top" arrow>
+                  <span>{totalWeekendHoliday}</span>
+                </Tooltip>
+              </span>
+            </h2>
+          </motion.div>
         </div>
 
-        <div className="col-span-8 flex flex-col gap-2 mt-2 xl:mt-0">
-          {/* Tabs */}
-          <div className="flex bg-sky-100 dark:bg-neutral-900 p-1 rounded-md gap-1">
-            <div
-              className={`px-2 py-1 cursor-pointer flex items-center gap-1.5 w-full sm:w-fit ${
-                activeTab === "calendar"
-                  ? "bg-blue-500/15 text-blue-500 font-bold rounded-md"
-                  : "bg-neutral-400/15 rounded-md"
-              }`}
-              onClick={() => setActiveTab("calendar")}
-            >
-              <FaCalendarAlt />
-              Calendar
-            </div>
-            <div
-              className={`px-2 py-1 cursor-pointer flex items-center gap-1.5 w-full sm:w-fit ${
-                activeTab === "history"
-                  ? "bg-blue-500/15 text-blue-500 font-bold rounded-md"
-                  : "bg-neutral-400/15 rounded-md"
-              }`}
-              onClick={() => setActiveTab("history")}
-            >
-              <FaListAlt />
-              Leave History
-            </div>
+        <div className="xl:grid grid-cols-12 gap-2 h-full">
+          <div className="col-span-4 h-full">
+            <ApplyLeave />
           </div>
 
-          {/* Tab Content */}
-          <div className="z-0">
-            {activeTab === "calendar" && (
-              <OpenCalendar
-                mandatoryholiday={holidays.mandatoryholiday}
-                optionalholiday={holidays.optionalholiday}
-                weekendHoliday={holidays.weekendHoliday}
-                // leaves={holidays.leaves}
-              />
-            )}
-            {activeTab === "history" && <LeaveHistory />}
+          <div className="col-span-8 flex flex-col gap-2 mt-2 xl:mt-0 h-full">
+            {/* Tabs */}
+            <div className="flex bg-sky-100 dark:bg-neutral-900 p-1 rounded-md gap-1">
+              <div
+                className={`px-2 py-1 cursor-pointer flex items-center gap-1.5 w-full sm:w-fit ${
+                  activeTab === "calendar"
+                    ? "bg-blue-500/15 text-blue-500 font-bold rounded-md"
+                    : "bg-neutral-400/15 rounded-md"
+                }`}
+                onClick={() => setActiveTab("calendar")}
+              >
+                <FaCalendarAlt />
+                Calendar
+              </div>
+              <div
+                className={`px-2 py-1 cursor-pointer flex items-center gap-1.5 w-full sm:w-fit ${
+                  activeTab === "history"
+                    ? "bg-blue-500/15 text-blue-500 font-bold rounded-md"
+                    : "bg-neutral-400/15 rounded-md"
+                }`}
+                onClick={() => setActiveTab("history")}
+              >
+                <FaListAlt />
+                Leave History
+              </div>
+            </div>
+
+            {/* Tab Content */}
+            <div className="z-0 h-full">
+              {activeTab === "calendar" && (
+                <OpenCalendar
+                  mandatoryholiday={holidays.mandatoryholiday}
+                  optionalholiday={holidays.optionalholiday}
+                  weekendHoliday={holidays.weekendHoliday}
+                  // leaves={holidays.leaves}
+                />
+              )}
+              {activeTab === "history" && <LeaveHistory />}
+            </div>
           </div>
         </div>
       </div>

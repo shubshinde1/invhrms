@@ -261,133 +261,137 @@ const AttendanceHistory = () => {
   const yearOptions = [currentYear.toString(), (currentYear - 1).toString()];
 
   return (
-    <div className="dark:text-white bg-white dark:bg-neutral-950 p-2 rounded-md">
-      {loading ? (
-        <p>Loading...</p>
-      ) : errors ? (
-        <p className="text-red-500">{errors}</p>
-      ) : (
-        <div className="flex flex-col gap-2">
-          {/* Grid Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.1 }}
-              className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md text-center flex flex-col gap-3"
-            >
-              <div className="flex items-center gap-2">
-                <div className="bg-orange-200 dark:bg-orange-500/15 rounded-lg p-2 w-fit">
-                  <FaCalendarDays fontSize={18} className="text-orange-600 " />
+    <div className="md:h-full md:min-h-full pb-20">
+      <div className="dark:text-white bg-white dark:bg-neutral-950 h-full p-2 rounded-md">
+        {loading ? (
+          <p>Loading...</p>
+        ) : errors ? (
+          <p className="text-red-500">{errors}</p>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {/* Grid Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.1 }}
+                className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md text-center flex flex-col gap-3"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="bg-orange-200 dark:bg-orange-500/15 rounded-lg p-2 w-fit">
+                    <FaCalendarDays
+                      fontSize={18}
+                      className="text-orange-600 "
+                    />
+                  </div>
+
+                  <h3 className="font-semibold">Total Working Days</h3>
                 </div>
-
-                <h3 className="font-semibold">Total Working Days</h3>
-              </div>
-              <div className="flex justify-end">
-                <h4 className=" font-bold text-4xl">{totalWorkingDays}</h4>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md text-center flex flex-col gap-3"
-            >
-              <div className="flex items-center gap-2">
-                <div className="bg-green-200 dark:bg-green-500/15 rounded-lg p-2 w-fit">
-                  <FaCircleCheck fontSize={18} className="text-green-600 " />
+                <div className="flex justify-end">
+                  <h4 className=" font-bold text-4xl">{totalWorkingDays}</h4>
                 </div>
+              </motion.div>
 
-                <h3 className="font-semibold">Present Days</h3>
-              </div>
-              <div className="flex justify-end">
-                <h4 className=" font-bold text-4xl">{presentDays}</h4>
-              </div>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md text-center flex flex-col gap-3"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="bg-green-200 dark:bg-green-500/15 rounded-lg p-2 w-fit">
+                    <FaCircleCheck fontSize={18} className="text-green-600 " />
+                  </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md text-center flex flex-col gap-3"
-            >
-              <div className="flex items-center gap-2">
-                <div className="bg-red-200 dark:bg-red-500/15 rounded-lg p-2 w-fit">
-                  <FaCircleXmark fontSize={18} className="text-red-600 " />
+                  <h3 className="font-semibold">Present Days</h3>
                 </div>
-
-                <h3 className="font-semibold">Absent Days</h3>
-              </div>
-              <div className="flex justify-end">
-                <h4 className=" font-bold text-4xl">{absentDays}</h4>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md text-center flex flex-col gap-3"
-            >
-              <div className="flex items-center gap-2">
-                <div className="bg-orange-200 dark:bg-orange-500/15 rounded-lg p-2 w-fit">
-                  <FaCircleHalfStroke
-                    fontSize={18}
-                    className="text-orange-600 "
-                  />
+                <div className="flex justify-end">
+                  <h4 className=" font-bold text-4xl">{presentDays}</h4>
                 </div>
+              </motion.div>
 
-                <h3 className="font-semibold">Half Days</h3>
-              </div>
-              <div className="flex justify-end">
-                <h4 className=" font-bold text-4xl">{halfDays}</h4>
-              </div>
-            </motion.div>
-          </div>
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md text-center flex flex-col gap-3"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="bg-red-200 dark:bg-red-500/15 rounded-lg p-2 w-fit">
+                    <FaCircleXmark fontSize={18} className="text-red-600 " />
+                  </div>
 
-          {/* Month and Year Dropdown */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handlePrevMonth}
-              className="p-1 bg-sky-50 dark:bg-neutral-900 text-white rounded-md group"
-            >
-              <FaCaretLeft
-                fontSize={20}
-                className="group-hover:-translate-x-1 duration-300 text-black dark:text-white"
-              />
-            </button>
-            <div className="flex items-center gap-2">
-              <CustomDropdown
-                label="Month"
-                options={monthOptions}
-                selectedValue={selectedMonth}
-                onChange={(value) => {
-                  setSelectedMonth(value);
-                  handleMonthChange({ target: { value } });
-                }}
-              />
-              <CustomDropdown
-                label="Year"
-                options={yearOptions}
-                selectedValue={yearOptions.indexOf(selectedYear.toString())}
-                onChange={(value) => {
-                  const selectedYearValue = parseInt(yearOptions[value]);
-                  setSelectedYear(selectedYearValue);
-                  handleYearChange({ target: { value: selectedYearValue } });
-                }}
-              />
+                  <h3 className="font-semibold">Absent Days</h3>
+                </div>
+                <div className="flex justify-end">
+                  <h4 className=" font-bold text-4xl">{absentDays}</h4>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="border-2 dark:border-0 dark:bg-neutral-900 p-2 rounded-md text-center flex flex-col gap-3"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="bg-orange-200 dark:bg-orange-500/15 rounded-lg p-2 w-fit">
+                    <FaCircleHalfStroke
+                      fontSize={18}
+                      className="text-orange-600 "
+                    />
+                  </div>
+
+                  <h3 className="font-semibold">Half Days</h3>
+                </div>
+                <div className="flex justify-end">
+                  <h4 className=" font-bold text-4xl">{halfDays}</h4>
+                </div>
+              </motion.div>
             </div>
-            <button
-              onClick={handleNextMonth}
-              className="p-1 bg-sky-50 dark:bg-neutral-900 text-white rounded-md group"
-            >
-              <FaCaretRight
-                fontSize={20}
-                className="group-hover:translate-x-1 duration-300 text-black dark:text-white"
-              />
-            </button>
-            {/* <CustomDropdown
+
+            {/* Month and Year Dropdown */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handlePrevMonth}
+                className="p-1 bg-sky-50 dark:bg-neutral-900 text-white rounded-md group"
+              >
+                <FaCaretLeft
+                  fontSize={20}
+                  className="group-hover:-translate-x-1 duration-300 text-black dark:text-white"
+                />
+              </button>
+              <div className="flex items-center gap-2">
+                <CustomDropdown
+                  label="Month"
+                  options={monthOptions}
+                  selectedValue={selectedMonth}
+                  onChange={(value) => {
+                    setSelectedMonth(value);
+                    handleMonthChange({ target: { value } });
+                  }}
+                />
+                <CustomDropdown
+                  label="Year"
+                  options={yearOptions}
+                  selectedValue={yearOptions.indexOf(selectedYear.toString())}
+                  onChange={(value) => {
+                    const selectedYearValue = parseInt(yearOptions[value]);
+                    setSelectedYear(selectedYearValue);
+                    handleYearChange({ target: { value: selectedYearValue } });
+                  }}
+                />
+              </div>
+              <button
+                onClick={handleNextMonth}
+                className="p-1 bg-sky-50 dark:bg-neutral-900 text-white rounded-md group"
+              >
+                <FaCaretRight
+                  fontSize={20}
+                  className="group-hover:translate-x-1 duration-300 text-black dark:text-white"
+                />
+              </button>
+              {/* <CustomDropdown
               label="Status"
               options={statusOptions}
               selectedValue={statusOptions.indexOf(
@@ -399,137 +403,87 @@ const AttendanceHistory = () => {
                 handleStatusChange(statusOptionsMap[statusOptions[value]]);
               }}
             /> */}
-            <div className="flex flex-wrap gap-2 text-xs font-semibold bg-sky-50 dark:bg-neutral-900 p-1 rounded-md">
-              <button
-                onClick={() => handleStatusChange("")}
-                className={`px-1.5 py-1 rounded-md flex items-center gap-1 ${
-                  selectedStatus === "" ? "bg-blue-500/15 text-blue-500" : ""
-                }`}
-              >
-                <FaCalendarDays fontSize={15} />
-                {selectedStatus === "" ? "All" : ""}
-              </button>
-              <button
-                onClick={() => handleStatusChange(1)}
-                className={`px-1.5 py-1 rounded-md flex items-center gap-1 ${
-                  selectedStatus === 1 ? "bg-green-500/15 text-green-500" : ""
-                }`}
-              >
-                <FaCircleCheck fontSize={15} />
-                {selectedStatus === 1 ? "Present" : ""}
-              </button>
-              <button
-                onClick={() => handleStatusChange(0)}
-                className={`px-1.5 py-1 rounded-md flex items-center gap-1 ${
-                  selectedStatus === 0 ? "bg-red-500/15 text-red-500" : ""
-                }`}
-              >
-                <FaCircleXmark fontSize={15} />
-                {selectedStatus === 0 ? "Absent" : ""}
-              </button>
-              <button
-                onClick={() => handleStatusChange(2)}
-                className={`px-1.5 py-1 rounded-md flex items-center gap-1 ${
-                  selectedStatus === 2 ? "bg-yellow-500/15 text-yellow-500" : ""
-                }`}
-              >
-                <FaCircleHalfStroke fontSize={15} />
-                {selectedStatus === 2 ? "Half Day" : ""}
-              </button>
+              <div className="flex flex-wrap gap-2 text-xs font-semibold bg-sky-50 dark:bg-neutral-900 p-1 rounded-md">
+                <button
+                  onClick={() => handleStatusChange("")}
+                  className={`px-1.5 py-1 rounded-md flex items-center gap-1 ${
+                    selectedStatus === "" ? "bg-blue-500/15 text-blue-500" : ""
+                  }`}
+                >
+                  <FaCalendarDays fontSize={15} />
+                  {selectedStatus === "" ? "All" : ""}
+                </button>
+                <button
+                  onClick={() => handleStatusChange(1)}
+                  className={`px-1.5 py-1 rounded-md flex items-center gap-1 ${
+                    selectedStatus === 1 ? "bg-green-500/15 text-green-500" : ""
+                  }`}
+                >
+                  <FaCircleCheck fontSize={15} />
+                  {selectedStatus === 1 ? "Present" : ""}
+                </button>
+                <button
+                  onClick={() => handleStatusChange(0)}
+                  className={`px-1.5 py-1 rounded-md flex items-center gap-1 ${
+                    selectedStatus === 0 ? "bg-red-500/15 text-red-500" : ""
+                  }`}
+                >
+                  <FaCircleXmark fontSize={15} />
+                  {selectedStatus === 0 ? "Absent" : ""}
+                </button>
+                <button
+                  onClick={() => handleStatusChange(2)}
+                  className={`px-1.5 py-1 rounded-md flex items-center gap-1 ${
+                    selectedStatus === 2
+                      ? "bg-yellow-500/15 text-yellow-500"
+                      : ""
+                  }`}
+                >
+                  <FaCircleHalfStroke fontSize={15} />
+                  {selectedStatus === 2 ? "Half Day" : ""}
+                </button>
+              </div>
             </div>
-          </div>
 
-          {filteredAttendance.length === 0 ? (
-            <p>No attendance records found for {monthName}.</p>
-          ) : (
-            <div className="flex flex-col sm:gap-2">
-              {/* Grid View for larger screens */}
-              <div className="hidden sm:grid sm:grid-cols-11 gap-4 bg-sky-100 dark:bg-neutral-800 p-2 rounded-md">
-                <div className="font-semibold">Sr. No.</div>
-                <div className="col-span-2 font-semibold">Date</div>
-                <div className="col-span-2 font-semibold">In Time</div>
-                <div className="col-span-2 font-semibold">Out Time</div>
-                <div className="col-span-2 font-semibold">Total Hours</div>
-                <div className="col-span-2 font-semibold">Status</div>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                {filteredAttendance.map((record, index) => (
-                  <div
-                    key={record._id}
-                    className="hidden sm:grid sm:grid-cols-11 gap-4 bg-sky-50 dark:bg-neutral-900 p-2 rounded-md items-center"
-                  >
-                    <div className="">{index + 1}</div> {/* Serial number */}
-                    <div className="col-span-2">{record.date}</div>
-                    <div className="col-span-2">
-                      {new Date(record.intime).toLocaleTimeString()}
-                    </div>
-                    <div className="col-span-2">
-                      {record.outtime
-                        ? new Date(record.outtime).toLocaleTimeString()
-                        : "00:00:00"}
-                    </div>
-                    <div className="col-span-2">
-                      {record.totalhrs ? msToTime(record.totalhrs) : "00:00:00"}
-                    </div>
-                    <div
-                      className={`col-span-2 p-1 font-semibold text-xs rounded-md w-fit h-fit ${getStatusClasses(
-                        record.attendancestatus
-                      )}`}
-                    >
-                      {record.attendancestatus === 0
-                        ? "Absent"
-                        : record.attendancestatus === 1
-                        ? "Present"
-                        : record.attendancestatus === 2
-                        ? "Half Day"
-                        : "Week Off"}
-                    </div>
+            <div className="overflow-y-scroll scrollbar-hide ">
+              {filteredAttendance.length === 0 ? (
+                <p>No attendance records found for {monthName}.</p>
+              ) : (
+                <div className="flex flex-col    sm:gap-2 ">
+                  {/* Grid View for larger screens */}
+                  <div className="hidden sm:grid sm:grid-cols-11 gap-4 bg-sky-100 dark:bg-neutral-800 p-2 rounded-md sticky top-0">
+                    <div className="font-semibold">Sr. No.</div>
+                    <div className="col-span-2 font-semibold">Date</div>
+                    <div className="col-span-2 font-semibold">In Time</div>
+                    <div className="col-span-2 font-semibold">Out Time</div>
+                    <div className="col-span-2 font-semibold">Total Hours</div>
+                    <div className="col-span-2 font-semibold">Status</div>
                   </div>
-                ))}
-              </div>
 
-              {/* Card View for smaller screens */}
-              <div className="mb-16 sm:mb-0 flex flex-col gap-2">
-                {filteredAttendance.map((record, index) => (
-                  <div
-                    key={record._id}
-                    className="sm:hidden bg-white dark:bg-neutral-900 p-2 rounded-md"
-                  >
-                    <div className="font-semibold text-lg hidden sm:flex">
-                      Record {index + 1}
-                    </div>
-                    <div className="m">
-                      <div className="flex justify-between">
-                        <span className="font-semibold">Date:</span>
-                        <span>{record.date}</span>
-                      </div>
-                      <div className="flex justify-between mt-1">
-                        <span className="font-semibold">In Time:</span>
-                        <span>
+                  <div className="flex flex-col gap-2 h-full md:max-h-[61vh]">
+                    {filteredAttendance.map((record, index) => (
+                      <div
+                        key={record._id}
+                        className="hidden sm:grid sm:grid-cols-11 gap-4 bg-sky-50 dark:bg-neutral-900 p-2 rounded-md items-center"
+                      >
+                        <div className="">{index + 1}</div>{" "}
+                        {/* Serial number */}
+                        <div className="col-span-2">{record.date}</div>
+                        <div className="col-span-2">
                           {new Date(record.intime).toLocaleTimeString()}
-                        </span>
-                      </div>
-                      <div className="flex justify-between mt-1">
-                        <span className="font-semibold">Out Time:</span>
-                        <span>
+                        </div>
+                        <div className="col-span-2">
                           {record.outtime
                             ? new Date(record.outtime).toLocaleTimeString()
                             : "00:00:00"}
-                        </span>
-                      </div>
-                      <div className="flex justify-between mt-1">
-                        <span className="font-semibold">Total Hours:</span>
-                        <span>
+                        </div>
+                        <div className="col-span-2">
                           {record.totalhrs
                             ? msToTime(record.totalhrs)
                             : "00:00:00"}
-                        </span>
-                      </div>
-                      <div className="flex justify-between mt-1">
-                        <span className="font-semibold">Status:</span>
-                        <span
-                          className={`p-1 font-semibold text-xs rounded-md ${getStatusClasses(
+                        </div>
+                        <div
+                          className={`col-span-2 p-1 font-semibold text-xs rounded-md w-fit h-fit ${getStatusClasses(
                             record.attendancestatus
                           )}`}
                         >
@@ -537,17 +491,75 @@ const AttendanceHistory = () => {
                             ? "Absent"
                             : record.attendancestatus === 1
                             ? "Present"
-                            : "Half Day"}
-                        </span>
+                            : record.attendancestatus === 2
+                            ? "Half Day"
+                            : "Week Off"}
+                        </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+
+                  {/* Card View for smaller screens */}
+                  <div className="mb-1 sm:mb-0 flex flex-col gap-2">
+                    {filteredAttendance.map((record, index) => (
+                      <div
+                        key={record._id}
+                        className="sm:hidden bg-white border-2 dark:border-none dark:bg-neutral-900 p-2 rounded-md"
+                      >
+                        <div className="font-semibold text-lg hidden sm:flex">
+                          Record {index + 1}
+                        </div>
+                        <div className="m">
+                          <div className="flex justify-between">
+                            <span className="font-semibold">Date:</span>
+                            <span>{record.date}</span>
+                          </div>
+                          <div className="flex justify-between mt-1">
+                            <span className="font-semibold">In Time:</span>
+                            <span>
+                              {new Date(record.intime).toLocaleTimeString()}
+                            </span>
+                          </div>
+                          <div className="flex justify-between mt-1">
+                            <span className="font-semibold">Out Time:</span>
+                            <span>
+                              {record.outtime
+                                ? new Date(record.outtime).toLocaleTimeString()
+                                : "00:00:00"}
+                            </span>
+                          </div>
+                          <div className="flex justify-between mt-1">
+                            <span className="font-semibold">Total Hours:</span>
+                            <span>
+                              {record.totalhrs
+                                ? msToTime(record.totalhrs)
+                                : "00:00:00"}
+                            </span>
+                          </div>
+                          <div className="flex justify-between mt-1">
+                            <span className="font-semibold">Status:</span>
+                            <span
+                              className={`p-1 font-semibold text-xs rounded-md ${getStatusClasses(
+                                record.attendancestatus
+                              )}`}
+                            >
+                              {record.attendancestatus === 0
+                                ? "Absent"
+                                : record.attendancestatus === 1
+                                ? "Present"
+                                : "Half Day"}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
