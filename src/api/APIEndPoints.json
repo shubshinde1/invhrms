@@ -5,6 +5,7 @@
         "registeruser": "api/createuser",
         "forgotpassword": "api/forgotpassword",
         "login": "api/login",
+        "verifyOtp": "api/loginstep2",
         "updateuser": "api/updateuser",
         "attendance": "api/attendance",
         "gettimesheet": "api/gettimesheetbydate",

@@ -348,12 +348,13 @@ const ApplyLeave = () => {
                 </Select>
               </FormControl>
             </div>
-            <div className="flex flex-col md:flex-row gap-2 justify-between z-0">
+            <div className="flex flex-col md:flex-row gap-2 justify-between ">
               <div className="w-full">
                 <label>From</label>
                 <Calendar
                   selectedDate={formData.fromdate}
                   onDateChange={(value) => handleDateChange("fromdate", value)}
+                  className=""
                 />
               </div>
 
@@ -362,6 +363,7 @@ const ApplyLeave = () => {
                 <Calendar
                   selectedDate={formData.todate}
                   onDateChange={(value) => handleDateChange("todate", value)}
+                  className=""
                 />
               </div>
             </div>

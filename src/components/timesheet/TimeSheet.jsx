@@ -923,7 +923,7 @@ export default function TimeSheet({ record, index }) {
                   value={formData.taskName}
                   onChange={handleInputChange}
                   autoComplete="off"
-                  inputProps={{ maxLength: 50 }}
+                  // inputProps={{ maxLength: 50 }}
                 />
                 <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
                   {50 - formData.taskName.length}/50
@@ -943,7 +943,7 @@ export default function TimeSheet({ record, index }) {
                   value={formData.subTaskName}
                   onChange={handleInputChange}
                   autoComplete="off"
-                  inputProps={{ maxLength: 100 }}
+                  // inputProps={{ maxLength: 100 }}
                 />
                 <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
                   {100 - formData.subTaskName.length}/100
@@ -956,7 +956,7 @@ export default function TimeSheet({ record, index }) {
                   rows={2}
                   placeholder="description"
                   onChange={handleInputChange}
-                  inputProps={{ maxLength: 250 }}
+                  // inputProps={{ maxLength: 250 }}
                   className="px-2 py-1 mt-2 border rounded-lg bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700"
                 />
                 <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
