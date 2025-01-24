@@ -335,7 +335,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .custom-checkbox {
-  @apply flex items-center justify-center w-5 h-5 bg-sky-200 dark:bg-neutral-700 rounded-md transition-colors duration-200;
+  @apply flex items-center justify-center w-5 h-5 bg-blue-100 dark:bg-neutral-700 rounded-md transition-colors duration-200;
 }
 
 input[type="checkbox"]:checked+.custom-checkbox {
