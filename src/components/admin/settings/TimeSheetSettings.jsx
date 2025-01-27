@@ -108,7 +108,7 @@ const Settings = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-neutral-900 p-2 h-full shadow-md rounded-md">
+    <div className="bg-white dark:bg-neutral-900 p-2 min-h-full shadow-md rounded-md">
       <h1 className="text-base font-bold border-b pb-3 text-gray-800 dark:text-white">
         Timesheet Limit Settings
       </h1>
