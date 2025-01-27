@@ -16,11 +16,11 @@ const Settings = () => {
     <div className="h-full pb-20">
       <div className="bg-gray-50 dark:bg-neutral-950 p-2 rounded-md shadow-lg text-black dark:text-white h-full max-h-full flex flex-col gap-2 w-full">
         {/* Tabs Section */}
-        <div className="flex gap-1 bg-blue-100 dark:bg-neutral-900 p-1 rounded-lg max-w-96 sm:max-w-full scrollbar-hide overflow-x-scroll sm:overflow-clip h-fit absolute md:relative">
+        <div className="flex gap-1.5 bg-blue-100 dark:bg-neutral-900 p-1.5 rounded-lg max-w-96 sm:max-w-full scrollbar-hide overflow-x-scroll sm:overflow-clip h-fit absolute md:relative">
           <button
-            className={`px-3 py-1.5 rounded-md hover:bg-blue-400/20 hover:text-blue-400 duration-500 ${
+            className={`px-3 py-1 rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800 duration-500 ${
               activeTab === "TimeSheet"
-                ? "bg-blue-500/20 text-blue-500 font-bold"
+                ? "bg-[#5336FD] text-white font-bold"
                 : ""
             }`}
             onClick={() => handleTabClick("TimeSheet")}
@@ -28,9 +28,9 @@ const Settings = () => {
             TimeSheet
           </button>
           <button
-            className={`px-3 py-1.5 rounded-md hover:bg-blue-400/20 hover:text-blue-400 duration-500 ${
+            className={`px-3 py-1 rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800 duration-500 ${
               activeTab === "Department"
-                ? "bg-blue-500/20 text-blue-500 font-bold"
+                ? "bg-[#5336FD] text-white font-bold"
                 : ""
             }`}
             onClick={() => handleTabClick("Department")}
@@ -38,9 +38,9 @@ const Settings = () => {
             Departments
           </button>
           <button
-            className={`px-3 py-1.5 rounded-md hover:bg-blue-400/20 hover:text-blue-400 duration-500 ${
+            className={`px-3 py-1 rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800 duration-500 ${
               activeTab === "Designation"
-                ? "bg-blue-500/20 text-blue-500 font-bold"
+                ? "bg-[#5336FD] text-white font-bold"
                 : ""
             }`}
             onClick={() => handleTabClick("Designation")}
@@ -48,19 +48,17 @@ const Settings = () => {
             Designations
           </button>
           <button
-            className={`px-3 py-1.5 rounded-md hover:bg-blue-400/20 hover:text-blue-400 duration-500 ${
-              activeTab === "Country"
-                ? "bg-blue-500/20 text-blue-500 font-bold"
-                : ""
+            className={`px-3 py-1 rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800 duration-500 ${
+              activeTab === "Country" ? "bg-[#5336FD] text-white font-bold" : ""
             }`}
             onClick={() => handleTabClick("Country")}
           >
             Counties
           </button>
           <button
-            className={`px-3 py-1.5 rounded-md hover:bg-blue-400/20 hover:text-blue-400 duration-500 ${
+            className={`px-3 py-1 rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800 duration-500 ${
               activeTab === "ReportingManager"
-                ? "bg-blue-500/20 text-blue-500 font-bold"
+                ? "bg-[#5336FD] text-white font-bold"
                 : ""
             }`}
             onClick={() => handleTabClick("ReportingManager")}
