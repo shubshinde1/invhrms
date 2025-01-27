@@ -3,6 +3,7 @@ import { FaCheck } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { IoCloseCircle } from "react-icons/io5";
 import { PiKeyReturnBold } from "react-icons/pi";
+import ApiendPonits from "../../../api/APIEndPoints.json";
 
 const DepartmentManagement = () => {
   const [departments, setDepartments] = useState([]);
@@ -34,7 +35,7 @@ const DepartmentManagement = () => {
   const fetchDepartments = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3000/api/admin/getdepartment",
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getdepartment}`,
         {
           method: "GET",
           headers: {
@@ -58,7 +59,7 @@ const DepartmentManagement = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/admin/adddepartment",
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.adddepartment}`,
         {
           method: "POST",
           headers: {
@@ -86,7 +87,7 @@ const DepartmentManagement = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/admin/deletedepartment",
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.deletedepartment}`,
         {
           method: "POST",
           headers: {
@@ -145,7 +146,7 @@ const DepartmentManagement = () => {
           />
           <button
             onClick={handleAddDepartment}
-            className=" w-fit bg-green-600/30 text-green-600 px-3 rounded font-semibold hover:bg-green-700/20 transition duration-300 flex gap-2 items-center"
+            className=" w-fit bg-green-600/30 text-green-600 px-3 rounded-md font-semibold hover:bg-green-700/20 transition duration-300 flex gap-2 items-center"
           >
             <PiKeyReturnBold fontSize={20} />
             Add

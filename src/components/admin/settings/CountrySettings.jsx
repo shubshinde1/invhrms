@@ -3,6 +3,92 @@ import { FaCheck } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { IoCloseCircle } from "react-icons/io5";
 import { PiKeyReturnBold } from "react-icons/pi";
+import ApiendPonits from "../../../api/APIEndPoints.json";
+import classNames from "classnames";
+import { createGlobalStyle } from "styled-components";
+import { makeStyles } from "@mui/styles";
+import { InputLabel, Select, MenuItem, FormControl } from "@mui/material";
+import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
+
+const GlobalStyles = createGlobalStyle`
+.MuiPaper-root{
+  // border-radius:10px;
+} 
+.MuiList-root {
+// background-color:#e0f2fe !important;
+} 
+.MuiMenuItem-root {
+    font-family: Euclid;
+    font-size: 14px;
+    font-weight: bold;
+    margin: auto 8px;
+    border-radius: 7px;
+    margin-top:5px;
+  }
+  .MuiMenuItem-root:hover {
+    background-color:#e0f2fe;
+    padding-left: 14px;
+  }
+  .MuiMenuItem-root:hover {
+    transition-duration: 0.2s;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+`;
+
+const useStyles = makeStyles({
+  root: {
+    "& .MuiInputLabel-root": {
+      fontFamily: "euclid",
+      fontSize: 14,
+      fontWeight: "bold",
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      fontWeight: "bold",
+      fontSize: 15,
+    },
+    "& .MuiInputBase-root": {
+      border: "0 none",
+      borderRadius: 7,
+      height: 52,
+      width: "100%",
+      overflow: "hidden",
+    },
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "gray",
+    },
+    "& .Muilplaceholder": {
+      fontFamily: "euclid",
+      fontSize: 10,
+    },
+    "& .MuiOutlinedInput-input": {
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
+      fontFamily: "euclid-medium",
+      fontSize: 14,
+    },
+    "& ::placeholder": {
+      fontSize: 12,
+    },
+    "& JoyCheckbox-input": {
+      backgroundColor: "red",
+    },
+    display: "flex",
+    width: "100%",
+    fontFamily: "euclid-medium",
+  },
+});
 
 const CountryManagement = () => {
   const [countries, setCountries] = useState([]);
@@ -10,6 +96,7 @@ const CountryManagement = () => {
   const [deleteCountries, setDeleteCountries] = useState([]);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
+  const classes = useStyles();
 
   const token = localStorage.getItem("accessToken");
 
@@ -34,7 +121,7 @@ const CountryManagement = () => {
   const fetchCountries = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3000/api/admin/getcountry",
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getcountry}`,
         {
           method: "GET",
           headers: {
@@ -58,7 +145,7 @@ const CountryManagement = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/admin/addcountry",
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.addcountry}`,
         {
           method: "POST",
           headers: {
@@ -86,7 +173,7 @@ const CountryManagement = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/admin/deletecountry",
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.deletecountry}`,
         {
           method: "POST",
           headers: {
@@ -131,21 +218,61 @@ const CountryManagement = () => {
 
         {/* Add Country */}
         <div className="flex gap-2 w-full">
-          <input
-            type="text"
-            value={newCountry}
-            onChange={(e) => setNewCountry(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleAddCountry();
-              }
-            }}
-            placeholder="Enter country name"
-            className="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-100 dark:bg-neutral-800"
-          />
+          <div className=" rounded-md w-full bg-blue-50 dark:bg-neutral-800 flex gap-2 justify-between items-center">
+            <input
+              type="text"
+              value={newCountry}
+              onChange={(e) => setNewCountry(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleAddCountry();
+                }
+              }}
+              className=" border p-3 rounded-md w-full bg-blue-50 dark:bg-neutral-800"
+              placeholder="Enter country name"
+            />
+            <hr className="bg-blue-300 dark:bg-neutral-950 w-2 h-7 rounded-full border-none" />
+
+            <FormControl
+              variant="outlined"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            >
+              <InputLabel id="Select Country" className="w-52">
+                Select Country
+              </InputLabel>
+              <Select
+                labelId="Select Country"
+                id="Select Country"
+                label="Select Country"
+                name="Select Country"
+                value={newCountry}
+                onChange={(e) => setNewCountry(e.target.value)}
+                IconComponent={(props) => (
+                  <ArrowDropDownRoundedIcon
+                    {...props}
+                    sx={{
+                      fontSize: 40,
+                      borderRadius: 1,
+                    }}
+                  />
+                )}
+              >
+                <GlobalStyles />
+
+                <MenuItem value="India">India</MenuItem>
+                <MenuItem value="USA">USA</MenuItem>
+                <MenuItem value="UK">UK</MenuItem>
+                <MenuItem value="Australia">Australia</MenuItem>
+                <MenuItem value="UAE">UAE</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
           <button
             onClick={handleAddCountry}
-            className="w-fit bg-green-600/30 text-green-600 px-3 rounded font-semibold hover:bg-green-700/20 transition duration-300 flex gap-2 items-center"
+            className="w-fit bg-green-600/30 text-green-600 px-3 rounded-md font-semibold hover:bg-green-700/20 transition duration-300 flex gap-2 items-center"
           >
             <PiKeyReturnBold fontSize={20} />
             Add
@@ -227,7 +354,7 @@ const CountryManagement = () => {
             ))}
           </ul>
         ) : (
-          <p className="text-center dark:bg-neutral-950 h-full rounded-md p-2 flex items-center justify-center">
+          <p className="text-center bg-blue-50 dark:bg-neutral-950 h-full rounded-md p-2 flex items-center justify-center">
             No countries found.
           </p>
         )}

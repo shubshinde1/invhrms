@@ -14,6 +14,7 @@ const Settings = () => {
   const [error, setError] = useState(null);
   const [massage, setMessage] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState({
     addtimesheetlimit: "",
     updatetimesheetlimit: "",
@@ -64,7 +65,11 @@ const Settings = () => {
   const handleUpdate = async (e) => {
     e.preventDefault(); // Prevent form submission
     setError(null);
+    setShowPopup(true);
+  };
 
+  const confirmUpdate = async () => {
+    setShowPopup(false);
     try {
       const response = await fetch(
         `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.updatetimesheetlimit}`,
@@ -81,7 +86,7 @@ const Settings = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setTimesheetLimit(data.data); // Update the state with the new values
+        setTimesheetLimit(data.data);
         setMessage("Timesheet limits updated successfully");
         setTimeout(() => setMessage(""), 3000);
       } else {
@@ -89,7 +94,6 @@ const Settings = () => {
       }
     } catch (err) {
       setError(err.message || "An error occurred");
-      console.error("Error updating timesheet limits:", err.message || err);
     }
   };
 
@@ -124,7 +128,10 @@ const Settings = () => {
           {new Date(timesheetLimit.updatedAt).toLocaleString()}
         </p>
         {/* Update form */}
-        <form onSubmit={handleUpdate} className="flex flex-col gap-4 w-fit">
+        <form
+          onSubmit={handleUpdate}
+          className="flex flex-col gap-4 w-full md:w-fit"
+        >
           {/* Add Timesheet Limit */}
           <div className="flex flex-col gap-2">
             <label
@@ -152,7 +159,7 @@ const Settings = () => {
                 name="addtimesheetlimit"
                 value={formData.addtimesheetlimit}
                 onChange={handleInputChange}
-                className="w-24 border-2 border-gray-300 rounded-md text-center py-2 dark:bg-neutral-800 dark:text-white"
+                className="w-full md:w-24 border-2 border-gray-300 rounded-md text-center py-2 dark:bg-neutral-800 dark:text-white"
               />
               <button
                 type="button"
@@ -177,7 +184,7 @@ const Settings = () => {
             >
               Update Timesheet Limit
             </label>
-            <div className="flex items-center justify-between bg-gray-100 dark:bg-neutral-900 p-2 rounded-md">
+            <div className="flex gap-2 items-center justify-between bg-gray-100 dark:bg-neutral-900 p-2 rounded-md">
               <button
                 type="button"
                 onClick={() =>
@@ -199,7 +206,7 @@ const Settings = () => {
                 name="updatetimesheetlimit"
                 value={formData.updatetimesheetlimit}
                 onChange={handleInputChange}
-                className="w-24 border-2 border-gray-300 rounded-md text-center py-2 dark:bg-neutral-800 dark:text-white"
+                className="w-full md:w-24 border-2 border-gray-300 rounded-md text-center py-2 dark:bg-neutral-800 dark:text-white"
               />
               <button
                 type="button"
@@ -224,7 +231,7 @@ const Settings = () => {
             >
               Delete Timesheet Limit
             </label>
-            <div className="flex items-center justify-between bg-gray-100 dark:bg-neutral-900 p-2 rounded-md">
+            <div className="flex gap-2 items-center justify-between bg-gray-100 dark:bg-neutral-900 p-2 rounded-md">
               <button
                 type="button"
                 onClick={() =>
@@ -246,7 +253,7 @@ const Settings = () => {
                 name="deletetimesheetlimit"
                 value={formData.deletetimesheetlimit}
                 onChange={handleInputChange}
-                className="w-24 border-2 border-gray-300 rounded-md text-center py-2 dark:bg-neutral-800 dark:text-white"
+                className="w-full md:w-24 border-2 border-gray-300 rounded-md text-center py-2 dark:bg-neutral-800 dark:text-white"
               />
               <button
                 type="button"
@@ -284,6 +291,30 @@ const Settings = () => {
         </motion.div>
       ) : (
         ""
+      )}
+
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-lg z-50">
+          <div className="bg-white dark:bg-neutral-900 p-5 rounded-lg shadow-lg text-center">
+            <p className="text-lg font-bold mb-4 text-gray-800 dark:text-white">
+              Are you sure you want to <br /> update the timesheet limits?
+            </p>
+            <div className="flex gap-4 justify-center">
+              <button
+                onClick={confirmUpdate}
+                className="bg-green-500/20  text-green-500 py-2 px-4 rounded-lg"
+              >
+                Update
+              </button>
+              <button
+                onClick={() => setShowPopup(false)}
+                className="bg-red-500/20  text-red-500 py-2 px-4 rounded-lg"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

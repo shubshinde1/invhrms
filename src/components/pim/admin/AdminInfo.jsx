@@ -22,12 +22,46 @@ const AdminInfo = () => {
   const [formData, setFormData] = useState({});
   const [customTech, setCustomTech] = useState("");
   const [message, setMessage] = useState("");
+  const [settings, setSettings] = useState("");
+  const [designations, setDesignations] = useState([""]);
+  const [departments, setDepartments] = useState([""]);
+  const [reportingTo, setReportingTo] = useState("");
 
   const prfilealt = formData.name + " " + "Profile";
 
   const [profile, setProfile] = useState(null);
 
   const token = localStorage.getItem("accessToken");
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getallsettings}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        const allSettings = data.data[0];
+        // console.log(allSettings);
+
+        if (response.ok) {
+          setDesignations(allSettings.designation); // Update settings state
+          setDepartments(allSettings.department);
+          setReportingTo(allSettings.reportingTo);
+        } else {
+          throw new Error("Failed to fetch settings");
+        }
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    fetchSettings();
+  }, [token]);
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
@@ -596,18 +630,15 @@ const AdminInfo = () => {
                     <option value="" disabled>
                       Select Designation
                     </option>
-                    <option value="Software Engineer-PHP">
-                      Software Engineer-PHP
-                    </option>
-                    <option value="Software Engineer- Trainee (Python)">
-                      Software Engineer- Trainee (Python)
-                    </option>
-                    <option value="Software Engineer- Trainee (PHP-Laravel)">
-                      Software Engineer- Trainee (PHP-Laravel)
-                    </option>
-                    <option value="Senior Technical Lead">
-                      Senior Technical Lead
-                    </option>
+                    {designations.length > 0 ? (
+                      designations.map((designation, index) => (
+                        <option key={index} value={designation}>
+                          {designation}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>No found any designation</option>
+                    )}
                   </select>
                 </div>
               ) : (
@@ -633,15 +664,15 @@ const AdminInfo = () => {
                     <option value="" disabled>
                       Select Department
                     </option>
-                    <option value="Engineering">Engineering</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="Sales">Sales</option>
-                    <option value="Human Resources">Human Resources</option>
-                    <option value="Finance">Finance</option>
-                    <option value="Operations">Operations</option>
-                    <option value="Customer Support">Customer Support</option>
-                    <option value="IT">IT</option>
-                    <option value="Administration">Administration</option>
+                    {departments.length > 0 ? (
+                      departments.map((department, index) => (
+                        <option key={index} value={department}>
+                          {department}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>No found any department</option>
+                    )}
                   </select>
                 </div>
               ) : (
@@ -707,11 +738,15 @@ const AdminInfo = () => {
                     <option value="" disabled>
                       Select Reporting Person
                     </option>
-                    <option value="Swapnil Patil">Swapnil Patil</option>
-                    <option value="Manish Sharma">Manish Sharma</option>
-                    <option value="Sheetal Patil">Sheetal Patil</option>
-                    <option value="Nitin Ahire">Nitin Ahire</option>
-                    <option value="Laxman Sahu">Laxman Sahu</option>
+                    {reportingTo.length > 0 ? (
+                      reportingTo.map((reportingto, index) => (
+                        <option key={index} value={reportingto}>
+                          {reportingto}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>No found any person</option>
+                    )}
                   </select>
                 </div>
               ) : (
@@ -724,7 +759,7 @@ const AdminInfo = () => {
             </div>
 
             <div className="grid grid-cols-12 items-center gap-2 col-span-12 md:col-span-6 justify-between">
-              <label className=" col-span-4 ">Team Leader</label>
+              <label className=" col-span-4 ">Manager</label>
               {editMode ? (
                 <div className="col-span-8">
                   <select
@@ -735,13 +770,17 @@ const AdminInfo = () => {
                     className="bg-sky-100 w-full px-2 py-1 text-sm dark:bg-neutral-800 rounded-md"
                   >
                     <option value="" disabled>
-                      Select Reporting Person
+                      Select Manger
                     </option>
-                    <option value="Swapnil Patil">Swapnil Patil</option>
-                    <option value="Manish Sharma">Manish Sharma</option>
-                    <option value="Sheetal Patil">Sheetal Patil</option>
-                    <option value="Nitin Ahire">Nitin Ahire</option>
-                    <option value="Laxman Sahu">Laxman Sahu</option>
+                    {reportingTo.length > 0 ? (
+                      reportingTo.map((reportingto, index) => (
+                        <option key={index} value={reportingto}>
+                          {reportingto}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>No found any person</option>
+                    )}
                   </select>
                 </div>
               ) : (

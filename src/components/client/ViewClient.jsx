@@ -31,9 +31,9 @@ const GlobalStyles = createGlobalStyle`
   // border-radius:10px;
 } 
 .MuiList-root {
-  
+// background-color:#e0f2fe !important;
 } 
-  .MuiMenuItem-root {
+.MuiMenuItem-root {
     font-family: Euclid;
     font-size: 14px;
     font-weight: bold;
@@ -88,6 +88,9 @@ const useStyles = makeStyles({
       fontSize: 10,
     },
     "& .MuiOutlinedInput-input": {
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
       fontFamily: "euclid-medium",
       fontSize: 14,
     },
@@ -97,7 +100,7 @@ const useStyles = makeStyles({
     "& JoyCheckbox-input": {
       backgroundColor: "red",
     },
-    display: "block",
+    display: "flex",
     width: "100%",
     fontFamily: "euclid-medium",
   },
@@ -121,6 +124,7 @@ const ViewClient = () => {
   const [confirmationName, setConfirmationName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [error, setError] = useState("");
+  const [countries, setCountries] = useState([""]);
 
   const [projectForm, setProjectForm] = useState({
     projectname: "",
@@ -130,6 +134,34 @@ const ViewClient = () => {
   const [activeEmployees, setActiveEmployees] = useState([]);
 
   const selectedclientid = client?._id || client; // Use optional chaining for safety
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getallsettings}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        const allSettings = data.data[0];
+        // console.log(allSettings.country);
+
+        if (response.ok) {
+          setCountries(allSettings.country);
+        } else {
+          throw new Error("Failed to fetch settings");
+        }
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    fetchCountries();
+  }, [token]);
 
   useEffect(() => {
     if (clientData) {
@@ -691,7 +723,7 @@ const ViewClient = () => {
                 classes.root
               )}
             />
-            <TextField
+            {/* <TextField
               label="Country"
               name="country"
               id="country"
@@ -701,7 +733,51 @@ const ViewClient = () => {
                 "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
                 classes.root
               )}
-            />
+            /> */}
+
+            <FormControl
+              variant="outlined"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            >
+              <InputLabel id="Select Country" className="w-fit ">
+                Select Country
+              </InputLabel>
+              <Select
+                labelId="Country"
+                id="country"
+                label="Country"
+                name="country"
+                value={formData.country}
+                onChange={handleInputChange}
+                className={classNames(
+                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                  classes.root
+                )}
+                IconComponent={(props) => (
+                  <ArrowDropDownRoundedIcon
+                    {...props}
+                    sx={{
+                      fontSize: 40,
+                      borderRadius: 1,
+                    }}
+                  />
+                )}
+              >
+                <GlobalStyles />
+                {countries.length > 0 ? (
+                  countries.map((country, index) => (
+                    <MenuItem key={index} value={country}>
+                      {country}
+                    </MenuItem>
+                  ))
+                ) : (
+                  <MenuItem disabled>No found any country</MenuItem>
+                )}
+              </Select>
+            </FormControl>
             <TextField
               label="linkedi Profile"
               name="linkedinurl"

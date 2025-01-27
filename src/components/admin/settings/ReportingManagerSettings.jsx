@@ -3,6 +3,93 @@ import { FaCheck } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { IoCloseCircle } from "react-icons/io5";
 import { PiKeyReturnBold } from "react-icons/pi";
+import ApiendPonits from "../../../api/APIEndPoints.json";
+import classNames from "classnames";
+import { createGlobalStyle } from "styled-components";
+import { makeStyles } from "@mui/styles";
+import { InputLabel, Select, MenuItem, FormControl } from "@mui/material";
+import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
+import Userprofile from "../../../assets/images/clientAvatar.png";
+
+const GlobalStyles = createGlobalStyle`
+.MuiPaper-root{
+  // border-radius:10px;
+} 
+.MuiList-root {
+// background-color:#e0f2fe !important;
+} 
+.MuiMenuItem-root {
+    font-family: Euclid;
+    font-size: 14px;
+    font-weight: bold;
+    margin: auto 8px;
+    border-radius: 7px;
+    margin-top:5px;
+  }
+  .MuiMenuItem-root:hover {
+    background-color:#e0f2fe;
+    padding-left: 14px;
+  }
+  .MuiMenuItem-root:hover {
+    transition-duration: 0.2s;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+`;
+
+const useStyles = makeStyles({
+  root: {
+    "& .MuiInputLabel-root": {
+      fontFamily: "euclid",
+      fontSize: 14,
+      fontWeight: "bold",
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      fontWeight: "bold",
+      fontSize: 15,
+    },
+    "& .MuiInputBase-root": {
+      border: "0 none",
+      borderRadius: 7,
+      height: 52,
+      width: "100%",
+      overflow: "hidden",
+    },
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "gray",
+    },
+    "& .Muilplaceholder": {
+      fontFamily: "euclid",
+      fontSize: 10,
+    },
+    "& .MuiOutlinedInput-input": {
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
+      fontFamily: "euclid-medium",
+      fontSize: 14,
+    },
+    "& ::placeholder": {
+      fontSize: 12,
+    },
+    "& JoyCheckbox-input": {
+      backgroundColor: "red",
+    },
+    display: "flex",
+    width: "100%",
+    fontFamily: "euclid-medium",
+  },
+});
 
 const ReportingToManagement = () => {
   const [reportingTo, setReportingTo] = useState([]);
@@ -10,6 +97,8 @@ const ReportingToManagement = () => {
   const [deleteReportingTo, setDeleteReportingTo] = useState([]);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
+  const [employeeList, setEmployeeList] = useState([]); // Store employee data
+  const classes = useStyles();
 
   const token = localStorage.getItem("accessToken");
 
@@ -30,11 +119,50 @@ const ReportingToManagement = () => {
     setTimeout(() => setError(null), 3000);
   };
 
+  useEffect(() => {
+    const fetchEmployeeList = async () => {
+      try {
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.employeeList}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+          const filteredEmployees = data.data.filter(
+            (employee) => employee.status === 1
+          );
+          setEmployeeList(filteredEmployees);
+
+          // Calculate the number of employees with status 1 (active)
+          const activeCount = data.data.filter(
+            (employee) => employee.status === 1
+          ).length;
+        } else {
+          throw new Error("Failed to fetch employees");
+        }
+      } catch (err) {
+        console.error("Error fetching employees:", err.message || err);
+      }
+    };
+
+    if (token) {
+      fetchEmployeeList();
+    }
+  }, [token]);
+
   // Function to get reportingTo from API
   const fetchReportingTo = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3000/api/admin/getreportingto",
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getreportingto}`,
         {
           method: "GET",
           headers: {
@@ -59,7 +187,7 @@ const ReportingToManagement = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/admin/addreportingto",
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.addreportingto}`,
         {
           method: "POST",
           headers: {
@@ -87,7 +215,7 @@ const ReportingToManagement = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/admin/deletereportingto",
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.deletereportingto}`,
         {
           method: "POST",
           headers: {
@@ -132,21 +260,59 @@ const ReportingToManagement = () => {
 
         {/* Add ReportingTo */}
         <div className="flex gap-2 w-full">
-          <input
-            type="text"
-            value={newReportingTo}
-            onChange={(e) => setNewReportingTo(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleAddReportingTo();
-              }
-            }}
-            placeholder="Enter reportingTo name"
-            className="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-100 dark:bg-neutral-800"
-          />
+          <FormControl
+            variant="outlined"
+            className={classNames(
+              "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+              classes.root
+            )}
+          >
+            <InputLabel id="Select Reporting Person" className="w-fit ">
+              Select Reporting Person
+            </InputLabel>
+            <Select
+              labelId="Select Reporting Person"
+              id="Select Reporting Person"
+              label="Select Reporting Person"
+              name="Select Reporting Person"
+              value={newReportingTo}
+              onChange={(e) => setNewReportingTo(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleAddReportingTo();
+                }
+              }}
+              className=""
+              IconComponent={(props) => (
+                <ArrowDropDownRoundedIcon
+                  {...props}
+                  sx={{
+                    fontSize: 40,
+                    borderRadius: 1,
+                  }}
+                />
+              )}
+            >
+              <GlobalStyles />
+              {employeeList.map((employee) => (
+                <MenuItem
+                  key={employee._id}
+                  value={employee.name}
+                  className="flex items-center gap-2"
+                >
+                  <img
+                    src={employee.profile || Userprofile}
+                    alt={employee.name}
+                    className="w-8 h-8 rounded-lg"
+                  />
+                  {employee.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <button
             onClick={handleAddReportingTo}
-            className="w-fit bg-green-600/30 text-green-600 px-3 rounded font-semibold hover:bg-green-700/20 transition duration-300 flex gap-2 items-center"
+            className="w-fit bg-green-600/30 text-green-600 px-3 rounded-md font-semibold hover:bg-green-700/20 transition duration-300 flex gap-2 items-center"
           >
             <PiKeyReturnBold fontSize={20} />
             Add
@@ -179,7 +345,7 @@ const ReportingToManagement = () => {
         </div>
 
         {reportingTo.length > 0 ? (
-          <ul className="flex flex-col gap-2  h-fit overflow-y-scroll scrollbrhdn">
+          <ul className="flex flex-col gap-2  md:h-full overflow-y-scroll scrollbrhdn">
             {reportingTo.map((rep, index) => (
               <li
                 key={index}
@@ -229,7 +395,7 @@ const ReportingToManagement = () => {
             ))}
           </ul>
         ) : (
-          <p className="text-center dark:bg-neutral-950 h-full rounded-md p-2 flex items-center justify-center">
+          <p className="text-center bg-blue-50 dark:bg-neutral-950 h-full rounded-md p-2 flex items-center justify-center">
             No reportingTo found.
           </p>
         )}

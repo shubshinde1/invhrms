@@ -50,6 +50,19 @@
         "viewprojectbyid": "api/admin/viewprojectbyid",
         "addProject": "api/admin/addproject",
         "updateproject": "api/admin/updateproject",
-        "softdeleteproject": "api/admin/softdeleteproject"
+        "softdeleteproject": "api/admin/softdeleteproject",
+        "getdepartment": "api/admin/getdepartment",
+        "adddepartment": "api/admin/adddepartment",
+        "deletedepartment": "api/admin/deletedepartment",
+        "getdesignation": "api/admin/getdesignation",
+        "adddesignation": "api/admin/adddesignation",
+        "deletedesignation": "api/admin/deletedesignation",
+        "getcountry": "api/admin/getcountry",
+        "addcountry": "api/admin/addcountry",
+        "deletecountry": "api/admin/deletecountry",
+        "getreportingto": "api/admin/getreportingto",
+        "addreportingto": "api/admin/addreportingto",
+        "deletereportingto": "api/admin/deletereportingto",
+        "getallsettings": "api/admin/getallsettings"
     }
 }

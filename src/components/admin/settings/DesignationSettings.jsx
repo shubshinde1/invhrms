@@ -3,6 +3,7 @@ import { FaCheck } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { IoCloseCircle } from "react-icons/io5";
 import { PiKeyReturnBold } from "react-icons/pi";
+import ApiendPonits from "../../../api/APIEndPoints.json";
 
 const DesignationManagement = () => {
   const [designations, setDesignations] = useState([]);
@@ -30,7 +31,7 @@ const DesignationManagement = () => {
   const fetchDesignations = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3000/api/admin/getdesignation",
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getdesignation}`,
         {
           method: "GET",
           headers: {
@@ -54,7 +55,8 @@ const DesignationManagement = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/admin/adddesignation",
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.adddesignation}`,
+
         {
           method: "POST",
           headers: {
@@ -81,7 +83,7 @@ const DesignationManagement = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/admin/deletedesignation",
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.deletedesignation}`,
         {
           method: "POST",
           headers: {
@@ -139,7 +141,7 @@ const DesignationManagement = () => {
           />
           <button
             onClick={handleAddDesignation}
-            className="w-fit bg-green-600/30 text-green-600 px-3 rounded font-semibold hover:bg-green-700/20 transition duration-300 flex gap-2 items-center"
+            className="w-fit bg-green-600/30 text-green-600 px-3 rounded-md font-semibold hover:bg-green-700/20 transition duration-300 flex gap-2 items-center"
           >
             <PiKeyReturnBold fontSize={20} />
             Add
@@ -220,7 +222,7 @@ const DesignationManagement = () => {
             ))}
           </ul>
         ) : (
-          <p className="text-center dark:bg-neutral-950 h-full rounded-md p-2 flex items-center justify-center">
+          <p className="text-center bg-blue-50 dark:bg-neutral-950 h-full rounded-md p-2 flex items-center justify-center">
             No designations found.
           </p>
         )}

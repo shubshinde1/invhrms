@@ -6,19 +6,51 @@ import { Drawer, TextField, Button } from "@mui/material";
 import { FaPlus } from "react-icons/fa6";
 import { makeStyles } from "@mui/styles";
 import classNames from "classnames";
+import { createGlobalStyle } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import ApiendPonits from "../../api/APIEndPoints.json";
 import { IoClose } from "react-icons/io5";
 import Loading from "../Loading";
 import { motion } from "framer-motion";
+import { InputLabel, Select, MenuItem, FormControl } from "@mui/material";
+import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
+
+const GlobalStyles = createGlobalStyle`
+.MuiPaper-root{
+  // border-radius:10px;
+} 
+.MuiList-root {
+// background-color:#e0f2fe !important;
+} 
+.MuiMenuItem-root {
+    font-family: Euclid;
+    font-size: 14px;
+    font-weight: bold;
+    margin: auto 8px;
+    border-radius: 7px;
+    margin-top:5px;
+  }
+  .MuiMenuItem-root:hover {
+    background-color:#e0f2fe;
+    padding-left: 14px;
+  }
+  .MuiMenuItem-root:hover {
+    transition-duration: 0.2s;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+`;
 
 const useStyles = makeStyles({
   root: {
     "& .MuiInputLabel-root": {
       fontFamily: "euclid",
       fontSize: 14,
-      paddingTop: -2.5,
       fontWeight: "bold",
     },
     "& .MuiInputLabel-root.Mui-focused": {
@@ -28,7 +60,7 @@ const useStyles = makeStyles({
     "& .MuiInputBase-root": {
       border: "0 none",
       borderRadius: 7,
-      height: 50,
+      height: 52,
       width: "100%",
       overflow: "hidden",
     },
@@ -46,13 +78,19 @@ const useStyles = makeStyles({
       fontSize: 10,
     },
     "& .MuiOutlinedInput-input": {
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
       fontFamily: "euclid-medium",
       fontSize: 14,
     },
     "& ::placeholder": {
       fontSize: 12,
     },
-    display: "block",
+    "& JoyCheckbox-input": {
+      backgroundColor: "red",
+    },
+    display: "flex",
     width: "100%",
     fontFamily: "euclid-medium",
   },
@@ -64,6 +102,7 @@ const ClientCard = () => {
   const [searchQuery, setSearchQuery] = useState(""); // Search query
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [countries, setCountries] = useState([""]);
   const [openDrawer, setOpenDrawer] = useState(false); // Control drawer visibility
   const [newClient, setNewClient] = useState({
     // State to hold new client data
@@ -85,6 +124,34 @@ const ClientCard = () => {
     // Navigate to the /clients/viewclient route and pass client data
     navigate("/clients/viewclient", { state: { client, noofactiveprojects } });
   };
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch(
+          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getallsettings}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        const allSettings = data.data[0];
+        // console.log(allSettings.country);
+
+        if (response.ok) {
+          setCountries(allSettings.country);
+        } else {
+          throw new Error("Failed to fetch settings");
+        }
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    fetchCountries();
+  }, [token]);
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -395,7 +462,7 @@ const ClientCard = () => {
                 classes.root
               )}
             />
-            <TextField
+            {/* <TextField
               label="Country"
               value={newClient.country}
               onChange={(e) =>
@@ -405,7 +472,54 @@ const ClientCard = () => {
                 "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
                 classes.root
               )}
-            />
+            /> */}
+
+            <FormControl
+              variant="outlined"
+              className={classNames(
+                "col-span-12 sm:col-span-6 xl:col-span-2 text-xs",
+                classes.root
+              )}
+            >
+              <InputLabel id="Select Country" className="w-fit ">
+                Select Country
+              </InputLabel>
+              <Select
+                labelId="Country"
+                id="country"
+                label="Country"
+                name="country"
+                value={newClient.country}
+                onChange={(e) =>
+                  setNewClient({ ...newClient, country: e.target.value })
+                }
+                className={classNames(
+                  "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                  classes.root
+                )}
+                IconComponent={(props) => (
+                  <ArrowDropDownRoundedIcon
+                    {...props}
+                    sx={{
+                      fontSize: 40,
+                      borderRadius: 1,
+                    }}
+                  />
+                )}
+              >
+                <GlobalStyles />
+                {countries.length > 0 ? (
+                  countries.map((country, index) => (
+                    <MenuItem key={index} value={country}>
+                      {country}
+                    </MenuItem>
+                  ))
+                ) : (
+                  <MenuItem disabled>No found any country</MenuItem>
+                )}
+              </Select>
+            </FormControl>
+
             <TextField
               label="Industry"
               value={newClient.industry}
