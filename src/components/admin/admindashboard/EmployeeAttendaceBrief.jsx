@@ -292,7 +292,7 @@ const EmployeeAttendanceBrief = () => {
                 {totalEmployeeCount}
               </div>
             </div>
-            <div className="flex items-center flex-wrap xl:flex-nowrap justify-between gap-2 px-2 pb-2">
+            <div className="flex items-center sm:flex-wrap 2xl:flex-nowrap justify-between gap-2 px-2 pb-2">
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
