@@ -503,6 +503,10 @@ const ViewClient = () => {
                     <span>{clientData.country || "N/A"}</span>
                   </div>
                   <div className="flex justify-between md:flex-col gap-2">
+                    <strong>Address</strong>
+                    <span>{clientData.officeaddress || "N/A"}</span>
+                  </div>
+                  <div className="flex justify-between md:flex-col gap-2">
                     <strong>Industry</strong>
                     <span>{clientData.industry || "N/A"}</span>
                   </div>
@@ -636,7 +640,15 @@ const ViewClient = () => {
                 </div>
                 <div className="flex flex-col gap-1 w-1/2">
                   <strong>Status</strong>
-                  {project.status === 0 ? "Active" : "InActive"}
+                  <span
+                    className={`w-fit px-1.5 py-0.5 text-xs rounded-md font-bold ${
+                      project.status === 1
+                        ? "bg-red-500/20 text-red-500"
+                        : "bg-green-500/20 text-green-500"
+                    }`}
+                  >
+                    {project.status === 0 ? "Active" : "Inactive"}
+                  </span>
                 </div>
               </div>
             </div>

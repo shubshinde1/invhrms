@@ -13,6 +13,7 @@ import AttendanceChart from "../dashboard/AttendanceChart";
 import Loading from "../Loading";
 import { MdDelete } from "react-icons/md";
 import userprofile from "../../assets/images/clientAvatar.png";
+import teamsIcon from "../../assets/images/Teams.png";
 
 const Employeelist = () => {
   const [loading, setLoading] = useState(false);
@@ -398,7 +399,7 @@ const Employeelist = () => {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: rowIndex * 0.1 }}
-                    className="grid grid-cols-12 bg-sky-50 dark:bg-neutral-900 px-2 py-1.5 rounded-md gap-2 items-center"
+                    className="grid grid-cols-12 bg-sky-50 dark:bg-neutral-900 px-2 py-1.5 rounded-md gap-2 items-center group"
                   >
                     <div className="col-span-1">{employee.empid}</div>
                     <div className="col-span-3 flex items-center gap-1">
@@ -470,23 +471,32 @@ const Employeelist = () => {
                           <IoEye fontSize={17} />
                         </button>
                       </Tooltip>
-                      <div>
-                        <Tooltip
-                          title={"Delete " + employee.name}
-                          placement="top"
-                          arrow
+                      <Tooltip
+                        title={"Delete " + employee.name}
+                        placement="top"
+                        arrow
+                      >
+                        <button
+                          type="button" // Ensure this button doesn't trigger form submission
+                          onClick={() =>
+                            handleDeleteClick(employee._id, employee.name)
+                          } // Pass employee._id
+                          className="hover:bg-red-500/20 p-1.5 rounded-md text-red-500 "
                         >
-                          <button
-                            type="button" // Ensure this button doesn't trigger form submission
-                            onClick={() =>
-                              handleDeleteClick(employee._id, employee.name)
-                            } // Pass employee._id
-                            className="hover:bg-red-500/20 p-1.5 rounded-md text-red-500 "
-                          >
-                            <MdDelete fontSize={17} />
-                          </button>
-                        </Tooltip>
-                      </div>
+                          <MdDelete fontSize={17} />
+                        </button>
+                      </Tooltip>
+                      <a
+                        href={`MSTeams:/l/chat/0/0?users=${employee.email}`}
+                        target="_blank"
+                        className="hidden group-hover:flex bg-blue-500/20 p-1.5 group rounded-md"
+                      >
+                        <img
+                          src={teamsIcon}
+                          alt="teamsIcon"
+                          className="w-5 group-hover:scale-110 duration-100 rounded-full shadow-md"
+                        />
+                      </a>
                     </div>
                   </motion.div>
                 ))}
@@ -520,7 +530,7 @@ const Employeelist = () => {
                     </div>
                     <div className="flex gap-2 items-center">
                       <div
-                        className={`text-sm text-center py-1 px-2 rounded-md w-fit ${
+                        className={`text-xs text-center py-1 px-2 rounded-md w-fit ${
                           employee.attendancestatus === 1
                             ? "bg-green-500/20 text-green-500"
                             : employee.attendancestatus === 0
@@ -540,7 +550,7 @@ const Employeelist = () => {
                           : "-"}{" "}
                       </div>
                       <div
-                        className={`text-sm text-center p-1 rounded-md w-fit ${
+                        className={`text-xs text-center p-1 rounded-md w-fit ${
                           employee.status === 1
                             ? "bg-green-500/20 text-green-500"
                             : "bg-red-500/20 text-red-500"
@@ -572,13 +582,27 @@ const Employeelist = () => {
                     <div>{employee.dateofjoining}</div>
                   </div>
 
-                  <div className="text-sm text-gray-700 dark:text-gray-300 mt-2 flex items-center gap-1">
-                    <button
-                      onClick={() => handleViewClick(employee._id)}
-                      className="bg-blue-500/20 p-1.5 rounded-md text-blue-500"
-                    >
-                      <IoEye fontSize={17} />
-                    </button>
+                  <div className="text-sm text-gray-700 dark:text-gray-300 mt-2 flex items-center gap-2 justify-between">
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleViewClick(employee._id)}
+                        className="bg-blue-500/20 p-1.5 rounded-md text-blue-500"
+                      >
+                        <IoEye fontSize={17} />
+                      </button>
+
+                      <a
+                        href={`MSTeams:/l/chat/0/0?users=${employee.email}`}
+                        target="_blank"
+                        className=" bg-blue-500/20 p-1 group rounded-md"
+                      >
+                        <img
+                          src={teamsIcon}
+                          alt="teamsIcon"
+                          className="w-5 group-hover:scale-110 duration-100 rounded-full shadow-md"
+                        />
+                      </a>
+                    </div>
                     <div>
                       <Tooltip
                         title={"Delete " + employee.name}

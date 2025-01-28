@@ -46,7 +46,7 @@ const LogoutMenuItem = ({ handleThemeSwitch }) => {
 
           {showConfirmation && (
             <div
-              className="fixed inset-0 z-50 flex items-center justify-center"
+              className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md"
               style={{
                 position: "fixed",
                 top: 0,
@@ -54,11 +54,10 @@ const LogoutMenuItem = ({ handleThemeSwitch }) => {
                 width: "100vw",
                 height: "100%",
                 backgroundColor: "rgba(0, 0, 0, 0.5)", // Adjust the opacity as needed
-                backdropFilter: "blur(3px)", // Apply the blur effect
                 zIndex: 9998,
               }}
             >
-              <div className="absolute inset-0 opacity-50 backdrop-blur-xl bg-black"></div>
+              {/* <div className="absolute inset-0 backdrop bg-blac"></div> */}
               <div className="absolute  bg-white dark:bg-neutral-800/60 p-7 rounded-md shadow-lg">
                 <p>Are you sure you want to logout?</p>
                 <div className="flex justify-around mt-4 ">

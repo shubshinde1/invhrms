@@ -384,8 +384,8 @@ const ClientCard = () => {
               </div>
 
               <div className="flex items-center gap-2">
-                <strong className="w-1/3">Address</strong>
-                <span className="w-2/3">{client.officeaddress || "N/A"}</span>
+                <strong className="w-1/3">Country</strong>
+                <span className="w-2/3">{client.country || "N/A"}</span>
               </div>
               <div className="flex items-center gap-2">
                 <strong className="w-1/3">Projects</strong>
