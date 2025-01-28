@@ -369,7 +369,7 @@ const UserProfile = () => {
 
   return (
     <div className="flex flex-col  gap-2 h-full min-h-full pb-20 ">
-      <div className="flex flex-col lg:flex-row gap-2 h-full z-50">
+      <div className="flex flex-col lg:flex-row gap-2 h-full md:z-50">
         <div className="lg:w-1/3 h-full lg:sticky top-0 bg-white p-2 dark:bg-neutral-950 dark:text-white rounded-md flex flex-col gap-2">
           <div className="flex justify-between">
             <div className="">
