@@ -177,7 +177,7 @@ const HRDashboard = () => {
             <EmployeeAttendaceBrief />
           </div>
         </div>
-        <div className="col-span-12 lg:col-span-3 h-full">
+        <div className="col-span-12 lg:col-span-3 h-full overflow-y-scroll scrollbar-hide pb-20">
           <DashCalendar
             mandatoryholiday={holidays.mandatoryholiday}
             optionalholiday={holidays.optionalholiday}

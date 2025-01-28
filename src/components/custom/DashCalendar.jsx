@@ -239,7 +239,7 @@ const DashCalendar = ({
   };
 
   return (
-    <div className="select-none h-screen overflow-y-scroll scrollbar-hide pb-20">
+    <div className="select-none h-full overflow-y-scroll scrollbar-hide ">
       {showCalendar && (
         <div className="w-full z-10 p-2 h-full overflow-y-scroll scrollbar-hide  border dark:border-none border-gray-300 rounded-lg bg-white dark:text-white dark:bg-neutral-950 dark:border-neutral-700 shadow-lg flex flex-col gap-2">
           <div className="flex items-center justify-between gap-2">

@@ -292,13 +292,13 @@ const EmployeeAttendanceBrief = () => {
                 {totalEmployeeCount}
               </div>
             </div>
-            <div className="flex items-center justify-between gap-2 px-2 pb-2">
+            <div className="flex items-center flex-wrap xl:flex-nowrap justify-between gap-2 px-2 pb-2">
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7 }}
-                className="col-span-2 sm:col-span-1 bg-none border-2 dark:border-none flex flex-col w-1/2
-                    gap-4 dark:bg-neutral-950 p-2 rounded-md h-full justify-center"
+                className="col-span-2 sm:col-span-1 bg-none border-2 dark:border-none flex flex-col w-full
+                    gap-4 dark:bg-neutral-950 p-2 rounded-md h-fit justify-center"
               >
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
@@ -317,8 +317,8 @@ const EmployeeAttendanceBrief = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9 }}
-                className="col-span-2 sm:col-span-1 bg-none border-2 dark:border-none flex flex-col w-1/2
-                    gap-4 dark:bg-neutral-950 p-2 rounded-md h-full justify-center"
+                className="col-span-2 sm:col-span-1 bg-none border-2 dark:border-none flex flex-col w-full
+                    gap-4 dark:bg-neutral-950 p-2 rounded-md h-fit justify-center"
               >
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
