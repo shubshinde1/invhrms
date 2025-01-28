@@ -205,7 +205,7 @@ export default function Header({ handleThemeSwitch, theme }) {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="origin-top-right absolute -right-5 z-10 m-2.5 w-52 md:mt-5 mt-4 bg-white dark:bg-neutral-950 dark:border border-neutral-600 rounded-md shadow-lg p-2">
+              <Menu.Items className="origin-top-right absolute -right-5 z-10 m-2.5 w-52 mt-3.5 bg-white dark:bg-neutral-950 border-2 border-neutral-300 dark:border-neutral-600 rounded-lg shadow-lg p-2">
                 {(auth === 0 || auth === 2 || auth === 3) && (
                   <Menu.Item>
                     {({ active }) => (
