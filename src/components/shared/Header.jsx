@@ -32,10 +32,6 @@ export default function Header({ handleThemeSwitch, theme }) {
   const userName = userData?.employeeData.name;
   const auth = userData?.employeeData.auth;
 
-  // const profileUrl = userData?.employeeData?.profile;
-
-  // setProfile(profileUrl);
-  // console.log(empid);
   const empid = userData?.employeeData._id;
 
   const fetchProfile = async () => {
@@ -56,10 +52,10 @@ export default function Header({ handleThemeSwitch, theme }) {
       const data = await response.json();
 
       if (response.ok) {
-        setProfile(data.data.profileUrl);
+        setProfile(data.data.profileUrl || userprofile);
         setHasProfile(true);
       } else {
-        setProfile(demoprofile);
+        setProfile(userprofile);
         setHasProfile(false);
       }
     } catch (err) {
