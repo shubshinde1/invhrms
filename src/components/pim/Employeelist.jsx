@@ -370,17 +370,18 @@ const Employeelist = () => {
         </div>
 
         {/* Table layout for larger screens */}
-        <div className="hidden md:block h-full  overflow-y-scroll scrollbrhdn">
+        <div className="hidden md:block h-full  overflow-y-hidden">
           {loading ? (
             <Loading />
           ) : (
-            <div className="hidden md:block dark:text-white  h-full overflow-y-hidden scrollbrhdn">
+            <div className="hidden md:block dark:text-white  h-full overflow-y-scroll scrollbrhdn">
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
+                className="sticky top-0 z-10"
               >
-                <div className="grid grid-cols-12 bg-sky-100 dark:bg-neutral-800 px-2 py-3 rounded-md">
+                <div className="grid grid-cols-12 bg-sky-100 dark:bg-neutral-800 px-2 py-3 rounded-md ">
                   <div className="col-span-1 font-semibold">E_ID</div>
                   <div className="col-span-3 font-semibold">Employee Name</div>
                   <div className="col-span-2 font-semibold">Designation</div>
@@ -390,7 +391,7 @@ const Employeelist = () => {
                 </div>
               </motion.div>
 
-              <div className="flex flex-col gap-2 mt-2 h-full overflow-y-scroll scrollbrhdn">
+              <div className="flex flex-col gap-2 mt-2 h-full ">
                 {currentEmployees.map((employee, rowIndex) => (
                   <motion.div
                     key={employee._id}
