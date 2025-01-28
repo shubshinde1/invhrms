@@ -369,7 +369,11 @@ const UserProfile = () => {
 
   return (
     <div className="flex flex-col  gap-2 h-full min-h-full pb-20 ">
-      <div className="flex flex-col lg:flex-row gap-2 h-full md:z-50">
+      <div
+        className={`flex flex-col lg:flex-row gap-2 h-full  ${
+          showPasswordModal ? "md:z-50" : ""
+        }`}
+      >
         <div className="lg:w-1/3 h-full lg:sticky top-0 bg-white p-2 dark:bg-neutral-950 dark:text-white rounded-md flex flex-col gap-2">
           <div className="flex justify-between">
             <div className="">
@@ -1044,174 +1048,184 @@ const UserProfile = () => {
           <div className=" bg-sky-100 flex flex-col gap-2 dark:bg-neutral-900 rounded-md p-2">
             <div className="flex flex-col gap-4">
               <h4 className="text-base font-bold">Work Experiences</h4>
-              {formData.workexperience.map((experience, index) => (
-                <div key={index} className="flex gap-2 flex-col">
-                  <div className=" flex gap-2 items-center bg-sky-50 dark:bg-neutral-950 rounded-t-md p-2 w-fit -mb-2">
-                    {/* <strong>Experience {index + 1}</strong> */}
-                    <h4 className="bg-sky-50 dark:bg-neutral-950 rounded-t-md col-span-12 font-semibold w-fit flex gap-2 items-center text-sm">
-                      <span className="bg-sky-200 dark:bg-neutral-800 px-2 py-0.5 rounded-md">
-                        {index + 1}
-                      </span>{" "}
-                      Experience
-                    </h4>
-                    {isEditMode && (
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveExperience(index)}
-                        className="hover:bg-red-200/15 text-red-500 p-1 rounded-md flex items-center gap2"
-                      >
-                        <TiMinus fontSize={18} />
-                      </button>
-                    )}
-                  </div>
-                  <div className="grid grid-cols-12 items-start gap-2 bg-sky-50 dark:bg-neutral-950 rounded-tl-none rounded-md p-2">
-                    <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
-                      <label className="w-1/3">Job Title</label>
-                      {isEditMode ? (
-                        <input
-                          type="text"
-                          name={`workexperience[${index}].jobtitle`}
-                          value={experience.jobtitle || ""}
-                          onChange={(e) => handleExperienceChange(e, index)}
-                          required
-                          className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
-                        />
-                      ) : (
-                        <strong>{experience.jobtitle}</strong>
-                      )}
-                    </div>
-
-                    <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
-                      <label className="w-1/3">Company Name</label>
-                      {isEditMode ? (
-                        <input
-                          type="text"
-                          name={`workexperience[${index}].companyname`}
-                          value={experience.companyname || ""}
-                          onChange={(e) => handleExperienceChange(e, index)}
-                          required
-                          className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
-                        />
-                      ) : (
-                        <strong>{experience.companyname}</strong>
-                      )}
-                    </div>
-
-                    <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
-                      <label className="w-1/3">LinkedIn URL</label>
-                      {isEditMode ? (
-                        <input
-                          type="text"
-                          name={`workexperience[${index}].companylinkedinurl`}
-                          value={experience.companylinkedinurl}
-                          onChange={(e) => handleExperienceChange(e, index)}
-                          required
-                          className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
-                        />
-                      ) : (
-                        <strong>
-                          <div className="flex items-center gap-2">
-                            <a
-                              href={experience.companylinkedinurl}
-                              className="text-blue-500 bg-blue-200 dark:bg-blue-200/15 p-2 rounded-md"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <FaExternalLinkAlt />
-                            </a>
-                            <button
-                              className=" text-green-600 bg-green-200 dark:bg-green-200/15 p-2 rounded-md"
-                              onClick={() =>
-                                handleCopyLink(experience.companylinkedinurl)
-                              }
-                            >
-                              <FaCopy />
-                            </button>
-                          </div>
-                          {showPopup && (
-                            <div className="fixed bottom-4 right-4 bg-green-500/20 text-green-500 px-4 py-2 rounded">
-                              Link copied to clipboard!
-                            </div>
+              {formData.workexperience.length > 0 ? (
+                <div className="flex flex-col gap-2">
+                  {formData.workexperience.map((experience, index) => (
+                    <div key={index} className="flex gap-2 flex-col">
+                      <div className=" flex gap-2 items-center bg-sky-50 dark:bg-neutral-950 rounded-t-md p-2 w-fit -mb-2">
+                        {/* <strong>Experience {index + 1}</strong> */}
+                        <h4 className="bg-sky-50 dark:bg-neutral-950 rounded-t-md col-span-12 font-semibold w-fit flex gap-2 items-center text-sm">
+                          <span className="bg-sky-200 dark:bg-neutral-800 px-2 py-0.5 rounded-md">
+                            {index + 1}
+                          </span>{" "}
+                          Experience
+                        </h4>
+                        {isEditMode && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveExperience(index)}
+                            className="hover:bg-red-200/15 text-red-500 p-1 rounded-md flex items-center gap2"
+                          >
+                            <TiMinus fontSize={18} />
+                          </button>
+                        )}
+                      </div>
+                      <div className="grid grid-cols-12 items-start gap-2 bg-sky-50 dark:bg-neutral-950 rounded-tl-none rounded-md p-2">
+                        <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
+                          <label className="w-1/3">Job Title</label>
+                          {isEditMode ? (
+                            <input
+                              type="text"
+                              name={`workexperience[${index}].jobtitle`}
+                              value={experience.jobtitle || ""}
+                              onChange={(e) => handleExperienceChange(e, index)}
+                              required
+                              className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
+                            />
+                          ) : (
+                            <strong>{experience.jobtitle}</strong>
                           )}
-                        </strong>
-                      )}
-                    </div>
+                        </div>
 
-                    <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
-                      <label className="w-1/3">Employment Type</label>
-                      {isEditMode ? (
-                        <select
-                          type="text"
-                          name={`workexperience[${index}].employeementtype`}
-                          value={experience.employeementtype}
-                          onChange={(e) => handleExperienceChange(e, index)}
-                          required
-                          className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
-                        >
-                          <option value="">Select an option</option>
-                          <option value="Full-time">Full-time</option>
-                          <option value="Part-time">Part-time</option>
-                          <option value="Contract">Contract</option>
-                          <option value="Internship">Internship</option>
-                          {/* Add other options as needed */}
-                        </select>
-                      ) : (
-                        <strong>{experience.employeementtype}</strong>
-                      )}
-                    </div>
+                        <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
+                          <label className="w-1/3">Company Name</label>
+                          {isEditMode ? (
+                            <input
+                              type="text"
+                              name={`workexperience[${index}].companyname`}
+                              value={experience.companyname || ""}
+                              onChange={(e) => handleExperienceChange(e, index)}
+                              required
+                              className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
+                            />
+                          ) : (
+                            <strong>{experience.companyname}</strong>
+                          )}
+                        </div>
 
-                    <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
-                      <label className="w-1/3">Start Date</label>
-                      {isEditMode ? (
-                        <input
-                          type="date"
-                          name={`workexperience[${index}].startdate`}
-                          value={experience.startdate || ""}
-                          onChange={(e) => handleExperienceChange(e, index)}
-                          required
-                          className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
-                        />
-                      ) : (
-                        <strong>{experience.startdate}</strong>
-                      )}
-                    </div>
+                        <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
+                          <label className="w-1/3">LinkedIn URL</label>
+                          {isEditMode ? (
+                            <input
+                              type="text"
+                              name={`workexperience[${index}].companylinkedinurl`}
+                              value={experience.companylinkedinurl}
+                              onChange={(e) => handleExperienceChange(e, index)}
+                              required
+                              className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
+                            />
+                          ) : (
+                            <strong>
+                              <div className="flex items-center gap-2">
+                                <a
+                                  href={experience.companylinkedinurl}
+                                  className="text-blue-500 bg-blue-200 dark:bg-blue-200/15 p-2 rounded-md"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <FaExternalLinkAlt />
+                                </a>
+                                <button
+                                  className=" text-green-600 bg-green-200 dark:bg-green-200/15 p-2 rounded-md"
+                                  onClick={() =>
+                                    handleCopyLink(
+                                      experience.companylinkedinurl
+                                    )
+                                  }
+                                >
+                                  <FaCopy />
+                                </button>
+                              </div>
+                              {showPopup && (
+                                <div className="fixed bottom-4 right-4 bg-green-500/20 text-green-500 px-4 py-2 rounded">
+                                  Link copied to clipboard!
+                                </div>
+                              )}
+                            </strong>
+                          )}
+                        </div>
 
-                    <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
-                      <label className="w-1/3">End Date</label>
-                      {isEditMode ? (
-                        <input
-                          type="date"
-                          name={`workexperience[${index}].enddate`}
-                          value={experience.enddate || ""}
-                          onChange={(e) => handleExperienceChange(e, index)}
-                          required
-                          className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
-                        />
-                      ) : (
-                        <strong>{experience.enddate}</strong>
-                      )}
-                    </div>
+                        <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
+                          <label className="w-1/3">Employment Type</label>
+                          {isEditMode ? (
+                            <select
+                              type="text"
+                              name={`workexperience[${index}].employeementtype`}
+                              value={experience.employeementtype}
+                              onChange={(e) => handleExperienceChange(e, index)}
+                              required
+                              className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
+                            >
+                              <option value="">Select an option</option>
+                              <option value="Full-time">Full-time</option>
+                              <option value="Part-time">Part-time</option>
+                              <option value="Contract">Contract</option>
+                              <option value="Internship">Internship</option>
+                              {/* Add other options as needed */}
+                            </select>
+                          ) : (
+                            <strong>{experience.employeementtype}</strong>
+                          )}
+                        </div>
 
-                    <div className="col-span-12 flex gap-2 items-center">
-                      <label className="w-2/5 lg:w-2/12">Description</label>
-                      {isEditMode ? (
-                        <textarea
-                          name={`workexperience[${index}].description`}
-                          value={experience.description || ""}
-                          onChange={(e) => handleExperienceChange(e, index)}
-                          required
-                          className="border px-2 py-1 w-4/5 lg:w-10/12 bg-sky-100 dark:bg-neutral-800 rounded-md"
-                          rows="3" // Adjust the number of rows as needed
-                        />
-                      ) : (
-                        <strong>{experience.description}</strong>
-                      )}
-                    </div>
-                  </div>
+                        <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
+                          <label className="w-1/3">Start Date</label>
+                          {isEditMode ? (
+                            <input
+                              type="date"
+                              name={`workexperience[${index}].startdate`}
+                              value={experience.startdate || ""}
+                              onChange={(e) => handleExperienceChange(e, index)}
+                              required
+                              className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
+                            />
+                          ) : (
+                            <strong>{experience.startdate}</strong>
+                          )}
+                        </div>
 
-                  {/* Add similar blocks for other fields like companylinkedinurl, employeementtype, etc. */}
+                        <div className="col-span-12 lg:col-span-6 flex gap-2 items-center">
+                          <label className="w-1/3">End Date</label>
+                          {isEditMode ? (
+                            <input
+                              type="date"
+                              name={`workexperience[${index}].enddate`}
+                              value={experience.enddate || ""}
+                              onChange={(e) => handleExperienceChange(e, index)}
+                              required
+                              className="border px-2 py-1 w-3/4 bg-sky-100 dark:bg-neutral-800 rounded-md"
+                            />
+                          ) : (
+                            <strong>{experience.enddate}</strong>
+                          )}
+                        </div>
+
+                        <div className="col-span-12 flex gap-2 items-center">
+                          <label className="w-2/5 lg:w-2/12">Description</label>
+                          {isEditMode ? (
+                            <textarea
+                              name={`workexperience[${index}].description`}
+                              value={experience.description || ""}
+                              onChange={(e) => handleExperienceChange(e, index)}
+                              required
+                              className="border px-2 py-1 w-4/5 lg:w-10/12 bg-sky-100 dark:bg-neutral-800 rounded-md"
+                              rows="3" // Adjust the number of rows as needed
+                            />
+                          ) : (
+                            <strong>{experience.description}</strong>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Add similar blocks for other fields like companylinkedinurl, employeementtype, etc. */}
+                    </div>
+                  ))}
                 </div>
-              ))}
+              ) : (
+                <div className="bg-blue-50 dark:bg-neutral-800 p-3 rounded-md flex items-center justify-center h-32">
+                  No found Experience
+                </div>
+              )}
 
               {isEditMode && (
                 <button
