@@ -1,8 +1,4 @@
-Here is an updated version of your README file with the addition of the folder structure section:
-
----
-
-# invhrms Project Setup
+# Invezza HRMS Portal clientside Setup
 
 This document provides a step-by-step guide to set up the `invhrms` project.
 
@@ -11,7 +7,8 @@ This document provides a step-by-step guide to set up the `invhrms` project.
 Ensure you have the following installed on your system:
 
 - [Node.js](https://nodejs.org/) (version 14.x or higher)
-- [npm](https://www.npmjs.com/) (version 6.x or higher) or [yarn](https://yarnpkg.com/)
+- [npm](https://www.npmjs.com/) (version 6.x or higher)
+- [React js](https://react.dev/learn) (version 18.3.1 or higher)
 
 ## Installation
 
@@ -19,6 +16,9 @@ Ensure you have the following installed on your system:
 
    ```bash
    git clone https://github.com/shubshinde1/invhrms.git
+   ```
+
+   ```bash
    cd invhrms
    ```
 
@@ -28,12 +28,6 @@ Ensure you have the following installed on your system:
 
    ```bash
    npm install
-   ```
-
-   Or using yarn:
-
-   ```bash
-   yarn install
    ```
 
 ## Running the Project
@@ -46,12 +40,6 @@ Ensure you have the following installed on your system:
    npm run dev
    ```
 
-   Or using yarn:
-
-   ```bash
-   yarn dev
-   ```
-
    The development server will start, and you can access the application at `http://localhost:3000`.
 
 ## Building for Production
@@ -62,12 +50,6 @@ Ensure you have the following installed on your system:
 
    ```bash
    npm run build
-   ```
-
-   Or using yarn:
-
-   ```bash
-   yarn build
    ```
 
    The production-ready files will be generated in the `dist` directory.
@@ -177,31 +159,31 @@ Here is an overview of the project folder structure:
     |-- Meteors.jsx
   |-- project
     |-- ViewProject.jsx
+  |-- projects
+    |-- Addproject.jsx
   |-- shared
     |-- Header.jsx
     |-- Layout.jsx
     |-- LogoutMenuItem.jsx
     |-- Sidebar.jsx
-  |-- projects
-    |-- Addproject.jsx
-  |-- userleave
-    |-- ApplyLeave.jsx
-    |-- LeaveHistory.jsx
-    |-- UserLeave.jsx
   |-- timesheet
     |-- custom-calendar.css
     |-- CustomCalendar.jsx
     |-- TimeSheet.jsx
+  |-- userleave
+    |-- ApplyLeave.jsx
+    |-- LeaveHistory.jsx
+    |-- UserLeave.jsx
   |-- userprofile
     |-- ProfilePic.jsx
     |-- UserProfile.jsx
   |-- admin
-    |-- leave
-      |-- RefillLeaves.jsx
     |-- admindashboard
       |-- AniversaryCard.jsx
       |-- EmployeeAttendaceBrief.jsx
       |-- LeaveApplicationsCard.jsx
+    |-- leave
+      |-- RefillLeaves.jsx
     |-- settings
       |-- CountrySettings.jsx
       |-- Demo.jsx
@@ -234,7 +216,6 @@ Here is an overview of the project folder structure:
       |-- AdminTimeSheet.jsx
       |-- EmployeeLeaveHistory.jsx
       |-- TimesheetCalendar.jsx
-
 ```
 
 - **public**: Contains static assets like the favicon and HTML file.
@@ -253,4 +234,221 @@ Here is an overview of the project folder structure:
 
 ---
 
-You can copy and replace the content of your current README file with this updated version.
+## Review components
+
+We'll review code base by components/folders/files inside `src/` folder
+
+```plaintext
+|-- api
+  |-- APIEndPoints.json
+```
+
+This is the API hub where we've all endpoints mentioned with `baseUrl` and `endpoints`
+
+1. `baseUrl` is the main URl where project is hosted for eg: `http://localhost:3000/`
+2. `endpoints` is like : `api/admin/viewusers`
+
+<br/>
+<br/>
+
+````plaintext
+|-- assets
+  |-- react.svg
+  |-- font
+    |-- EuclidBold.ttf
+    |-- EuclidMedium.ttf
+    |-- EuclidRegular.ttf
+  |-- images
+    |-- 404.svg
+    |-- 404bg.jpg
+    |-- breaktime.png
+    |-- calender.png
+    |-- caret.png
+    |-- clientAvatar.png
+    |-- intime.png
+    |-- invezza-logo-darkmode.png
+    |-- invezza-logo.png
+    |-- login.svg
+    |-- norecordfound.svg
+    |-- Outlook.png
+    |-- profilepic.png
+    |-- profilepic1.png
+    |-- tasks.png
+    |-- Teams.png
+    |-- totalhours.png
+    ```
+````
+
+This is all assets that we've used in entier project ahead.
+
+<br/>
+<br/>
+
+```plaintext
+|-- contexts
+  |-- AuthContext.jsx
+```
+
+This is the configuration when user login to portal this context save user's all info in react context hook and pass this all information in entire application by props.
+
+<br/>
+<br/>
+
+```plaintext
+|-- lin
+  |-- consts
+    |-- navigation.jsx
+```
+
+For showing tabs to user in sidebar with different user types for eg below
+<br/>
+
+for `HR` sidebar will show only below tabs:
+
+```plaintext
+|-- Dashboard
+|-- PIM
+|-- Attendance
+|-- Leave
+|-- Profile
+|-- Settings
+```
+
+for `Admin` sidebar will show only below tabs:
+<br/>
+
+```plaintext
+|-- Dashboard
+|-- PIM
+|-- Clients
+|-- Projects
+|-- Settings
+```
+
+same for `Employee` and `Manager`'s login
+
+Basicallt `navigation.jsx` file defines which tab should visible for which user by there roles defined in server.
+
+<br/>
+<br/>
+
+```plaintext
+|-- styling
+  |-- material.js
+```
+
+This is define styling for some `Material UI` components in js.
+
+<br/>
+<br/>
+
+```plaintext
+|-- App.css
+|-- index.css
+```
+
+This both are some custom styling for application like colors, fonts, scrollbars, and etc.
+
+<br/>
+<br/>
+
+```plaintext
+|-- App.jsx
+```
+
+Application's main file with all routing with defferent user types. this files passes the `Dark theme` colors to entier app.
+
+<br/>
+<br/>
+
+```plaintext
+|-- main.jsx
+```
+
+This file render after `index.html` in this file we've wraped our application in like below:
+
+```plaintext
+<AuthProvider>
+  <App />
+</AuthProvider>
+```
+
+<br/>
+<br/>
+
+```plaintext
+|-- NotFound.jsx
+```
+
+When if any different user trying to access other user type's routes then this page show `404` error.
+
+<br/>
+<br/>
+
+```plaintext
+|-- reportWebVitals.jsx
+```
+
+The main purpose of this file is to monitor and report web performance metrics. It collects data on how well the web application is performing in terms of loading speed, responsiveness, and layout stability, and sends this data to a callback function for further analysis or logging.
+
+<br/>
+<br/>
+
+```plaintext
+|-- components
+  |-- AdminDashboard.jsx
+  |-- Attendance.jsx
+  |-- Claim.jsx
+  |-- Clients.jsx
+  |-- Dashboard.jsx
+  |-- HRDashboard.jsx
+  |-- Leave.jsx
+  |-- Loading.jsx
+  |-- Login.jsx
+  |-- Myprofile.jsx
+  |-- Notification.jsx
+  |-- Pim.jsx
+  |-- Projects.jsx
+  |-- ProtectedRoute.jsx
+  |-- Register.jsx
+  |-- ResetPassword.jsx
+  |-- Task.jsx
+  |-- User.jsx
+  |-- client(folder)
+  |-- custom(folder)
+  |-- dashboard(folder)
+  |-- extra(folder)
+  |-- project(folder)
+  |-- projects(folder)
+  |-- shared(folder)
+  |-- timesheet(folder)
+  |-- userleave(folder)
+  |-- userprofile(folder)
+  |-- admin(folder)
+  |-- pim(folder)
+```
+
+<br/>
+<br/>
+
+Now we've main folder `components/`
+
+```plaintext
+|-- admin
+  |-- admindashboard
+    |-- AniversaryCard.jsx
+    |-- EmployeeAttendaceBrief.jsx
+    |-- LeaveApplicationsCard.jsx
+  |-- leave
+    |-- RefillLeaves.jsx
+  |-- settings
+    |-- CountrySettings.jsx
+    |-- Demo.jsx
+    |-- DepartmentSettings.jsx
+    |-- DesignationSettings.jsx
+    |-- ReportingManagerSettings.jsx
+    |-- Settings.jsx
+    |-- TimeSheetSettings.jsx
+```
+
+These all are different cards which we've shown on admin dashboard
