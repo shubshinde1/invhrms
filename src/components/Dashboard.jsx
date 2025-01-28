@@ -31,102 +31,98 @@ export default function dashboard() {
     weekendHoliday: [],
     leaves: {},
   });
-  useEffect(() => {
-    const getLeaveRecord = async () => {
-      try {
-        const response = await fetch(
-          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewleaverecords}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              employee_id,
-            }),
-          }
-        );
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.msg || "Failed to fetch leave records.");
+  const getLeaveRecord = async () => {
+    try {
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewleaverecords}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            employee_id,
+          }),
         }
+      );
 
-        const data = await response.json();
-
-        const { holidays } = data;
-        const currentYear = new Date().getFullYear();
-        const today = new Date();
-
-        const filterCurrentYear = (arr) =>
-          arr.filter(
-            (item) => new Date(item.date)
-            // .getFullYear() === currentYear
-          );
-
-        const mandatoryHolidayCurrentYear = filterCurrentYear(
-          holidays.mandatoryholiday || []
-        );
-        const optionalHolidayCurrentYear = filterCurrentYear(
-          holidays.optionalholiday?.optionalholidaylist || []
-        );
-        const weekendHolidayCurrentYear = filterCurrentYear(
-          holidays.weekendHoliday || []
-        );
-
-        const remainingMandatoryHolidays = mandatoryHolidayCurrentYear.filter(
-          (holiday) => new Date(holiday.date) > today
-        ).length;
-
-        const remainingWeekendHolidays = weekendHolidayCurrentYear.filter(
-          (holiday) => new Date(holiday.date) > today
-        ).length;
-
-        setTotalLeaves(holidays.leaves?.total || 0);
-        setAvailableLeaves(holidays.leaves?.available || 0);
-        setConsumedLeaves(holidays.leaves?.consume || 0);
-        setTotalMandatoryHoliday(mandatoryHolidayCurrentYear.length || 0);
-        setTotalOptionalHoliday(holidays.optionalholiday?.total || 0);
-        setAvailableOptionalHoliday(holidays.optionalholiday?.available || 0);
-        setTotalWeekendHoliday(weekendHolidayCurrentYear.length || 0);
-        setRemainingMandatoryHoliday(remainingMandatoryHolidays);
-        setRemainingWeekendHoliday(remainingWeekendHolidays);
-
-        const totalHolidays =
-          mandatoryHolidayCurrentYear.length +
-          holidays.optionalholiday?.total +
-          weekendHolidayCurrentYear.length +
-          (holidays.leaves?.total || 0);
-
-        const allRemainings =
-          holidays.leaves?.available +
-          remainingMandatoryHolidays +
-          holidays.optionalholiday?.available +
-          remainingWeekendHolidays;
-
-        setAllTotalLeaves(totalHolidays);
-        setAllRemaining(allRemainings);
-
-        setHolidays({
-          mandatoryholiday: mandatoryHolidayCurrentYear,
-          optionalholiday: holidays.optionalholiday?.optionalholidaylist || [],
-          weekendHoliday: weekendHolidayCurrentYear,
-          // leaves: holidays.leaves,
-        });
-      } catch (error) {
-        setError(error.message || "Error fetching holidays. Please try again.");
-        console.error(error);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.msg || "Failed to fetch leave records.");
       }
-    };
 
-    getLeaveRecord();
-  }, [token]);
+      const data = await response.json();
 
-  // <motion.div
-  //           initial={{ opacity: 0, y: 15 }}
-  //           animate={{ opacity: 1, y: 0 }}
-  //           transition={{ duration: 0.5 }}
+      const { holidays } = data;
+      const currentYear = new Date().getFullYear();
+      const today = new Date();
+
+      const filterCurrentYear = (arr) =>
+        arr.filter(
+          (item) => new Date(item.date)
+          // .getFullYear() === currentYear
+        );
+
+      const mandatoryHolidayCurrentYear = filterCurrentYear(
+        holidays.mandatoryholiday || []
+      );
+      const optionalHolidayCurrentYear = filterCurrentYear(
+        holidays.optionalholiday?.optionalholidaylist || []
+      );
+      const weekendHolidayCurrentYear = filterCurrentYear(
+        holidays.weekendHoliday || []
+      );
+
+      const remainingMandatoryHolidays = mandatoryHolidayCurrentYear.filter(
+        (holiday) => new Date(holiday.date) > today
+      ).length;
+
+      const remainingWeekendHolidays = weekendHolidayCurrentYear.filter(
+        (holiday) => new Date(holiday.date) > today
+      ).length;
+
+      setTotalLeaves(holidays.leaves?.total || 0);
+      setAvailableLeaves(holidays.leaves?.available || 0);
+      setConsumedLeaves(holidays.leaves?.consume || 0);
+      setTotalMandatoryHoliday(mandatoryHolidayCurrentYear.length || 0);
+      setTotalOptionalHoliday(holidays.optionalholiday?.total || 0);
+      setAvailableOptionalHoliday(holidays.optionalholiday?.available || 0);
+      setTotalWeekendHoliday(weekendHolidayCurrentYear.length || 0);
+      setRemainingMandatoryHoliday(remainingMandatoryHolidays);
+      setRemainingWeekendHoliday(remainingWeekendHolidays);
+
+      const totalHolidays =
+        mandatoryHolidayCurrentYear.length +
+        holidays.optionalholiday?.total +
+        weekendHolidayCurrentYear.length +
+        (holidays.leaves?.total || 0);
+
+      const allRemainings =
+        holidays.leaves?.available +
+        remainingMandatoryHolidays +
+        holidays.optionalholiday?.available +
+        remainingWeekendHolidays;
+
+      setAllTotalLeaves(totalHolidays);
+      setAllRemaining(allRemainings);
+
+      setHolidays({
+        mandatoryholiday: mandatoryHolidayCurrentYear,
+        optionalholiday: holidays.optionalholiday?.optionalholidaylist || [],
+        weekendHoliday: weekendHolidayCurrentYear,
+        // leaves: holidays.leaves,
+      });
+    } catch (error) {
+      setError(error.message || "Error fetching holidays. Please try again.");
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    if (employee_id) {
+      getLeaveRecord(employee_id);
+    }
+  }, [userData, token]);
 
   return (
     <div className="h-full min-h-screen flex flex-col">

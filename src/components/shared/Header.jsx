@@ -35,44 +35,46 @@ export default function Header({ handleThemeSwitch, theme }) {
   // const profileUrl = userData?.employeeData?.profile;
 
   // setProfile(profileUrl);
-  const empid = userData?.employeeData._id;
   // console.log(empid);
+  const empid = userData?.employeeData._id;
+
+  const fetchProfile = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewProfile}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ Employee_id: empid }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setProfile(data.data.profileUrl);
+        setHasProfile(true);
+      } else {
+        setProfile(demoprofile);
+        setHasProfile(false);
+      }
+    } catch (err) {
+      setError(err.message);
+      setTimeout(() => setError(""), 4000);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.viewProfile}`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ Employee_id: empid }),
-          }
-        );
-
-        const data = await response.json();
-
-        if (response.ok) {
-          setProfile(data.data.profileUrl);
-          setHasProfile(true);
-        } else {
-          setProfile(demoprofile);
-          setHasProfile(false);
-        }
-      } catch (err) {
-        setError(err.message);
-        setTimeout(() => setError(""), 4000);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, [userData, token]);
+    if (empid) {
+      fetchProfile(empid);
+    }
+  }, [userData]);
 
   const getTitle = () => {
     const currentPath = location.pathname;

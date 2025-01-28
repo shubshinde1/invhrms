@@ -62,7 +62,6 @@ const UserLeave = () => {
       }
 
       const data = await response.json();
-      console.log(data);
 
       const { holidays } = data;
       const currentYear = new Date().getFullYear();

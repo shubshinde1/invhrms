@@ -1222,7 +1222,7 @@ const UserProfile = () => {
                   ))}
                 </div>
               ) : (
-                <div className="bg-blue-50 dark:bg-neutral-800 p-3 rounded-md flex items-center justify-center h-32">
+                <div className="bg-blue-50 dark:bg-neutral-950 p-3 rounded-md flex items-center justify-center h-32">
                   No found Experience
                 </div>
               )}
