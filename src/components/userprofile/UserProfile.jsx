@@ -368,18 +368,14 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="flex flex-col  gap-2 h-full min-h-full pb-20">
-      <div className="flex flex-col lg:flex-row gap-2 h-full">
+    <div className="flex flex-col  gap-2 h-full min-h-full pb-20 ">
+      <div className="flex flex-col lg:flex-row gap-2 h-full z-50">
         <div className="lg:w-1/3 h-full lg:sticky top-0 bg-white p-2 dark:bg-neutral-950 dark:text-white rounded-md flex flex-col gap-2">
           <div className="flex justify-between">
             <div className="">
               <ProfilePic />
             </div>
             <div>
-              {error && <p className="text-red-500 mb-2">{error}</p>}
-              {successMessage && (
-                <p className="text-green-500 mb-2">{successMessage}</p>
-              )}
               {isEditMode ? (
                 <div>
                   <button
@@ -427,12 +423,12 @@ const UserProfile = () => {
               )}
 
               {showPasswordModal && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-lg z-50">
-                  <div className="bg-white dark:bg-neutral-900 p-6 rounded shadow-lg flex flex-col items-center z-50">
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-lg z-50 w-screen">
+                  <div className="bg-white dark:bg-neutral-900 p-6  dark:border-2 border-neutral-600 rounded-lg shadow-lg flex flex-col items-center z-50 md:w-1/6 w-full mx-10">
                     <h2 className="text-lg font-bold mb-4">
-                      Confirm That it's You?
+                      Enter your login password
                     </h2>
-                    <form onSubmit={handlePasswordSubmit}>
+                    <form onSubmit={handlePasswordSubmit} className="w-full">
                       <input
                         type="password"
                         name="password"
@@ -444,10 +440,10 @@ const UserProfile = () => {
                       {passwordError && (
                         <p className="text-red-500 mb-4">{passwordError}</p>
                       )}
-                      <div className="flex justify-between">
+                      <div className="flex justify-between gap-2">
                         <button
                           type="submit"
-                          className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                          className="bg-blue-500/20 text-blue-500 px-4 py-2 rounded-md w-full hover:bg-blue-700/20"
                         >
                           Submit
                         </button>
@@ -457,7 +453,7 @@ const UserProfile = () => {
                             setShowPasswordModal(false);
                             setPasswordError(""); // Clear password error on cancel
                           }}
-                          className="bg-gray-500 text-white px-4 py-2 rounded"
+                          className="bg-gray-500/20  px-4 py-2 rounded-md w-fit"
                         >
                           Cancel
                         </button>
@@ -1053,7 +1049,7 @@ const UserProfile = () => {
                   <div className=" flex gap-2 items-center bg-sky-50 dark:bg-neutral-950 rounded-t-md p-2 w-fit -mb-2">
                     {/* <strong>Experience {index + 1}</strong> */}
                     <h4 className="bg-sky-50 dark:bg-neutral-950 rounded-t-md col-span-12 font-semibold w-fit flex gap-2 items-center text-sm">
-                      <span className="bg-neutral-800 px-2 py-0.5 rounded-md">
+                      <span className="bg-sky-200 dark:bg-neutral-800 px-2 py-0.5 rounded-md">
                         {index + 1}
                       </span>{" "}
                       Experience
@@ -1133,7 +1129,7 @@ const UserProfile = () => {
                             </button>
                           </div>
                           {showPopup && (
-                            <div className="fixed bottom-4 text-base right-4 bg-green-200 dark:bg-green-500/30 text-green-600 px-4 py-2 rounded">
+                            <div className="fixed bottom-4 right-4 bg-green-500/20 text-green-500 px-4 py-2 rounded">
                               Link copied to clipboard!
                             </div>
                           )}
@@ -1229,6 +1225,16 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
+        {error && (
+          <p className="absolute bottom-4 right-4 bg-red-500/20 text-red-500 px-3 py-2 rounded-md">
+            {error}
+          </p>
+        )}
+        {successMessage && (
+          <p className="absolute bottom-4 right-4 bg-green-500/20 text-green-500 px-3 py-2 rounded-md">
+            {successMessage}
+          </p>
+        )}
       </div>
     </div>
   );

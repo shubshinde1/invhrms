@@ -253,7 +253,7 @@ const AdminInfo = () => {
   };
 
   return (
-    <div className=" dark:text-white mb-14 lg:mb-0 grid grid-cols-12 gap-2 h-full min-h-full">
+    <div className=" dark:text-white mb-1 lg:mb-0 pb-20 md:pb-32 grid grid-cols-12 gap-2 h-full min-h-full">
       <div className="col-span-12 h-full  lg:col-span-4 flex flex-col gap-2  bg-white dark:bg-neutral-950 p-2 rounded-md">
         <div className="flex gap-2 items-start justify-between ">
           <Link

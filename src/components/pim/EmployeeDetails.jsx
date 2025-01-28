@@ -81,7 +81,7 @@ const EmployeeDetails = () => {
           activeTab === "TimeSheet"
             ? "pb-20"
             : activeTab === "Info"
-            ? "mb-20"
+            ? ""
             : activeTab === "Leave"
             ? "mb-20"
             : "pb-32"
