@@ -1149,7 +1149,7 @@ export default function TimeSheet({ record, index }) {
                   type="submit"
                 >
                   <FaSave fontSize={20} />
-                  Save
+                  Add
                 </button>
               </motion.div>
             </div>
@@ -1157,7 +1157,7 @@ export default function TimeSheet({ record, index }) {
         )}
 
         {/* Timesheet Records */}
-        <div className="overflow-y-scroll scrollbar-hide">
+        <div className="overflow-y-scroll scrollbar-hide h-full">
           {error && (
             <div className="absolute bottom-0 right-0 m-4 flex flex-col gap-2 z-50">
               {(Array.isArray(error) ? error : [error]).map((err, index) => (
@@ -1567,7 +1567,7 @@ export default function TimeSheet({ record, index }) {
               ))}
             </div>
           ) : (
-            <div>
+            <div className="h-full">
               {absentday ? (
                 ""
               ) : (
@@ -1575,7 +1575,7 @@ export default function TimeSheet({ record, index }) {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="flex flex-col md:flex-row gap-10 md:gap-0 items-center bg-sky-50 dark:bg-neutral-900 rounded-md p-5 "
+                  className="flex flex-col md:flex-row gap-10 md:gap-0 items-center bg-sky-50 dark:bg-neutral-900 rounded-md p-5  h-full"
                 >
                   <div className="md:w-1/2 flex justify-center flex-col items-center gap-4">
                     <h2 className="text-lg font-bold">
