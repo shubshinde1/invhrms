@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/shared/Layout";
 import Dashboard from "./components/Dashboard";
@@ -48,6 +48,25 @@ function App() {
   const handleThemeSwitch = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
+
+  // This effect will run only on initial load to set the theme
+  // useEffect(() => {
+  //   const savedTheme = localStorage.getItem("theme") || "light"; // Default to light theme
+  //   document.documentElement.classList.add(savedTheme);
+  // }, []); // Runs once on mount
+
+  // // Function to toggle the theme without causing re-renders
+  // const handleThemeSwitch = useCallback(() => {
+  //   const currentTheme = document.documentElement.classList.contains("dark")
+  //     ? "dark"
+  //     : "light";
+  //   const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+  //   // Update the localStorage and change the class on the document element
+  //   localStorage.setItem("theme", newTheme);
+  //   document.documentElement.classList.remove(currentTheme);
+  //   document.documentElement.classList.add(newTheme);
+  // }, []); // This callback function won't cause re-renders
 
   const renderRoutes = () => {
     if (userData?.employeeData?.auth === 1) {
