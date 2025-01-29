@@ -641,8 +641,14 @@ export default function TimeSheet({ record, index }) {
     return date.toLocaleDateString("en-GB", options);
   };
 
+  if (error != null) {
+    setTimeout(() => {
+      setError(null);
+    }, 4000);
+  }
+
   return (
-    <div className="md:h-full md:min-h-full pb-20">
+    <div className="h-full md:min-h-full pb-20">
       <div className="bg-white dark:bg-neutral-950 dark:text-white p-2 rounded-lg shadow-lg h-full flex flex-col gap-2 ">
         {/* Stats Sections */}
         <div className="grid grid-cols-12 gap-2">
@@ -911,7 +917,8 @@ export default function TimeSheet({ record, index }) {
                                   day + 1
                                 ).toDateString()
                               ),
-                            " bg-red-500/10 text-red-600 font-bold": !isAbsent,
+                            " bg-none text-neutral-400 dark:text-neutral-700 cursor-not-allowed":
+                              !isAbsent,
                           }
                         )}
                       >
@@ -939,8 +946,8 @@ export default function TimeSheet({ record, index }) {
 
         {/* Add Record Section */}
         {absentday ? (
-          <div className="dark:bg-neutral-900 h-full rounded-lg flex items-center justify-center text-red-400">
-            You was absent on this date
+          <div className=" h-full rounded-lg flex items-end justify-center text-red-500">
+            You were absent on this date
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
