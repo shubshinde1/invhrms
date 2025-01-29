@@ -129,8 +129,12 @@ export default function TimeSheet({ record, index }) {
   const [showCalendar, setShowCalendar] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [absentdates, setAbsentdates] = useState([]);
+  const [absentday, setAbsentday] = useState(false);
 
   const [datesFromApi, setDatesFromApi] = useState([]);
+
+  const employee_id = userData?.employeeData._id;
 
   useEffect(() => {
     const fetchTimesheetDates = async () => {
@@ -174,6 +178,48 @@ export default function TimeSheet({ record, index }) {
     setCurrentDate(new Date(currentDate).toISOString().split("T")[0]);
   }, [currentDate]);
 
+  const getAttendanceHistory = async () => {
+    setLoading(true); // Start loading
+    try {
+      const response = await fetch(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.getattendancehistory}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            employee_id: eid.toString(),
+          }),
+        }
+      );
+      const data = await response.json();
+
+      const Allattendance = data.attendance;
+
+      if (response.ok) {
+        const allabsentdays = Allattendance.filter(
+          (attendance) => attendance.attendancestatus === 1
+        );
+        const absentDatesArray = allabsentdays.map((absent) => absent.date);
+        setAbsentdates(absentDatesArray);
+      } else {
+        setError(data.message || "Failed to fetch attendance history.");
+      }
+    } catch (error) {
+      setError(error.message || "Error fetching attendance history.");
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
+  useEffect(() => {
+    if (employee_id) {
+      getAttendanceHistory();
+    }
+  }, [employee_id, token]);
+
   const getDaysInMonth = (month, year) => {
     return new Date(year, month + 1, 0).getDate();
   };
@@ -185,6 +231,13 @@ export default function TimeSheet({ record, index }) {
   const handleDateClick = (day) => {
     const newDate = new Date(currentYear, currentMonth, day + 1, 12); // Setting time to noon
     setCurrentDate(newDate.toISOString().split("T")[0]);
+    const isAbsent = absentdates.includes(newDate);
+    if (isAbsent) {
+      setAbsentday(true);
+    } else {
+      setAbsentday(false);
+    }
+
     setShowCalendar(false);
   };
 
@@ -332,6 +385,12 @@ export default function TimeSheet({ record, index }) {
       .toISOString()
       .split("T")[0];
     setCurrentDate(prevDate);
+    const isAbsent = absentdates.includes(prevDate);
+    if (!isAbsent) {
+      setAbsentday(true);
+    } else {
+      setAbsentday(false);
+    }
   };
 
   // Handle next date
@@ -342,6 +401,12 @@ export default function TimeSheet({ record, index }) {
       .toISOString()
       .split("T")[0];
     setCurrentDate(nextDate);
+    const isAbsent = absentdates.includes(nextDate);
+    if (!isAbsent) {
+      setAbsentday(true);
+    } else {
+      setAbsentday(false);
+    }
   };
 
   // Handle today button
@@ -818,31 +883,42 @@ export default function TimeSheet({ record, index }) {
                   {Array.from({ length: firstDay }).map((_, index) => (
                     <div key={index} />
                   ))}
-                  {Array.from({ length: daysInMonth }).map((_, day) => (
-                    <div
-                      key={day}
-                      onClick={() => handleDateClick(day)}
-                      className={classNames(
-                        "p-2 cursor-pointer rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800",
-                        {
-                          "bg-blue-500/15 text-blue-600 font-bold":
-                            new Date(currentDate).getDate() === day + 1 &&
-                            new Date(currentDate).getMonth() === currentMonth &&
-                            new Date(currentDate).getFullYear() === currentYear,
-                          "bg-green-300 dark:bg-green-600/15 text-green-600 font-bold":
-                            datesFromApi.has(
-                              new Date(
+                  {Array.from({ length: daysInMonth }).map((_, day) => {
+                    const isAbsent = absentdates.includes(
+                      new Date(currentYear, currentMonth, day + 2)
+                        .toISOString()
+                        .split("T")[0]
+                    );
+
+                    return (
+                      <div
+                        key={day}
+                        onClick={!isAbsent ? null : () => handleDateClick(day)}
+                        className={classNames(
+                          "p-2 cursor-pointer rounded-md hover:bg-sky-50 dark:hover:bg-neutral-800",
+                          {
+                            "bg-blue-500/15 text-blue-600 font-bold":
+                              new Date(currentDate).getDate() === day + 1 &&
+                              new Date(currentDate).getMonth() ===
+                                currentMonth &&
+                              new Date(currentDate).getFullYear() ===
                                 currentYear,
-                                currentMonth,
-                                day + 1
-                              ).toDateString()
-                            ),
-                        }
-                      )}
-                    >
-                      {day + 1}
-                    </div>
-                  ))}
+                            "bg-green-300 dark:bg-green-600/15 text-green-600 font-bold":
+                              datesFromApi.has(
+                                new Date(
+                                  currentYear,
+                                  currentMonth,
+                                  day + 1
+                                ).toDateString()
+                              ),
+                            " bg-red-500/10 text-red-600 font-bold": !isAbsent,
+                          }
+                        )}
+                      >
+                        {day + 1}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -862,109 +938,114 @@ export default function TimeSheet({ record, index }) {
         </div>
 
         {/* Add Record Section */}
-        <form onSubmit={handleSubmit}>
-          <div className="">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="grid grid-cols-12 gap-2 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 items-start"
-            >
-              <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
-                <FormControl
-                  variant="outlined"
-                  margin="dense"
-                  className={classNames(
-                    "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                    classes.root
-                  )}
-                >
-                  <InputLabel id="project-label" className="w-52">
-                    Project
-                  </InputLabel>
-                  <Select
-                    labelId="project-label"
-                    id="project"
-                    name="project"
-                    label="Project"
-                    IconComponent={(props) => (
-                      <ArrowDropDownRoundedIcon
-                        {...props}
-                        sx={{
-                          fontSize: 40,
-                          borderRadius: 1,
-                        }}
-                      />
+        {absentday ? (
+          <div className="dark:bg-neutral-900 h-full rounded-lg flex items-center justify-center text-red-400">
+            You was absent on this date
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div className="">
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="grid grid-cols-12 gap-2 border-2 dark:border-0 dark:bg-neutral-900 rounded-lg p-2 items-start"
+              >
+                <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
+                  <FormControl
+                    variant="outlined"
+                    margin="dense"
+                    className={classNames(
+                      "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                      classes.root
                     )}
-                    value={formData.project}
-                    onChange={handleInputChange}
                   >
-                    <GlobalStyles />
-                    <MenuItem value="">Choose value</MenuItem>
-                    {projects.map((project) => (
-                      <MenuItem key={project._id} value={project._id}>
-                        {project.projectname}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-              <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
-                <TextField
-                  className={classNames(
-                    "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                    classes.root
-                  )}
-                  id="taskName"
-                  name="taskName"
-                  label="Task Name"
-                  variant="outlined"
-                  margin="dense"
-                  value={formData.taskName}
-                  onChange={handleInputChange}
-                  autoComplete="off"
-                  // inputProps={{ maxLength: 50 }}
-                />
-                <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
-                  {50 - formData.taskName.length}/50
+                    <InputLabel id="project-label" className="w-52">
+                      Project
+                    </InputLabel>
+                    <Select
+                      labelId="project-label"
+                      id="project"
+                      name="project"
+                      label="Project"
+                      IconComponent={(props) => (
+                        <ArrowDropDownRoundedIcon
+                          {...props}
+                          sx={{
+                            fontSize: 40,
+                            borderRadius: 1,
+                          }}
+                        />
+                      )}
+                      value={formData.project}
+                      onChange={handleInputChange}
+                    >
+                      <GlobalStyles />
+                      <MenuItem value="">Choose value</MenuItem>
+                      {projects.map((project) => (
+                        <MenuItem key={project._id} value={project._id}>
+                          {project.projectname}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </div>
-              </div>
-              <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
-                <TextField
-                  className={classNames(
-                    "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                    classes.root
-                  )}
-                  id="subTaskName"
-                  name="subTaskName"
-                  label="Sub Task Name"
-                  variant="outlined"
-                  margin="dense"
-                  value={formData.subTaskName}
-                  onChange={handleInputChange}
-                  autoComplete="off"
-                  // inputProps={{ maxLength: 100 }}
-                />
-                <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
-                  {100 - formData.subTaskName.length}/100
+                <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
+                  <TextField
+                    className={classNames(
+                      "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                      classes.root
+                    )}
+                    id="taskName"
+                    name="taskName"
+                    label="Task Name"
+                    variant="outlined"
+                    margin="dense"
+                    value={formData.taskName}
+                    onChange={handleInputChange}
+                    autoComplete="off"
+                    // inputProps={{ maxLength: 50 }}
+                  />
+                  <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
+                    {50 - formData.taskName.length}/50
+                  </div>
                 </div>
-              </div>
-              <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-6">
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  rows={2}
-                  placeholder="description"
-                  onChange={handleInputChange}
-                  // inputProps={{ maxLength: 250 }}
-                  className="px-2 py-1 mt-2 border rounded-lg bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700"
-                />
-                <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
-                  {250 - formData.description.length}/250
+                <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
+                  <TextField
+                    className={classNames(
+                      "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                      classes.root
+                    )}
+                    id="subTaskName"
+                    name="subTaskName"
+                    label="Sub Task Name"
+                    variant="outlined"
+                    margin="dense"
+                    value={formData.subTaskName}
+                    onChange={handleInputChange}
+                    autoComplete="off"
+                    // inputProps={{ maxLength: 100 }}
+                  />
+                  <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
+                    {100 - formData.subTaskName.length}/100
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-2">
-                {/* <TextField
+                <div className="relative flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-6">
+                  <textarea
+                    name="description"
+                    value={formData.description}
+                    rows={2}
+                    placeholder="description"
+                    onChange={handleInputChange}
+                    // inputProps={{ maxLength: 250 }}
+                    className="px-2 py-1 mt-2 border rounded-lg bg-sky-50 dark:bg-neutral-800 dark:border-neutral-700"
+                  />
+                  <div className="absolute text-xs bottom-2 right-2 text-gray-500 mt-1">
+                    {250 - formData.description.length}/250
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-2">
+                  {/* <TextField
                 className={classNames(
                   "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
                   classes.root
@@ -978,101 +1059,102 @@ export default function TimeSheet({ record, index }) {
                 onChange={handleInputChange}
                 autoComplete="off"
               /> */}
-                <FormControl
-                  variant="outlined"
-                  margin="dense"
-                  className={classNames(
-                    "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                    classes.root
-                  )}
-                >
-                  <InputLabel id="duration-label" className="w-52">
-                    Duration
-                  </InputLabel>
-                  <Select
-                    labelId="duration-label"
-                    id="duration"
-                    name="duration"
-                    label="Duration"
-                    IconComponent={(props) => (
-                      <ArrowDropDownRoundedIcon
-                        {...props}
-                        sx={{
-                          fontSize: 40,
-                          borderRadius: 1,
-                        }}
-                      />
+                  <FormControl
+                    variant="outlined"
+                    margin="dense"
+                    className={classNames(
+                      "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                      classes.root
                     )}
-                    value={formData.duration}
-                    onChange={handleInputChange}
                   >
-                    <GlobalStyles />
-                    <MenuItem value="0.5">30 Min</MenuItem>
-                    <MenuItem value="1">1 Hour</MenuItem>
-                    <MenuItem value="1.5">1 Hour 30 Min</MenuItem>
-                    <MenuItem value="2">2 Hour</MenuItem>
-                    <MenuItem disabled>Duration Limit is 2hr max</MenuItem>
-                    {/* <MenuItem value="2.5">2 Hour 30 Min</MenuItem>
+                    <InputLabel id="duration-label" className="w-52">
+                      Duration
+                    </InputLabel>
+                    <Select
+                      labelId="duration-label"
+                      id="duration"
+                      name="duration"
+                      label="Duration"
+                      IconComponent={(props) => (
+                        <ArrowDropDownRoundedIcon
+                          {...props}
+                          sx={{
+                            fontSize: 40,
+                            borderRadius: 1,
+                          }}
+                        />
+                      )}
+                      value={formData.duration}
+                      onChange={handleInputChange}
+                    >
+                      <GlobalStyles />
+                      <MenuItem value="0.5">30 Min</MenuItem>
+                      <MenuItem value="1">1 Hour</MenuItem>
+                      <MenuItem value="1.5">1 Hour 30 Min</MenuItem>
+                      <MenuItem value="2">2 Hour</MenuItem>
+                      <MenuItem disabled>Duration Limit is 2hr max</MenuItem>
+                      {/* <MenuItem value="2.5">2 Hour 30 Min</MenuItem>
                   <MenuItem value="3">3 Hour</MenuItem> */}
-                  </Select>
-                </FormControl>
-              </div>
-              <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-2">
-                <FormControl
-                  variant="outlined"
-                  margin="dense"
-                  className={classNames(
-                    "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
-                    classes.root
-                  )}
-                >
-                  <InputLabel id="remark-label" className="w-52">
-                    Remark
-                  </InputLabel>
-                  <Select
-                    labelId="remark-label"
-                    id="remark"
-                    name="remark"
-                    label="Remark"
-                    IconComponent={(props) => (
-                      <ArrowDropDownRoundedIcon
-                        {...props}
-                        sx={{
-                          fontSize: 40,
-                          borderRadius: 1,
-                        }}
-                      />
+                    </Select>
+                  </FormControl>
+                </div>
+                <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-2">
+                  <FormControl
+                    variant="outlined"
+                    margin="dense"
+                    className={classNames(
+                      "p-2 border rounded-lg dark:bg-neutral-800 dark:border-neutral-700",
+                      classes.root
                     )}
-                    value={formData.remark}
-                    onChange={handleInputChange}
                   >
-                    <GlobalStyles />
-                    <MenuItem value="">Choose Status</MenuItem>
-                    <MenuItem value="0" className="flex gap-2">
-                      <span className="w-3 h-2 bg-red-500 rounded-md"></span>
-                      Pending
-                    </MenuItem>
-                    <MenuItem value="1" className="flex gap-2">
-                      <span className="w-3 h-2 bg-orange-500 rounded-md"></span>
-                      In Progress
-                    </MenuItem>
-                    <MenuItem value="2" className="flex gap-2">
-                      <span className="w-3 h-2 bg-green-500 rounded-md"></span>
-                      Completed
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-              <button
-                className="col-span-12 sm:col-span-12 lg:col-span-2 mt-1.5 px-2 py-3.5 bg-blue-500/15 text-blue-500 font-bold text-[1rem] rounded-lg   flex items-center justify-center gap-2"
-                type="submit"
-              >
-                <FaSave fontSize={20} />
-                Save
-              </button>
-            </motion.div>
-          </div>
-        </form>
+                    <InputLabel id="remark-label" className="w-52">
+                      Remark
+                    </InputLabel>
+                    <Select
+                      labelId="remark-label"
+                      id="remark"
+                      name="remark"
+                      label="Remark"
+                      IconComponent={(props) => (
+                        <ArrowDropDownRoundedIcon
+                          {...props}
+                          sx={{
+                            fontSize: 40,
+                            borderRadius: 1,
+                          }}
+                        />
+                      )}
+                      value={formData.remark}
+                      onChange={handleInputChange}
+                    >
+                      <GlobalStyles />
+                      <MenuItem value="">Choose Status</MenuItem>
+                      <MenuItem value="0" className="flex gap-2">
+                        <span className="w-3 h-2 bg-red-500 rounded-md"></span>
+                        Pending
+                      </MenuItem>
+                      <MenuItem value="1" className="flex gap-2">
+                        <span className="w-3 h-2 bg-orange-500 rounded-md"></span>
+                        In Progress
+                      </MenuItem>
+                      <MenuItem value="2" className="flex gap-2">
+                        <span className="w-3 h-2 bg-green-500 rounded-md"></span>
+                        Completed
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+                <button
+                  className="col-span-12 sm:col-span-12 lg:col-span-2 mt-1.5 px-2 py-3.5 bg-blue-500/15 text-blue-500 font-bold text-[1rem] rounded-lg   flex items-center justify-center gap-2"
+                  type="submit"
+                >
+                  <FaSave fontSize={20} />
+                  Save
+                </button>
+              </motion.div>
+            </div>
+          </form>
+        )}
 
         {/* Timesheet Records */}
         <div className="overflow-y-scroll scrollbar-hide">
@@ -1485,30 +1567,40 @@ export default function TimeSheet({ record, index }) {
               ))}
             </div>
           ) : (
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col md:flex-row gap-10 md:gap-0 items-center bg-sky-50 dark:bg-neutral-900 rounded-md p-5 "
-            >
-              <div className="md:w-1/2 flex justify-center flex-col items-center gap-4">
-                <h2 className="text-lg font-bold">
-                  No Records for {currentDate}
-                </h2>
-                <div className="flex items-center gap-3">
-                  <h2>Try For</h2>
-                  <button
-                    onClick={handleToday}
-                    className="bg-sky-800 text-white font-bold py-2 px-4 rounded-md"
-                  >
-                    Today
-                  </button>
-                </div>
-              </div>
-              <div className="md:w-1/2 flex justify-center">
-                <img src={NotFound} className="w-1/2" alt="No Records Found" />
-              </div>
-            </motion.div>
+            <div>
+              {absentday ? (
+                ""
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="flex flex-col md:flex-row gap-10 md:gap-0 items-center bg-sky-50 dark:bg-neutral-900 rounded-md p-5 "
+                >
+                  <div className="md:w-1/2 flex justify-center flex-col items-center gap-4">
+                    <h2 className="text-lg font-bold">
+                      No Records for {currentDate}
+                    </h2>
+                    <div className="flex items-center gap-3">
+                      <h2>Try For</h2>
+                      <button
+                        onClick={handleToday}
+                        className="bg-sky-800 text-white font-bold py-2 px-4 rounded-md"
+                      >
+                        Today
+                      </button>
+                    </div>
+                  </div>
+                  <div className="md:w-1/2 flex justify-center">
+                    <img
+                      src={NotFound}
+                      className="w-1/2"
+                      alt="No Records Found"
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </div>
           )}
         </div>
       </div>

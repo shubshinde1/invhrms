@@ -267,7 +267,7 @@ const ApplyLeave = () => {
   };
 
   return (
-    <div className="container mx-auto p-2 bg-white border  dark:border-none dark:bg-neutral-900 rounded-md h-full">
+    <div className="mx-auto p-2 bg-white border  dark:border-none dark:bg-neutral-900 rounded-md h-full">
       {/* <h1 className="text-xl font-bold mb-4">Apply for Leave</h1> */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <div className="flex flex-col gap-2 col-span-12 sm:col-span-6 lg:col-span-4">
@@ -347,7 +347,7 @@ const ApplyLeave = () => {
                 </Select>
               </FormControl>
             </div>
-            <div className="flex flex-col md:flex-row gap-2 justify-between ">
+            <div className="flex flex-col sm:flex-row lg:flex-col 2xl:flex-row gap-2 justify-between ">
               <div className="w-full">
                 <label>From</label>
                 <Calendar
