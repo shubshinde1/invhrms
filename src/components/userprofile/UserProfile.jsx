@@ -1397,7 +1397,7 @@ const UserProfile = () => {
                 {otp.map((digit, index) => (
                   <input
                     key={index}
-                    type="text"
+                    type="number"
                     maxLength="1"
                     className="w-12 h-12 text-center text-lg font-bold rounded-lg dark:bg-neutral-700 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
                     value={digit}

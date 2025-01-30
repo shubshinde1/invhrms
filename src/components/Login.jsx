@@ -418,7 +418,7 @@ const Login = ({ theme }) => {
 
       {/* Code Modal Popup */}
       {showOtpPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-xl flex justify-center items-center">
+        <div className="fixed inset-0 dark:bg-black/20 bg-white/20 backdrop-blur-xl flex justify-center items-center">
           <div className="bg-white dark:bg-neutral-900 dark:border-2 border-neutral-600 px-4 py-10 md:py-4 rounded-lg shadow-xl max-w-sm w-full flex flex-col items-center gap-2">
             <BsFillShieldLockFill fontSize={40} className="text-blue-500" />
             <h3 className="text-2xl font-semibold text-center text-gray-800 dark:text-gray-200">
@@ -432,7 +432,7 @@ const Login = ({ theme }) => {
               {otp.map((digit, index) => (
                 <input
                   key={index}
-                  type="text"
+                  type="number"
                   maxLength="1"
                   className="w-12 h-12 text-center text-lg font-bold rounded-lg dark:bg-neutral-700 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
                   value={digit}
