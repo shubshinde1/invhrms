@@ -21,6 +21,7 @@ import { FaStopwatch } from "react-icons/fa6";
 import { FaCalendarCheck } from "react-icons/fa6";
 import { FaCalendarXmark } from "react-icons/fa6";
 import ApiendPonits from "../../../src/api/APIEndPoints.json";
+import { BiSolidHappyHeartEyes } from "react-icons/bi";
 
 import NotFound from "../../assets/images/norecordfound.svg";
 
@@ -513,11 +514,20 @@ const LeaveHistory = () => {
           ))}
         </div>
       )}
-      {message && (
-        <div className="absolute bg-green-600 right-2 bottom-2 p-2 text-white rounded-md z-40">
-          {message}
-        </div>
-      )}
+      <div className=" absolute top-4 md:top-0 md:w-fit w-[92%]  flex items-center justify-center z-50">
+        {message && (
+          <motion.div
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 15 }}
+            exit={{ opacity: 0, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className=" text-green-500 border border-green-500/10 bg-green-500/10 py-2 px-4 w-fit rounded-md text-center flex items-center gap-2"
+          >
+            <BiSolidHappyHeartEyes fontSize={20} />
+            {message}
+          </motion.div>
+        )}
+      </div>
     </div>
   );
 };

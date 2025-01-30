@@ -15,6 +15,7 @@ import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import Calendar from "../custom/Calendar"; // Import the Calendar component
 import { motion } from "framer-motion";
 import { FaFaceFrownOpen } from "react-icons/fa6";
+import { BiSolidHappyHeartEyes } from "react-icons/bi";
 
 const GlobalStyles = createGlobalStyle`
 .MuiPaper-root{
@@ -101,7 +102,7 @@ const ApplyLeave = () => {
     fromdate: "",
     todate: "",
     leavetype: "leave",
-    leavesubtype: "",
+    leavesubtype: "Sick Leave",
     holidayname: "",
     reason: "",
     halfday: false,
@@ -493,17 +494,33 @@ const ApplyLeave = () => {
         >
           Submit Application
         </button>
-        {message && (
-          <div className="absolute bg-green-600 right-2 bottom-2 p-2 text-white rounded-md z-40">
-            {message}
-          </div>
-        )}
+        <div className=" absolute top-4 md:top-0 md:w-[70%] w-[92%]  flex items-center justify-center z-50">
+          {message && (
+            <motion.div
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: 1, y: 15 }}
+              exit={{ opacity: 0, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className=" text-green-500 border border-green-500/10 bg-green-500/10 py-2 px-4 w-fit rounded-md text-center flex items-center gap-2"
+            >
+              <BiSolidHappyHeartEyes fontSize={20} />
+              {message}
+            </motion.div>
+          )}
+        </div>
         {errors.length > 0 && (
           <div className="absolute right-2 bottom-2 flex flex-col gap-2 z-40">
             {errors.map((error, index) => (
-              <div key={index} className="text-white bg-red-600 rounded-md p-2">
+              <motion.div
+                initial={{ opacity: 0, x: -15 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -15 }}
+                transition={{ duration: 0.3, delay: index * 0.2 }}
+                key={index}
+                className="text-red-500 bg-red-600/20 rounded-md py-2 px-4"
+              >
                 {error}
-              </div>
+              </motion.div>
             ))}
           </div>
         )}

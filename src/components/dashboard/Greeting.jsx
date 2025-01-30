@@ -5,6 +5,8 @@ import ApiendPonits from "../../api/APIEndPoints.json";
 import { Link } from "react-router-dom";
 import { FaCaretRight } from "react-icons/fa6";
 import { motion } from "framer-motion";
+import { FaFaceSadTear } from "react-icons/fa6";
+import { BiSolidHappyHeartEyes } from "react-icons/bi";
 
 export default function Greeting() {
   const token = localStorage.getItem("accessToken");
@@ -211,60 +213,84 @@ export default function Greeting() {
   }, [employee_id, token]);
 
   return (
-    <div className="  flex flex-col gap-10 md:gap-2 h-full">
-      <div className="  flex flex-col items-start justify-between h-full md:items-end md:p-2">
-        <div className="flex items-start gap-2 w-full justify-between">
-          <h1 className="text-blue-500 md:text-2xl text-base  font-bold">
-            {getGreetingMessage()}, {getFirstName(userData?.employeeData.name)}!
-          </h1>
-          <div className="flex flex-col items-end">
-            {loading ? null : hasTodaysAttendance ? (
-              <button
-                className={`px-2 py-1.5 rounded-md  flex items-center gap-1 text-xs font-bold  ${
-                  isPunchedIn
-                    ? "text-red-500 bg-red-500/20 hover:bg-red-500/30"
-                    : "text-green-500 bg-green-500/20 hover:bg-green-500/30"
-                }`}
-                onClick={handlePunchButtonClick}
+    <div className="">
+      <div className=" absolute md:top-4 top-10 md:w-[70%] w-[92%]  flex items-center justify-center z-50">
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 15 }}
+            exit={{ opacity: 0, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute   text-red-500 border border-red-500/10 bg-red-500/10 py-2 px-4 w-fit rounded-md text-center flex items-center gap-2"
+          >
+            <FaFaceSadTear fontSize={20} />
+            {error}
+          </motion.div>
+        )}
+        {message && (
+          <motion.div
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 15 }}
+            exit={{ opacity: 0, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute  text-green-500 border border-green-500/10 bg-green-500/10 py-2 px-4 w-fit rounded-md text-center flex items-center gap-2"
+          >
+            <BiSolidHappyHeartEyes fontSize={20} />
+            {message}
+          </motion.div>
+        )}
+      </div>
+      <div className="  flex flex-col gap-10 md:gap-2 h-full">
+        <div className="  flex flex-col items-start justify-between h-full md:items-end md:p-2">
+          <div className="flex items-start gap-2 w-full justify-between">
+            <h1 className="text-blue-500 md:text-2xl text-base  font-bold">
+              {getGreetingMessage()},{" "}
+              {getFirstName(userData?.employeeData.name)}!
+            </h1>
+            <div className="flex flex-col items-end">
+              {loading ? null : hasTodaysAttendance ? (
+                <button
+                  className={`px-2 py-1.5 rounded-md  flex items-center gap-1 text-xs font-bold  ${
+                    isPunchedIn
+                      ? "text-red-500 bg-red-500/20 hover:bg-red-500/30"
+                      : "text-green-500 bg-green-500/20 hover:bg-green-500/30"
+                  }`}
+                  onClick={handlePunchButtonClick}
+                >
+                  {isPunchedIn ? "Punch Out" : "Punch In"}{" "}
+                  {isPunchedIn ? (
+                    <IoLogOut fontSize={20} />
+                  ) : (
+                    <IoLogIn fontSize={20} />
+                  )}
+                </button>
+              ) : (
+                <button
+                  className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-green-500/30 text-green-500 bg-green-500/20"
+                  onClick={handlePunchButtonClick}
+                >
+                  Punch In <IoLogIn fontSize={20} />
+                </button>
+              )}
+              <Link
+                to="/Attendance"
+                className="flex w-fit items-center text-xs text-blue-500 py-0.5 hover:px-1 rounded-md cursor-pointer duration-300 mt-1 hover:bg-blue-500/15"
               >
-                {isPunchedIn ? "Punch Out" : "Punch In"}{" "}
-                {isPunchedIn ? (
-                  <IoLogOut fontSize={20} />
-                ) : (
-                  <IoLogIn fontSize={20} />
-                )}
-              </button>
-            ) : (
-              <button
-                className="px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold hover:bg-green-500/30 text-green-500 bg-green-500/20"
-                onClick={handlePunchButtonClick}
-              >
-                Punch In <IoLogIn fontSize={20} />
-              </button>
-            )}
-            <Link
-              to="/Attendance"
-              className="flex w-fit items-center text-xs text-blue-500 py-0.5 hover:px-1 rounded-md cursor-pointer duration-300 mt-1 hover:bg-blue-500/15"
-            >
-              <h3>History</h3>
-              <FaCaretRight />
-            </Link>
+                <h3>History</h3>
+                <FaCaretRight />
+              </Link>
+            </div>
           </div>
+
+          <ProgressBar progress={progress} />
         </div>
 
-        <ProgressBar progress={progress} />
-      </div>
-
-      {message && (
+        {/* {message && (
         <div className="absolute bottom-4 right-4 bg-green-500 text-white p-3 rounded-md z-10">
           {message}
         </div>
-      )}
-      {error && (
-        <div className="absolute bottom-4 right-4 bg-red-500 text-white p-3 rounded-md z-10">
-          {error}
-        </div>
-      )}
+      )} */}
+      </div>
     </div>
   );
 }

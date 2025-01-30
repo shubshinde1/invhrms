@@ -12,6 +12,10 @@ import { FaCopy } from "react-icons/fa6";
 import ApiendPonits from "../../api/APIEndPoints.json";
 import ProfilePic from "./ProfilePic";
 import { FaCheck } from "react-icons/fa6";
+import { BiSolidHappyHeartEyes } from "react-icons/bi";
+import { motion } from "framer-motion";
+import { BsFillShieldLockFill } from "react-icons/bs";
+import { FaFaceSadTear } from "react-icons/fa6";
 
 const UserProfile = () => {
   const { userData } = useContext(AuthContext);
@@ -64,14 +68,89 @@ const UserProfile = () => {
     ],
   });
 
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [timer, setTimer] = useState(179);
   const [customTech, setCustomTech] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
+
   const [successMessage, setSuccessMessage] = useState("");
   const [isEditMode, setIsEditMode] = useState(false); // State to manage edit mode
   const [showPasswordModal, setShowPasswordModal] = useState(false); // State to manage password modal
+  const [showOtpPopup, setShowOtpPopup] = useState(false);
   const [password, setPassword] = useState(""); // State for password input
   const [passwordError, setPasswordError] = useState(""); // State for password error message
   const [showPopup, setShowPopup] = useState(false);
+  const { setUserData, setTokenType } = useContext(AuthContext);
+
+  const inputRefs = useRef([]);
+
+  useEffect(() => {
+    let countdown;
+    if (showOtpPopup) {
+      countdown = setInterval(() => {
+        setTimer((prev) => {
+          if (prev <= 1) {
+            clearInterval(countdown);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(countdown);
+  }, [showOtpPopup, timer]);
+
+  useEffect(() => {
+    if (showOtpPopup && inputRefs.current[0]) {
+      inputRefs.current[0].focus(); // Auto-focus the first OTP input
+    }
+  }, [showOtpPopup]);
+
+  const handleOtpChange = (e, index) => {
+    const value = e.target.value;
+    if (/^[0-9]$/.test(value) || value === "") {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+
+      // Move to the next input if a digit is entered
+      if (value && index < otp.length - 1) {
+        inputRefs.current[index + 1].focus();
+      }
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text").trim();
+
+    if (/^\d{6}$/.test(pastedData)) {
+      // Check if the pasted value is exactly 6 digits
+      const newOtp = pastedData.split("");
+      setOtp(newOtp);
+
+      // Move focus to the last input field
+      inputRefs.current[otp.length - 1]?.focus();
+    }
+  };
+
+  const handleBackspace = (e, index) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
+  };
+
+  const resendcode = async (e) => {
+    setMessage("Code Resent");
+    setTimeout(() => {
+      setMessage(null);
+    }, 3000);
+    handleSubmit(e);
+    setTimer(179);
+    setOtp(["", "", "", "", "", ""]);
+  };
 
   useEffect(() => {
     setFormData({
@@ -221,12 +300,13 @@ const UserProfile = () => {
           const data = loginResponse.data.data;
 
           if (loginResponse.data.success) {
-            localStorage.setItem("accessToken", loginResponse.data.accessToken);
-            secureLocalStorage.setItem("userData", JSON.stringify(data));
-            location.reload();
+            setShowOtpPopup(true);
+            setTimer(179);
+            setShowPasswordModal(false);
           }
         } catch (error) {
-          setPasswordError("Please enter a valid password.");
+          setError("Please enter a valid password.");
+          setTimeout(() => setError(null), 5000);
           return;
         }
 
@@ -239,6 +319,41 @@ const UserProfile = () => {
       //remove local storage and logout user here
       console.error("Error updating details:", error);
       setError("Something went wrong. Please try again later.");
+    }
+  };
+
+  const handleOtpSubmit = async (e) => {
+    e.preventDefault();
+    const enteredOtp = otp.join("");
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${ApiendPonits.baseUrl}${ApiendPonits.endpoints.verifyOtp}`,
+        { email, otp: enteredOtp }
+      );
+
+      const data = response.data.data;
+
+      if (response.data.success) {
+        setMessage("Code verified Succesfully");
+        setTimeout(() => setMessage, 2000);
+        localStorage.setItem("accessToken", response.data.accessToken);
+        secureLocalStorage.setItem("userData", JSON.stringify(data)); // Store user data in sessionStorage
+        setUserData(data);
+        setTokenType(response.data.tokenType); // Set tokenType in context
+        // setTimeout(() => location.reload(), 2000);
+      } else {
+        setError(data.msg || "Invalid OTP. Please try again.");
+        setTimeout(() => setError(null), 5000);
+      }
+    } catch (error) {
+      setError(
+        error.response?.data?.msg ||
+          "An unexpected error occurred. Please try again."
+      );
+      setTimeout(() => setError(null), 5000);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -368,7 +483,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="flex flex-col  gap-2 h-full min-h-full pb-20 ">
+    <div className="flex flex-col  gap-2 h-full min-h-full pb-20 dark:text-white">
       <div
         className={`flex flex-col lg:flex-row gap-2 h-full  ${
           showPasswordModal ? "md:z-50" : ""
@@ -1239,15 +1354,134 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-        {error && (
-          <p className="absolute bottom-4 right-4 bg-red-500/20 text-red-500 px-3 py-2 rounded-md">
-            {error}
-          </p>
-        )}
+        <div className=" absolute top-0 md:w-[75%] w-[92%]  flex items-center justify-center z-50">
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: 1, y: 15 }}
+              exit={{ opacity: 0, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="absolute top-4 text-red-500 border border-red-500/10 bg-red-500/10 py-2 px-4 w-fit rounded-md text-center flex items-center gap-2"
+            >
+              <FaFaceSadTear fontSize={20} />
+              {error}
+            </motion.div>
+          )}
+        </div>
         {successMessage && (
-          <p className="absolute bottom-4 right-4 bg-green-500/20 text-green-500 px-3 py-2 rounded-md">
+          <motion.div
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 15 }}
+            exit={{ opacity: 0, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute top-4 text-green-500 border border-green-500/10 bg-green-500/10 py-2 px-4 w-fit rounded-md text-center flex items-center gap-2"
+          >
+            <BiSolidHappyHeartEyes fontSize={20} />
             {successMessage}
-          </p>
+          </motion.div>
+        )}
+
+        {/* Code Modal Popup */}
+        {showOtpPopup && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-xl flex justify-center items-center z-50">
+            <div className="bg-white dark:bg-neutral-900 dark:border-2 border-neutral-600 px-4 py-10 md:py-4 rounded-lg shadow-xl max-w-sm w-full flex flex-col items-center gap-2">
+              <BsFillShieldLockFill fontSize={40} className="text-blue-500" />
+              <h3 className="text-2xl font-semibold text-center text-gray-800 dark:text-gray-200">
+                Verify Your Code
+              </h3>
+              <p className="text-center text-gray-600 dark:text-gray-400">
+                Please enter the Code sent to your email.
+              </p>
+
+              <div className="flex justify-center gap-2 mt-4">
+                {otp.map((digit, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    maxLength="1"
+                    className="w-12 h-12 text-center text-lg font-bold rounded-lg dark:bg-neutral-700 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    value={digit}
+                    onChange={(e) => handleOtpChange(e, index)}
+                    onKeyDown={(e) => handleBackspace(e, index)}
+                    onPaste={handlePaste}
+                    ref={(el) => (inputRefs.current[index] = el)}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={handleOtpSubmit}
+                className="bg-blue-600/20 rounded-lg text-base text-blue-500 font-semibold hover:bg-blue-700/20 w-full transition duration-200 mt-10"
+                disabled={loading || timer === 0}
+              >
+                {loading ? (
+                  <div className="py- mt-2.5">
+                    <l-leapfrog
+                      size="40"
+                      speed="2.5"
+                      color="#285999"
+                    ></l-leapfrog>
+                  </div>
+                ) : (
+                  <h4 className="py-3">Verify Code</h4>
+                )}
+              </button>
+              <div className="flex gap-2 w-full justify-between">
+                {/* timer */}
+                <p
+                  className={`text-center font-bold flex gap-1 ${
+                    timer > 120
+                      ? "text-green-500" // More than 2 minutes
+                      : timer > 60
+                      ? "text-yellow-500" // More than 1 minute
+                      : timer > 20
+                      ? "text-orange-500" // More than 20 seconds
+                      : "text-red-500" // Less than 20 seconds
+                  }`}
+                >
+                  <div>
+                    {Math.floor(timer / 60)}:
+                    {String(timer % 60).padStart(2, "0")}
+                  </div>
+                  {timer < 60 ? "Sec " : "Min "}
+                  remaining
+                </p>
+                {/* resend code */}
+                <p>
+                  Don't get Code?
+                  <button
+                    onClick={resendcode}
+                    className="text-blue-600 font-bold hover:px-1 hover:bg-blue-500/20 duration-500 rounded-md"
+                  >
+                    Resend
+                  </button>
+                </p>
+              </div>
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: 0 }}
+                  animate={{ opacity: 1, y: 15 }}
+                  exit={{ opacity: 0, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute top-4 text-red-500 border border-red-500/10 bg-red-500/10 py-2 px-4 w-fit rounded-md text-center flex items-center gap-2"
+                >
+                  <FaFaceSadTear fontSize={20} />
+                  {error}
+                </motion.div>
+              )}
+              {message && (
+                <motion.div
+                  initial={{ opacity: 0, y: 0 }}
+                  animate={{ opacity: 1, y: 15 }}
+                  exit={{ opacity: 0, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute top-4 text-green-500 border border-green-500/10 bg-green-500/10 py-2 px-4 w-fit rounded-md text-center flex items-center gap-2"
+                >
+                  <BiSolidHappyHeartEyes fontSize={20} />
+                  {message}
+                </motion.div>
+              )}
+            </div>
+          </div>
         )}
       </div>
     </div>

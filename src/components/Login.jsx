@@ -305,6 +305,10 @@ const Login = ({ theme }) => {
   };
 
   const resendcode = async () => {
+    setMessage("Code Resent");
+    setTimeout(() => {
+      setMessage(null);
+    }, 3000);
     handleSubmit();
     setOtp(["", "", "", "", "", ""]);
   };
@@ -314,7 +318,25 @@ const Login = ({ theme }) => {
       onSubmit={handleSubmit}
       className="p-2 dark:bg-black h-screen dark:text-white"
     >
-      <div className="dark:bg-neutral-800 bg-sky-100 flex flex-col md:flex-row gap-28 md:gap-5 justify-center items-center h-full px-3 rounded-md">
+      {!showOtpPopup ? (
+        <div className="w-full flex items-center justify-center">
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: 1, y: 15 }}
+              exit={{ opacity: 0, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="absolute top-2 text-red-500 border border-red-500/10 bg-red-500/10 py-2 px-4 w-fit rounded-md text-center flex items-center gap-2"
+            >
+              <FaFaceSadTear fontSize={20} />
+              {error}
+            </motion.div>
+          )}
+        </div>
+      ) : (
+        ""
+      )}
+      <div className="dark:bg-neutral-800 bg-sky-100 flex flex-col md:flex-row gap-28 md:gap-5 justify-center items-center h-full px-3 rounded-md ">
         <div className="w-full md:w-1/2 flex flex-col gap-10 items-center justify-center">
           <div className="flex flex-col gap-5 items-center">
             <img
@@ -358,13 +380,6 @@ const Login = ({ theme }) => {
                 </div>
               </div>
             </div>
-            {!showOtpPopup ? (
-              <div>
-                {error && <ErrorMsg severity="error">{error}</ErrorMsg>}
-              </div>
-            ) : (
-              ""
-            )}
 
             <button
               type="submit"
