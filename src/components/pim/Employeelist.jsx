@@ -24,7 +24,7 @@ const Employeelist = () => {
     status: "",
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 15; // Number of items per page
+  const itemsPerPage = 20; // Number of items per page
   const [showPopup, setShowPopup] = useState(false);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
   const [selectedEmployeeName, setSelectedEmployeeName] = useState("");
