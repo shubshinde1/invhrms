@@ -8,6 +8,9 @@ import Loading from "./extra/loading";
 import ErrorMsg from "./extra/ErrorMsg";
 import { IoMailUnread } from "react-icons/io5";
 import ApiendPonits from "../api/APIEndPoints.json";
+import { FaFaceSadTear } from "react-icons/fa6";
+import { BiSolidHappyHeartEyes } from "react-icons/bi";
+import { motion } from "framer-motion";
 
 const Register = ({ theme }) => {
   const [email, setEmail] = useState("");
@@ -43,6 +46,9 @@ const Register = ({ theme }) => {
         }, 3000); // Popup will be shown for 3 seconds
       } else {
         setError(response.data.msg || "Registration failed");
+        setTimeout(() => {
+          setError(false);
+        }, 3000);
       }
       setLoading(false);
       setError(false);
@@ -50,8 +56,14 @@ const Register = ({ theme }) => {
       setLoading(false);
       if (error.response && error.response.status === 400) {
         setError(error.response.data.msg || "Login failed. Please try again.");
+        setTimeout(() => {
+          setError(false);
+        }, 3000);
       } else {
         setError("An unexpected error occurred. Please try again.");
+        setTimeout(() => {
+          setError(false);
+        }, 3000);
       }
     }
   };
@@ -122,7 +134,20 @@ const Register = ({ theme }) => {
               </div>
             </div>
             <div className="flex flex-col gap-3">
-              {error && <ErrorMsg severity="error">{error}</ErrorMsg>}
+              <div className=" absolute top-0 md:w-[75%] w-[92%]  flex items-center justify-center z-50">
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 0 }}
+                    animate={{ opacity: 1, y: 15 }}
+                    exit={{ opacity: 0, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute top-4 text-red-500 border border-red-500/10 bg-red-500/10 py-2 px-4 w-fit rounded-md text-center flex items-center gap-2"
+                  >
+                    <FaFaceSadTear fontSize={20} />
+                    {error}
+                  </motion.div>
+                )}
+              </div>
               <button
                 type="submit"
                 className="bg-blue-600 rounded-md text-white md:text-base font-bold hover:bg-blue-700 w-full flex flex-col gap-2 items-center justify-center"

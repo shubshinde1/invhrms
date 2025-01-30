@@ -159,7 +159,11 @@ const AttendanceChart = () => {
                           transition: "height 0.5s ease",
                         }}
                       >
-                        <div className="flex w-full justify-center items-start font-semibold text-whi text-[0.7rem] mt-1">
+                        <div
+                          className={`flex w-full justify-center  font-semibold text-whi text-[0.7rem] mt-1 ${
+                            totalHours >= 2 ? "items-start" : "items-end"
+                          }`}
+                        >
                           {hasData ? formatMilliseconds(record.totalhrs) : ""}
                         </div>
                       </motion.div>
