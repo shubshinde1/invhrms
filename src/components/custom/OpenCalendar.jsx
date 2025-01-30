@@ -340,7 +340,7 @@ const OpenCalendar = ({
                           day + 1
                         ).getDay() === 6,
                       "cursor-pointer": holidays.length > 0, // Add pointer cursor if clickable
-                      "cursor-pointer": holidays.length === 0, // Show not-allowed cursor otherwise
+                      "cursor-not-allowed": holidays.length === 0, // Show not-allowed cursor otherwise
                     }
                   )}
                 >
