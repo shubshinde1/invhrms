@@ -482,6 +482,12 @@ const UserProfile = () => {
     });
   };
 
+  const handleOtpKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleOtpSubmit(e); // Submit OTP when Enter is pressed
+    }
+  };
+
   return (
     <div className="flex flex-col  gap-2 h-full min-h-full pb-20 dark:text-white">
       <div
@@ -1402,7 +1408,10 @@ const UserProfile = () => {
                     className="w-12 h-12 text-center text-lg font-bold rounded-lg dark:bg-neutral-700 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
                     value={digit}
                     onChange={(e) => handleOtpChange(e, index)}
-                    onKeyDown={(e) => handleBackspace(e, index)}
+                    onKeyDown={(e) => {
+                      handleBackspace(e, index);
+                      handleOtpKeyDown(e);
+                    }}
                     onPaste={handlePaste}
                     ref={(el) => (inputRefs.current[index] = el)}
                   />
