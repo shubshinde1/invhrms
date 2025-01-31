@@ -4,6 +4,7 @@ import ApiendPonits from "../../api/APIEndPoints.json";
 import dayjs from "dayjs";
 import Tooltip from "@mui/material/Tooltip";
 import { motion } from "framer-motion";
+import Zoom from "@mui/material/Zoom";
 
 const AttendanceChart = () => {
   const token = localStorage.getItem("accessToken");
@@ -138,6 +139,20 @@ const AttendanceChart = () => {
                       title={hasData ? record.date : "No Data"}
                       placement="top"
                       arrow
+                      slots={{
+                        transition: Zoom,
+                      }}
+                      followCursor
+                      sx={{
+                        "& .MuiTooltip-tooltip": {
+                          backgroundColor: "blue", // Change to your desired color
+                          color: "white", // Text color
+                          fontSize: "14px",
+                        },
+                        "& .MuiTooltip-arrow": {
+                          color: "blue", // Arrow color matching the tooltip
+                        },
+                      }}
                     >
                       <motion.div
                         initial={{ opacity: 0, y: 10 }}
@@ -160,7 +175,7 @@ const AttendanceChart = () => {
                         }}
                       >
                         <div
-                          className={`flex w-full justify-center  font-semibold text-whi text-[0.7rem] mt-1 ${
+                          className={`flex w-full justify-center  font-semibold text-whi text-[0.7rem] mt-1 cursor-default ${
                             totalHours >= 2 ? "items-start" : "items-end"
                           }`}
                         >
