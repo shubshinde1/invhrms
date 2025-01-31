@@ -213,7 +213,7 @@ export default function Greeting() {
   }, [employee_id, token]);
 
   return (
-    <div className="">
+    <div className="h-full">
       <div className=" absolute md:top-4 top-10 md:w-[70%] w-[92%]  flex items-center justify-center z-50">
         {error && (
           <motion.div
