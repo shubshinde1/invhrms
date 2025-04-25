@@ -3,8 +3,8 @@ import {
   DASHBOARD_SIDEBAR_LINKS,
   getFilteredLinks,
 } from "../../lib/consts/navigation";
-import logolightmode from "../../assets/images/invezza-logo.png";
-import logoDarkmode from "../../assets/images/invezza-logo-darkmode.png";
+import logolightmode from "../../assets/images/lightlogo.png";
+import logoDarkmode from "../../assets/images/darklogo.png";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
