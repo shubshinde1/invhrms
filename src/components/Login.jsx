@@ -154,8 +154,8 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import Loginimg from "../../src/assets/images/login.svg";
-import logo from "../../src/assets/images/invezza-logo.png";
-import logodark from "../../src/assets/images/invezza-logo-darkmode.png";
+import logo from "../../src/assets/images/lightlogo.png";
+import logodark from "../../src/assets/images/darklogo.png";
 import Loading from "./extra/loading";
 import ErrorMsg from "./extra/ErrorMsg";
 import { IoEyeOff, IoEye } from "react-icons/io5";
@@ -351,7 +351,7 @@ const Login = ({ theme }) => {
               alt="logo"
             />
             <h2 className="text-lg text-black dark:text-white">
-              Welcome To Invezza HRMS Portal
+              Welcome To S-Board Portal
             </h2>
           </div>
           <div className="dark:bg-neutral-900 bg-white shadow-xl p-3 rounded-md flex flex-col gap-5 w-full md:w-2/3">
