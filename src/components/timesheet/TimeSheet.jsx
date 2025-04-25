@@ -1099,6 +1099,18 @@ export default function TimeSheet({ record, index }) {
                       <MenuItem value="1">1 Hour</MenuItem>
                       <MenuItem value="1.5">1 Hour 30 Min</MenuItem>
                       <MenuItem value="2">2 Hour</MenuItem>
+                      <MenuItem value="2.5">2 Hour 30 Min</MenuItem>
+                      <MenuItem value="3">3 Hour</MenuItem>
+                      <MenuItem value="3.5">3 Hour 30 Min</MenuItem>
+                      <MenuItem value="4">4 Hour</MenuItem>
+                      <MenuItem value="4.5">4 Hour 30 Min</MenuItem>
+                      <MenuItem value="5">5 Hour</MenuItem>
+                      <MenuItem value="5.5">5 Hour 30 Min</MenuItem>
+                      <MenuItem value="6">6 Hour</MenuItem>
+                      <MenuItem value="6.5">6 Hour 30 Min</MenuItem>
+                      <MenuItem value="7">7 Hour</MenuItem>
+                      <MenuItem value="7.5">7 Hour 30 Min</MenuItem>
+                      <MenuItem value="8">8 Hour</MenuItem>
                       <MenuItem disabled>Duration Limit is 2hr max</MenuItem>
                       {/* <MenuItem value="2.5">2 Hour 30 Min</MenuItem>
                   <MenuItem value="3">3 Hour</MenuItem> */}
