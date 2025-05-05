@@ -19,7 +19,7 @@ export default function Greeting() {
   const [message, setMessage] = useState("");
   const [progress, setProgress] = useState({ elapsed: 0, remaining: 0 });
 
-  const totalSeconds = 9 * 3600; // 9 hours in seconds
+  const totalSeconds = 10 * 3600; // 10 hours in seconds
 
   const getAttendanceHistory = async () => {
     try {
