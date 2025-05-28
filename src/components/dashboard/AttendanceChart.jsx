@@ -77,7 +77,7 @@ const AttendanceChart = () => {
   ).sort((a, b) => dayjs(a.date).diff(dayjs(b.date)));
 
   // Fill missing attendance data for the last 15 days
-  const last15Days = Array.from({ length: 15 }, (_, index) => {
+  const last15Days = Array.from({ length: 60 }, (_, index) => {
     const date = dayjs().subtract(index, "day").format("YYYY-MM-DD");
     const attendanceRecord = filteredAttendanceData.find(
       (record) => dayjs(record.date).format("YYYY-MM-DD") === date
